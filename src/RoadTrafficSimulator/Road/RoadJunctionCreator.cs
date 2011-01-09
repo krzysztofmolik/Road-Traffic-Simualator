@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Input;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
 using XnaRoadTrafficConstructor;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
 
 namespace RoadTrafficSimulator.Road
 {

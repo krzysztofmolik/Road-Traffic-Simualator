@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using XnaRoadTrafficConstructor.Utils.DependencyInjection;
 
-namespace RoadTrafficSimulator.Utils.DependencyInjection
+namespace RoadTrafficSimulator.Utile.DependencyInjection
 {
     internal class ContentManagerAdapter : IContentManager
     {

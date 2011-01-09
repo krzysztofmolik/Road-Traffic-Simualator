@@ -2,19 +2,18 @@
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using RoadTrafficSimulator.Road.RoadJoiners;
+using RoadTrafficSimulator.Road.Controls;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
-using XnaRoadTrafficConstructor.Road.RoadJoiners;
 using XnaVs10.Extension;
 
 namespace XnaRoadTrafficConstructor.VertexContainers
 {
-    public class MovableRectlangeVertexContainer : VertexContainerBase<MovableRectlange, VertexPositionColor>
+    public class MovableRectlangeVertexContainer : VertexContainerBase<MovableRectangle, VertexPositionColor>
     {
         private readonly Color _normalColor = Color.IndianRed;
         private IShape _shape;
 
-        public MovableRectlangeVertexContainer( MovableRectlange @object )
+        public MovableRectlangeVertexContainer( MovableRectangle @object )
             : base( @object )
         {
         }

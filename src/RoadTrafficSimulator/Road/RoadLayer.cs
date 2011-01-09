@@ -6,21 +6,18 @@ using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
 using XnaRoadTrafficConstructor.Road;
-using XnaRoadTrafficConstructor.VertexContainers;
 using XnaVs10.Road.RoadCommponets;
 
 namespace RoadTrafficSimulator.Road
 {
-    public class RoadLayer : CompostControlBase<VertexPositionColor>
+    public class RoadLayer : CompostControl<VertexPositionColor>
     {
         private readonly Stored _stored;
         private readonly RoadLayerVertexContainer _specifiedVertexContainer;
         private readonly Graphic _graphics;
         private readonly IMouseSupport _mouseSupport;
         private readonly ISelectionSupport _selectionSupport;
-        private readonly IConnectionCompositeSupport _connectionSupport;
         private Vector2 _location = Vector2.Zero;
 
         public RoadLayer(
@@ -34,7 +31,26 @@ namespace RoadTrafficSimulator.Road
             this._graphics = graphics;
             this._mouseSupport = new RoadLayerMouseSupport( this );
             this._selectionSupport = new DefaultCompositeControlSelectionSupport( this );
-            this._connectionSupport = new CompositeConnectionSupport<RoadLayer>( this );
+        }
+
+        public override IVertexContainer<VertexPositionColor> SpecifiedVertexContainer
+        {
+            get { return this._specifiedVertexContainer; }
+        }
+
+        public override IMouseSupport MouseSupport
+        {
+            get { return this._mouseSupport; }
+        }
+
+        public override Vector2 Location
+        {
+            get { return this._location; }
+        }
+
+        public override ISelectionSupport SelectionSupport
+        {
+            get { return this._selectionSupport; }
         }
 
         public IRoadLaneBlock GetRoadLineAtPoint( Vector2 point )
@@ -65,35 +81,10 @@ namespace RoadTrafficSimulator.Road
             lightsLocation.Light = new NormalLight();
         }
 
-        public override IVertexContainer<VertexPositionColor> SpecifiedVertexContainer
-        {
-            get { return this._specifiedVertexContainer; }
-        }
-
-        public override IMouseSupport MouseSupport
-        {
-            get { return this._mouseSupport; }
-        }
-
-        public override IConnectionCompositeSupport ConnectionSupport
-        {
-            get { return this._connectionSupport; }
-        }
-
         public override void Translate( Matrix matrixTranslation )
         {
             this._location = Vector2.Transform( this._location, matrixTranslation );
             this.Children.ForEach( s => s.Translate( matrixTranslation ) );
-        }
-
-        public override Vector2 Location
-        {
-            get { return this._location; }
-        }
-
-        public override ISelectionSupport SelectionSupport
-        {
-            get { return this._selectionSupport; }
         }
 
         public override bool HitTest( Vector2 point )

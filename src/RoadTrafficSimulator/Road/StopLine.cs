@@ -5,8 +5,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
+using RoadTrafficSimulator.Road.Connectors;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
 using XnaRoadTrafficConstructor.Road;
 using XnaRoadTrafficConstructor.VertexContainers;
 using XnaVs10.MathHelpers;
@@ -23,26 +23,30 @@ namespace RoadTrafficSimulator.Road
         private readonly ISelectionSupport _selectionSupport;
 
         private Vector2[] _shape;
-        private IConnectionSupport _connectionSupport;
+        private IConnector _connector;
 
-        public StopLine( IRoadLaneBlock parent ) : base(parent)
+        public StopLine( IRoadLaneBlock parent )
+            : base( parent )
         {
             this._mouseSupport = new ControlMouseSupport(this);
-            EnsureThatParamterIsValid( parent );
+            EnsureThatParamterIsValid(parent);
 
             this._parent = parent;
-            this._parent.VectorChanged += ( sender, arg ) => this.UpdateLocation();
-            this.Shape = new Vector2[ 0 ];
+            this._parent.VectorChanged += (sender, arg) => this.UpdateLocation();
+            this.Shape = new Vector2[0];
             this.UpdateLocation();
 
-            this._stopLineVertexContainer = new StopLineVertexContainer( this );
+            this._stopLineVertexContainer = new StopLineVertexContainer(this);
             this._selectionSupport = new DefaultControlSelectionSupport(this);
-            this._connectionSupport = new EmptyConnectionSupport<StopLine>( this );
         }
 
         public Vector2[] Shape
         {
-            get { return this._shape; }
+            get
+            {
+                return this._shape;
+            }
+
             private set
             {
                 this._shape = value;
@@ -50,14 +54,25 @@ namespace RoadTrafficSimulator.Road
             }
         }
 
-        public Vector2 LeftTop { get { return this._shape[ 0 ]; } }
+        public Vector2 LeftTop
+        {
+            get { return this._shape[0]; }
+        }
 
-        public Vector2 RightTop { get { return this._shape[ 1 ]; } }
+        public Vector2 RightTop
+        {
+            get { return this._shape[1]; }
+        }
 
-        public Vector2 RightBottom { get { return this._shape[ 2 ]; } }
+        public Vector2 RightBottom
+        {
+            get { return this._shape[2]; }
+        }
 
-        public Vector2 LeftBottom { get { return this._shape[ 3 ]; } }
-
+        public Vector2 LeftBottom
+        {
+            get { return this._shape[3]; }
+        }
 
         public override IVertexContainer<VertexPositionColor> SpecifiedVertexContainer
         {
@@ -67,11 +82,6 @@ namespace RoadTrafficSimulator.Road
         public override IMouseSupport MouseSupport
         {
             get { return this._mouseSupport; }
-        }
-
-        public override IConnectionSupport ConnectionSupport
-        {
-            get { return this._connectionSupport; }
         }
 
         public override Vector2 Location
@@ -113,19 +123,6 @@ namespace RoadTrafficSimulator.Road
             this.Shape = this._shape.Select( s => Vector2.Transform( s, matrixTranslation ) ).ToArray();
         }
 
-        private void CreateLine( Line baseLine )
-        {
-            var parpendicualLine = MyMathHelper.CreatePerpendicualrLine( baseLine, 5 );
-            var leftIntersectionPoint = MyMathHelper.LineIntersectionMethod(
-                parpendicualLine,
-                Tuple.Create( this._parent.LeftTopLocation, this._parent.LeftBottomLocation ) );
-            var rightIntersetionPoint = MyMathHelper.LineIntersectionMethod(
-                parpendicualLine,
-                Tuple.Create( this._parent.RightTopLocation, this._parent.RightBottomLocation ) );
-
-            this.Shape = CreateShape( leftIntersectionPoint, rightIntersetionPoint );
-        }
-
         private static Vector2[] CreateShape( Vector2 begin, Vector2 end )
         {
             var moveVector = MyMathHelper.CreatePerpendicularVector( ( begin - end ), Constans.LaneWidth / 2 );
@@ -139,9 +136,22 @@ namespace RoadTrafficSimulator.Road
                        };
         }
 
+        private void CreateLine( Line baseLine )
+        {
+            var parpendicualLine = MyMathHelper.CreatePerpendicualrLine( baseLine, 5 );
+            var leftIntersectionPoint = MyMathHelper.LineIntersectionMethod(
+                parpendicualLine,
+                Tuple.Create( this._parent.LeftTopLocation, this._parent.LeftBottomLocation ) );
+            var rightIntersetionPoint = MyMathHelper.LineIntersectionMethod(
+                parpendicualLine,
+                Tuple.Create( this._parent.RightTopLocation, this._parent.RightBottomLocation ) );
+
+            this.Shape = CreateShape( leftIntersectionPoint, rightIntersetionPoint );
+        }
+
         private static void EnsureThatParamterIsValid( IRoadLaneBlock parent )
         {
-            //TODO
+            // TODO
             //            if ( !parent.LeftLine.IsValid() || !parent.RightLine.IsValid() )
             //            {
             //                throw new ArgumentException( "Road line is not valid" );

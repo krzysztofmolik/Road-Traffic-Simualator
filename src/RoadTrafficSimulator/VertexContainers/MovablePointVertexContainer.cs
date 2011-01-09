@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RoadTrafficSimulator.Road.Connectors;
+using RoadTrafficSimulator.Road.Controls;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
 using XnaRoadTrafficConstructor.Road;
-using XnaRoadTrafficConstructor.Road.RoadJoiners;
 using XnaVs10.Extension;
 
 namespace RoadTrafficSimulator.VertexContainers
@@ -40,7 +41,15 @@ namespace RoadTrafficSimulator.VertexContainers
 
         public override IShape Shape
         {
-            get { return this._quadrangle; }
+            get
+            {
+                if ( this._quadrangle == null )
+                {
+                    this._quadrangle = this.CreateQuadrangle();
+                }
+
+                return this._quadrangle;
+            }
         }
 
         protected override void DrawControl( Graphic graphic )

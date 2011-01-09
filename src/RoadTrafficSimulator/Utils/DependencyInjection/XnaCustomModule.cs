@@ -3,11 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Integration;
 using RoadTrafficSimulator.Road;
-using RoadTrafficSimulator.Road.RoadJoiners;
+using RoadTrafficSimulator.Road.Connectors;
+using RoadTrafficSimulator.Road.Connectors.Commands;
+using RoadTrafficSimulator.Utils;
 using Xna;
 using XnaRoadTrafficConstructor;
 using XnaRoadTrafficConstructor.Infrastucure;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
 using XnaRoadTrafficConstructor.MouseHandler;
 using XnaRoadTrafficConstructor.MouseHandler.JunctionMouseHandler;
 using XnaRoadTrafficConstructor.Road;
@@ -16,7 +17,7 @@ using XnaVs10.Road;
 using XnaVs10.Sprites;
 using XnaVs10.Utils;
 
-namespace RoadTrafficSimulator.Utils.DependencyInjection
+namespace RoadTrafficSimulator.Utile.DependencyInjection
 {
     public class XnaCustomModule : Module
     {
@@ -43,7 +44,7 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             builder.RegisterType<Layer2D>().SingleInstance();
             builder.RegisterType<ControlManager>().As<IControlManager>().SingleInstance();
 
-            //NOTE Mouse support
+            // NOTE Mouse support
             builder.RegisterType<MouseInformation>().Named<IMouseInformation>( "MainMouseInformation" )
                                                      .InstancePerLifetimeScope()
                                                      .OnActivated( t => t.Instance.StartRecord() );
@@ -55,6 +56,7 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             builder.RegisterType<LineDrawer2D>().SingleInstance();
 
             builder.RegisterType<RoadLaneCreator>();
+            builder.RegisterType<RoadLaneCreatorController>();
             builder.RegisterType<RoadJunctionCreator>();
 
             builder.RegisterType<JunctionCornerMouseHandler>();
@@ -70,11 +72,11 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
 
             builder.RegisterType<ConnectObjectCommand>();
             builder.RegisterType<CompositeConnectionCommand>();
-            builder.RegisterType<ConnectEdgeByMoveJunction>().As<IConnectionCommand>();
-            builder.RegisterType<ConnectRoadLaneSideEdge>().As<IConnectionCommand>();
-            builder.RegisterType<ConnectRoadLaneConnection>().As<IConnectionCommand>();
-
+            builder.RegisterType<ConnectRoadJunctionEdge>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectEndRoadLaneEdgeWithRoadLaneConnection>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectEndRoadLaneEdgeWithRoadJunctionEdge>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectRoadLaneConnectionWithEndRoadLane>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectRoadJunctionEdgeWitEndRoadLaneEdge>().As<IConnectionCommand>();
         }
     }
-
 }

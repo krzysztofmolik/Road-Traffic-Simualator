@@ -6,9 +6,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
+using RoadTrafficSimulator.Road.Connectors;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
-using XnaRoadTrafficConstructor.Road;
 using XnaRoadTrafficConstructor.VertexContainers;
 using XnaVs10.Extension;
 using XnaVs10.Road;
@@ -24,7 +23,6 @@ namespace RoadTrafficSimulator.Road
         private readonly LigthLocationVertexContainer _lightLocationVertexContainer;
         private readonly IMouseSupport _mouseSupport;
         private readonly ISelectionSupport _selectionSupport;
-        private readonly IConnectionSupport _connectionSupport;
 
         public LightsLocation( IRoadLaneBlock parent )
             : base( parent )
@@ -35,7 +33,8 @@ namespace RoadTrafficSimulator.Road
 
             this._lightLocationVertexContainer = new LigthLocationVertexContainer( this );
             this._selectionSupport = new DefaultControlSelectionSupport( this );
-            this._connectionSupport = new ConnectionSupport<LightsLocation>( this );
+
+            // TODO Make connection between road lane and lights
         }
 
         public ILight Light
@@ -47,11 +46,6 @@ namespace RoadTrafficSimulator.Road
         public bool IsLightSet
         {
             get { return this.Light != null; }
-        }
-
-        public override IConnectionSupport ConnectionSupport
-        {
-            get { return this._connectionSupport; }
         }
 
         public override Vector2 Location
@@ -76,7 +70,6 @@ namespace RoadTrafficSimulator.Road
 
         public Vector2[] Shape { get; private set; }
 
-
         public override IVertexContainer<VertexPositionTexture> SpecifiedVertexContainer
         {
             get { return this._lightLocationVertexContainer; }
@@ -92,8 +85,8 @@ namespace RoadTrafficSimulator.Road
             this.Angel = this.CalculateAngel();
             this.Shape = new[]
                              {
-                                 new Vector2( this.Location.X - LightWidth / 2, this.Location.Y - LightHeight / 2 ),
-                                 new Vector2( this.Location.X + LightWidth / 2, this.Location.Y - LightHeight / 2 ),
+                                 new Vector2(this.Location.X - (LightWidth / 2), this.Location.Y - (LightHeight / 2)),
+                                 new Vector2(this.Location.X + LightWidth/2, this.Location.Y - LightHeight/2),
                                  new Vector2( this.Location.X + LightWidth / 2, this.Location.Y + LightHeight / 2 ),
                                  new Vector2( this.Location.X - LightWidth / 2, this.Location.Y + LightHeight / 2 )
                              };
@@ -111,5 +104,4 @@ namespace RoadTrafficSimulator.Road
             return roadVector.AngelBetween( Vector2.UnitX );
         }
     }
-
 }

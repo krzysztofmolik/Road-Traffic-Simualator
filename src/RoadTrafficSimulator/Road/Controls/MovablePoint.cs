@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
+using RoadTrafficSimulator.Road.Connectors;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
 using XnaVs10.Extension;
 
-namespace XnaRoadTrafficConstructor.Road.RoadJoiners
+namespace RoadTrafficSimulator.Road.Controls
 {
     public class MovablePoint : SingleControl<VertexPositionColor>
     {
         private readonly MovablePointVertexContainer _movablePointVertexContainer;
         private readonly IMouseSupport _mouseSupport;
         private readonly ISelectionSupport _selectionSupport;
-        private readonly IConnectionSupport _connectionSupport;
         private Vector2 _location;
 
         public MovablePoint( Vector2 location, IControl parent )
@@ -27,17 +25,11 @@ namespace XnaRoadTrafficConstructor.Road.RoadJoiners
             this._location = location;
             this._movablePointVertexContainer = new MovablePointVertexContainer( this );
             this._selectionSupport = new DefaultControlSelectionSupport( this );
-            this._connectionSupport = new EmptyConnectionSupport<MovablePoint>( this );
-        }
-
-        public override IConnectionSupport ConnectionSupport
-        {
-            get { return this._connectionSupport; }
         }
 
         public override Vector2 Location
         {
-            get { return _location;  }
+            get { return this._location;  }
         }
 
         public override ISelectionSupport SelectionSupport
@@ -60,7 +52,7 @@ namespace XnaRoadTrafficConstructor.Road.RoadJoiners
         public override void Translate( Matrix matrixTranslation )
         {
             this._location = Vector2.Transform( this.Location, matrixTranslation );
-            this.NotifyAboutChanged();
+            this.Invalidate();
         }
 
         public void SetLocation( Vector2 newLocation )

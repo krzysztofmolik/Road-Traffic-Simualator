@@ -1,27 +1,22 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
 using XnaRoadTrafficConstructor.Road;
-using XnaRoadTrafficConstructor.Road.RoadJoiners;
 using XnaRoadTrafficConstructor.VertexContainers;
 
-namespace RoadTrafficSimulator.Road.RoadJoiners
+namespace RoadTrafficSimulator.Road.Controls
 {
-    public class RoadJunctionBlock : CompostControlBase<VertexPositionColor>, IRoadJunctionBlock
+    public class RoadJunctionBlock : CompostControl<VertexPositionColor>, IRoadJunctionBlock
     {
         private readonly RoadJunctionEdge[] _roadJunctionEdges = new RoadJunctionEdge[ EdgeType.Count ];
         private readonly MovablePoint[] _points = new MovablePoint[ Corners.Count ];
-        private readonly RoadJunctionBlockConnection _connectableObject;
         private readonly IVertexContainer<VertexPositionColor> _specifiedVertexContainer;
         private readonly IMouseSupport _mouseSupport;
         private readonly ISelectionSupport _sellecteionSupport;
-        private readonly RoadJunctionConnectionSupport _connectionSupport;
 
         public RoadJunctionBlock( Vector2 location, IControl parent )
             : base( parent )
@@ -35,15 +30,12 @@ namespace RoadTrafficSimulator.Road.RoadJoiners
             this.RightBottom = new MovablePoint( this.RightTop.Location + new Vector2( 0, Constans.RoadHeight ), this );
             this.LeftBottom = new MovablePoint( this.RightBottom.Location + new Vector2( -Constans.RoadHeight, 0 ), this );
 
-            this._connectableObject = new RoadJunctionBlockConnection( this );
-
             this._points.ForEach( this.AddChild );
             this._roadJunctionEdges.ForEach( this.AddChild );
 
             this._specifiedVertexContainer = new RoadJunctionBlockVertexContainer( this );
             this._mouseSupport = new CompositeControlMouseSupport( this );
             this._sellecteionSupport = new DefaultCompositeControlSelectionSupport( this );
-            this._connectionSupport = new RoadJunctionConnectionSupport( this );
         }
 
         #region Poperties
@@ -73,14 +65,13 @@ namespace RoadTrafficSimulator.Road.RoadJoiners
             get { return this._points; }
         }
 
-        public RoadJunctionBlockConnection ConnectableObject
-        {
-            get { return this._connectableObject; }
-        }
-
         public MovablePoint LeftBottom
         {
-            get { return this._points[ Corners.LeftBottom ]; }
+            get
+            {
+                return this._points[ Corners.LeftBottom ];
+            }
+
             set
             {
                 value.AddParent( this );
@@ -92,7 +83,11 @@ namespace RoadTrafficSimulator.Road.RoadJoiners
 
         public MovablePoint RightBottom
         {
-            get { return this._points[ Corners.RightBottom ]; }
+            get
+            {
+                return this._points[ Corners.RightBottom ];
+            }
+
             set
             {
                 value.AddParent( this );
@@ -104,7 +99,11 @@ namespace RoadTrafficSimulator.Road.RoadJoiners
 
         public MovablePoint RightTop
         {
-            get { return this._points[ Corners.RightTop ]; }
+            get
+            {
+                return this._points[ Corners.RightTop ];
+            }
+
             set
             {
                 value.AddParent( this );
@@ -116,7 +115,10 @@ namespace RoadTrafficSimulator.Road.RoadJoiners
 
         public MovablePoint LeftTop
         {
-            get { return this._points[ Corners.LeftTop ]; }
+            get
+            {
+                return this._points[ Corners.LeftTop ];
+            }
 
             set
             {
@@ -125,13 +127,6 @@ namespace RoadTrafficSimulator.Road.RoadJoiners
                 this._roadJunctionEdges[ EdgeType.Top ].StartPoint = value;
                 this._roadJunctionEdges[ EdgeType.Left ].EndPoint = value;
             }
-        }
-
-        #endregion Properties
-
-        public MovablePoint CornerHitTest( Vector2 point )
-        {
-            return this._points.FirstOrDefault( p => p.HitTest( point ) );
         }
 
         public RoadJunctionEdge[] RoadJunctionEdges
@@ -149,19 +144,6 @@ namespace RoadTrafficSimulator.Road.RoadJoiners
             get { return this._mouseSupport; }
         }
 
-        public override IConnectionCompositeSupport ConnectionSupport
-        {
-            get { return this._connectionSupport; }
-        }
-
-        public override void Translate( Matrix matrixTranslation )
-        {
-            this.LeftTop.Translate( matrixTranslation );
-            this.RightTop.Translate( matrixTranslation );
-            this.RightBottom.Translate( matrixTranslation );
-            this.LeftBottom.Translate( matrixTranslation );
-        }
-
         public override Vector2 Location
         {
             get { return this.LeftTopLocation; }
@@ -170,6 +152,21 @@ namespace RoadTrafficSimulator.Road.RoadJoiners
         public override ISelectionSupport SelectionSupport
         {
             get { return this._sellecteionSupport; }
+        }
+
+        #endregion Properties
+
+        public MovablePoint CornerHitTest( Vector2 point )
+        {
+            return this._points.FirstOrDefault( p => p.HitTest( point ) );
+        }
+
+        public override void Translate( Matrix matrixTranslation )
+        {
+            this.LeftTop.Translate( matrixTranslation );
+            this.RightTop.Translate( matrixTranslation );
+            this.RightBottom.Translate( matrixTranslation );
+            this.LeftBottom.Translate( matrixTranslation );
         }
     }
 }

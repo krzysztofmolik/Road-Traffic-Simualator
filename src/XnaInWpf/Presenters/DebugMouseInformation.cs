@@ -2,7 +2,6 @@
 using System.Linq;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using XnaInWpf.Presenters;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
 
 namespace RoadTrafficConstructor.Presenters
 {

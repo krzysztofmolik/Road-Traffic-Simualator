@@ -5,7 +5,6 @@ using Autofac.Features.Metadata;
 using Common;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
 using XnaVs10.Utils;
 
 namespace XnaRoadTrafficConstructor.MouseHandler

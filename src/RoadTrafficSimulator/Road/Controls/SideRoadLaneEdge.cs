@@ -1,17 +1,16 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
-using XnaRoadTrafficConstructor.Road.RoadJoiners;
 
-namespace RoadTrafficSimulator.Road.RoadJoiners
+namespace RoadTrafficSimulator.Road.Controls
 {
-    public class SideRoadLaneEdge : EdgeBase
+    public class SideRoadLaneEdge : Edge
     {
+        private readonly SideRoadLaneEdgeVertexContainer _vertexContainer;
         private LaneType _laneType;
-        private SideRoadLaneEdgeVertexContainer _vertexContainer;
 
         public SideRoadLaneEdge( MovablePoint startPoint, MovablePoint endPoint, float width, RoadLaneBlock parent )
             : base( startPoint, endPoint, width, parent )
@@ -32,7 +31,11 @@ namespace RoadTrafficSimulator.Road.RoadJoiners
 
         public LaneType LaneType
         {
-            get { return this._laneType; }
+            get
+            {
+                return this._laneType;
+            }
+
             set
             {
                 this._laneType = value;

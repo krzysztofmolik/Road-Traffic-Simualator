@@ -1,61 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
-using Common;
+using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
-using XnaRoadTrafficConstructor.Road;
-using XnaRoadTrafficConstructor.Road.RoadJoiners;
+using RoadTrafficSimulator.Road.Connectors;
+using XnaVs10.Extension;
 
 namespace RoadTrafficSimulator.Infrastructure.Mouse
 {
-    public class RoadJunctionConnectionSupport : IConnectionCompositeSupport
+    public class ConnectorBase : IConnector
     {
-        private readonly IRoadJunctionBlock _owner;
-        private readonly IList<IConnectionSupport> _connectedObject = new List<IConnectionSupport>();
-        private readonly IConnectionSupport[] _connectedSides = new IConnectionSupport[EdgeType.Count];
+        private readonly List<IControl> _connectedObject;
+        private readonly int _maxConnectedObject;
 
-        public RoadJunctionConnectionSupport( IRoadJunctionBlock owner )
+        protected ConnectorBase( int maxConnectedObject )
         {
-            this._owner = owner.NotNull();
+            this._maxConnectedObject = maxConnectedObject;
+            this._connectedObject = new List<IControl>( this._maxConnectedObject );
         }
 
-        public IControl Owner
+        public int ConnectedObject
         {
-            get { return this._owner; }
+            get { return this._connectedObject.Count; }
         }
 
-        public IEnumerable<IConnectionSupport> ConnectedObject
+        protected void AddConnectedObject( IControl connector )
         {
-            get { return this._connectedObject; }
-        }
-
-        public void Connect( IConnectionSupport objectToConnect )
-        {
-            this._connectedObject.Add( objectToConnect );
-        }
-
-        public void ConnectChildren( IControl children, IConnectionSupport objectToConnect )
-        {
-            var index = Array.IndexOf( this._owner.RoadJunctionEdges, children );
-            if ( index == -1 )
+            if ( this._connectedObject.Count + 1 > this._maxConnectedObject )
             {
-                throw new ArgumentException();
+                throw new InvalidOperationException( "Free slot is not available" );
             }
 
-            this.EnsureSlotIsFree( index );
-            this._connectedSides[ index ] = objectToConnect;
+            this._connectedObject.Add( connector );
         }
 
-        private void EnsureSlotIsFree( int index )
+        protected void RemoveConnectedObject( IControl connector )
         {
-            if ( index >= this._connectedSides.Length )
+            this._connectedObject.Remove( connector );
+        }
+
+        protected void ConnectBySubscribingToEvent( IControl firstPoint, IControl secondPoint )
+        {
+            firstPoint.Changed.Subscribe( s => this.SetLocation( secondPoint, firstPoint.Location ) );
+            firstPoint.Invalidate();
+        }
+
+        private void SetLocation( IControl control, Vector2 location )
+        {
+            if ( control.Location == location )
             {
-                throw new ArgumentException();
+                return;
             }
 
-            if ( this._connectedSides[ index ] != null )
-            {
-                throw new ArgumentException();
-            }
+            var diff = location - control.Location;
+            control.Translate( Matrix.CreateTranslation( diff.ToVector3() ) );
         }
     }
 }

@@ -5,19 +5,20 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Road
 {
-    public abstract class CompostControlBase<TVertex> : ControlBaseBase<TVertex>, ICompostControlBase
+    public abstract class CompostControl<TVertex> : ControlBaseBase<TVertex>, ICompositeControl
     {
         private readonly object _synchronizationObject = new object();
         private readonly IList<IControl> _childrens = new List<IControl>();
 
-        protected CompostControlBase( IControl parent )
+        protected CompostControl( IControl parent )
             : base( parent )
         {
         }
 
-        public virtual IEnumerable<IControl> Children { get { return this._childrens; } }
-
-        public abstract IConnectionCompositeSupport ConnectionSupport { get; }
+        public virtual IEnumerable<IControl> Children
+        {
+            get { return this._childrens; }
+        }
 
         public void AddChild( IControl singleControlBase )
         {
@@ -26,7 +27,7 @@ namespace RoadTrafficSimulator.Road
                 this._childrens.Add( singleControlBase );
             }
 
-            singleControlBase.Changed.Subscribe( s => this.NotifyAboutChanged() );
+            singleControlBase.Changed.Subscribe( s => this.Invalidate() );
         }
 
         public void RemoveChild( ISingleControl singleControlBase )

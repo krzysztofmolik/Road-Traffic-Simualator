@@ -1,5 +1,5 @@
 ﻿using RoadTrafficSimulator.MouseHandler.Infrastructure;
-using XnaRoadTrafficConstructor.Road.RoadJoiners;
+using RoadTrafficSimulator.Road.Controls;
 
 namespace RoadTrafficSimulator.MouseHandler.JunctionMouseHandler
 {

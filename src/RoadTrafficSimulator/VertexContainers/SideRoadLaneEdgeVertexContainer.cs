@@ -1,10 +1,9 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using RoadTrafficSimulator.Road.RoadJoiners;
+using RoadTrafficSimulator.Road.Controls;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
 using XnaRoadTrafficConstructor.Road;
-using XnaRoadTrafficConstructor.Road.RoadJoiners;
 using XnaVs10.Extension;
 using XnaVs10.MathHelpers;
 

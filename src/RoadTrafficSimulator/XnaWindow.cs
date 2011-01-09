@@ -33,8 +33,6 @@ namespace RoadTrafficSimulator
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             this._keybordInput = this._serviceLocator.Resolve<KeyboardInputNotify>();
             this._mouseInput = this._serviceLocator.Resolve<MouseInputNotify>();
 
@@ -45,8 +43,6 @@ namespace RoadTrafficSimulator
             this.AddComponent( this.Layer2D );
 
             this._camera = this._serviceLocator.Resolve<Camera3D>();
-
-            // Subscribe to events
             this._camera.Changed += ( sender, arg ) => this.Layer2D.UpdateGraphicDevice();
         }
 

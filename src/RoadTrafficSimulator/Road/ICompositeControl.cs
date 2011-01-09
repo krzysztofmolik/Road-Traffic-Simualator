@@ -4,10 +4,10 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Road
 {
-    public interface ICompostControlBase : IControl
+    public interface ICompositeControl : IControl
     {
         IEnumerable<IControl> Children { get; }
-        IConnectionCompositeSupport ConnectionSupport { get; }
+
         void AddChild( IControl singleControlBase );
     }
 }

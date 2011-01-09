@@ -7,16 +7,13 @@ using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
 using RoadTrafficSimulator.Road;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
-using XnaRoadTrafficConstructor.Road;
 using XnaVs10.Extension;
 
 namespace RoadTrafficSimulator.Infrastructure.Mouse
 {
     public interface IConnectionCommand
     {
-        bool CanConnect( IControl first, IControl second );
-        void Connect( IControl first, IControl second );
+        bool Connect( IControl first, IControl second );
     }
 
     public interface ISelectionSupport
@@ -41,9 +38,9 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
 
     public class DefaultCompositeControlSelectionSupport : ISelectionSupport
     {
-        private readonly ICompostControlBase _owner;
+        private readonly ICompositeControl _owner;
 
-        public DefaultCompositeControlSelectionSupport( ICompostControlBase owner )
+        public DefaultCompositeControlSelectionSupport( ICompositeControl owner )
         {
             this._owner = owner.NotNull();
             this._owner.IsSelectedChanged.Subscribe( this.SelectionChanged );
@@ -62,7 +59,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         private IEnumerable<IControl> GetSelectedControlsInternal()
         {
             var root = this._owner.GetRoot();
-            var rootComposite = root as ICompostControlBase;
+            var rootComposite = root as ICompositeControl;
             if ( rootComposite == null )
             {
                 return root.IsSelected ? new[] { root } : Enumerable.Empty<IControl>();
@@ -76,7 +73,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             var selectedControl = this._owner.Children.SelectMany( s => s.SelectionSupport.GetSelectedControls() );
             if ( this._owner.IsSelected )
             {
-                return new[] {this._owner}.Concat( selectedControl );
+                return new[] { this._owner }.Concat( selectedControl );
             }
 
             return selectedControl;
@@ -85,12 +82,12 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
 
     public class CompositeControlMouseSupport : IMouseSupport
     {
-        private readonly ICompostControlBase _owner;
+        private readonly ICompositeControl _owner;
 
         private IControl _selectedControlBase;
         private Vector2 _selctedControlOffset;
 
-        public CompositeControlMouseSupport( ICompostControlBase owner )
+        public CompositeControlMouseSupport( ICompositeControl owner )
         {
             this._owner = owner;
         }
@@ -103,7 +100,6 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             }
 
             this.Move( state );
-
         }
 
         private void Move( XnaMouseState state )
@@ -156,7 +152,6 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             {
                 this._selectedControlBase.MouseSupport.OnLeftButtonPressed( state );
             }
-
         }
 
         private IControl FindControlAtPoint( Vector2 location )

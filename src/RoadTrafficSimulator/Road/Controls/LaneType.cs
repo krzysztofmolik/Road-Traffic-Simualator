@@ -1,4 +1,4 @@
-﻿namespace RoadTrafficSimulator.Road.RoadJoiners
+﻿namespace RoadTrafficSimulator.Road.Controls
 {
     public enum LaneType
     {

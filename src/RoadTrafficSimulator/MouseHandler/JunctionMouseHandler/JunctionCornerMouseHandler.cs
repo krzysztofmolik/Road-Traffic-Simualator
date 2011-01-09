@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
 using RoadTrafficSimulator.MouseHandler.JunctionMouseHandler;
-using XnaRoadTrafficConstructor.Road.RoadJoiners;
+using RoadTrafficSimulator.Road.Connectors;
+using RoadTrafficSimulator.Road.Controls;
 using XnaVs10.Extension;
 
 namespace XnaRoadTrafficConstructor.MouseHandler.JunctionMouseHandler

@@ -6,33 +6,30 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Integration;
-using RoadTrafficSimulator.Road.RoadJoiners;
+using RoadTrafficSimulator.Road.Controls;
 using WinFormsGraphicsDevice;
 using Xna;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
-using XnaRoadTrafficConstructor.Road;
 using XnaVs10.Road;
 
 namespace RoadTrafficSimulator.Road
 {
-    //TODO Change name
-
+    // TODO Change name
     public class RoadComponent : XnaComponent, IDisposable
     {
-        private RoadLayer _roadLayer;
         private readonly IControlManager _controlManager;
-        private LineDrawer2D _lineDrawer2D;
-        private readonly RoadLaneCreator _roadLaneCreator;
+        private readonly RoadLaneCreatorController _roadLaneCreator;
         private readonly RoadJunctionCreator _roadJunctionCreator;
         private readonly IMouseInformation _mouseInformation;
         private readonly ConnectObjectCommand _connectObjectCommand;
+        private LineDrawer2D _lineDrawer2D;
+        private RoadLayer _roadLayer;
 
         public RoadComponent(
                     GraphicsDevice graphicsDevice,
                     IControlManager controlManager,
                     ContentManager content,
                     MessageBroker messageBroker,
-                    RoadLaneCreator roadLaneCreator,
+                    RoadLaneCreatorController roadLaneCreator,
                     RoadJunctionCreator roadJunctionCreator,
                     IMouseInformation mouseInformation,
                     ConnectObjectCommand connectObjectCommand )
@@ -46,6 +43,11 @@ namespace RoadTrafficSimulator.Road
             this.MessageBroker = messageBroker.NotNull();
             this._controlManager.KeyReleased += this.OnKeyRelease;
 
+            this.Intialize();
+        }
+
+        private void Intialize()
+        {
             this.SubscribeToMessages();
             this.SubscribeToMouseInformation();
 
@@ -62,10 +64,8 @@ namespace RoadTrafficSimulator.Road
 
         private void SubscribeToMessages()
         {
-            this._roadLaneCreator.RoadCreated.Subscribe( roadLane => this._roadLayer.AddChild( roadLane ) );
             this._roadJunctionCreator.JunctionCreated.Subscribe( location =>
                 this._roadLayer.AddChild( new RoadJunctionBlock( location, this._roadLayer ) ) );
-
         }
 
         public void StartConnectingObject()
@@ -91,8 +91,8 @@ namespace RoadTrafficSimulator.Road
         public void AddLight( Unit unit )
         {
             throw new NotImplementedException();
-            //            this._roadLayer.DrawPossibleLightLocation = true;
-            //
+
+            //            this._roadLayer.DrawPossibleLightLocation = true; 
             //            var setInto =
             //                from pressed in this._controlManager.MousePressedObservable
             //                let mousePosition = this._camera.ToSpace( pressed.EventArgs.MousePosition )
@@ -112,6 +112,7 @@ namespace RoadTrafficSimulator.Road
         {
             this._roadLayer = serviceLocator.Resolve<RoadLayer>();
             this._lineDrawer2D = serviceLocator.Resolve<LineDrawer2D>();
+            this._roadLaneCreator.SetOwner( this._roadLayer );
         }
 
         public override void Draw( TimeSpan time )

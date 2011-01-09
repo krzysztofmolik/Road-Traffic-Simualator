@@ -5,7 +5,7 @@ using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
 using RoadTrafficSimulator.Road;
 
-namespace XnaRoadTrafficConstructor.Infrastucure.Mouse
+namespace RoadTrafficSimulator.Infrastructure.Mouse
 {
     // TODO Movie it to more appropiate place
     public class RoadLayerMouseSupport : IMouseSupport

@@ -77,7 +77,7 @@ namespace RoadTrafficSimulator
 
         private IControl GetLastLeaft( IControl fromQueue )
         {
-            var compositeControl = fromQueue as ICompostControlBase;
+            var compositeControl = fromQueue as ICompositeControl;
             if ( compositeControl == null )
             {
                 return fromQueue;

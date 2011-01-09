@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Linq;
-using XnaRoadTrafficConstructor.Road.RoadJoiners;
+using RoadTrafficSimulator.Road.Connectors;
 
-namespace RoadTrafficSimulator.Road.RoadJoiners
+namespace RoadTrafficSimulator.Road.Controls
 {
-    public class EndRoadLaneEdge : EdgeBase
+    public class EndRoadLaneEdge : Edge
     {
         public EndRoadLaneEdge( RoadLaneBlock parent )
             : base( parent )

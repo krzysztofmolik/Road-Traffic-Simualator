@@ -1,31 +1,24 @@
-using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
+using RoadTrafficSimulator.Road.Connectors;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
-using XnaRoadTrafficConstructor.Road;
-using XnaRoadTrafficConstructor.Road.RoadJoiners;
-using XnaRoadTrafficConstructor.VertexContainers;
 
-namespace RoadTrafficSimulator.Road.RoadJoiners
+namespace RoadTrafficSimulator.Road.Controls
 {
-    public abstract class EdgeBase : CompostControlBase<VertexPositionColor>
+    public abstract class Edge : CompostControl<VertexPositionColor>
     {
         private readonly EdgeVertexContainer _specifiedVertexContainer;
         private readonly IMouseSupport _mouseSupport;
         private readonly ISelectionSupport _selectionSupport;
-        private readonly IConnectionCompositeSupport _connectionSupport;
         private float _width;
         private MovablePoint _startPoint;
         private MovablePoint _endPoint;
 
-        protected EdgeBase( IControl parent )
+        protected Edge( IControl parent )
             : base( parent )
         {
             this._specifiedVertexContainer = new EdgeVertexContainer( this );
@@ -33,12 +26,11 @@ namespace RoadTrafficSimulator.Road.RoadJoiners
             this._startPoint = new MovablePoint( Vector2.Zero, this );
             this._endPoint = new MovablePoint( Vector2.Zero, this );
             this._selectionSupport = new DefaultCompositeControlSelectionSupport( this );
-            this._connectionSupport = new CompositeConnectionSupport<EdgeBase>( this );
             this.AddChild( this._startPoint );
             this.AddChild( this._endPoint );
         }
 
-        protected EdgeBase( MovablePoint startPoint, MovablePoint endPoint, float width, IControl parent )
+        protected Edge( MovablePoint startPoint, MovablePoint endPoint, float width, IControl parent )
             : this( parent )
         {
             this.StartPoint = startPoint;
@@ -102,11 +94,6 @@ namespace RoadTrafficSimulator.Road.RoadJoiners
         public override IMouseSupport MouseSupport
         {
             get { return this._mouseSupport; }
-        }
-
-        public override IConnectionCompositeSupport ConnectionSupport
-        {
-            get { return this._connectionSupport; }
         }
 
         public override Vector2 Location

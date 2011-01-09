@@ -1,4 +1,4 @@
-﻿namespace XnaVs10.Road.RoadJoiners
+﻿namespace RoadTrafficSimulator.Road.Connectors
 {
     public enum UpdateConnected
     {

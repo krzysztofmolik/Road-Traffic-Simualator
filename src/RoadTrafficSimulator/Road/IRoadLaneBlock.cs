@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
-using RoadTrafficSimulator.Road.RoadJoiners;
-using XnaRoadTrafficConstructor.Road.RoadJoiners;
+using RoadTrafficSimulator.Road.Connectors;
+using RoadTrafficSimulator.Road.Controls;
 
 namespace RoadTrafficSimulator.Road
 {
-    public interface IRoadLaneBlock : ICompostControlBase
+    public interface IRoadLaneBlock : ICompositeControl
     {
         event EventHandler VectorChanged;
         Vector2 BeginLocation { get; }

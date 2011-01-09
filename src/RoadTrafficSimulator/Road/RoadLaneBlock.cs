@@ -6,23 +6,20 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
-using RoadTrafficSimulator.Road.RoadJoiners;
+using RoadTrafficSimulator.Road.Controls;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
 using XnaRoadTrafficConstructor.Road;
-using XnaRoadTrafficConstructor.Road.RoadJoiners;
 using XnaRoadTrafficConstructor.VertexContainers;
 
 namespace RoadTrafficSimulator.Road
 {
-    public class RoadLaneBlock : CompostControlBase<VertexPositionColor>, IRoadLaneBlock
+    public class RoadLaneBlock : CompostControl<VertexPositionColor>, IRoadLaneBlock
     {
         private readonly IList<IControl> _roadBlocks;
 
         private readonly RoadLaneBlockVertexContainer _roadLaneBlockVertexContainer;
         private readonly IMouseSupport _mouseSupport;
         private readonly ISelectionSupport _selectionSupport;
-        private readonly IConnectionCompositeSupport _connectionSupport;
         private MovablePoint _leftTopPoint;
         private MovablePoint _rightTop;
         private MovablePoint _leftBottom;
@@ -34,7 +31,6 @@ namespace RoadTrafficSimulator.Road
             this._roadLaneBlockVertexContainer = new RoadLaneBlockVertexContainer( this );
             this._mouseSupport = new CompositeControlMouseSupport( this );
             this._selectionSupport = new DefaultCompositeControlSelectionSupport( this );
-            this._connectionSupport = new CompositeConnectionSupport<RoadLaneBlock>( this );
 
             this._leftTopPoint = new MovablePoint( new Vector2( 1, 0 ), this );
             this._rightTop = new MovablePoint( new Vector2( 1, 1 ), this );
@@ -184,11 +180,6 @@ namespace RoadTrafficSimulator.Road
         public override IMouseSupport MouseSupport
         {
             get { return this._mouseSupport; }
-        }
-
-        public override IConnectionCompositeSupport ConnectionSupport
-        {
-            get { return this._connectionSupport; }
         }
 
         public override Vector2 Location

@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
 using XnaVs10.MathHelpers;
 
 namespace RoadTrafficSimulator.Infrastructure.Control
@@ -94,7 +93,7 @@ namespace RoadTrafficSimulator.Infrastructure.Control
             this._parents.Add( controlBase );
         }
 
-        protected virtual void NotifyAboutChanged()
+        public virtual void Invalidate()
         {
             this.ChangedSubject.OnNext( new Unit() );
         }

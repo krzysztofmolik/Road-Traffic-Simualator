@@ -1,9 +1,9 @@
-﻿namespace Xna.Road.RoadJoiners
+﻿namespace RoadTrafficSimulator.Road.Controls
 {
     public enum RoadSide
     {
         Begin,
         End,
-        Unknow
+        Unknown
     }
 }

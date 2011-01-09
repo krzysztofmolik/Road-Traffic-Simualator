@@ -4,7 +4,7 @@ using System.Linq;
 using Common;
 using RoadTrafficSimulator.Integration;
 using RoadTrafficSimulator.Road;
-using XnaRoadTrafficConstructor.Road.RoadJoiners;
+using RoadTrafficSimulator.Road.Controls;
 using XnaVs10.Road;
 
 namespace XnaRoadTrafficConstructor.Road

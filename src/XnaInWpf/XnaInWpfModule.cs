@@ -1,13 +1,11 @@
-﻿using Autofac;
+﻿using System.Linq;
+using Autofac;
 using RoadTrafficConstructor.Presenters;
 using RoadTrafficConstructor.Presenters.Blocks;
 using RoadTrafficSimulator.Infrastructure.Mouse;
-using RoadTrafficSimulator.Utils.DependencyInjection;
+using RoadTrafficSimulator.Utile.DependencyInjection;
 using WinFormsGraphicsDevice;
 using XnaInWpf.Presenters.Blocks;
-using System.Linq;
-using XnaRoadTrafficConstructor.Infrastucure.Mouse;
-using XnaRoadTrafficConstructor.Utils.DependencyInjection;
 
 namespace RoadTrafficConstructor
 {
