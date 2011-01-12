@@ -25,7 +25,6 @@ namespace RoadTrafficSimulator.Road
         private readonly ISelectionSupport _selectionSupport;
 
         public LightsLocation( IRoadLaneBlock parent )
-            : base( parent )
         {
             this._mouseSupport = new ControlMouseSupport( this );
             this._parent = parent.NotNull();
@@ -55,6 +54,11 @@ namespace RoadTrafficSimulator.Road
                 Debug.Assert( this.Shape.Length > 0, "this.Shape.Length > 0" );
                 return this.Shape.First();
             }
+        }
+
+        public override IControl Parent
+        {
+            get { return this._parent; }
         }
 
         public override ISelectionSupport SelectionSupport

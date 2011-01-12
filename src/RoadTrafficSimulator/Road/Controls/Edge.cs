@@ -18,8 +18,7 @@ namespace RoadTrafficSimulator.Road.Controls
         private MovablePoint _startPoint;
         private MovablePoint _endPoint;
 
-        protected Edge( IControl parent )
-            : base( parent )
+        protected Edge()
         {
             this._specifiedVertexContainer = new EdgeVertexContainer( this );
             this._mouseSupport = new CompositeControlMouseSupport( this );
@@ -30,8 +29,8 @@ namespace RoadTrafficSimulator.Road.Controls
             this.AddChild( this._endPoint );
         }
 
-        protected Edge( MovablePoint startPoint, MovablePoint endPoint, float width, IControl parent )
-            : this( parent )
+        protected Edge( MovablePoint startPoint, MovablePoint endPoint, float width ) 
+            : this()
         {
             this.StartPoint = startPoint;
             this.EndPoint = endPoint;
@@ -57,7 +56,6 @@ namespace RoadTrafficSimulator.Road.Controls
             {
                 this.RemoveChild( this._startPoint );
                 this._startPoint = value;
-                this._startPoint.AddParent( this );
                 this.AddChild( value );
                 this.ChangedSubject.OnNext( new Unit() );
             }
@@ -70,7 +68,6 @@ namespace RoadTrafficSimulator.Road.Controls
             {
                 this.RemoveChild( this._endPoint );
                 this._endPoint = value;
-                this._endPoint.AddParent( this );
                 this.AddChild( value );
                 this.ChangedSubject.OnNext( new Unit() );
             }

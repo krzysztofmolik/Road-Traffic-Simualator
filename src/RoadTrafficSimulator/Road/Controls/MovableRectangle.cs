@@ -17,6 +17,7 @@ namespace RoadTrafficSimulator.Road.Controls
         private readonly IVertexContainer<VertexPositionColor> _specifiedVertexContainer;
         private readonly IMouseSupport _mouseSupport;
         private readonly ISelectionSupport _selectionSupport;
+        private readonly IControl _parent;
 
         public MovableRectangle( Vector2 leftTop, float width, float height, MovablePoint parent )
             : this( parent )
@@ -46,8 +47,8 @@ namespace RoadTrafficSimulator.Road.Controls
         }
 
         private MovableRectangle( IControl parent )
-            : base( parent )
         {
+            this._parent = parent;
             this._mouseSupport = new CompositeControlMouseSupport( this );
             this._points = Enumerable.Range( 0, Corners.Count ).Select( i => new MovablePoint( Vector2.Zero, this ) ).ToArray();
             this._specifiedVertexContainer = new MovableRectlangeVertexContainer( this );
@@ -132,6 +133,11 @@ namespace RoadTrafficSimulator.Road.Controls
         public override Vector2 Location
         {
             get { return this.LeftTop.Location; }
+        }
+
+        public override IControl Parent
+        {
+            get { return this._parent; }
         }
 
         public override ISelectionSupport SelectionSupport

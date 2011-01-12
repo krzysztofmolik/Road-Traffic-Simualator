@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using RoadTrafficSimulator.Infrastructure.Control;
-using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Road
 {
@@ -9,11 +8,6 @@ namespace RoadTrafficSimulator.Road
     {
         private readonly object _synchronizationObject = new object();
         private readonly IList<IControl> _childrens = new List<IControl>();
-
-        protected CompostControl( IControl parent )
-            : base( parent )
-        {
-        }
 
         public virtual IEnumerable<IControl> Children
         {

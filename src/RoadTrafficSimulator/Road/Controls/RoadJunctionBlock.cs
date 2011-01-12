@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,10 +18,11 @@ namespace RoadTrafficSimulator.Road.Controls
         private readonly IVertexContainer<VertexPositionColor> _specifiedVertexContainer;
         private readonly IMouseSupport _mouseSupport;
         private readonly ISelectionSupport _sellecteionSupport;
+        private IControl _parent;
 
         public RoadJunctionBlock( Vector2 location, IControl parent )
-            : base( parent )
         {
+            this._parent = parent;
             const float halfRoadWidth = Constans.RoadHeight / 2;
             this._roadJunctionEdges = Enumerable.Range( 0, EdgeType.Count ).Select( s => new RoadJunctionEdge( this ) ).ToArray();
             this._points = Enumerable.Range( 0, Corners.Count ).Select( s => new MovablePoint( Vector2.Zero, this ) ).ToArray();
@@ -74,7 +76,6 @@ namespace RoadTrafficSimulator.Road.Controls
 
             set
             {
-                value.AddParent( this );
                 this._points[ Corners.LeftBottom ] = value;
                 this._roadJunctionEdges[ EdgeType.Left ].StartPoint = value;
                 this._roadJunctionEdges[ EdgeType.Bottom ].EndPoint = value;
@@ -90,7 +91,6 @@ namespace RoadTrafficSimulator.Road.Controls
 
             set
             {
-                value.AddParent( this );
                 this._points[ Corners.RightBottom ] = value;
                 this._roadJunctionEdges[ EdgeType.Right ].EndPoint = value;
                 this._roadJunctionEdges[ EdgeType.Bottom ].StartPoint = value;
@@ -106,7 +106,6 @@ namespace RoadTrafficSimulator.Road.Controls
 
             set
             {
-                value.AddParent( this );
                 this._points[ Corners.RightTop ] = value;
                 this._roadJunctionEdges[ EdgeType.Right ].StartPoint = value;
                 this._roadJunctionEdges[ EdgeType.Top ].EndPoint = value;
@@ -122,7 +121,6 @@ namespace RoadTrafficSimulator.Road.Controls
 
             set
             {
-                value.AddParent( this );
                 this._points[ Corners.LeftTop ] = value;
                 this._roadJunctionEdges[ EdgeType.Top ].StartPoint = value;
                 this._roadJunctionEdges[ EdgeType.Left ].EndPoint = value;
@@ -147,6 +145,11 @@ namespace RoadTrafficSimulator.Road.Controls
         public override Vector2 Location
         {
             get { return this.LeftTopLocation; }
+        }
+
+        public override IControl Parent
+        {
+            get { return this._parent; }
         }
 
         public override ISelectionSupport SelectionSupport

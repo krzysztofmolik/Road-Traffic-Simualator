@@ -28,7 +28,7 @@ namespace RoadTrafficSimulator.Road.Connectors.Commands
 
         private bool AreConnected( RoadJunctionEdge firstEdge, RoadJunctionEdge secondEdge )
         {
-            var firstParent = firstEdge.Parents.OfType<ICompositeControl>().FirstOrDefault();
+            var firstParent = firstEdge.Parent as ICompositeControl;
             if ( firstParent == null )
             {
                 return false;

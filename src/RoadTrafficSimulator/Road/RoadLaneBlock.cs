@@ -20,14 +20,15 @@ namespace RoadTrafficSimulator.Road
         private readonly RoadLaneBlockVertexContainer _roadLaneBlockVertexContainer;
         private readonly IMouseSupport _mouseSupport;
         private readonly ISelectionSupport _selectionSupport;
+        private readonly IControl _parent;
         private MovablePoint _leftTopPoint;
         private MovablePoint _rightTop;
         private MovablePoint _leftBottom;
         private MovablePoint _rightBottom;
 
         public RoadLaneBlock( IControl parent )
-            : base( parent )
         {
+            this._parent = parent;
             this._roadLaneBlockVertexContainer = new RoadLaneBlockVertexContainer( this );
             this._mouseSupport = new CompositeControlMouseSupport( this );
             this._selectionSupport = new DefaultCompositeControlSelectionSupport( this );
@@ -185,6 +186,11 @@ namespace RoadTrafficSimulator.Road
         public override Vector2 Location
         {
             get { return this.LeftTopLocation; }
+        }
+
+        public override IControl Parent
+        {
+            get { return this._parent; }
         }
 
         public override ISelectionSupport SelectionSupport

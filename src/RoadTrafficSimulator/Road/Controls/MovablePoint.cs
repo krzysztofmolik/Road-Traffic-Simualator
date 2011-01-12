@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
-using RoadTrafficSimulator.Road.Connectors;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
 using XnaVs10.Extension;
@@ -16,11 +15,12 @@ namespace RoadTrafficSimulator.Road.Controls
         private readonly MovablePointVertexContainer _movablePointVertexContainer;
         private readonly IMouseSupport _mouseSupport;
         private readonly ISelectionSupport _selectionSupport;
+        private readonly IControl _parent;
         private Vector2 _location;
 
         public MovablePoint( Vector2 location, IControl parent )
-            : base( parent )
         {
+            this._parent = parent;
             this._mouseSupport = new ControlMouseSupport( this );
             this.LocationChanged = new Subject<Vector2>();
             this._location = location;
@@ -31,6 +31,11 @@ namespace RoadTrafficSimulator.Road.Controls
         public override Vector2 Location
         {
             get { return this._location; }
+        }
+
+        public override IControl Parent
+        {
+            get { return this._parent; }
         }
 
         public override ISelectionSupport SelectionSupport

@@ -26,7 +26,6 @@ namespace RoadTrafficSimulator.Road
         private IConnector _connector;
 
         public StopLine( IRoadLaneBlock parent )
-            : base( parent )
         {
             this._mouseSupport = new ControlMouseSupport(this);
             EnsureThatParamterIsValid(parent);
@@ -91,6 +90,11 @@ namespace RoadTrafficSimulator.Road
                 Debug.Assert(this.Shape.Length > 0, "this.Shape.Length > 0");
                 return this.Shape.First();
             }
+        }
+
+        public override IControl Parent
+        {
+            get { return this._parent; }
         }
 
         public override ISelectionSupport SelectionSupport

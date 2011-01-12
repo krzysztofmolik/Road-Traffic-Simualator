@@ -1,11 +1,10 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Road.Connectors;
 using RoadTrafficSimulator.Road.Controls;
 using XnaRoadTrafficConstructor.Road;
-using System.Linq;
 using XnaVs10.MathHelpers;
 
 namespace RoadTrafficSimulator.Road
@@ -13,10 +12,11 @@ namespace RoadTrafficSimulator.Road
     public class RoadConnectionEdge : Edge
     {
         private readonly RoadConnectionConnector _connector;
+        private readonly IControl _parent;
 
         public RoadConnectionEdge( Vector2 location, IControl parent )
-            : base( parent )
         {
+            this._parent = parent;
             this._connector = new RoadConnectionConnector( this );
             this.StartPoint.SetLocation( location + new Vector2( 0, Constans.RoadHeight / 2 ) );
             this.EndPoint.SetLocation( location - new Vector2( 0, Constans.RoadHeight / 2 ) );
@@ -25,6 +25,11 @@ namespace RoadTrafficSimulator.Road
         public RoadConnectionConnector Connector
         {
             get { return this._connector; }
+        }
+
+        public override IControl Parent
+        {
+            get { return this._parent; }
         }
 
         public override void Invalidate()

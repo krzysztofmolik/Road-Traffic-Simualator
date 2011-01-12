@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Road.Connectors;
 
 namespace RoadTrafficSimulator.Road.Controls
@@ -8,15 +7,18 @@ namespace RoadTrafficSimulator.Road.Controls
     {
         private readonly RoadJunctionEdgeConnector _roadJunctionEndConnector;
 
+        private readonly RoadJunctionBlock _parent;
+
         public RoadJunctionEdge( RoadJunctionBlock parent )
-            : base( parent )
         {
+            this._parent = parent;
             this._roadJunctionEndConnector = new RoadJunctionEdgeConnector( this );
         }
 
         public RoadJunctionEdge( MovablePoint startPoint, MovablePoint endPoint, float width, RoadJunctionBlock parent )
-            : base( startPoint, endPoint, width, parent )
+            : base( startPoint, endPoint, width)
         {
+            this._parent = parent;
         }
 
         public RoadJunctionEdgeConnector Connector
@@ -26,12 +28,12 @@ namespace RoadTrafficSimulator.Road.Controls
 
         public RoadJunctionBlock RoadJunctionParent
         {
-            get
-            {
-                var result = this.Parents.First() as RoadJunctionBlock;
-                Debug.Assert( result != null, "result != null" );
-                return result;
-            }
+            get { return this._parent; }
+        }
+
+        public override IControl Parent
+        {
+            get { return this._parent; }
         }
     }
 }

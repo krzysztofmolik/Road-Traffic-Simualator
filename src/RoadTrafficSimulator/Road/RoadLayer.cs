@@ -3,6 +3,7 @@ using System.Linq;
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
@@ -23,7 +24,6 @@ namespace RoadTrafficSimulator.Road
         public RoadLayer(
                 Stored stored,
                 Graphic graphics )
-            : base( null )
         {
             this._stored = stored.NotNull();
 
@@ -46,6 +46,11 @@ namespace RoadTrafficSimulator.Road
         public override Vector2 Location
         {
             get { return this._location; }
+        }
+
+        public override IControl Parent
+        {
+            get { return null; }
         }
 
         public override ISelectionSupport SelectionSupport
