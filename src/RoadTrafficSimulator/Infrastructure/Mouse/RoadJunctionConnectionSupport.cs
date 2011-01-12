@@ -18,9 +18,14 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             this._connectedObject = new List<IControl>( this._maxConnectedObject );
         }
 
-        public int ConnectedObject
+        public int CountOfConnectedObject
         {
             get { return this._connectedObject.Count; }
+        }
+
+        public IEnumerable<IControl> ConnectedObject
+        {
+            get { return this._connectedObject; }
         }
 
         protected void AddConnectedObject( IControl connector )

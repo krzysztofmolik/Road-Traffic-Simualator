@@ -2,6 +2,6 @@
 {
     public interface IConnector
     {
-        int ConnectedObject { get; }
+        int CountOfConnectedObject { get; }
     }
 }

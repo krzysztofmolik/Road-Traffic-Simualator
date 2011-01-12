@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using RoadTrafficSimulator.Road.Controls;
 using XnaVs10.Utils;
 
 namespace XnaVs10.MathHelpers
@@ -42,11 +43,15 @@ namespace XnaVs10.MathHelpers
 
         public static Vector2 LineIntersectionMethod( Tuple<Vector2, Vector2> left, Tuple<Vector2, Vector2> right )
         {
-            var firstBegin = left.Item1;
-            var firstEnd = left.Item2;
-            var secondBegin = right.Item1;
-            var secondEnd = right.Item2;
+            return LineIntersectionMethod( left.Item1, left.Item2, right.Item1, right.Item2 );
+        }
 
+        public static Vector2 LineIntersectionMethod( Vector2 leftBegin, Vector2 leftEnd, Vector2 rightBegin, Vector2 rightEnd )
+        {
+            var firstBegin = leftBegin;
+            var firstEnd = leftEnd;
+            var secondBegin = rightBegin;
+            var secondEnd = rightEnd;
             double distAB, theCos, theSin, newX, ABpos;
 
             //  Fail if either line is undefined.
@@ -79,22 +84,21 @@ namespace XnaVs10.MathHelpers
             //  Fail if the lines are parallel.
             if ( secondBegin.Y == secondEnd.Y )
             {
-                var beginToBegin = Vector2.Distance( left.Item1, right.Item1 );
-                var beginToEnd = Vector2.Distance( left.Item1, right.Item2 );
+                var beginToBegin = Vector2.Distance( leftBegin, rightBegin );
+                var beginToEnd = Vector2.Distance( leftBegin, rightEnd );
 
-                var endToBegin = Vector2.Distance( left.Item2, right.Item1 );
-                var endToEnd = Vector2.Distance( left.Item2, right.Item2 );
+                var endToBegin = Vector2.Distance( leftEnd, rightBegin );
+                var endToEnd = Vector2.Distance( leftEnd, rightEnd );
 
 
                 // TODO Naprawic !!
                 if ( beginToEnd < endToEnd )
                 {
-                    return left.Item1;
+                    return leftBegin;
                 }
-                else
-                {
-                    return left.Item2;
-                }
+
+                // else
+                return leftEnd;
             }
 
             //  (3) Discover the position of the intersection point along line A-B.
@@ -120,6 +124,13 @@ namespace XnaVs10.MathHelpers
             inCenter.Normalize();
             var correctLenght = inCenter * roadHeight;
             return correctLenght + location;
+        }
+
+        public static Quadrangle CreateQuadrangleFromLocation( Vector2 first, Vector2 second, float height )
+        {
+            var leftEdge = CreatePerpendicualrLine( new Line( first, second ), height );
+            var rightEdge = CreatePerpendicualrLine( new Line( second, first ), height );
+            return new Quadrangle(leftEdge.Item2, rightEdge.Item1, rightEdge.Item2, leftEdge.Item1);
         }
     }
 }

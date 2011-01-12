@@ -1,4 +1,5 @@
-﻿using RoadTrafficSimulator.Infrastructure.Mouse;
+﻿using System;
+using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Road.Controls;
 using XnaRoadTrafficConstructor.Road;
 using XnaVs10.MathHelpers;
@@ -31,12 +32,21 @@ namespace RoadTrafficSimulator.Road.Connectors
 
             this.ConnectBySubscribingToEvent( this._owner.StartPoint, roadLaneEdge.EndPoint );
             this.ConnectBySubscribingToEvent( this._owner.EndPoint, roadLaneEdge.StartPoint );
+            this.SubscribeToChangedOtherSideOfRoadLane( roadLaneEdge );
+            this.AddConnectedObject( roadLaneEdge );
         }
 
         public void ConnectWith( EndRoadLaneEdge roadLaneEdge )
         {
             this.ConnectBySubscribingToEvent( this._owner.EndPoint, roadLaneEdge.EndPoint );
             this.ConnectBySubscribingToEvent( this._owner.StartPoint, roadLaneEdge.StartPoint );
+            this.AddConnectedObject( roadLaneEdge );
+        }
+
+        private void SubscribeToChangedOtherSideOfRoadLane( EndRoadLaneEdge roadLaneEdge )
+        {
+            var opositeSide = this.GetLaneEdgeOpositeTo( roadLaneEdge );
+            opositeSide.Changed.Subscribe( s => this._owner.Invalidate() );
         }
 
         private EndRoadLaneEdge GetLaneEdgeOpositeTo( EndRoadLaneEdge roadLaneEdge )

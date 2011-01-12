@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
@@ -29,7 +30,7 @@ namespace RoadTrafficSimulator.Road.Controls
 
         public override Vector2 Location
         {
-            get { return this._location;  }
+            get { return this._location; }
         }
 
         public override ISelectionSupport SelectionSupport
@@ -52,7 +53,7 @@ namespace RoadTrafficSimulator.Road.Controls
         public override void Translate( Matrix matrixTranslation )
         {
             this._location = Vector2.Transform( this.Location, matrixTranslation );
-            this.Invalidate();
+            this.ChangedSubject.OnNext( new Unit() );
         }
 
         public void SetLocation( Vector2 newLocation )
