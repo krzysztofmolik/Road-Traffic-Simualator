@@ -31,7 +31,11 @@ namespace WinFormsGraphicsDevice
                     } )
                 .As<GraphicsDeviceService>()
                 .As<IGraphicsDeviceService>()
-                .SingleInstance().OnActivated( c => Mouse.WindowHandle = c.Instance.WindowHandle );
+                .SingleInstance().OnActivated( c =>
+                                                   {
+                                                       Mouse.WindowHandle = IntPtr.Zero;
+                                                       Mouse.WindowHandle = c.Instance.WindowHandle;
+                                                   });
 
             base.Load( builder );
         }

@@ -9,6 +9,7 @@ using RoadTrafficConstructor;
 using XnaInWpf.Presenters.Interfaces;
 using Module = Autofac.Module;
 using System.Linq;
+using IEventAggregator = Common.IEventAggregator;
 
 namespace XnaInWpf
 {
@@ -22,7 +23,7 @@ namespace XnaInWpf
             autofacBuilder.Register( c => this._container ).As<IContainer>().SingleInstance();
             autofacBuilder.RegisterType<ServiceProviderAdapter>().As<IServiceProvider>();
 
-            autofacBuilder.RegisterModule(new CaliburnMicroModule());
+            autofacBuilder.RegisterModule( new CaliburnMicroModule() );
             autofacBuilder.RegisterModule( new PresentersModule() );
             autofacBuilder.RegisterModule( new XnaInWpfModule() );
 
@@ -41,7 +42,7 @@ namespace XnaInWpf
                 return this._container.Resolve( service );
             }
 
-            return this._container.ResolveNamed(key, service);
+            return this._container.ResolveNamed( key, service );
         }
 
         protected override IEnumerable<object> GetAllInstances( Type service )
@@ -55,14 +56,14 @@ namespace XnaInWpf
     {
         private readonly IContainer _container;
 
-        public ServiceProviderAdapter(IContainer container)
+        public ServiceProviderAdapter( IContainer container )
         {
             _container = container;
         }
 
-        public object GetService(Type serviceType)
+        public object GetService( Type serviceType )
         {
-            return this._container.Resolve(serviceType);
+            return this._container.Resolve( serviceType );
         }
     }
 
@@ -82,10 +83,10 @@ namespace XnaInWpf
                 .Where( c => c.Name.EndsWith( "Model" ) ).As( c => this.GetDefaultInterface( c ) );
         }
 
-        private Type GetDefaultInterface(Type type)
+        private Type GetDefaultInterface( Type type )
         {
             var interfaceType = type.GetInterfaces()
-                                    .Where( c => c.Name.EndsWith("Model"))
+                                    .Where( c => c.Name.EndsWith( "Model" ) )
                                     .FirstOrDefault();
             return interfaceType ?? type;
         }

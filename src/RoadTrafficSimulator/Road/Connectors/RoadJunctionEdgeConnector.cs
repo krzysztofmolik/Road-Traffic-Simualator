@@ -19,6 +19,11 @@ namespace RoadTrafficSimulator.Road.Connectors
             this._owner = owner;
         }
 
+        public bool AreAllSlotOccupied
+        {
+            get { return this.CountOfConnectedObject == MAX_CONNECTED_OBJECT; }
+        }
+
         public void ConnectWith( EndRoadLaneEdge roadLaneEdge )
         {
             this.ConnectBySubscribingToEvent( this._owner.StartPoint, roadLaneEdge.EndPoint );

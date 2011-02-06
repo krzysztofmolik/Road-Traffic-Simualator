@@ -1,9 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
-using RoadTrafficSimulator.Road.Connectors;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
 
@@ -13,24 +11,22 @@ namespace RoadTrafficSimulator.Road.Controls
     {
         private readonly EdgeVertexContainer _specifiedVertexContainer;
         private readonly IMouseSupport _mouseSupport;
-        private readonly ISelectionSupport _selectionSupport;
         private float _width;
         private MovablePoint _startPoint;
         private MovablePoint _endPoint;
 
-        protected Edge()
+        protected Edge( Factories.Factories factories )
         {
             this._specifiedVertexContainer = new EdgeVertexContainer( this );
             this._mouseSupport = new CompositeControlMouseSupport( this );
-            this._startPoint = new MovablePoint( Vector2.Zero, this );
-            this._endPoint = new MovablePoint( Vector2.Zero, this );
-            this._selectionSupport = new DefaultCompositeControlSelectionSupport( this );
+            this._startPoint = new MovablePoint( factories, Vector2.Zero, this );
+            this._endPoint = new MovablePoint( factories, Vector2.Zero, this );
             this.AddChild( this._startPoint );
             this.AddChild( this._endPoint );
         }
 
-        protected Edge( MovablePoint startPoint, MovablePoint endPoint, float width ) 
-            : this()
+        protected Edge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, float width )
+            : this( factories )
         {
             this.StartPoint = startPoint;
             this.EndPoint = endPoint;
@@ -96,11 +92,6 @@ namespace RoadTrafficSimulator.Road.Controls
         public override Vector2 Location
         {
             get { return this.StartLocation + ( ( this.EndLocation - this.StartLocation ) / 2 ); }
-        }
-
-        public override ISelectionSupport SelectionSupport
-        {
-            get { return this._selectionSupport; }
         }
 
         public override void Translate( Matrix matrixTranslation )

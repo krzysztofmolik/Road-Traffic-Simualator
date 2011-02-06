@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
-using RoadTrafficSimulator.Road.Connectors;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
 using XnaRoadTrafficConstructor.Road;
 using XnaRoadTrafficConstructor.VertexContainers;
@@ -20,12 +19,10 @@ namespace RoadTrafficSimulator.Road
 
         private readonly StopLineVertexContainer _stopLineVertexContainer;
         private readonly IMouseSupport _mouseSupport;
-        private readonly ISelectionSupport _selectionSupport;
 
         private Vector2[] _shape;
-        private IConnector _connector;
 
-        public StopLine( IRoadLaneBlock parent )
+        public StopLine(Factories.Factories factories,  IRoadLaneBlock parent )
         {
             this._mouseSupport = new ControlMouseSupport(this);
             EnsureThatParamterIsValid(parent);
@@ -36,7 +33,6 @@ namespace RoadTrafficSimulator.Road
             this.UpdateLocation();
 
             this._stopLineVertexContainer = new StopLineVertexContainer(this);
-            this._selectionSupport = new DefaultControlSelectionSupport(this);
         }
 
         public Vector2[] Shape
@@ -95,11 +91,6 @@ namespace RoadTrafficSimulator.Road
         public override IControl Parent
         {
             get { return this._parent; }
-        }
-
-        public override ISelectionSupport SelectionSupport
-        {
-            get { return this._selectionSupport; }
         }
 
         public void UpdateLocation()

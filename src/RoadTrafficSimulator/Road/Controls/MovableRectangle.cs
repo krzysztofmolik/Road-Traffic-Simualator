@@ -16,29 +16,28 @@ namespace RoadTrafficSimulator.Road.Controls
         private readonly MovablePoint[] _points;
         private readonly IVertexContainer<VertexPositionColor> _specifiedVertexContainer;
         private readonly IMouseSupport _mouseSupport;
-        private readonly ISelectionSupport _selectionSupport;
         private readonly IControl _parent;
 
-        public MovableRectangle( Vector2 leftTop, float width, float height, MovablePoint parent )
-            : this( parent )
+        public MovableRectangle(Factories.Factories factories,  Vector2 leftTop, float width, float height, MovablePoint parent )
+            : this( factories, parent )
         {
-            this.LeftTop = new MovablePoint( leftTop, this );
-            this.RightTop = new MovablePoint( leftTop + new Vector2( width, 0 ), this );
-            this.RightBottom = new MovablePoint( this.RightTop.Location + new Vector2( 0, height ), this );
-            this.LeftBottom = new MovablePoint( this.RightBottom.Location + new Vector2( -width, 0 ), this );
+            this.LeftTop = new MovablePoint( factories, leftTop, this );
+            this.RightTop = new MovablePoint( factories, leftTop + new Vector2( width, 0 ), this );
+            this.RightBottom = new MovablePoint( factories, this.RightTop.Location + new Vector2( 0, height ), this );
+            this.LeftBottom = new MovablePoint( factories, this.RightBottom.Location + new Vector2( -width, 0 ), this );
         }
 
-        public MovableRectangle( Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom, IControl parent )
-            : this( parent )
+        public MovableRectangle(Factories.Factories factories,  Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom, IControl parent )
+            : this( factories, parent )
         {
-            this.LeftTop = new MovablePoint( leftTop, this );
-            this.RightTop = new MovablePoint( rightTop, this );
-            this.RightBottom = new MovablePoint( rightBottom, this );
-            this.LeftBottom = new MovablePoint( leftBottom, this );
+            this.LeftTop = new MovablePoint( factories, leftTop, this );
+            this.RightTop = new MovablePoint( factories, rightTop, this );
+            this.RightBottom = new MovablePoint( factories, rightBottom, this );
+            this.LeftBottom = new MovablePoint( factories, leftBottom, this );
         }
 
-        public MovableRectangle( MovablePoint leftTop, MovablePoint rightTop, MovablePoint rightBottom, MovablePoint leftBottom, IControl parent )
-            : this( parent )
+        public MovableRectangle( Factories.Factories factories, MovablePoint leftTop, MovablePoint rightTop, MovablePoint rightBottom, MovablePoint leftBottom, IControl parent )
+            : this( factories, parent )
         {
             this.LeftTop = leftTop;
             this.RightTop = rightTop;
@@ -46,13 +45,12 @@ namespace RoadTrafficSimulator.Road.Controls
             this.LeftBottom = leftBottom;
         }
 
-        private MovableRectangle( IControl parent )
+        private MovableRectangle(Factories.Factories factories,  IControl parent )
         {
             this._parent = parent;
             this._mouseSupport = new CompositeControlMouseSupport( this );
-            this._points = Enumerable.Range( 0, Corners.Count ).Select( i => new MovablePoint( Vector2.Zero, this ) ).ToArray();
+            this._points = Enumerable.Range( 0, Corners.Count ).Select( i => new MovablePoint( factories, Vector2.Zero, this ) ).ToArray();
             this._specifiedVertexContainer = new MovableRectlangeVertexContainer( this );
-            this._selectionSupport = new DefaultCompositeControlSelectionSupport( this );
         }
 
         public IEnumerable<MovablePoint> Points
@@ -138,11 +136,6 @@ namespace RoadTrafficSimulator.Road.Controls
         public override IControl Parent
         {
             get { return this._parent; }
-        }
-
-        public override ISelectionSupport SelectionSupport
-        {
-            get { return this._selectionSupport; }
         }
 
         public override void Translate( Matrix matrixTranslation )

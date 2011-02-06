@@ -4,6 +4,7 @@ using Common;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Road;
 using RoadTrafficSimulator.Utils;
+using Xna;
 using XnaVs10.Utils;
 
 namespace XnaRoadTrafficConstructor.Road
@@ -18,6 +19,7 @@ namespace XnaRoadTrafficConstructor.Road
         public VertexPositionTextureDrawer( GraphicsDevice graphicDevice, Camera3D camera3D )
         {
             this._camera = camera3D.NotNull();
+            this._camera.Changed += this.UpdateBasicEffect;
 
             this._basicEffect = new BasicEffect( graphicDevice )
                                     {
@@ -28,6 +30,13 @@ namespace XnaRoadTrafficConstructor.Road
                                     };
 
             this._drawerHelper = new DrawingHelper( this._basicEffect, graphicDevice );
+        }
+
+        private void UpdateBasicEffect(object sender, CameraChangedEventArgs e)
+        {
+            this._basicEffect.Projection = this._camera.Projection;
+            this._basicEffect.View = this._camera.View;
+            this._basicEffect.World = this._camera.World;
         }
 
         public void Draw( VertexPositionTexture[] block )

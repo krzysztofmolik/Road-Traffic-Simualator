@@ -2,50 +2,48 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
-using Xna;
-using XnaVs10;
 
-namespace XnaRoadTrafficConstructor
+namespace RoadTrafficSimulator
 {
     public class KeyboardInputNotify
     {
+        private readonly ISubject<KeysState> _keyPressed = new Subject<KeysState>();
+
+        private readonly ISubject<KeysState> _keyReleased = new Subject<KeysState>();
+
         private KeyboardState _oldState = Keyboard.GetState();
 
-        public KeyboardInputNotify()
+        public IObservable<KeysState> KeyRelease
         {
-            this.ObservableKeyPressed = Observable.FromEvent<KeyboardKeysChangedArgs>( t => this.KeyPressed += t, t => this.KeyPressed -= t );
-            this.ObservableKeyRelease = Observable.FromEvent<KeyboardKeysChangedArgs>( t => this.KeyRelease += t, t => this.KeyRelease -= t );
+            get { return this._keyPressed; }
         }
 
-        public IObservable<IEvent<KeyboardKeysChangedArgs>> ObservableKeyRelease { get; private set; }
-
-        public IObservable<IEvent<KeyboardKeysChangedArgs>> ObservableKeyPressed { get; private set; }
-
-        public void Update(KeyboardState state)
+        public IObservable<KeysState> KeyPressed
         {
-            var pressedKeys = state.GetPressedKeys().Where(k => _oldState[k] == KeyState.Up);
-            var releaseKeys = _oldState.GetPressedKeys().Where(k => state[k] == KeyState.Up);
-
-            foreach (var key in pressedKeys)
-            {
-                KeyPressed.Raise(this, new KeyboardKeysChangedArgs(key, KeyState.Down));
-            }
-
-            foreach (var key in releaseKeys)
-            {
-                KeyRelease.Raise(this, new KeyboardKeysChangedArgs(key, KeyState.Up));
-            }
-
-            _oldState = state;
+            get { return this._keyReleased; }
         }
 
-        public event EventHandler<KeyboardKeysChangedArgs> KeyPressed;
+        public void Update( KeyboardState state )
+        {
+            var pressedKeys = state.GetPressedKeys().Where( k => this._oldState[ k ] == KeyState.Up );
+            var releaseKeys = this._oldState.GetPressedKeys().Where( k => state[ k ] == KeyState.Up );
 
-        public event EventHandler<KeyboardKeysChangedArgs> KeyRelease;
+            foreach ( var key in pressedKeys )
+            {
+                this._keyPressed.OnNext( new KeysState( key ) );
+            }
+
+            foreach ( var key in releaseKeys )
+            {
+                this._keyReleased.OnNext( new KeysState( key ) );
+            }
+
+            this._oldState = state;
+        }
 
         public bool IsKeyPressed( Keys key )
         {
-            return _oldState.IsKeyDown( key );
+            return this._oldState.IsKeyDown( key );
         }
     }
 }

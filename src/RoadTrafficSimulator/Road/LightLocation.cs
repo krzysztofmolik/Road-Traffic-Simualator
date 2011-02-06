@@ -22,17 +22,14 @@ namespace RoadTrafficSimulator.Road
         private readonly IRoadLaneBlock _parent;
         private readonly LigthLocationVertexContainer _lightLocationVertexContainer;
         private readonly IMouseSupport _mouseSupport;
-        private readonly ISelectionSupport _selectionSupport;
 
-        public LightsLocation( IRoadLaneBlock parent )
+        public LightsLocation(Factories.Factories factories,  IRoadLaneBlock parent )
         {
             this._mouseSupport = new ControlMouseSupport( this );
             this._parent = parent.NotNull();
             this.UpdateLocation();
 
             this._lightLocationVertexContainer = new LigthLocationVertexContainer( this );
-            this._selectionSupport = new DefaultControlSelectionSupport( this );
-
             // TODO Make connection between road lane and lights
         }
 
@@ -59,11 +56,6 @@ namespace RoadTrafficSimulator.Road
         public override IControl Parent
         {
             get { return this._parent; }
-        }
-
-        public override ISelectionSupport SelectionSupport
-        {
-            get { return this._selectionSupport; }
         }
 
         public float Angel

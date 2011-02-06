@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,9 +8,9 @@ using XnaRoadTrafficConstructor.Infrastucure.Draw;
 using XnaRoadTrafficConstructor.Road;
 using XnaVs10.Extension;
 
-namespace XnaRoadTrafficConstructor.VertexContainers
+namespace RoadTrafficSimulator.VertexContainers
 {
-    public class RoadJunctionBlockVertexContainer : VertexContainerBase<IRoadJunctionBlock,VertexPositionColor>
+    public class RoadJunctionBlockVertexContainer : VertexContainerBase<IRoadJunctionBlock, VertexPositionColor>
     {
         private readonly Color _fillColor = Constans.RoadColor;
         private Quadrangle _shape;
@@ -33,8 +34,13 @@ namespace XnaRoadTrafficConstructor.VertexContainers
             this._shape = this.CreateShape();
 
             return this._shape.DrawableShape
-                                .Select(s => new VertexPositionColor(s.ToVector3(), this._fillColor))
+                                .Select(s => new VertexPositionColor(s.ToVector3(), this.GetColor() ))
                                 .ToArray();
+        }
+
+        private Color GetColor()
+        {
+            return this.Object.IsSelected ? Style.SelectionColor : this._fillColor;
         }
 
         public override IShape Shape

@@ -22,8 +22,6 @@ namespace RoadTrafficSimulator.Infrastructure.Control
 
         IObservable<bool> IsSelectedChanged { get; }
 
-        ISelectionSupport SelectionSupport { get; }
-
         void Translate( Matrix matrixTranslation );
 
         Vector2 ToControlPosition( Vector2 screenPosition );

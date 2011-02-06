@@ -13,12 +13,19 @@ namespace RoadTrafficSimulator.Road
 {
     public class RoadLaneCreator
     {
+        private readonly Func<ICompositeControl, IRoadLaneBlock> _roadLaneBlockFactory;
+        private readonly Func<Vector2, ICompositeControl, RoadConnectionEdge> _roadConnectionEdgeFactory;
         private readonly CompositeConnectionCommand _connectionCommand;
         private IControl _lastConnectedControl;
         private ICompositeControl _owner;
 
-        public RoadLaneCreator( CompositeConnectionCommand connectionCommand )
+        public RoadLaneCreator(
+                                Func<ICompositeControl, IRoadLaneBlock> roadLaneBlockFactory,
+                                Func<Vector2, ICompositeControl, RoadConnectionEdge> roadConnectionEdgeFactory,
+            CompositeConnectionCommand connectionCommand )
         {
+            this._roadLaneBlockFactory = roadLaneBlockFactory;
+            this._roadConnectionEdgeFactory = roadConnectionEdgeFactory;
             this._connectionCommand = connectionCommand;
         }
 
@@ -52,6 +59,7 @@ namespace RoadTrafficSimulator.Road
             this._connectionCommand.Connect( roadLane.RightEdge, lastControl );
 
             this._owner.AddChild( roadLane );
+            this._lastConnectedControl = null;
         }
 
         public void SetOwner( ICompositeControl owner )
@@ -59,14 +67,14 @@ namespace RoadTrafficSimulator.Road
             this._owner = owner.NotNull();
         }
 
-        private RoadLaneBlock CreateRoadLane()
+        private IRoadLaneBlock CreateRoadLane()
         {
-            return new RoadLaneBlock( this._owner );
+            return this._roadLaneBlockFactory( this._owner );
         }
 
         private RoadConnectionEdge CreateRoadLaneConnection( Vector2 location )
         {
-            var roadLaneConnection = new RoadConnectionEdge( location, this._owner );
+            var roadLaneConnection = this._roadConnectionEdgeFactory( location, this._owner );
             this._owner.AddChild( roadLaneConnection );
             return roadLaneConnection;
         }
@@ -105,6 +113,8 @@ namespace RoadTrafficSimulator.Road
         public void End()
         {
             this._mouseInformation.StopRecord();
+
+            // TODO Finish road lane at some control
         }
 
         private void MousePressed( XnaMouseState mouseState )

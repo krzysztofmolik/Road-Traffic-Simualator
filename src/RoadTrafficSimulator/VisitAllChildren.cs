@@ -40,6 +40,11 @@ namespace RoadTrafficSimulator
             var next = this.GetNextFromQueue();
             if ( next == null )
             {
+                if ( this._compositeControlQueue.Count == 0 )
+                {
+                    return false;
+                }
+
                 this._compositeControlQueue.Pop();
                 this._next = this.GetCurrentOnQueue();
                 return this._next != null;

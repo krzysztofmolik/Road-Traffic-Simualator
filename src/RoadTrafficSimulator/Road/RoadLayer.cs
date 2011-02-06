@@ -18,10 +18,10 @@ namespace RoadTrafficSimulator.Road
         private readonly RoadLayerVertexContainer _specifiedVertexContainer;
         private readonly Graphic _graphics;
         private readonly IMouseSupport _mouseSupport;
-        private readonly ISelectionSupport _selectionSupport;
         private Vector2 _location = Vector2.Zero;
 
         public RoadLayer(
+                Factories.Factories factories, 
                 Stored stored,
                 Graphic graphics )
         {
@@ -30,7 +30,6 @@ namespace RoadTrafficSimulator.Road
             this._specifiedVertexContainer = new RoadLayerVertexContainer( this );
             this._graphics = graphics;
             this._mouseSupport = new RoadLayerMouseSupport( this );
-            this._selectionSupport = new DefaultCompositeControlSelectionSupport( this );
         }
 
         public override IVertexContainer<VertexPositionColor> SpecifiedVertexContainer
@@ -51,11 +50,6 @@ namespace RoadTrafficSimulator.Road
         public override IControl Parent
         {
             get { return null; }
-        }
-
-        public override ISelectionSupport SelectionSupport
-        {
-            get { return this._selectionSupport; }
         }
 
         public IRoadLaneBlock GetRoadLineAtPoint( Vector2 point )

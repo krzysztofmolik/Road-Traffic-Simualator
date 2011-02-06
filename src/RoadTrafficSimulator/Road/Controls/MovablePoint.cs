@@ -14,18 +14,16 @@ namespace RoadTrafficSimulator.Road.Controls
     {
         private readonly MovablePointVertexContainer _movablePointVertexContainer;
         private readonly IMouseSupport _mouseSupport;
-        private readonly ISelectionSupport _selectionSupport;
         private readonly IControl _parent;
         private Vector2 _location;
 
-        public MovablePoint( Vector2 location, IControl parent )
+        public MovablePoint( Factories.Factories factories, Vector2 location, IControl parent )
         {
             this._parent = parent;
             this._mouseSupport = new ControlMouseSupport( this );
             this.LocationChanged = new Subject<Vector2>();
             this._location = location;
             this._movablePointVertexContainer = new MovablePointVertexContainer( this );
-            this._selectionSupport = new DefaultControlSelectionSupport( this );
         }
 
         public override Vector2 Location
@@ -36,11 +34,6 @@ namespace RoadTrafficSimulator.Road.Controls
         public override IControl Parent
         {
             get { return this._parent; }
-        }
-
-        public override ISelectionSupport SelectionSupport
-        {
-            get { return this._selectionSupport; }
         }
 
         public ISubject<Vector2> LocationChanged { get; private set; }

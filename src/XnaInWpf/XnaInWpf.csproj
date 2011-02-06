@@ -240,6 +240,10 @@
       <Project>{85098EFA-6AB7-40F4-A77C-201AD3C440A6}</Project>
       <Name>Common.Wpf</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RoadTrafficSimulator\RoadTrafficSimulator.csproj">
       <Project>{59FF8BF8-1029-48F3-9F84-5C9933B0D1EC}</Project>
       <Name>RoadTrafficSimulator</Name>

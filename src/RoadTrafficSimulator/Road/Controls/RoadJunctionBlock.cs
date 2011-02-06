@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
+using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
 using XnaRoadTrafficConstructor.Road;
 using XnaRoadTrafficConstructor.VertexContainers;
@@ -17,27 +18,25 @@ namespace RoadTrafficSimulator.Road.Controls
         private readonly MovablePoint[] _points = new MovablePoint[ Corners.Count ];
         private readonly IVertexContainer<VertexPositionColor> _specifiedVertexContainer;
         private readonly IMouseSupport _mouseSupport;
-        private readonly ISelectionSupport _sellecteionSupport;
-        private IControl _parent;
+        private readonly IControl _parent;
 
-        public RoadJunctionBlock( Vector2 location, IControl parent )
+        public RoadJunctionBlock( Factories.Factories factories, Vector2 location, IControl parent )
         {
             this._parent = parent;
             const float halfRoadWidth = Constans.RoadHeight / 2;
-            this._roadJunctionEdges = Enumerable.Range( 0, EdgeType.Count ).Select( s => new RoadJunctionEdge( this ) ).ToArray();
-            this._points = Enumerable.Range( 0, Corners.Count ).Select( s => new MovablePoint( Vector2.Zero, this ) ).ToArray();
+            this._roadJunctionEdges = Enumerable.Range( 0, EdgeType.Count ).Select( s => new RoadJunctionEdge( factories, this ) ).ToArray();
+            this._points = Enumerable.Range( 0, Corners.Count ).Select( s => new MovablePoint( factories, Vector2.Zero, this ) ).ToArray();
             var leftTop = new Vector2( location.X - halfRoadWidth, location.Y - halfRoadWidth );
-            this.LeftTop = new MovablePoint( leftTop, this );
-            this.RightTop = new MovablePoint( leftTop + new Vector2( Constans.RoadHeight, 0 ), this );
-            this.RightBottom = new MovablePoint( this.RightTop.Location + new Vector2( 0, Constans.RoadHeight ), this );
-            this.LeftBottom = new MovablePoint( this.RightBottom.Location + new Vector2( -Constans.RoadHeight, 0 ), this );
+            this.LeftTop = new MovablePoint( factories, leftTop, this );
+            this.RightTop = new MovablePoint( factories, leftTop + new Vector2( Constans.RoadHeight, 0 ), this );
+            this.RightBottom = new MovablePoint( factories, this.RightTop.Location + new Vector2( 0, Constans.RoadHeight ), this );
+            this.LeftBottom = new MovablePoint( factories, this.RightBottom.Location + new Vector2( -Constans.RoadHeight, 0 ), this );
 
             this._points.ForEach( this.AddChild );
             this._roadJunctionEdges.ForEach( this.AddChild );
 
-            this._specifiedVertexContainer = new RoadJunctionBlockVertexContainer( this );
+            this._specifiedVertexContainer = factories.VertexContainerFactory.Create( this );
             this._mouseSupport = new CompositeControlMouseSupport( this );
-            this._sellecteionSupport = new DefaultCompositeControlSelectionSupport( this );
         }
 
         #region Poperties
@@ -152,11 +151,6 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return this._parent; }
         }
 
-        public override ISelectionSupport SelectionSupport
-        {
-            get { return this._sellecteionSupport; }
-        }
-
         #endregion Properties
 
         public MovablePoint CornerHitTest( Vector2 point )
@@ -170,6 +164,12 @@ namespace RoadTrafficSimulator.Road.Controls
             this.RightTop.Translate( matrixTranslation );
             this.RightBottom.Translate( matrixTranslation );
             this.LeftBottom.Translate( matrixTranslation );
+
+            this.Children.ForEach( s => s.Invalidate() );
+        }
+
+        public void Normalize()
+        {
         }
     }
 }

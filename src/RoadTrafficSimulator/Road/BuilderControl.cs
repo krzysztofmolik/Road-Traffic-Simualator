@@ -1,45 +1,16 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
-using RoadTrafficSimulator.Infrastructure.Mouse;
-using RoadTrafficSimulator.Integration;
-using RoadTrafficSimulator.MouseHandler.Infrastructure;
-using RoadTrafficSimulator.Utils;
-using XnaRoadTrafficConstructor;
-using Common;
-using XnaVs10.Utils;
 
 namespace RoadTrafficSimulator.Road
 {
-    public class ScreenZoom
-    {
-        private IMouseInformation _mouseInforamtion;
-        private Camera3D _camera3D;
-
-        public ScreenZoom( IMouseInformation mouseInformation, Camera3D camera3D )
-        {
-            this._mouseInforamtion = mouseInformation.NotNull();
-            this._camera3D = camera3D.NotNull();
-
-            this._mouseInforamtion.ScrollWheelChanged.Where( s => this.Zoom ).Subscribe( this.Zooming );
-        }
-
-        public bool Zoom { get; set; }
-
-        private void Zooming( XnaMouseState mouseState )
-        {
-            this._camera3D.Zoom = mouseState.ScrollWheelValueDelta * 0.1f;
-        }
-    }
-        
     public class BuilderControl
     {
         private readonly KeyboardInputNotify _keyboardInformation;
         private bool _connectingObject;
         private bool _addingRoadLane;
         private bool _addingRoadJunctionBlock;
-        private MessageBroker _messageBroker;
+        private bool _selecteObject;
 
         public BuilderControl( KeyboardInputNotify keyboardInformation )
         {
@@ -52,7 +23,11 @@ namespace RoadTrafficSimulator.Road
 
         public bool AddingRoadLane
         {
-            get { return this._addingRoadLane; }
+            get
+            {
+                return this._addingRoadLane;
+            }
+
             set
             {
                 if ( this._addingRoadLane == value )
@@ -72,7 +47,6 @@ namespace RoadTrafficSimulator.Road
             }
         }
 
-
         public bool ShowStopLine
         {
             get { throw new NotImplementedException(); }
@@ -87,7 +61,11 @@ namespace RoadTrafficSimulator.Road
 
         public bool AddingRoadJunctionBlock
         {
-            get { return this._addingRoadJunctionBlock; }
+            get
+            {
+                return this._addingRoadJunctionBlock;
+            }
+
             set
             {
                 if ( this._addingRoadJunctionBlock == value )
@@ -110,7 +88,11 @@ namespace RoadTrafficSimulator.Road
 
         private bool ConnectingObject
         {
-            get { return this._connectingObject; }
+            get
+            {
+                return this._connectingObject;
+            }
+
             set
             {
                 if ( this._connectingObject == value )
@@ -133,26 +115,50 @@ namespace RoadTrafficSimulator.Road
 
         private void SubscribeMessages()
         {
-            this._keyboardInformation.ObservableKeyPressed
-                .Where( s => s.EventArgs.Key == Keys.C && this._keyboardInformation.IsKeyPressed( Keys.LeftAlt ) )
+            this._keyboardInformation.KeyPressed
+                .Where( s => s.Key == Keys.C && this._keyboardInformation.IsKeyPressed( Keys.LeftAlt ) )
                 .Subscribe( s => this.ConnectingObject = true );
 
-            this._keyboardInformation.ObservableKeyRelease.Where( s => s.EventArgs.Key == Keys.Escape )
-                .Subscribe( s => this.CancelAllOperation() );
+            this._keyboardInformation.KeyPressed
+                .Where( s => s.Key == Keys.S && this._keyboardInformation.IsKeyPressed( Keys.LeftAlt ) )
+                .Subscribe( s => this.SelecteObject = true );
 
-            this._keyboardInformation.ObservableKeyPressed.Where( s => s.EventArgs.Key == Keys.A )
-                .Subscribe( s => this.Zoom = true );
+            this._keyboardInformation.KeyRelease.Where( s => s.Key == Keys.Escape )
+                .Subscribe( s => this.CancelAllOperation() );
         }
 
-        protected bool Zoom { get; set; }
+        protected bool SelecteObject
+        {
+            get
+            {
+                return this._selecteObject;
+            }
 
+            set
+            {
+                if ( this._selecteObject == value )
+                {
+                    return;
+                }
+
+                this._selecteObject = value;
+
+                if ( this._selecteObject )
+                {
+                    this.RoadComponent.StartSelectingObject();
+                }
+                else
+                {
+                    this.RoadComponent.StopSelectingObject();
+                }
+            }
+        }
 
         private void CancelAllOperation()
         {
             this.AddingRoadLane = false;
             this.AddingRoadJunctionBlock = false;
             this.ConnectingObject = false;
-            this.Zoom = false;
         }
     }
 }

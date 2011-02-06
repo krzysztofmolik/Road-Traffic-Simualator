@@ -18,7 +18,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="150" />
         </Grid.RowDefinitions>
-        
+
         <!-- Left panel -->
         <Border BorderThickness="0,0,1,0" BorderBrush="Black" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
             <Border.Background>
@@ -52,7 +52,7 @@
                 </ListBox>
             </StackPanel>
         </Border>
-        
+
         <!-- XNA -->
         <WindowsFormsHost Grid.Column="1"
                           VerticalAlignment="Stretch"
@@ -71,7 +71,7 @@
                         <GradientStop Color="#FF4558CC" Offset="1"/>
                     </LinearGradientBrush>
                 </TabControl.Background>
-                
+
                 <!-- Debug information -->
                 <TabItem Header="Debug infomation">
                     <TabItem.Background>
@@ -92,7 +92,21 @@
                         </StackPanel>
                     </Border>
                 </TabItem>
-                
+                <TabItem Header="Zoom control">
+                    <TabItem.Background>
+                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                            <GradientStop Color="#FF115058" Offset="0"/>
+                            <GradientStop Color="#FFB19820" Offset="1"/>
+                        </LinearGradientBrush>
+                    </TabItem.Background>
+                    <Border BorderBrush="Black" BorderThickness="1" Margin="8,0,0,6" Width="341" HorizontalAlignment="Left">
+                        <StackPanel Orientation="Vertical">
+                            <Button Grid.Column="0" Grid.Row="0" Width="50" Height="50" Name="IncreaseZoom" Content="+"/>
+                            <Button Grid.Column="0" Grid.Row="1" Width="50" Height="50" Name="DecreaseZoom" Content="+"/>
+                        </StackPanel>
+                    </Border>
+                </TabItem>
+
                 <!-- Draw options -->
                 <TabItem Header="Draw information">
                     <Grid>

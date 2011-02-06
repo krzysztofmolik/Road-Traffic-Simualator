@@ -19,24 +19,24 @@ namespace RoadTrafficSimulator.Road
 
         private readonly RoadLaneBlockVertexContainer _roadLaneBlockVertexContainer;
         private readonly IMouseSupport _mouseSupport;
-        private readonly ISelectionSupport _selectionSupport;
         private readonly IControl _parent;
+        private readonly Factories.Factories _factories;
         private MovablePoint _leftTopPoint;
         private MovablePoint _rightTop;
         private MovablePoint _leftBottom;
         private MovablePoint _rightBottom;
 
-        public RoadLaneBlock( IControl parent )
+        public RoadLaneBlock( Factories.Factories factories, IControl parent )
         {
             this._parent = parent;
+            this._factories = factories;
             this._roadLaneBlockVertexContainer = new RoadLaneBlockVertexContainer( this );
             this._mouseSupport = new CompositeControlMouseSupport( this );
-            this._selectionSupport = new DefaultCompositeControlSelectionSupport( this );
 
-            this._leftTopPoint = new MovablePoint( new Vector2( 1, 0 ), this );
-            this._rightTop = new MovablePoint( new Vector2( 1, 1 ), this );
-            this._rightBottom = new MovablePoint( new Vector2( 1, 0 ), this );
-            this._leftBottom = new MovablePoint( new Vector2( 0, 0 ), this );
+            this._leftTopPoint = new MovablePoint( factories, new Vector2( 1, 0 ), this );
+            this._rightTop = new MovablePoint( factories, new Vector2( 1, 1 ), this );
+            this._rightBottom = new MovablePoint( factories, new Vector2( 1, 0 ), this );
+            this._leftBottom = new MovablePoint( factories, new Vector2( 0, 0 ), this );
             this.CreateEdges();
             this._roadBlocks = this.CreateRoadBlock();
             this.AddToChildCollection();
@@ -193,11 +193,6 @@ namespace RoadTrafficSimulator.Road
             get { return this._parent; }
         }
 
-        public override ISelectionSupport SelectionSupport
-        {
-            get { return this._selectionSupport; }
-        }
-
         public IEnumerable<IControl> HitRoadBlock( Vector2 point )
         {
             var hitedBlocks = this.RoadBlocks.Where( t => t.HitTest( point ) );
@@ -240,10 +235,10 @@ namespace RoadTrafficSimulator.Road
 
         private void CreateEdges()
         {
-            this.LeftEdge = new EndRoadLaneEdge( this.LeftBottomPoint, this.LeftTopPoint, Constans.PointSize, this );
-            this.TopEdge = new SideRoadLaneEdge( this.LeftTopPoint, this.RightTopPoint, Constans.PointSize, this );
-            this.RightEdge = new EndRoadLaneEdge( this.RightTopPoint, this.RightBottomPoint, Constans.PointSize, this );
-            this.BottomEdge = new SideRoadLaneEdge( this.RightBottomPoint, this.LeftBottomPoint, Constans.PointSize, this );
+            this.LeftEdge = new EndRoadLaneEdge( this._factories, this.LeftBottomPoint, this.LeftTopPoint, Constans.PointSize, this );
+            this.TopEdge = new SideRoadLaneEdge( this._factories, this.LeftTopPoint, this.RightTopPoint, Constans.PointSize, this );
+            this.RightEdge = new EndRoadLaneEdge( this._factories, this.RightTopPoint, this.RightBottomPoint, Constans.PointSize, this );
+            this.BottomEdge = new SideRoadLaneEdge( this._factories, this.RightBottomPoint, this.LeftBottomPoint, Constans.PointSize, this );
         }
     }
 }

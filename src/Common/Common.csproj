@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Assert.cs" />
     <Compile Include="Ensure.cs" />
+    <Compile Include="EventAggregator.cs" />
     <Compile Include="ExtesnionsForEnumType.cs" />
     <Compile Include="ICollectionExtensionAssert.cs" />
     <Compile Include="ObjectExtensionAssert.cs" />

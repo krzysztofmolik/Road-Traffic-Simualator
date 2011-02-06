@@ -1,37 +1,80 @@
 using System;
 using System.Collections.Generic;
+using Autofac;
+using Common;
 using RoadTrafficConstructor.Presenters.Blocks;
 using RoadTrafficSimulator.Integration;
 using RoadTrafficSimulator.Road;
+using RoadTrafficSimulator.RoadTrafficSimulatorMessages;
 using XnaInWpf.Presenters;
 using XnaInWpf.Presenters.Blocks;
 using XnaInWpf.Presenters.Interfaces;
 
 namespace RoadTrafficConstructor.Presenters
 {
-    public class ShellViewModel : MyModelBase, IShellViewModel
+    public class ShellViewModel : MyModelBase, IShellViewModel, IHandle<XnaWindowInitialized>
     {
         private readonly IBlockManager _blockManager;
         private readonly Func<IMouseInformationModel> _mouseInformationFactory;
+        private readonly BuilderControl _builderControl;
+        private readonly IEventAggregator _eventAggreator;
+        private readonly ILifetimeScope _container;
+        private WorldController _wordController;
 
         private IEnumerable<IBlockViewModel> _blocks;
         private IBlockViewModel _selectedItem;
         private IMouseInformationModel _mouseInformation;
         private bool _shouldShowStopLine;
         private bool _showRoadDirection;
-        private readonly BuilderControl _builderControl;
 
-        public ShellViewModel( IBlockManager blockManager, Func<IMouseInformationModel> mouseInformationFactory, BuilderControl builderControl )
+        public ShellViewModel(
+            IBlockManager blockManager,
+            Func<IMouseInformationModel> mouseInformationFactory,
+            BuilderControl builderControl,
+            IEventAggregator eventAggreator,
+            ILifetimeScope container)
         {
             this._blockManager = blockManager;
+            this._container = container;
+            this._eventAggreator = eventAggreator;
             this._builderControl = builderControl;
             this._mouseInformationFactory = mouseInformationFactory;
             this.Blocks = blockManager.GetRootParrents();
+
+            this._eventAggreator.Subscribe( this );
         }
 
         public void OnLoaded()
         {
             this.MouseInformationModel = this._mouseInformationFactory();
+        }
+
+        public void Initialize( WorldController worldController )
+        {
+            this._wordController = worldController.NotNull();
+        }
+
+
+        public void IncreaseZoom()
+        {
+            if ( this._wordController == null )
+            {
+                return;
+            }
+
+            var zoomValue = this._wordController.GetZoom();
+            this._wordController.SetZoom( zoomValue + 0.1f );
+        }
+
+        public void DecreaseZoom()
+        {
+            if ( this._wordController == null )
+            {
+                return;
+            }
+
+            var zoomValue = this._wordController.GetZoom();
+            this._wordController.SetZoom( zoomValue - 0.1f );
         }
 
         public IMouseInformationModel MouseInformationModel
@@ -106,6 +149,11 @@ namespace RoadTrafficConstructor.Presenters
         public void GoBack()
         {
             this.Blocks = this._blockManager.GetRootParrents();
+        }
+
+        public void Handle(XnaWindowInitialized message)
+        {
+            this._wordController = this._container.Resolve<WorldController>();
         }
     }
 }

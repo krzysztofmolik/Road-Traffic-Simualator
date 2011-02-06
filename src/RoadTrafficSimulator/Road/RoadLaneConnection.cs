@@ -14,7 +14,8 @@ namespace RoadTrafficSimulator.Road
         private readonly RoadConnectionConnector _connector;
         private readonly IControl _parent;
 
-        public RoadConnectionEdge( Vector2 location, IControl parent )
+        public RoadConnectionEdge( Factories.Factories factories, Vector2 location, IControl parent )
+            : base( factories )
         {
             this._parent = parent;
             this._connector = new RoadConnectionConnector( this );
@@ -57,12 +58,12 @@ namespace RoadTrafficSimulator.Road
             var firstOpositeRoadEdge = this.GetOposisteEdge( first );
             var secondOpositeRoadEdge = this.GetOposisteEdge( second );
 
-            var firstQuadrangle = MyMathHelper.CreateQuadrangleFromLocation( 
+            var firstQuadrangle = MyMathHelper.CreateQuadrangleFromLocation(
                                                         firstOpositeRoadEdge.Location,
                                                         this.Location,
                                                         Constans.RoadHeight );
 
-            var secondQuadrangle = MyMathHelper.CreateQuadrangleFromLocation( 
+            var secondQuadrangle = MyMathHelper.CreateQuadrangleFromLocation(
                                                     this.Location,
                                                     secondOpositeRoadEdge.Location,
                                                     Constans.RoadHeight );

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Road.Controls;
@@ -16,26 +17,36 @@ namespace RoadTrafficSimulator.Road.Connectors.Commands
                 return false;
             }
 
+            if ( this.HaveTheSameParent( firstEdge, secondEdge ) )
+            {
+                return false;
+            }
+
             if ( this.AreConnected( firstEdge, secondEdge ) )
             {
                 return false;
             }
 
-            firstEdge.Connector.ConnectWith( secondEdge );
-            secondEdge.Connector.ConnectTo( firstEdge );
+            firstEdge.Connector.ConnectTo( secondEdge );
+            secondEdge.Connector.ConnectWith( firstEdge );
             return true;
         }
 
-        private bool AreConnected( RoadJunctionEdge firstEdge, RoadJunctionEdge secondEdge )
+        private bool HaveTheSameParent(RoadJunctionEdge first, RoadJunctionEdge second)
         {
-            var firstParent = firstEdge.Parent as ICompositeControl;
+            var firstParent = first.Parent as ICompositeControl;
             if ( firstParent == null )
             {
                 return false;
             }
 
-            var theSameParent = firstParent.Children.Any( c => c == secondEdge );
-            return theSameParent == false;
+            var theSameParent = firstParent.Children.Any( c => c == second );
+            return theSameParent;
+        }
+
+        private bool AreConnected( RoadJunctionEdge firstEdge, RoadJunctionEdge secondEdge )
+        {
+            return firstEdge.Connector.ConnectedObject.FirstOrDefault(s => s == secondEdge) != null;
         }
     }
 }

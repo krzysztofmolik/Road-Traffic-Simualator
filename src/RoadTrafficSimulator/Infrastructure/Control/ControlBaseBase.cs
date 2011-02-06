@@ -28,8 +28,6 @@ namespace RoadTrafficSimulator.Infrastructure.Control
 
         public abstract IControl Parent { get; }
 
-        public abstract ISelectionSupport SelectionSupport { get; }
-
         public bool IsSelected
         {
             get { return this._isSelected; }

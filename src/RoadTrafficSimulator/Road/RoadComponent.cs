@@ -1,57 +1,67 @@
 using System;
+using System.Collections.Generic;
 using Autofac;
 using Common;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using RoadTrafficSimulator.Factories;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Integration;
 using RoadTrafficSimulator.Road.Controls;
+using RoadTrafficSimulator.RoadTrafficSimulatorMessages;
 using WinFormsGraphicsDevice;
-using Xna;
-using XnaVs10.Road;
 
 namespace RoadTrafficSimulator.Road
 {
     // TODO Change name
     public class RoadComponent : XnaComponent, IDisposable
     {
-        private readonly IControlManager _controlManager;
         private readonly RoadLaneCreatorController _roadLaneCreator;
+        private readonly IEnumerable<IBackgroundJob> _backgroundJobs;
         private readonly RoadJunctionCreator _roadJunctionCreator;
         private readonly IMouseInformation _mouseInformation;
         private readonly ConnectObjectCommand _connectObjectCommand;
-        private LineDrawer2D _lineDrawer2D;
+        private readonly IEventAggregator _eventAggreator;
+        private readonly Func<Vector2, ICompositeControl, IRoadJunctionBlock> _roadJunctionBlockFactory;
+        private readonly SelectControlCommand _selectCommand;
         private RoadLayer _roadLayer;
 
         public RoadComponent(
+                    IEnumerable<IBackgroundJob> backgroundJobs,
                     GraphicsDevice graphicsDevice,
-                    IControlManager controlManager,
                     ContentManager content,
                     MessageBroker messageBroker,
                     RoadLaneCreatorController roadLaneCreator,
                     RoadJunctionCreator roadJunctionCreator,
                     IMouseInformation mouseInformation,
-                    ConnectObjectCommand connectObjectCommand )
+                    ConnectObjectCommand connectObjectCommand,
+                    IEventAggregator eventAggreator,
+                    Func<Vector2, ICompositeControl, IRoadJunctionBlock> roadJunctionBlockFactory,
+                    SelectControlCommand selectCommand)
             : base( content, graphicsDevice )
         {
+            this._backgroundJobs = backgroundJobs;
+            this._selectCommand = selectCommand;
             this._roadJunctionCreator = roadJunctionCreator;
             this._connectObjectCommand = connectObjectCommand;
+            this._eventAggreator = eventAggreator;
+            this._roadJunctionBlockFactory = roadJunctionBlockFactory;
             this._mouseInformation = mouseInformation;
             this._roadLaneCreator = roadLaneCreator;
-            this._controlManager = controlManager;
             this.MessageBroker = messageBroker.NotNull();
-            this._controlManager.KeyReleased += this.OnKeyRelease;
 
-            this.Intialize();
+            this.Initialize();
         }
 
-        private void Intialize()
+        private void Initialize()
         {
             this.SubscribeToMessages();
             this.SubscribeToMouseInformation();
 
             this._mouseInformation.StartRecord();
+
+            this._backgroundJobs.ForEach( s => s.Start() );
         }
 
         private void SubscribeToMouseInformation()
@@ -65,7 +75,7 @@ namespace RoadTrafficSimulator.Road
         private void SubscribeToMessages()
         {
             this._roadJunctionCreator.JunctionCreated.Subscribe( location =>
-                this._roadLayer.AddChild( new RoadJunctionBlock( location, this._roadLayer ) ) );
+                this._roadLayer.AddChild( this._roadJunctionBlockFactory( location, this._roadLayer ) ) );
         }
 
         public void StartConnectingObject()
@@ -79,14 +89,6 @@ namespace RoadTrafficSimulator.Road
         }
 
         protected MessageBroker MessageBroker { get; set; }
-
-        public void OnKeyRelease( object sender, KeyboardKeysChangedArgs e )
-        {
-            if ( e.Key == Keys.Escape )
-            {
-                this._lineDrawer2D.IsEnabled = false;
-            }
-        }
 
         public void AddLight( Unit unit )
         {
@@ -111,8 +113,9 @@ namespace RoadTrafficSimulator.Road
         public override void LoadContent( IContainer serviceLocator )
         {
             this._roadLayer = serviceLocator.Resolve<RoadLayer>();
-            this._lineDrawer2D = serviceLocator.Resolve<LineDrawer2D>();
             this._roadLaneCreator.SetOwner( this._roadLayer );
+
+            this._eventAggreator.Publish( new XnaWindowInitialized() );
         }
 
         public override void Draw( TimeSpan time )
@@ -123,6 +126,7 @@ namespace RoadTrafficSimulator.Road
 
         public void Dispose()
         {
+            this._backgroundJobs.ForEach( s => s.Stop() );
         }
 
         public void AddingRoadJunctionBlockBegin()
@@ -143,6 +147,16 @@ namespace RoadTrafficSimulator.Road
         public void AddingRoadLaneEnd()
         {
             this._roadLaneCreator.End();
+        }
+
+        public void StopSelectingObject()
+        {
+            this._selectCommand.Stop();
+        }
+
+        public void StartSelectingObject()
+        {
+            this._selectCommand.Start();
         }
     }
 }

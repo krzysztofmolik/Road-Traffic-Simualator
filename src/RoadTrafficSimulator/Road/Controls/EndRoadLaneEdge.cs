@@ -1,4 +1,5 @@
-﻿using RoadTrafficSimulator.Infrastructure.Control;
+﻿using System;
+using RoadTrafficSimulator.Infrastructure.Control;
 
 namespace RoadTrafficSimulator.Road.Controls
 {
@@ -6,13 +7,14 @@ namespace RoadTrafficSimulator.Road.Controls
     {
         private readonly RoadLaneBlock _parrent;
 
-        public EndRoadLaneEdge( RoadLaneBlock parent )
+        public EndRoadLaneEdge(Factories.Factories factories,  RoadLaneBlock parent ) 
+            : base(factories)
         {
             this._parrent = parent;
         }
 
-        public EndRoadLaneEdge( MovablePoint startPoint, MovablePoint endPoint, float width, RoadLaneBlock parent )
-            : base( startPoint, endPoint, width )
+        public EndRoadLaneEdge(Factories.Factories factories,  MovablePoint startPoint, MovablePoint endPoint, float width, RoadLaneBlock parent )
+            : base( factories, startPoint, endPoint, width )
         {
             this._parrent = parent;
         }
@@ -25,6 +27,17 @@ namespace RoadTrafficSimulator.Road.Controls
         public override IControl Parent
         {
             get { return this._parrent; }
+        }
+
+        public EndRoadLaneEdge GetOppositeEdge()
+        {
+            if ( this._parrent.LeftEdge == this )
+            {
+                return this._parrent.RightEdge;
+            }
+
+            // else
+            return this._parrent.LeftEdge;
         }
     }
 }

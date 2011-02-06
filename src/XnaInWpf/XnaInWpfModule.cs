@@ -1,11 +1,15 @@
 ﻿using System.Linq;
 using Autofac;
+using Caliburn.Micro;
 using RoadTrafficConstructor.Presenters;
 using RoadTrafficConstructor.Presenters.Blocks;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Utile.DependencyInjection;
+using RoadTrafficSimulator.Utils.DependencyInjection;
 using WinFormsGraphicsDevice;
 using XnaInWpf.Presenters.Blocks;
+using EventAggregator = Common.EventAggregator;
+using IEventAggregator = Common.IEventAggregator;
 
 namespace RoadTrafficConstructor
 {
@@ -13,6 +17,7 @@ namespace RoadTrafficConstructor
     {
         protected override void Load( ContainerBuilder builder )
         {
+            builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
             builder.RegisterModule( new XnaWinFormModule() );
             builder.RegisterModule( new XnaCustomModule() );
 

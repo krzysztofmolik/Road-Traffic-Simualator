@@ -12,7 +12,6 @@ namespace RoadTrafficSimulator.VertexContainers
     public class EdgeVertexContainer : VertexContainerBase<Edge, VertexPositionColor>
     {
         private readonly Color _normalColor = new Color( 90, 90, 90 );
-        private readonly Color _selectedColor = Color.Blue;
         private Quadrangle _quadrangle;
 
         public EdgeVertexContainer( Edge edge )
@@ -42,6 +41,11 @@ namespace RoadTrafficSimulator.VertexContainers
                 .ToArray();
         }
 
+        protected virtual Color GetColor()
+        {
+            return this.Object.IsSelected ? Style.SelectionColor : this._normalColor;
+        }
+
         private Quadrangle CreateQuatrangle()
         {
             var startLine = MyMathHelper.CreatePerpendicualrLine(
@@ -59,11 +63,6 @@ namespace RoadTrafficSimulator.VertexContainers
                                   startLine.Item2,
                                   endLine.Item1,
                                   endLine.Item2 );
-        }
-
-        private Color GetColor()
-        {
-            return this.Object.IsSelected ? this._selectedColor : this._normalColor;
         }
     }
 }

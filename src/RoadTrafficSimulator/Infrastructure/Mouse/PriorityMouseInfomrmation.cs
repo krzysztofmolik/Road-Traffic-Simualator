@@ -33,7 +33,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         private void ExecuteOnTopOfStack( Action<FilterMouseInformation> action )
         {
             var lastAdded = this._observerStack.LastOrDefault();
-            if( lastAdded == null )
+            if ( lastAdded == null )
             {
                 return;
             }
