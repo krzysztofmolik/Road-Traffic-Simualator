@@ -11,18 +11,19 @@ using XnaRoadTrafficConstructor;
 using XnaRoadTrafficConstructor.Road;
 using XnaVs10.Sprites;
 using XnaVs10.Utils;
+using Game = Arcane.Xna.Presentation.Game;
 
 namespace RoadTrafficSimulator
 {
-    public class XnaWindow : GraphicsDeviceControl
+    public class XnaWindow : Game
     {
         private readonly IContainer _serviceLocator;
         private Camera3D _camera;
         private KeyboardInputNotify _keybordInput;
         private MouseInputNotify _mouseInput;
 
-        public XnaWindow( IContainer service, MessageBroker messageBroker )
-            : base( service )
+        public XnaWindow( IContainer service, IServiceProvider serviceProvider, MessageBroker messageBroker )
+            : base( serviceProvider )
         {
             this._serviceLocator = service;
         }
@@ -37,6 +38,7 @@ namespace RoadTrafficSimulator
             this._mouseInput = this._serviceLocator.Resolve<MouseInputNotify>();
 
             this.RoadComponent = this._serviceLocator.Resolve<RoadComponent>();
+            this.Components.Add( this.RoadComponent );
             this.AddComponent( this.RoadComponent );
 
             this.Layer2D = this._serviceLocator.Resolve<Layer2D>();
@@ -56,7 +58,7 @@ namespace RoadTrafficSimulator
             this._mouseInput.Update( Mouse.GetState() );
         }
 
-        protected override void UpdateKeyboard(TimeSpan time)
+        protected override void UpdateKeyboard( TimeSpan time )
         {
             this._keybordInput.Update( Keyboard.GetState() );
         }

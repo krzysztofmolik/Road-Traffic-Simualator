@@ -58,7 +58,7 @@ namespace RoadTrafficSimulator.Road
             return roadLine;
         }
 
-        public void Draw( TimeSpan timeSpan )
+        public void Draw( GameTime timeSpan )
         {
             this._specifiedVertexContainer.Draw( this._graphics );
 

@@ -15,7 +15,7 @@ using WinFormsGraphicsDevice;
 namespace RoadTrafficSimulator.Road
 {
     // TODO Change name
-    public class RoadComponent : XnaComponent, IDisposable
+    public class RoadComponent : DrawableGameComponent, IDisposable
     {
         private readonly RoadLaneCreatorController _roadLaneCreator;
         private readonly IEnumerable<IBackgroundJob> _backgroundJobs;
@@ -29,8 +29,6 @@ namespace RoadTrafficSimulator.Road
 
         public RoadComponent(
                     IEnumerable<IBackgroundJob> backgroundJobs,
-                    GraphicsDevice graphicsDevice,
-                    ContentManager content,
                     MessageBroker messageBroker,
                     RoadLaneCreatorController roadLaneCreator,
                     RoadJunctionCreator roadJunctionCreator,
@@ -38,8 +36,9 @@ namespace RoadTrafficSimulator.Road
                     ConnectObjectCommand connectObjectCommand,
                     IEventAggregator eventAggreator,
                     Func<Vector2, ICompositeControl, IRoadJunctionBlock> roadJunctionBlockFactory,
-                    SelectControlCommand selectCommand)
-            : base( content, graphicsDevice )
+                    SelectControlCommand selectCommand,
+                    Game game )
+            : base( game )
         {
             this._backgroundJobs = backgroundJobs;
             this._selectCommand = selectCommand;
@@ -110,18 +109,18 @@ namespace RoadTrafficSimulator.Road
             //                () => this._roadLayer.DrawPossibleLightLocation = false );
         }
 
-        public override void LoadContent( IContainer serviceLocator )
+        protected override void LoadContent()
         {
-            this._roadLayer = serviceLocator.Resolve<RoadLayer>();
-            this._roadLaneCreator.SetOwner( this._roadLayer );
+//            this._roadLayer = serviceLocator.Resolve<RoadLayer>();
+//            this._roadLaneCreator.SetOwner( this._roadLayer );
 
-            this._eventAggreator.Publish( new XnaWindowInitialized() );
+//            this._eventAggreator.Publish( new XnaWindowInitialized() );
         }
 
-        public override void Draw( TimeSpan time )
+        public override void Draw( GameTime gameTime )
         {
-            this._roadLayer.Draw( time );
-            base.Draw( time );
+            this._roadLayer.Draw( gameTime );
+            base.Draw( gameTime );
         }
 
         public void Dispose()

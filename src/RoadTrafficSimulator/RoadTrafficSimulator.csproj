@@ -77,6 +77,8 @@
     <Reference Include="mscorlib">
       <Private>False</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -87,6 +89,7 @@
       <HintPath>..\..\libs\Rx\System.Reactive.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -101,6 +104,7 @@
     <Reference Include="System.Net">
       <Private>False</Private>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
@@ -234,9 +238,7 @@
     <Compile Include="VertexContainers\Style.cs" />
     <Compile Include="VisitAllChildren.cs" />
     <Compile Include="WorldSide.cs" />
-    <Compile Include="XnaWindow.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="XnaWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -244,6 +246,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libs_src\Arcane.Xna.Presentation\Arcane.Xna.Presentation.csproj">
+      <Project>{90E73111-BFB7-4A5F-B38E-D6FB56A6AD2B}</Project>
+      <Name>Arcane.Xna.Presentation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}</Project>
       <Name>Common</Name>
