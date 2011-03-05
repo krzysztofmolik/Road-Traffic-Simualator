@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace RoadTrafficConstructor.Presenters
 {
@@ -10,6 +11,7 @@ namespace RoadTrafficConstructor.Presenters
         public ShellView()
         {
             InitializeComponent();
+            Console.WriteLine(this.DataContext);
         }
     }
 }

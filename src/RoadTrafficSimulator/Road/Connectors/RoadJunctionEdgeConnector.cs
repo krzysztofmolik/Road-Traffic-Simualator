@@ -9,54 +9,48 @@ namespace RoadTrafficSimulator.Road.Connectors
 {
     public class RoadJunctionEdgeConnector : ConnectorBase
     {
-        private const int MAX_CONNECTED_OBJECT = 1;
-
         private readonly RoadJunctionEdge _owner;
 
         public RoadJunctionEdgeConnector( RoadJunctionEdge owner )
-            : base( MAX_CONNECTED_OBJECT )
         {
             this._owner = owner;
         }
 
+        public Edge PreviousEdge { get; private set; }
+
+        public Edge NextEdge { get; set; }
+
         public bool AreAllSlotOccupied
         {
-            get { return this.CountOfConnectedObject == MAX_CONNECTED_OBJECT; }
+            get { return this.PreviousEdge != null && this.NextEdge != null; }
         }
 
-        public void ConnectWith( EndRoadLaneEdge roadLaneEdge )
+        public void ConnectBeginWith( RoadJunctionEdge roadJunctionEdge )
+        {
+            roadJunctionEdge.StartPoint.Translated.Subscribe( s => this._owner.EndPoint.SetLocation( s.Control.Location ) );
+            roadJunctionEdge.EndPoint.Translated.Subscribe( s => this._owner.StartPoint.SetLocation( s.Control.Location ) );
+            this.MoveSecondJunction( roadJunctionEdge, this._owner );
+        }
+
+        public void ConnectEndWith( RoadJunctionEdge roadJunctionEdge )
+        {
+            roadJunctionEdge.StartPoint.Translated.Subscribe( s => this._owner.EndPoint.SetLocation( s.Control.Location ) );
+            roadJunctionEdge.EndPoint.Translated.Subscribe( s => this._owner.StartPoint.SetLocation( s.Control.Location ) );
+        }
+
+        public void ConnectBeginWith( Edge roadLaneEdge )
         {
             this.ConnectBySubscribingToEvent( this._owner.StartPoint, roadLaneEdge.EndPoint );
             this.ConnectBySubscribingToEvent( this._owner.EndPoint, roadLaneEdge.StartPoint );
-            this.AddConnectedObject( roadLaneEdge );
+            this.PreviousEdge = roadLaneEdge;
         }
 
-        public void ConnectTo( EndRoadLaneEdge roadLaneEdge )
+        public void ConnectEndWith( Edge edge )
         {
-            this.ConnectBySubscribingToEvent( this._owner.StartPoint, roadLaneEdge.EndPoint );
-            this.ConnectBySubscribingToEvent( this._owner.EndPoint, roadLaneEdge.StartPoint );
-            this.AddConnectedObject( roadLaneEdge );
+            this.NextEdge = edge;
         }
 
-        public void ConnectWith( RoadJunctionEdge roadLaneEdge )
-        {
-            this.MoveSecondJunction( this._owner, roadLaneEdge );
-            this.SubscribeToPointChange( roadLaneEdge );
-            this.AddConnectedObject( roadLaneEdge );
-        }
-
-        public void ConnectTo( RoadJunctionEdge roadLaneEdge )
-        {
-            this.SubscribeToPointChange( roadLaneEdge );
-            this.AddConnectedObject( roadLaneEdge );
-        }
-
-        private void SubscribeToPointChange( RoadJunctionEdge roadLaneEdge )
-        {
-            this._owner.StartPoint.Changed.Subscribe( s => roadLaneEdge.EndPoint.SetLocation( this._owner.StartPoint.Location ) );
-            this._owner.EndPoint.Changed.Subscribe( s => roadLaneEdge.StartPoint.SetLocation( this._owner.EndPoint.Location ) );
-        }
-
+        // TODO Remove it if not nes...
         private void MoveSecondJunction( RoadJunctionEdge firstEdge, RoadJunctionEdge secondEdge )
         {
             var secondParent = secondEdge.RoadJunctionParent;
@@ -66,6 +60,11 @@ namespace RoadTrafficSimulator.Road.Connectors
             var diff = firstEdgeCanter - secondEdgeCenter;
 
             secondParent.Translate( Matrix.CreateTranslation( diff.ToVector3() ) );
+        }
+
+        public bool AreConnected( RoadJunctionEdge edge )
+        {
+            return this.PreviousEdge == edge || this.NextEdge == edge;
         }
     }
 }

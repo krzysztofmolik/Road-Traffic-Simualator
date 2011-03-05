@@ -1,0 +1,7 @@
+﻿<Presentation:Game x:Class="RoadTrafficSimulator.XnaWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Presentation="clr-namespace:Arcane.Xna.Presentation;assembly=Arcane.Xna.Presentation" xmlns:RoadTrafficSimulator="clr-namespace:RoadTrafficSimulator" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+</Presentation:Game>

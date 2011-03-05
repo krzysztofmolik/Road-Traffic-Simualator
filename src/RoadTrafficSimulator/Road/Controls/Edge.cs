@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
@@ -31,8 +32,6 @@ namespace RoadTrafficSimulator.Road.Controls
             this.StartPoint = startPoint;
             this.EndPoint = endPoint;
             this._width = width;
-            this._startPoint.LocationChanged.Subscribe( s => this.ChangedSubject.OnNext( new Unit() ) );
-            this._endPoint.LocationChanged.Subscribe( s => this.ChangedSubject.OnNext( new Unit() ) );
         }
 
         public Vector2 StartLocation
@@ -53,7 +52,7 @@ namespace RoadTrafficSimulator.Road.Controls
                 this.RemoveChild( this._startPoint );
                 this._startPoint = value;
                 this.AddChild( value );
-                this.ChangedSubject.OnNext( new Unit() );
+                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
             }
         }
 
@@ -65,7 +64,7 @@ namespace RoadTrafficSimulator.Road.Controls
                 this.RemoveChild( this._endPoint );
                 this._endPoint = value;
                 this.AddChild( value );
-                this.ChangedSubject.OnNext( new Unit() );
+                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
             }
         }
 
@@ -75,7 +74,7 @@ namespace RoadTrafficSimulator.Road.Controls
             set
             {
                 this._width = value;
-                this.ChangedSubject.OnNext( new Unit() );
+                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
             }
         }
 
@@ -96,8 +95,20 @@ namespace RoadTrafficSimulator.Road.Controls
 
         public override void Translate( Matrix matrixTranslation )
         {
+            var startPoint = this.StartPoint.Location;
+            var endPoint = this.EndPoint.Location;
             this.StartPoint.Translate( matrixTranslation );
             this.EndPoint.Translate( matrixTranslation );
+
+            if ( startPoint != this.StartPoint.Location || endPoint != this.EndPoint.Location )
+            {
+                this.OnTranslated();
+            }
+        }
+
+        protected virtual void OnTranslated()
+        {
+            this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
         }
     }
 }

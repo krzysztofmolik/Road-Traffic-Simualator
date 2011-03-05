@@ -47,6 +47,7 @@
     <Reference Include="Autofac">
       <HintPath>..\..\libs\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="FSharp.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
     </Reference>
@@ -85,6 +86,8 @@
     <Reference Include="System.CoreEx">
       <HintPath>..\..\libs\Rx\System.CoreEx.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Reactive">
       <HintPath>..\..\libs\Rx\System.Reactive.dll</HintPath>
     </Reference>
@@ -117,6 +120,7 @@
     <Compile Include="Factories\SelectControlCommand.cs" />
     <Compile Include="Factories\SelectionSupportFactory.cs" />
     <Compile Include="GameComponent1.cs" />
+    <Compile Include="GameModule.cs" />
     <Compile Include="GraphicHelpers.cs" />
     <Compile Include="GraphicLine.cs" />
     <Compile Include="IConnectionCommand.cs" />
@@ -124,11 +128,13 @@
     <Compile Include="Infrastructure\Control\Control.cs" />
     <Compile Include="Infrastructure\Control\ControlBaseBase.cs" />
     <Compile Include="Infrastructure\Control\IControl.cs" />
+    <Compile Include="Infrastructure\Control\TranslationChangedEventArgs.cs" />
     <Compile Include="Infrastructure\Draw\Graphic.cs" />
     <Compile Include="Infrastructure\Draw\IShape.cs" />
     <Compile Include="Infrastructure\Draw\IVertexContainer.cs" />
     <Compile Include="Infrastructure\Draw\VertexContainerBase.cs" />
     <Compile Include="Infrastructure\Draw\VertexPositionColorDrawer.cs" />
+    <Compile Include="Infrastructure\GameComponent.cs" />
     <Compile Include="Infrastructure\InfrastructureModule.cs" />
     <Compile Include="Infrastructure\Mouse\CompositeControlMouseSupport.cs" />
     <Compile Include="Infrastructure\Mouse\ControlMouseSupport.cs" />
@@ -139,6 +145,7 @@
     <Compile Include="Infrastructure\Mouse\PriorityMouseInfomrmation.cs" />
     <Compile Include="Infrastructure\Mouse\RoadJunctionConnectionSupport.cs" />
     <Compile Include="Infrastructure\Mouse\RoadLayerMouseSupport.cs" />
+    <Compile Include="Infrastructure\UpdateableGameComponent.cs" />
     <Compile Include="Integration\MessageBroker.cs" />
     <Compile Include="Interfaces\IPrimitiveBatch.cs" />
     <Compile Include="KeyboardKeysChangedArgs.cs" />
@@ -174,6 +181,7 @@
     <Compile Include="Road\Connectors\Commands\ConnectRoadJunctionEdgeWitEndRoadLaneEdge.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectRoadLaneConnectionWithEndRoadLane.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectSideRoadLaneEdges.cs" />
+    <Compile Include="Road\Connectors\EndRoadLaneEdgeConnector.cs" />
     <Compile Include="Road\Connectors\IConnector.cs" />
     <Compile Include="Road\Connectors\RoadConnectionConnector.cs" />
     <Compile Include="Road\Connectors\RoadJunctionEdgeConnector.cs" />
@@ -192,7 +200,6 @@
     <Compile Include="Road\Controls\RoadJunctionEdge.cs" />
     <Compile Include="Road\Controls\RoadSide.cs" />
     <Compile Include="Road\Controls\SideRoadLaneEdge.cs" />
-    <Compile Include="Road\DrawingHelper.cs" />
     <Compile Include="Road\ICompositeControl.cs" />
     <Compile Include="Road\IConnectable.cs" />
     <Compile Include="Road\ILight.cs" />
@@ -238,7 +245,9 @@
     <Compile Include="VertexContainers\Style.cs" />
     <Compile Include="VisitAllChildren.cs" />
     <Compile Include="WorldSide.cs" />
-    <Compile Include="XnaWindow.cs" />
+    <Compile Include="XnaWindow.xaml.cs">
+      <DependentUpon>XnaWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -250,14 +259,20 @@
       <Project>{90E73111-BFB7-4A5F-B38E-D6FB56A6AD2B}</Project>
       <Name>Arcane.Xna.Presentation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Common.Xna\Common.Xna.fsproj">
+      <Project>{6836F589-D243-44F9-A7FA-221E4178A41E}</Project>
+      <Name>Common.Xna</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WinFormsGraphicsDevice\WinFormsGraphicsDevice.csproj">
-      <Project>{1C2CA02E-B756-4D2B-B27E-F740DB06F712}</Project>
-      <Name>WinFormsGraphicsDevice</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="XnaWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

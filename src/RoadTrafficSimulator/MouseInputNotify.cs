@@ -8,18 +8,12 @@ namespace Xna
 {
     public class MouseInputNotify
     {
-        private readonly XnaWindow _control;
         public event EventHandler<MouseStateEventArgs> MouseRelease;
         public event EventHandler<MouseStateEventArgs> MousePressed;
         public event EventHandler<MouseStateEventArgs> MouseMove;
 
         public Vector2 LastMousePosition { get; private set;}
         public ButtonState LeftMouseButtonState { get; private set; }
-
-        public MouseInputNotify( XnaWindow control )
-        {
-            _control = control;
-        }
 
         //TODO To jest bez sensu
         public void Update(MouseState mouseState )

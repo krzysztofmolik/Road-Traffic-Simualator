@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
+using Common.Xna;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
+using XnaRoadTrafficConstructor.Road;
 using XnaVs10.Extension;
+using Math = System.Math;
 
 namespace RoadTrafficSimulator.Road.Controls
 {
@@ -21,7 +23,6 @@ namespace RoadTrafficSimulator.Road.Controls
         {
             this._parent = parent;
             this._mouseSupport = new ControlMouseSupport( this );
-            this.LocationChanged = new Subject<Vector2>();
             this._location = location;
             this._movablePointVertexContainer = new MovablePointVertexContainer( this );
         }
@@ -36,8 +37,6 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return this._parent; }
         }
 
-        public ISubject<Vector2> LocationChanged { get; private set; }
-
         public override IVertexContainer<VertexPositionColor> SpecifiedVertexContainer
         {
             get { return this._movablePointVertexContainer; }
@@ -50,13 +49,29 @@ namespace RoadTrafficSimulator.Road.Controls
 
         public override void Translate( Matrix matrixTranslation )
         {
-            this._location = Vector2.Transform( this.Location, matrixTranslation );
-            this.ChangedSubject.OnNext( new Unit() );
+            var newLocation = Vector2.Transform( this.Location, matrixTranslation );
+            if ( newLocation == this._location )
+            {
+                return;
+            }
+
+            this._location = newLocation;
+            this.OnTranslate();
+        }
+
+        protected virtual void OnTranslate()
+        {
+            this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
         }
 
         public void SetLocation( Vector2 newLocation )
         {
-            if ( this.Location == newLocation )
+            if ( newLocation.IsValid() == false )
+            {
+                throw new ArgumentException("New location is not valid");
+            }
+
+            if ( this.Location.Equal( newLocation, Constans.Epsilon ) )
             {
                 return;
             }

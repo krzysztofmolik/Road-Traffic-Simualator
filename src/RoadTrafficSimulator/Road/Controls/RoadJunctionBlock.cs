@@ -26,11 +26,11 @@ namespace RoadTrafficSimulator.Road.Controls
             const float halfRoadWidth = Constans.RoadHeight / 2;
             this._roadJunctionEdges = Enumerable.Range( 0, EdgeType.Count ).Select( s => new RoadJunctionEdge( factories, this ) ).ToArray();
             this._points = Enumerable.Range( 0, Corners.Count ).Select( s => new MovablePoint( factories, Vector2.Zero, this ) ).ToArray();
-            var leftTop = new Vector2( location.X - halfRoadWidth, location.Y - halfRoadWidth );
+            var leftTop = new Vector2( location.X - halfRoadWidth, location.Y + halfRoadWidth );
             this.LeftTop = new MovablePoint( factories, leftTop, this );
             this.RightTop = new MovablePoint( factories, leftTop + new Vector2( Constans.RoadHeight, 0 ), this );
-            this.RightBottom = new MovablePoint( factories, this.RightTop.Location + new Vector2( 0, Constans.RoadHeight ), this );
-            this.LeftBottom = new MovablePoint( factories, this.RightBottom.Location + new Vector2( -Constans.RoadHeight, 0 ), this );
+            this.RightBottom = new MovablePoint( factories, this.RightTop.Location - new Vector2( 0, Constans.RoadHeight ), this );
+            this.LeftBottom = new MovablePoint( factories, this.RightBottom.Location - new Vector2( Constans.RoadHeight, 0 ), this );
 
             this._points.ForEach( this.AddChild );
             this._roadJunctionEdges.ForEach( this.AddChild );
@@ -165,7 +165,7 @@ namespace RoadTrafficSimulator.Road.Controls
             this.RightBottom.Translate( matrixTranslation );
             this.LeftBottom.Translate( matrixTranslation );
 
-            this.Children.ForEach( s => s.Invalidate() );
+            // TODO Notify about translation
         }
 
         public void Normalize()

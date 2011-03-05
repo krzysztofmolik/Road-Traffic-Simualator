@@ -2,15 +2,18 @@
 using System.Diagnostics;
 using Common;
 using RoadTrafficSimulator.Infrastructure.Control;
+using XnaRoadTrafficConstructor.Infrastucure.Draw;
 
-namespace XnaRoadTrafficConstructor.Infrastucure.Draw
+namespace RoadTrafficSimulator.Infrastructure.Draw
 {
-    public abstract class VertexContainerBase<T, TVertex> : IVertexContainer<TVertex> where T : class, IControl 
+    public abstract class VertexContainerBase<T, TVertex> : IVertexContainer<TVertex> where T : class, IControl
     {
         protected VertexContainerBase( T @object )
         {
             this.Object = @object.NotNull();
-            this.Object.Changed.Subscribe( s => this.Vertex = this.UpdateShapeAndCreateVertex() );
+            // TODO Remove translate
+            this.Object.Translated.Subscribe( s => this.Vertex = this.UpdateShapeAndCreateVertex() );
+            this.Object.Redrawed.Subscribe( s => this.Vertex = this.UpdateShapeAndCreateVertex() );
         }
 
         public T Object { get; private set; }

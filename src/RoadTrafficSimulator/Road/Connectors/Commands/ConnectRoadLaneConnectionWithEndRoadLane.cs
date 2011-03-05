@@ -6,16 +6,18 @@ namespace RoadTrafficSimulator.Road.Connectors.Commands
 {
     public class ConnectRoadLaneConnectionWithEndRoadLane : IConnectionCommand
     {
-        public virtual bool Connect( IControl first, IControl second )
+        public virtual bool Connect(ILogicControl first, ILogicControl second)
         {
-            var roadConnectionEdge = first as RoadConnectionEdge;
+            var roadConnectionEdge = first as RoadConnection;
             var roadLaneEdge = second as EndRoadLaneEdge;
             if ( roadConnectionEdge == null || roadLaneEdge == null )
             {
                 return false;
             }
 
-            roadConnectionEdge.Connector.ConnectWith( roadLaneEdge );
+            // TODO Check it
+            roadConnectionEdge.Connector.ConnectEndWith( roadLaneEdge );
+            roadLaneEdge.Connector.ConnectBeginWith( roadConnectionEdge );
 
             return true;
         }

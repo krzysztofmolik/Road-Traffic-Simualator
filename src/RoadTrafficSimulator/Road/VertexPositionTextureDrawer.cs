@@ -2,54 +2,57 @@
 using System.Collections.Generic;
 using Common;
 using Microsoft.Xna.Framework.Graphics;
-using RoadTrafficSimulator.Road;
 using RoadTrafficSimulator.Utils;
 using Xna;
-using XnaVs10.Utils;
+using Common.Xna;
 
-namespace XnaRoadTrafficConstructor.Road
+namespace RoadTrafficSimulator.Road
 {
     public class VertexPositionTextureDrawer
     {
         private readonly Camera3D _camera;
-        private readonly DrawingHelper _drawerHelper;
-        private readonly BasicEffect _basicEffect;
+        private BasicEffect _basicEffect;
         private readonly Queue<Action> _actionBuffer = new Queue<Action>();
+        private readonly IGraphicsDeviceService _graphicsDeviceService;
 
-        public VertexPositionTextureDrawer( GraphicsDevice graphicDevice, Camera3D camera3D )
+        public VertexPositionTextureDrawer( Camera3D camera3D, IGraphicsDeviceService graphicsDeviceService )
         {
+            this._graphicsDeviceService = graphicsDeviceService;
             this._camera = camera3D.NotNull();
             this._camera.Changed += this.UpdateBasicEffect;
 
-            this._basicEffect = new BasicEffect( graphicDevice )
+            this._graphicsDeviceService.DeviceCreated += this.RecreateBassicEffect;
+            this.CreateBasicEffect();
+        }
+
+        private void RecreateBassicEffect( object sender, EventArgs e )
+        {
+            this.CreateBasicEffect();
+        }
+
+        private void CreateBasicEffect()
+        {
+            this._basicEffect = new BasicEffect( this._graphicsDeviceService.GraphicsDevice )
                                     {
                                         Projection = this._camera.Projection,
                                         World = this._camera.World,
                                         View = this._camera.View,
                                         TextureEnabled = true,
                                     };
-
-            this._drawerHelper = new DrawingHelper( this._basicEffect, graphicDevice );
         }
 
-        private void UpdateBasicEffect(object sender, CameraChangedEventArgs e)
+        private void UpdateBasicEffect( object sender, CameraChangedEventArgs e )
         {
             this._basicEffect.Projection = this._camera.Projection;
             this._basicEffect.View = this._camera.View;
             this._basicEffect.World = this._camera.World;
         }
 
-        public void Draw( VertexPositionTexture[] block )
-        {
-            this._drawerHelper.DrawTriangeList( block );
-        }
-
         public void Flush()
         {
-            using ( this._drawerHelper.UnitOfWork )
-            {
-                this._actionBuffer.ForEach( a => a() );
-            }
+            this._basicEffect.Begin();
+            this._actionBuffer.ForEach( a => a() );
+            this._actionBuffer.Clear();
         }
 
         public void DrawTriangeList( Texture2D texture, VertexPositionTexture[] block )
@@ -59,7 +62,7 @@ namespace XnaRoadTrafficConstructor.Road
                                                try
                                                {
                                                    this._basicEffect.Texture = texture;
-                                                   this._drawerHelper.DrawTriangeList( block );
+                                                   this._graphicsDeviceService.GraphicsDevice.DrawTriangleList( block );
                                                }
                                                finally
                                                {

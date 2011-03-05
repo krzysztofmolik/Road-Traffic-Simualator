@@ -16,7 +16,6 @@ namespace Arcane.Xna.Presentation
     [System.Windows.Markup.ContentProperty( "WPFHost" )]
     public partial class Game : Canvas, IDisposable
     {
-
         #region Fields
 
         [System.Diagnostics.DebuggerBrowsable( System.Diagnostics.DebuggerBrowsableState.Never )]
@@ -51,6 +50,7 @@ namespace Arcane.Xna.Presentation
 
 
         #region Events
+
 
         public event EventHandler Activated;
         public event EventHandler Deactivated;
@@ -167,6 +167,11 @@ namespace Arcane.Xna.Presentation
             }
         }
 
+        void GameCanvas_IsVisibleChanged( object sender, DependencyPropertyChangedEventArgs e )
+        {
+            this.IsActive = ( bool ) e.NewValue;
+        }
+
         public GameComponentCollection Components
         {
             get;
@@ -208,7 +213,7 @@ namespace Arcane.Xna.Presentation
         public IServiceProvider Services
         {
             get;
-            private set;
+            set;
         }
 
         public bool IsActive
@@ -257,23 +262,22 @@ namespace Arcane.Xna.Presentation
 
         #region Constructors
 
-        public Game( IServiceProvider serviceProvider )
+        public Game( IServiceProvider service )
         {
             // InitializeComponent();
             if ( !( System.ComponentModel.DesignerProperties.GetIsInDesignMode( this ) ) )
             {
+                this.Services = service;
+                this.Content = new ContentManager( this.Services );
                 this._window = new GameHost( this );
                 this._window.Closed += new EventHandler( _window_Closed );
                 this._tickGenerator = new DispatcherTimer();
                 this._tickGenerator.Tick += new EventHandler( _tickGenerator_Tick );
-                this.IsVisibleChanged += new DependencyPropertyChangedEventHandler( GameCanvas_IsVisibleChanged );
 
                 this.Components = new GameComponentCollection();
-                this.Components.ComponentAdded += new EventHandler<GameComponentCollectionEventArgs>( this.GameComponentAdded );
-                this.Components.ComponentRemoved += new EventHandler<GameComponentCollectionEventArgs>( this.GameComponentRemoved );
-
-                this.Services = serviceProvider;
-                this.content = new ContentManager( this.Services );
+                this.IsVisibleChanged += GameCanvas_IsVisibleChanged;
+                this.Components.ComponentAdded += this.GameComponentAdded;
+                this.Components.ComponentRemoved += this.GameComponentRemoved;
 
                 this.IsFixedTimeStep = true;
 
@@ -284,7 +288,8 @@ namespace Arcane.Xna.Presentation
                 this.targetElapsedTime = TimeSpan.FromTicks( ( long ) 0x28b0a );
                 this.inactiveSleepTime = TimeSpan.FromMilliseconds( 20 );
 
-                this.gameServices.AddService( typeof( IInputPublisherService ), new ControlInputPublisher( this ) );
+                // TODO Check
+                //                this.gameServices.AddService( typeof( IInputPublisherService ), new ControlInputPublisher( this ) );
             }
             else
                 base.Children.Add( new ContentControl() );
@@ -296,16 +301,14 @@ namespace Arcane.Xna.Presentation
             this.OnDisposed( this, EventArgs.Empty );
         }
 
-
-
         private void RecomputeStepSpan()
         {
             this._tickGenerator.Interval = new TimeSpan( 0, 0, 0, 0, ( this.IsFixedTimeStep ? 33 : 1 ) );
         }
 
-        void GameCanvas_IsVisibleChanged( object sender, DependencyPropertyChangedEventArgs e )
+        private void Setup()
         {
-            this.IsActive = ( bool ) e.NewValue;
+            this.Content = new ContentManager( this.Services );
         }
 
         void _tickGenerator_Tick( object sender, EventArgs e )
@@ -316,6 +319,7 @@ namespace Arcane.Xna.Presentation
         public void Run()
         {
             // Upper part of Run() method
+            this.Setup();
             this.graphicsDeviceManager = this.Services.GetService( typeof( IGraphicsDeviceManager ) ) as IGraphicsDeviceManager;
             if ( this.graphicsDeviceManager != null )
             {
@@ -373,6 +377,7 @@ namespace Arcane.Xna.Presentation
                   this.drawRunningSlowly
                 );
 
+                this.GraphicsDevice.Clear( Color.White);
                 this.Draw( this.gameTime );
                 this.EndDraw();
             }

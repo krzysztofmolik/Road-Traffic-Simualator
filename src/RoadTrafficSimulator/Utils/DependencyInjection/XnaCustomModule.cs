@@ -5,6 +5,7 @@ using Autofac;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Factories;
+using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Integration;
 using RoadTrafficSimulator.Road;
@@ -28,7 +29,6 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
         protected override void Load( ContainerBuilder builder )
         {
             builder.RegisterType<MessageBroker>().SingleInstance();
-            builder.RegisterType<XnaWindow>().As<XnaWindow>().SingleInstance();
 
             builder.RegisterType<Camera3D>().SingleInstance();
             builder.RegisterType<SpriteBatch>().As<SpriteBatch>();
@@ -101,8 +101,8 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
 
             builder.Register( s => new Func<ICompositeControl, IRoadLaneBlock>(
                                       cc => new RoadLaneBlock( s.Resolve<Factories.Factories>(), cc ) ) );
-            builder.Register( s => new Func<Vector2, ICompositeControl, RoadConnectionEdge>(
-                                      ( locatio, owner ) => new RoadConnectionEdge( s.Resolve<Factories.Factories>(), locatio, owner ) ) );
+            builder.Register( s => new Func<Vector2, ICompositeControl, RoadConnection>(
+                                      ( locatio, owner ) => new RoadConnection( s.Resolve<Factories.Factories>(), locatio, owner ) ) );
         }
 
         private void RegisterFactories( ContainerBuilder builder )

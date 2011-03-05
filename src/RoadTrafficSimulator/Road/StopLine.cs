@@ -22,17 +22,17 @@ namespace RoadTrafficSimulator.Road
 
         private Vector2[] _shape;
 
-        public StopLine(Factories.Factories factories,  IRoadLaneBlock parent )
+        public StopLine( Factories.Factories factories, IRoadLaneBlock parent )
         {
-            this._mouseSupport = new ControlMouseSupport(this);
-            EnsureThatParamterIsValid(parent);
+            this._mouseSupport = new ControlMouseSupport( this );
+            EnsureThatParamterIsValid( parent );
 
             this._parent = parent;
-            this._parent.VectorChanged += (sender, arg) => this.UpdateLocation();
-            this.Shape = new Vector2[0];
+            this._parent.VectorChanged += ( sender, arg ) => this.UpdateLocation();
+            this.Shape = new Vector2[ 0 ];
             this.UpdateLocation();
 
-            this._stopLineVertexContainer = new StopLineVertexContainer(this);
+            this._stopLineVertexContainer = new StopLineVertexContainer( this );
         }
 
         public Vector2[] Shape
@@ -45,28 +45,28 @@ namespace RoadTrafficSimulator.Road
             private set
             {
                 this._shape = value;
-                this.ChangedSubject.OnNext( new Unit() );
+                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
             }
         }
 
         public Vector2 LeftTop
         {
-            get { return this._shape[0]; }
+            get { return this._shape[ 0 ]; }
         }
 
         public Vector2 RightTop
         {
-            get { return this._shape[1]; }
+            get { return this._shape[ 1 ]; }
         }
 
         public Vector2 RightBottom
         {
-            get { return this._shape[2]; }
+            get { return this._shape[ 2 ]; }
         }
 
         public Vector2 LeftBottom
         {
-            get { return this._shape[3]; }
+            get { return this._shape[ 3 ]; }
         }
 
         public override IVertexContainer<VertexPositionColor> SpecifiedVertexContainer
@@ -83,7 +83,7 @@ namespace RoadTrafficSimulator.Road
         {
             get
             {
-                Debug.Assert(this.Shape.Length > 0, "this.Shape.Length > 0");
+                Debug.Assert( this.Shape.Length > 0, "this.Shape.Length > 0" );
                 return this.Shape.First();
             }
         }

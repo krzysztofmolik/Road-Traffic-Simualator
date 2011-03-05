@@ -1,26 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
 
 namespace RoadTrafficSimulator.Infrastructure.Control
 {
-    public interface IControl
+    public interface ILogicControl
     {
-        bool IsSelected { get; set; }
-
-        IObservable<Unit> Changed { get; }
-
-        IVertexContainer VertexContainer { get; }
-
-        IMouseSupport MouseSupport { get; }
-
         Vector2 Location { get; }
 
         IControl Parent { get; }
 
         IObservable<bool> IsSelectedChanged { get; }
+    }
+
+    public interface IControl : ILogicControl
+    {
+        bool IsSelected { get; set; }
+
+        IObservable<TranslationChangedEventArgs> Translated { get; }
+
+        IVertexContainer VertexContainer { get; }
+
+        IMouseSupport MouseSupport { get; }
+
+        IObservable<Unit> Redrawed { get; }
 
         void Translate( Matrix matrixTranslation );
 
@@ -29,8 +33,6 @@ namespace RoadTrafficSimulator.Infrastructure.Control
         IControl GetRoot();
 
         bool HitTest( Vector2 point );
-
-        void Invalidate();
     }
 
     public interface ISingleControl : IControl

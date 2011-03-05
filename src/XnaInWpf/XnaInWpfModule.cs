@@ -3,10 +3,10 @@ using Autofac;
 using Caliburn.Micro;
 using RoadTrafficConstructor.Presenters;
 using RoadTrafficConstructor.Presenters.Blocks;
+using RoadTrafficSimulator;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Utile.DependencyInjection;
 using RoadTrafficSimulator.Utils.DependencyInjection;
-using WinFormsGraphicsDevice;
 using XnaInWpf.Presenters.Blocks;
 using EventAggregator = Common.EventAggregator;
 using IEventAggregator = Common.IEventAggregator;
@@ -18,8 +18,8 @@ namespace RoadTrafficConstructor
         protected override void Load( ContainerBuilder builder )
         {
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
-            builder.RegisterModule( new XnaWinFormModule() );
             builder.RegisterModule( new XnaCustomModule() );
+            builder.RegisterModule( new GameModule() );
 
             builder.RegisterType<BlockManager>().As<IBlockManager>();
             var iBlockNamespace = typeof( IBlockViewModel ).Namespace;

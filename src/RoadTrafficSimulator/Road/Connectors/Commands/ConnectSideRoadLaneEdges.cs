@@ -7,7 +7,7 @@ namespace RoadTrafficSimulator.Road.Connectors.Commands
 {
     public class ConnectSideRoadLaneEdges : IConnectionCommand
     {
-        public bool Connect(IControl first, IControl second)
+        public bool Connect(ILogicControl first, ILogicControl second)
         {
             var firstEdge = first as SideRoadLaneEdge;
             if ( firstEdge == null )
@@ -26,8 +26,8 @@ namespace RoadTrafficSimulator.Road.Connectors.Commands
                 return false;
             }
             
-            firstEdge.Connector.ConnectTo( secondEdge );
-            secondEdge.Connector.ConnectTo( firstEdge );
+            firstEdge.Connector.ConnectChangeName( secondEdge );
+            secondEdge.Connector.ConnectChangeName( firstEdge );
             return true;
         }
 

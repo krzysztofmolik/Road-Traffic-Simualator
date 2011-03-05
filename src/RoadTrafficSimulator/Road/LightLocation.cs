@@ -23,7 +23,7 @@ namespace RoadTrafficSimulator.Road
         private readonly LigthLocationVertexContainer _lightLocationVertexContainer;
         private readonly IMouseSupport _mouseSupport;
 
-        public LightsLocation(Factories.Factories factories,  IRoadLaneBlock parent )
+        public LightsLocation( Factories.Factories factories, IRoadLaneBlock parent )
         {
             this._mouseSupport = new ControlMouseSupport( this );
             this._parent = parent.NotNull();
@@ -86,7 +86,7 @@ namespace RoadTrafficSimulator.Road
                                  new Vector2( this.Location.X + LightWidth / 2, this.Location.Y + LightHeight / 2 ),
                                  new Vector2( this.Location.X - LightWidth / 2, this.Location.Y + LightHeight / 2 )
                              };
-            this.ChangedSubject.OnNext( new Unit() );
+            this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
         }
 
         public override void Translate( Matrix matrixTranslation )

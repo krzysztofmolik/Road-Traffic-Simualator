@@ -21,7 +21,7 @@ namespace RoadTrafficSimulator.Road
                 this._childrens.Add( singleControlBase );
             }
 
-            singleControlBase.Changed.Subscribe( s => this.ChangedSubject.OnNext( new Unit() ) );
+            singleControlBase.Translated.Subscribe( s => this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) ) );
         }
 
         public void RemoveChild( ISingleControl singleControlBase )

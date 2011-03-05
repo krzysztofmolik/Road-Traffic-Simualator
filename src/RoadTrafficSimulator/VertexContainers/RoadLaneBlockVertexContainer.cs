@@ -2,6 +2,7 @@
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RoadTrafficSimulator.Infrastructure.Draw;
 using RoadTrafficSimulator.Road;
 using RoadTrafficSimulator.Road.Controls;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;

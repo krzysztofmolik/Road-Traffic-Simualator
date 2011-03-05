@@ -8,7 +8,7 @@ namespace RoadTrafficSimulator.Road.Connectors.Commands
 {
     public class ConnectRoadJunctionEdge : IConnectionCommand
     {
-        public bool Connect( IControl first, IControl second )
+        public bool Connect(ILogicControl first, ILogicControl second)
         {
             var firstEdge = first as RoadJunctionEdge;
             var secondEdge = second as RoadJunctionEdge;
@@ -27,8 +27,11 @@ namespace RoadTrafficSimulator.Road.Connectors.Commands
                 return false;
             }
 
-            firstEdge.Connector.ConnectTo( secondEdge );
-            secondEdge.Connector.ConnectWith( firstEdge );
+            firstEdge.Connector.ConnectEndWith( secondEdge );
+            secondEdge.Connector.ConnectBeginWith( firstEdge );
+
+            firstEdge.RecalculatePosition();
+            secondEdge.RecalculatePosition();
             return true;
         }
 
@@ -46,7 +49,7 @@ namespace RoadTrafficSimulator.Road.Connectors.Commands
 
         private bool AreConnected( RoadJunctionEdge firstEdge, RoadJunctionEdge secondEdge )
         {
-            return firstEdge.Connector.ConnectedObject.FirstOrDefault(s => s == secondEdge) != null;
+            return firstEdge.Connector.AreConnected(secondEdge);
         }
     }
 }

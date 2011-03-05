@@ -1,9 +1,9 @@
 using Autofac;
 using RoadTrafficSimulator.Infrastructure.Draw;
+using RoadTrafficSimulator.Road;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
-using XnaRoadTrafficConstructor.Road;
 
-namespace XnaRoadTrafficConstructor.Infrastucure
+namespace RoadTrafficSimulator.Infrastructure
 {
     public class InfrastructureModule : Module
     {

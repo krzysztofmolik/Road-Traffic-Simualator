@@ -1,4 +1,5 @@
 ﻿using RoadTrafficSimulator.Infrastructure.Draw;
+using RoadTrafficSimulator.Road;
 using XnaRoadTrafficConstructor.Road;
 using XnaRoadTrafficConstructor.Utils.DependencyInjection;
 

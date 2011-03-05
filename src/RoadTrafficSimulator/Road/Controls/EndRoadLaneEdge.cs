@@ -1,5 +1,6 @@
 ﻿using System;
 using RoadTrafficSimulator.Infrastructure.Control;
+using RoadTrafficSimulator.Road.Connectors;
 
 namespace RoadTrafficSimulator.Road.Controls
 {
@@ -11,12 +12,14 @@ namespace RoadTrafficSimulator.Road.Controls
             : base(factories)
         {
             this._parrent = parent;
+            this.Connector = new EndRoadLaneEdgeConnector( this );
         }
 
         public EndRoadLaneEdge(Factories.Factories factories,  MovablePoint startPoint, MovablePoint endPoint, float width, RoadLaneBlock parent )
             : base( factories, startPoint, endPoint, width )
         {
             this._parrent = parent;
+            this.Connector = new EndRoadLaneEdgeConnector( this );
         }
 
         public RoadLaneBlock RoadLaneBlockParent
@@ -29,6 +32,11 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return this._parrent; }
         }
 
+        public EndRoadLaneEdgeConnector Connector
+        {
+            get; private set;
+        }
+
         public EndRoadLaneEdge GetOppositeEdge()
         {
             if ( this._parrent.LeftEdge == this )
@@ -38,6 +46,13 @@ namespace RoadTrafficSimulator.Road.Controls
 
             // else
             return this._parrent.LeftEdge;
+        }
+
+        public void RecalculatePosition()
+        {
+            this.Invalidate();
+            // TODO Implement
+//            throw new NotImplementedException();
         }
     }
 }

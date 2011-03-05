@@ -3,27 +3,38 @@ using System.Collections.Generic;
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using RoadTrafficSimulator.Road;
 using RoadTrafficSimulator.Utils;
-using Xna;
-using XnaVs10.Utils;
+using Common.Xna;
 
 namespace RoadTrafficSimulator.Infrastructure.Draw
 {
     public class VertexPositionColorDrawer
     {
         private readonly Camera3D _camera;
-        private readonly DrawingHelper _drawerHelper;
-        private readonly BasicEffect _basicEffect;
+        private BasicEffect _basicEffect;
 
         private readonly Queue<Action> _actionBuffer = new Queue<Action>();
+        private readonly IGraphicsDeviceService _graphicsDeviceService;
 
-        public VertexPositionColorDrawer( GraphicsDevice graphicDevice, Camera3D camera3D )
+        public VertexPositionColorDrawer( IGraphicsDeviceService deviceService, Camera3D camera3D )
         {
             this._camera = camera3D.NotNull();
             this._camera.Changed += this.UpdateBasicEffect;
+            this._graphicsDeviceService = deviceService;
+            this._graphicsDeviceService.DeviceCreated += this.RecreateBassicEffect;
+            this.CreateBasicEffect();
 
-            this._basicEffect = new BasicEffect(graphicDevice)
+            this.CreateBasicEffect();
+        }
+
+        private void RecreateBassicEffect( object sender, EventArgs e )
+        {
+            this.CreateBasicEffect();
+        }
+
+        private void CreateBasicEffect()
+        {
+            this._basicEffect = new BasicEffect( this._graphicsDeviceService.GraphicsDevice )
                                     {
                                         Projection = this._camera.Projection,
                                         World = this._camera.World,
@@ -32,25 +43,21 @@ namespace RoadTrafficSimulator.Infrastructure.Draw
                                         DiffuseColor = Vector3.One,
                                         TextureEnabled = false,
                                     };
-
-            this._drawerHelper = new DrawingHelper( this._basicEffect, graphicDevice );
         }
 
         public void DrawTriangeList( VertexPositionColor[] block )
         {
-            this._actionBuffer.Enqueue( () => this._drawerHelper.DrawTriangeList( block ) );
+            this._actionBuffer.Enqueue( () => this._graphicsDeviceService.GraphicsDevice.DrawTriangleList( block ) );
         }
 
         public void Flush()
         {
-            using ( this._drawerHelper.UnitOfWork )
-            {
-                this._actionBuffer.ForEach(a => a());
-                this._actionBuffer.Clear();
-            }
+            this._basicEffect.Begin();
+            this._actionBuffer.ForEach( a => a() );
+            this._actionBuffer.Clear();
         }
 
-        private void UpdateBasicEffect( object  sedner, EventArgs args )
+        private void UpdateBasicEffect( object sedner, EventArgs args )
         {
             this._basicEffect.Projection = this._camera.Projection;
             this._basicEffect.View = this._camera.View;

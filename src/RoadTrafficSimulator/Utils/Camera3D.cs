@@ -5,18 +5,18 @@ using Xna;
 using Xna.Extension;
 using XnaVs10;
 using XnaVs10.Extension;
+using Game = Arcane.Xna.Presentation.Game;
 
 namespace RoadTrafficSimulator.Utils
 {
     public class Camera3D : IDisposable
     {
-        private readonly GraphicsDevice _graphicsDevice;
+        private readonly Arcane.Xna.Presentation.Game _game;
         private float _zoom;
 
-        public Camera3D( GraphicsDevice graphicsDevice )
+        public Camera3D( Game game )
         {
-            this._graphicsDevice = graphicsDevice;
-            this._graphicsDevice.DeviceReset += this.OnDeviceReset;
+            this._game = game;
             this._zoom = MathHelper.PiOver2;
             this.InitCamera();
             this.UpdateCamera();
@@ -52,7 +52,7 @@ namespace RoadTrafficSimulator.Utils
 
         public Vector2 ToSpace( Vector2 point )
         {
-            var tranlate = this._graphicsDevice.Viewport.Unproject(
+            var tranlate = this._game.GraphicsDevice.Viewport.Unproject(
                 point.ToVector3(),
                 this.Projection,
                 this.View,
@@ -63,12 +63,12 @@ namespace RoadTrafficSimulator.Utils
 
         public void Dispose()
         {
-            this._graphicsDevice.DeviceReset -= this.OnDeviceReset;
+//            this._game.DeviceReset -= this.OnDeviceReset;
         }
 
         private void InitCamera()
         {
-            this.AspectRatio = this._graphicsDevice.Viewport.AspectRatio;
+            this.AspectRatio = this._game.GraphicsDevice.Viewport.AspectRatio;
             this.View = Matrix.CreateLookAt( new Vector3( 0, 0, 1 ), new Vector3( 0, 0, 0 ), Vector3.Up );
             this.World = Matrix.Identity;
             this.Projection = this.CreateProjection( this.Zoom );

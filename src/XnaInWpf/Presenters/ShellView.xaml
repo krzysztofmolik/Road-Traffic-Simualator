@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:Wpf="clr-namespace:Common.Wpf;assembly=Common.Wpf" xmlns:RoadTrafficSimulator="clr-namespace:RoadTrafficSimulator;assembly=RoadTrafficSimulator" x:Class="RoadTrafficConstructor.Presenters.ShellView" 
-    Width="1280" Height="1024" cal:Message.Attach="[Event Loaded] = [Action OnLoaded]" >
+    Width="1280" Height="1024" >
     <Window.Resources>
         <Color x:Key="BorderBackground">#FF225A72</Color>
     </Window.Resources>
@@ -54,11 +54,19 @@
         </Border>
 
         <!-- XNA -->
-        <WindowsFormsHost Grid.Column="1"
-                          VerticalAlignment="Stretch"
-                          HorizontalAlignment="Stretch"
-                          Child="{Wpf:ResolveExtension Type={x:Type RoadTrafficSimulator:XnaWindow}}"/>
-        
+        <ContentPresenter Grid.Column="1"
+                          Margin="-4,-4,4,4" 
+                          Content="{Wpf:Resolve Type={x:Type RoadTrafficSimulator:XnaWindow}}" 
+                          VerticalAlignment="Stretch" 
+                          HorizontalAlignment="Stretch" />
+<!--        <Rectangle Fill="Red" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" />-->
+        <!--        <RoadTrafficSimulator:XnaWindow Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />-->
+        <!--        <RoadTrafficSimulator:XnaWindow Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>-->
+        <!--        <WindowsFormsHost Grid.Column="1"-->
+        <!--                          VerticalAlignment="Stretch"-->
+        <!--                          HorizontalAlignment="Stretch"-->
+        <!--                          Child="{Wpf:ResolveExtension Type={x:Type RoadTrafficSimulator:XnaWindow}}"/>-->
+
         <!-- Bottom panel -->
         <Border BorderBrush="Black" BorderThickness="0,1,0,0" Margin="0,0,0,8" Grid.Row="1" Grid.Column="1">
             <Border.Background>

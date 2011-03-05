@@ -14,8 +14,8 @@ namespace RoadTrafficSimulator.Road.Controls
         private readonly SideRoadLaneConnector _connector;
         private LaneType _laneType;
 
-        public SideRoadLaneEdge(Factories.Factories factories,  MovablePoint startPoint, MovablePoint endPoint, float width, RoadLaneBlock parent )
-            : base(factories, startPoint, endPoint, width )
+        public SideRoadLaneEdge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, float width, RoadLaneBlock parent )
+            : base( factories, startPoint, endPoint, width )
         {
             this._connector = new SideRoadLaneConnector( this );
             this._parent = parent;
@@ -41,7 +41,7 @@ namespace RoadTrafficSimulator.Road.Controls
             set
             {
                 this._laneType = value;
-                this.ChangedSubject.OnNext( new Unit() );
+                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
             }
         }
 

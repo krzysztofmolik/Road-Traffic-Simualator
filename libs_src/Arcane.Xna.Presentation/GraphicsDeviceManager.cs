@@ -110,12 +110,6 @@ namespace Arcane.Xna.Presentation
                 throw new ArgumentNullException( "game", Resources.GameCannotBeNull );
             }
             this.game = game;
-            if ( game.Services.GetService( typeof( IGraphicsDeviceManager ) ) != null )
-            {
-                throw new ArgumentException( Resources.GraphicsDeviceManagerAlreadyPresent );
-            }
-            game.Services.AddService( typeof( IGraphicsDeviceManager ), this );
-            game.Services.AddService( typeof( IGraphicsDeviceService ), this );
             game.Window.SizeChanged += new System.Windows.SizeChangedEventHandler( this.GameWindowClientSizeChanged );
             //game.Window.ScreenDeviceNameChanged += new EventHandler(this.GameWindowScreenDeviceNameChanged);
         }
@@ -132,6 +126,8 @@ namespace Arcane.Xna.Presentation
                     baseDeviceInfo.Adapter = adapter;
                     baseDeviceInfo.GraphicsProfile = GraphicsProfile.Reach;
                     //                    baseDeviceInfo.DeviceType = type;
+                    baseDeviceInfo.PresentationParameters.BackBufferFormat = SurfaceFormat.Color;
+                    baseDeviceInfo.PresentationParameters.DepthStencilFormat = DepthFormat.None;
                     baseDeviceInfo.PresentationParameters.DeviceWindowHandle = IntPtr.Zero;
                     //                    baseDeviceInfo.PresentationParameters.EnableAutoDepthStencil = true;
                     //                    baseDeviceInfo.PresentationParameters.BackBufferCount = 1;
@@ -222,6 +218,9 @@ namespace Arcane.Xna.Presentation
             {
                 GraphicsDeviceInformation graphicsDeviceInformation = this.FindBestDevice( forceCreate );
                 //this.game.Window.BeginScreenDeviceChange(graphicsDeviceInformation.PresentationParameters.IsFullScreen);
+                graphicsDeviceInformation.PresentationParameters.BackBufferFormat = SurfaceFormat.Color;
+                graphicsDeviceInformation.PresentationParameters.DepthStencilFormat = DepthFormat.None;
+
                 flag = true;
                 bool flag2 = true;
                 if ( !forceCreate && ( this.device != null ) )
@@ -318,7 +317,7 @@ namespace Arcane.Xna.Presentation
                 {
                     if ( this.game.Services.GetService( typeof( IGraphicsDeviceService ) ) == this )
                     {
-                        this.game.Services.RemoveService( typeof( IGraphicsDeviceService ) );
+//                        this.game.Services.RemoveService( typeof( IGraphicsDeviceService ) );
                     }
                     this.game.Window.SizeChanged -= new System.Windows.SizeChangedEventHandler( this.GameWindowClientSizeChanged );
                     // this.game.Window.ScreenDeviceNameChanged -= new EventHandler(this.GameWindowScreenDeviceNameChanged);

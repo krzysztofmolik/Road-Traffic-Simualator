@@ -57,23 +57,14 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return Vector2.Distance( this.StartLocation, this.EndLocation ); }
         }
 
-        public override void Invalidate()
-        {
-            var endRoadLaneEdge = this.Connector.ConnectedObject.FirstOrDefault() as EndRoadLaneEdge;
-            if ( endRoadLaneEdge == null )
-            {
-                return;
-            }
-
-            var parpendicularLine = this.GetParpendicularLineToLane( endRoadLaneEdge );
-            this.StartPoint.SetLocation( parpendicularLine.Item2 );
-            this.EndPoint.SetLocation( parpendicularLine.Item1 );
-        }
-
         private Tuple<Vector2, Vector2> GetParpendicularLineToLane( EndRoadLaneEdge endRoadLaneEdge )
         {
             var opositeEdge = endRoadLaneEdge.GetOppositeEdge();
             return MyMathHelper.CreatePerpendicualrLine( this.Location, opositeEdge.Location, Constans.RoadHeight );
+        }
+
+        public void RecalculatePosition()
+        {
         }
     }
 }

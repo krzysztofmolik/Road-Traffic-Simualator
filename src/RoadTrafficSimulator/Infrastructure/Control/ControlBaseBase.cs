@@ -8,14 +8,15 @@ using XnaVs10.MathHelpers;
 
 namespace RoadTrafficSimulator.Infrastructure.Control
 {
-    public abstract class ControlBaseBase<TVertex>: IControl
+    public abstract class ControlBaseBase<TVertex> : IControl
     {
         private readonly ISubject<bool> _isSelectedChanged = new Subject<bool>();
         private bool _isSelected;
+        private readonly ISubject<Unit> _redrawEvent = new Subject<Unit>();
 
-        protected ControlBaseBase( )
+        protected ControlBaseBase()
         {
-            this.ChangedSubject = new Subject<Unit>();
+            this.TranslatedSubject = new Subject<TranslationChangedEventArgs>();
         }
 
         public abstract IVertexContainer<TVertex> SpecifiedVertexContainer { get; }
@@ -35,18 +36,30 @@ namespace RoadTrafficSimulator.Infrastructure.Control
             {
                 this._isSelected = value;
                 this._isSelectedChanged.OnNext( value );
-                this.ChangedSubject.OnNext( new Unit() );
+                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
             }
         }
 
-        public IObservable<Unit> Changed { get { return this.ChangedSubject; } }
+        public IObservable<TranslationChangedEventArgs> Translated { get { return this.TranslatedSubject; } }
+
+        public IObservable<Unit> Redrawed { get { return this._redrawEvent; } }
 
         public IObservable<bool> IsSelectedChanged
         {
             get { return this._isSelectedChanged; }
         }
 
-        protected ISubject<Unit> ChangedSubject { get; private set; }
+        public void Invalidate()
+        {
+            this.OnRedraw();
+        }
+
+        protected virtual void OnRedraw()
+        {
+            this._redrawEvent.OnNext( new Unit() );
+        }
+
+        protected ISubject<TranslationChangedEventArgs> TranslatedSubject { get; private set; }
 
         public abstract void Translate( Matrix matrixTranslation );
 
@@ -70,11 +83,6 @@ namespace RoadTrafficSimulator.Infrastructure.Control
         public virtual bool HitTest( Vector2 point )
         {
             return HitTestAlghoritm.HitTest( point, this.VertexContainer.Shape.ShapePoints );
-        }
-
-        public virtual void Invalidate()
-        {
-            this.ChangedSubject.OnNext( new Unit() );
         }
     }
 }

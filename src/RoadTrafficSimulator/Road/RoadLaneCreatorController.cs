@@ -14,14 +14,14 @@ namespace RoadTrafficSimulator.Road
     public class RoadLaneCreator
     {
         private readonly Func<ICompositeControl, IRoadLaneBlock> _roadLaneBlockFactory;
-        private readonly Func<Vector2, ICompositeControl, RoadConnectionEdge> _roadConnectionEdgeFactory;
+        private readonly Func<Vector2, ICompositeControl, RoadConnection> _roadConnectionEdgeFactory;
         private readonly CompositeConnectionCommand _connectionCommand;
         private IControl _lastConnectedControl;
         private ICompositeControl _owner;
 
         public RoadLaneCreator(
                                 Func<ICompositeControl, IRoadLaneBlock> roadLaneBlockFactory,
-                                Func<Vector2, ICompositeControl, RoadConnectionEdge> roadConnectionEdgeFactory,
+                                Func<Vector2, ICompositeControl, RoadConnection> roadConnectionEdgeFactory,
             CompositeConnectionCommand connectionCommand )
         {
             this._roadLaneBlockFactory = roadLaneBlockFactory;
@@ -72,7 +72,7 @@ namespace RoadTrafficSimulator.Road
             return this._roadLaneBlockFactory( this._owner );
         }
 
-        private RoadConnectionEdge CreateRoadLaneConnection( Vector2 location )
+        private RoadConnection CreateRoadLaneConnection( Vector2 location )
         {
             var roadLaneConnection = this._roadConnectionEdgeFactory( location, this._owner );
             this._owner.AddChild( roadLaneConnection );

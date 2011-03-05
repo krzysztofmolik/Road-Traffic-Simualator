@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Windows;
+using Arcane.Xna.Presentation;
 using Autofac;
 using Common;
 using RoadTrafficConstructor.Presenters.Blocks;
+using RoadTrafficSimulator;
 using RoadTrafficSimulator.Integration;
 using RoadTrafficSimulator.Road;
 using RoadTrafficSimulator.RoadTrafficSimulatorMessages;
@@ -32,7 +35,7 @@ namespace RoadTrafficConstructor.Presenters
             Func<IMouseInformationModel> mouseInformationFactory,
             BuilderControl builderControl,
             IEventAggregator eventAggreator,
-            ILifetimeScope container)
+            ILifetimeScope container )
         {
             this._blockManager = blockManager;
             this._container = container;
@@ -42,15 +45,14 @@ namespace RoadTrafficConstructor.Presenters
             this.Blocks = blockManager.GetRootParrents();
 
             this._eventAggreator.Subscribe( this );
+            this.ServiceProvider = this._container.Resolve<IServiceProvider>();
         }
 
-        public void OnLoaded()
-        {
-            this.MouseInformationModel = this._mouseInformationFactory();
-        }
+        protected IServiceProvider ServiceProvider { get; set; }
 
         public void Initialize( WorldController worldController )
         {
+            this.MouseInformationModel = this._mouseInformationFactory();
             this._wordController = worldController.NotNull();
         }
 
@@ -151,7 +153,7 @@ namespace RoadTrafficConstructor.Presenters
             this.Blocks = this._blockManager.GetRootParrents();
         }
 
-        public void Handle(XnaWindowInitialized message)
+        public void Handle( XnaWindowInitialized message )
         {
             this._wordController = this._container.Resolve<WorldController>();
         }

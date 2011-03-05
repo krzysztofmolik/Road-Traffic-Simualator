@@ -106,7 +106,7 @@ namespace RoadTrafficSimulator.Road
                 this._leftTopPoint = value;
                 this.LeftEdge.EndPoint = value;
                 this.TopEdge.StartPoint = value;
-                this.ChangedSubject.OnNext( new Unit() );
+                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
             }
         }
 
@@ -122,7 +122,7 @@ namespace RoadTrafficSimulator.Road
                 this._rightTop = value;
                 this.TopEdge.EndPoint = value;
                 this.RightEdge.StartPoint = value;
-                this.ChangedSubject.OnNext( new Unit() );
+                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
             }
         }
 
@@ -138,7 +138,7 @@ namespace RoadTrafficSimulator.Road
                 this._rightBottom = value;
                 this.RightEdge.EndPoint = value;
                 this.BottomEdge.StartPoint = value;
-                this.ChangedSubject.OnNext( new Unit() );
+                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
             }
         }
 
@@ -154,7 +154,7 @@ namespace RoadTrafficSimulator.Road
                 this._leftBottom = value;
                 this.BottomEdge.EndPoint = value;
                 this.LeftEdge.StartPoint = value;
-                this.ChangedSubject.OnNext( new Unit() );
+                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
             }
         }
 
@@ -208,7 +208,7 @@ namespace RoadTrafficSimulator.Road
             this.LeftBottomPoint.Translate( matrixTranslation );
 
             this.RoadBlocks.ForEach( b => b.Translate( matrixTranslation ) );
-            this.ChangedSubject.OnNext( new Unit() );
+            this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
         }
 
         protected void RaiseVectorChanged()
@@ -239,6 +239,11 @@ namespace RoadTrafficSimulator.Road
             this.TopEdge = new SideRoadLaneEdge( this._factories, this.LeftTopPoint, this.RightTopPoint, Constans.PointSize, this );
             this.RightEdge = new EndRoadLaneEdge( this._factories, this.RightTopPoint, this.RightBottomPoint, Constans.PointSize, this );
             this.BottomEdge = new SideRoadLaneEdge( this._factories, this.RightBottomPoint, this.LeftBottomPoint, Constans.PointSize, this );
+        }
+
+        public EndRoadLaneEdge OpositeEdge( EndRoadLaneEdge edge )
+        {
+            return this.LeftEdge == edge ? this.RightEdge : this.LeftEdge;
         }
     }
 }

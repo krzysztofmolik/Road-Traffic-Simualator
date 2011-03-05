@@ -10,7 +10,7 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Integration;
 using RoadTrafficSimulator.Road.Controls;
 using RoadTrafficSimulator.RoadTrafficSimulatorMessages;
-using WinFormsGraphicsDevice;
+using DrawableGameComponent = RoadTrafficSimulator.Infrastructure.DrawableGameComponent;
 
 namespace RoadTrafficSimulator.Road
 {
@@ -37,8 +37,8 @@ namespace RoadTrafficSimulator.Road
                     IEventAggregator eventAggreator,
                     Func<Vector2, ICompositeControl, IRoadJunctionBlock> roadJunctionBlockFactory,
                     SelectControlCommand selectCommand,
-                    Game game )
-            : base( game )
+                    IGraphicsDeviceService graphicsDeviceService, RoadLayer roadLayer)
+            : base( graphicsDeviceService )
         {
             this._backgroundJobs = backgroundJobs;
             this._selectCommand = selectCommand;
@@ -49,12 +49,8 @@ namespace RoadTrafficSimulator.Road
             this._mouseInformation = mouseInformation;
             this._roadLaneCreator = roadLaneCreator;
             this.MessageBroker = messageBroker.NotNull();
+            this._roadLayer = roadLayer;
 
-            this.Initialize();
-        }
-
-        private void Initialize()
-        {
             this.SubscribeToMessages();
             this.SubscribeToMouseInformation();
 
@@ -109,12 +105,15 @@ namespace RoadTrafficSimulator.Road
             //                () => this._roadLayer.DrawPossibleLightLocation = false );
         }
 
+        protected override void UnloadContent()
+        {
+        }
+
         protected override void LoadContent()
         {
-//            this._roadLayer = serviceLocator.Resolve<RoadLayer>();
-//            this._roadLaneCreator.SetOwner( this._roadLayer );
+            this._roadLaneCreator.SetOwner( this._roadLayer );
 
-//            this._eventAggreator.Publish( new XnaWindowInitialized() );
+            this._eventAggreator.Publish( new XnaWindowInitialized() );
         }
 
         public override void Draw( GameTime gameTime )

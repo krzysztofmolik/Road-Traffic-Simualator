@@ -4,6 +4,6 @@ namespace RoadTrafficSimulator
 {
     public interface IConnectionCommand
     {
-        bool Connect(IControl first, IControl second);
+        bool Connect(ILogicControl first, ILogicControl second);
     }
 }
