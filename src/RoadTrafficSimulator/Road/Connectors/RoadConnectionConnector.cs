@@ -19,15 +19,19 @@ namespace RoadTrafficSimulator.Road.Connectors
 
         public EndRoadLaneEdge NextEdge { get; private set; }
 
+        public RoadConnection Top { get; private set; }
+
+        public RoadConnection Bottom { get; private set; }
+
         public void ConnectBeginWith( EndRoadLaneEdge roadLaneEdge )
         {
             // TODO Check it
             this.PreviousEdge = this.GetLaneEdgeOpositeTo( roadLaneEdge );
-            this.ConnectBySubscribingToEvent( roadLaneEdge.StartPoint, this._owner.EndPoint );
-            this.ConnectBySubscribingToEvent( roadLaneEdge.EndPoint, this._owner.StartPoint );
-            this.PreviousEdge.Translated.Subscribe( x => this._owner.RecalculatePosition() );
+            this.ConnectBySubscribingToEvent( roadLaneEdge.StartPoint, this._owner.LeftEdge.EndPoint );
+            this.ConnectBySubscribingToEvent( roadLaneEdge.EndPoint, this._owner.LeftEdge.StartPoint );
+            this.PreviousEdge.Translated.Subscribe( x => this._owner.RecalculatePosition( this._owner.LeftEdge ) );
 
-            this._owner.RecalculatePosition();
+            this._owner.RecalculatePosition( this._owner.LeftEdge );
         }
 
         public void ConnectEndWith( EndRoadLaneEdge roadLaneEdge )
@@ -35,10 +39,10 @@ namespace RoadTrafficSimulator.Road.Connectors
             var otherSideOfLane = this.GetLaneEdgeOpositeTo( roadLaneEdge );
             this.NextEdge = otherSideOfLane;
 
-            this.NextEdge.Translated.Subscribe( x => this._owner.RecalculatePosition() );
-            this.ConnectBySubscribingToEvent( this._owner.StartPoint, roadLaneEdge.EndPoint );
-            this.ConnectBySubscribingToEvent( this._owner.EndPoint, roadLaneEdge.StartPoint );
-            this._owner.RecalculatePosition();
+            this.NextEdge.Translated.Subscribe( x => this._owner.RecalculatePosition( this._owner.RightEdge ) );
+            this.ConnectBySubscribingToEvent( this._owner.RightEdge.StartPoint, roadLaneEdge.EndPoint );
+            this.ConnectBySubscribingToEvent( this._owner.RightEdge.EndPoint, roadLaneEdge.StartPoint );
+            this._owner.RecalculatePosition( this._owner.RightEdge );
         }
 
         private EndRoadLaneEdge GetLaneEdgeOpositeTo( EndRoadLaneEdge roadLaneEdge )
@@ -58,6 +62,32 @@ namespace RoadTrafficSimulator.Road.Connectors
             {
                 this.NextEdge.RecalculatePosition();
             }
+        }
+
+        public void ConnectBeginBottomWith( RoadConnection roadConnection )
+        {
+            this.Bottom = roadConnection;
+            this.ConnectBySubscribingToEvent( roadConnection.EndPoint, this._owner.StartPoint );
+            this._owner.EndPoint.SetLocation( roadConnection.EndLocation );
+        }
+
+        public void ConnectEndTopWith( RoadConnection roadConnection )
+        {
+            this.Top = roadConnection;
+            this.ConnectBySubscribingToEvent( roadConnection.StartPoint, this._owner.EndPoint );
+        }
+
+        public void ConnectBeginTopWith( RoadConnection roadConnection )
+        {
+            this.Top = roadConnection;
+            this.ConnectBySubscribingToEvent( roadConnection.EndPoint, this._owner.StartPoint );
+        }
+
+        public void ConnectEndBottomWith( RoadConnection roadConnection )
+        {
+            this.Bottom = roadConnection;
+            this.ConnectBySubscribingToEvent( roadConnection.StartPoint, this._owner.EndPoint );
+            this._owner.EndPoint.SetLocation( roadConnection.StartLocation );
         }
     }
 }

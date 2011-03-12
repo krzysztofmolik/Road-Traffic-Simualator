@@ -48,10 +48,10 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Vector2Extension.fs" />
     <Compile Include="Line.fs" />
     <Compile Include="GraphicsDeviceExtension.fs" />
     <Compile Include="EffectExntension.fs" />
-    <Compile Include="Vector2Extension.fs" />
     <Compile Include="Math.fs" />
     <Compile Include="CalculateEdgeAngel.fs" />
   </ItemGroup>

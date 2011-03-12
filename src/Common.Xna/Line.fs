@@ -34,6 +34,11 @@ open Microsoft.Xna.Framework
                     Center = line.Center + transtationVector
                 }
 
+            static member angel left right = 
+                let leftInCenter = left.End - left.Start
+                let rightInCenter = right.End - right.Start
+                Vector2Exntension.angel( leftInCenter, rightInCenter )
+
             member x.toTuple =
                 ( x.Start, x.End )
 

@@ -13,3 +13,10 @@ open Microsoft.Xna.Framework
             let isSmal( value ) = value < epsilon
 
             ( xDelta |> isSmal && yDelta |> isSmal )
+
+        [<System.Runtime.CompilerServices.Extension>]   
+        let angel( left:Vector2, right:Vector2 ) = 
+            let leftAngel = System.Math.Atan2( (float)left.Y, (float)left.X )
+            let rightAngel = System.Math.Atan2( (float)right.Y, (float)right.X )
+
+            leftAngel - rightAngel

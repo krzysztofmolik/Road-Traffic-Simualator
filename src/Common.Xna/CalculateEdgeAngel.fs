@@ -73,3 +73,46 @@ open Microsoft.Xna.Framework
             ( prevLocation, baseLocation, nextLocation )
                 |> preparePrevAndNext
                 |> calculateBaseLine
+
+    type PointRotation =
+        | Start
+        | End
+
+    type Calculation2( rotatePoint:PointRotation, roadHeight:float32 ) = 
+        let rotatePoint = rotatePoint
+        let roadHeight = roadHeight
+
+        let getValue( line:Line ) =
+            match rotatePoint with
+                | Start -> line.Start
+                | End -> line.End
+
+        let rotateIfNeed( vector:Vector2 ) = 
+            match rotatePoint with
+                | Start -> vector
+                | End -> (vector * -1.0f)
+
+        let createParpendicularVector( vector:Vector2 ) = 
+             ( Math.CreatePerpendicularVector vector roadHeight ) |> rotateIfNeed
+
+        let CalculateUsingTwo( prev, orginal, next ) =
+            let prevVector = ( prev -  orginal ) |> Vector2.Normalize
+            let nextVector = ( next - orginal ) |> Vector2.Normalize
+            let vec = ( prevVector + nextVector ) |> rotateIfNeed |> (+) orginal
+            let vecEnd = createParpendicularVector( orginal - next ) |> (+) orginal
+            let nextEnd = createParpendicularVector( next - orginal ) |> (*) -1.0f |> (+) next
+
+            Math.lineIntersectionMethod( vecEnd, nextEnd, orginal, vec )
+
+        let CalculateUsingOneOfTwo( prev:Vector2 option, orginal, next:Vector2 option ) =
+            if( prev.IsSome ) then
+                ( orginal - prev.Value ) |> createParpendicularVector |> (*) -1.0f |> (+) orginal
+            else
+                let vector = next.Value - orginal
+                ( Math.CreatePerpendicularVector vector roadHeight ) |> (*) -1.0f |> (+) orginal
+
+        member this.Calculate( prev:Vector2 option, orginal:Vector2, next:Vector2 option ) =
+            if( prev.IsSome && next.IsSome ) then
+                CalculateUsingTwo( prev.Value, orginal, next.Value )
+            else
+                CalculateUsingOneOfTwo( prev, orginal, next )

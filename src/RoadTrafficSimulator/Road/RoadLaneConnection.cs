@@ -2,12 +2,9 @@
 using Microsoft.FSharp.Core;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
-using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Road.Connectors;
 using RoadTrafficSimulator.Road.Controls;
-using XnaRoadTrafficConstructor.Infrastucure.Draw;
 using XnaRoadTrafficConstructor.Road;
-using Unit = System.Unit;
 
 namespace RoadTrafficSimulator.Road
 {
@@ -23,6 +20,8 @@ namespace RoadTrafficSimulator.Road
             this._connector = new RoadConnectionConnector( this );
             this.StartPoint.SetLocation( location - new Vector2( 0, Constans.RoadHeight / 2 ) );
             this.EndPoint.SetLocation( location + new Vector2( 0, Constans.RoadHeight / 2 ) );
+            this.LeftEdge = new RoadConnectionEdge( this, shouldInvert: false );
+            this.RightEdge = new RoadConnectionEdge( this, shouldInvert: true );
         }
 
         public RoadConnectionConnector Connector
@@ -35,14 +34,18 @@ namespace RoadTrafficSimulator.Road
             get { return this._parent; }
         }
 
+        public RoadConnectionEdge LeftEdge { get; private set; }
+
+        public RoadConnectionEdge RightEdge { get; private set; }
+
         protected override void OnTranslated()
         {
             base.OnTranslated();
-            this.RecalculatePosition();
+            this.RecalculatePosition( this.LeftEdge );
             this.Connector.NotifyAboutTranslation();
         }
 
-        public void RecalculatePosition()
+        public void RecalculatePosition( RoadConnectionEdge roadConnectionEdge )
         {
             var calculator = new CalculateEdgeAngel( Constans.RoadHeight );
             var prevLocation = this.Connector.PreviousEdge != null

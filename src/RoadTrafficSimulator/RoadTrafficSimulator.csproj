@@ -30,6 +30,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
     <XnaCompressContent>false</XnaCompressContent>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -209,6 +210,7 @@
     <Compile Include="Road\RoadCommponets\NormalLight.cs" />
     <Compile Include="Road\RoadComponent.cs" />
     <Compile Include="Road\Connectors\UpdateConnected.cs" />
+    <Compile Include="Road\RoadConnectionEdge.cs" />
     <Compile Include="Road\RoadJunctionCreator.cs" />
     <Compile Include="Road\RoadLaneArrow.cs" />
     <Compile Include="Road\RoadLaneBlock.cs" />

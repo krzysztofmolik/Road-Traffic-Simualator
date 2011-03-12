@@ -48,8 +48,14 @@ namespace RoadTrafficSimulator.Road.Controls
             return this._parrent.LeftEdge;
         }
 
+        private void Contract( MovablePoint point )
+        {
+            System.Diagnostics.Contracts.Contract.Requires( point != null );
+        }
+
         public void RecalculatePosition()
         {
+            this.Contract( null );
             this.Invalidate();
             // TODO Implement
 //            throw new NotImplementedException();

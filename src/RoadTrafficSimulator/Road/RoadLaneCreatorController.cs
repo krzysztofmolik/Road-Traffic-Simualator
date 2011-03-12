@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Common;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
-using RoadTrafficSimulator.Road.Connectors;
 using RoadTrafficSimulator.Road.Controls;
 
 namespace RoadTrafficSimulator.Road
@@ -140,8 +138,13 @@ namespace RoadTrafficSimulator.Road
             else
             {
                 this._roadLaneCreator.EndIn( edge );
-                this.End();
+                this.StartFromBegining();
             }
+        }
+
+        private void StartFromBegining()
+        {
+            this._isFirst = true;
         }
 
         private void ProcessFirstControl( IControl control )
