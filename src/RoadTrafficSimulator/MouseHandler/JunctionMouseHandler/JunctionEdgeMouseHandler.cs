@@ -66,7 +66,12 @@ namespace XnaRoadTrafficConstructor.MouseHandler.JunctionMouseHandler
 
         private RoadJunctionEdge FindEdge( Vector2 mousePressedPoint, IRoadJunctionBlock block )
         {
-            return block.RoadJunctionEdges.FirstOrDefault( s => s.HitTest( mousePressedPoint ) );
+            var hittedControl = block.RoadJunctionEdges.FirstOrDefault( s => s.IsHitted( mousePressedPoint ) );
+            if( hittedControl != null )
+            {
+                return hittedControl.HitTest( mousePressedPoint) as RoadJunctionEdge;
+            }
+            return null;
         }
     }
 }

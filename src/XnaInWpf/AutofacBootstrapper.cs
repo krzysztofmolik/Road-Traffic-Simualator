@@ -2,14 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Autofac;
-using Autofac.Core;
 using Caliburn.Micro;
-using Microsoft.Practices.ServiceLocation;
 using RoadTrafficConstructor;
 using XnaInWpf.Presenters.Interfaces;
 using Module = Autofac.Module;
 using System.Linq;
-using IEventAggregator = Common.IEventAggregator;
 
 namespace XnaInWpf
 {

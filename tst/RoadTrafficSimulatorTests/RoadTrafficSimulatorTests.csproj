@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,7 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionTests\ConnectedTwoRoadConnectionAndMove.cs" />
+    <Compile Include="ConnectionTests\ConnectRoadConnectionWithRoadConnectionTests.cs" />
     <Compile Include="ConnectionTests\RoadJunctionEdgeWithEndRoadLaneEdgeConnectionTest.cs" />
+    <Compile Include="IntegrationTests\Helpers\TwoRoadJunctionConnectedByRoadLaneWithRoadConnectionInMiddle.cs" />
     <Compile Include="IntegrationTests\Infacstructure\Bootstraper.cs" />
     <Compile Include="IntegrationTests\Infacstructure\IOC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

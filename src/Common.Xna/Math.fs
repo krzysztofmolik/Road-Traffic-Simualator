@@ -28,7 +28,6 @@ open Microsoft.Xna.Framework.Graphics;
             let result = parpendicularLine startPoint endPoint length
             result
 
-
         let lineIntersectionMethod( (leftBegin:Vector2), (leftEnd:Vector2), (rightBegin:Vector2), (rightEnd:Vector2) ) =
             let sqrt value =  
                 let result = System.Math.Sqrt( float( value ) )

@@ -155,7 +155,13 @@ namespace RoadTrafficSimulator.Road.Controls
 
         public MovablePoint CornerHitTest( Vector2 point )
         {
-            return this._points.FirstOrDefault( p => p.HitTest( point ) );
+            // TODO Change it
+            var hittedControl = this._points.FirstOrDefault( p => p.IsHitted(point));
+            if( hittedControl  != null )
+            {
+                return hittedControl.HitTest(point) as MovablePoint;
+            }
+            return null;
         }
 
         public override void Translate( Matrix matrixTranslation )

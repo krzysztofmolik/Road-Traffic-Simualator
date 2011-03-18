@@ -81,10 +81,10 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             builder.RegisterType<ConnectRoadJunctionEdge>().As<IConnectionCommand>();
             builder.RegisterType<ConnectEndRoadLaneEdgeWithRoadLaneConnection>().As<IConnectionCommand>();
             builder.RegisterType<ConnectEndRoadLaneEdgeWithRoadJunctionEdge>().As<IConnectionCommand>();
-            builder.RegisterType<ConnectRoadLaneConnectionWithEndRoadLane>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectRoadConnectionWithEndRoadLane>().As<IConnectionCommand>();
             builder.RegisterType<ConnectRoadJunctionEdgeWitEndRoadLaneEdge>().As<IConnectionCommand>();
             builder.RegisterType<ConnectSideRoadLaneEdges>().As<IConnectionCommand>();
-
+            builder.RegisterType<ConnectRoadConnectionWithRoadConnection>().As<IConnectionCommand>();
             builder.RegisterType<ScreenZoom>().As<IBackgroundJob>();
 
             this.RegisterFactoryMethods( builder );

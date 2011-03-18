@@ -54,7 +54,7 @@ namespace RoadTrafficSimulator.Road
 
         public IRoadLaneBlock GetRoadLineAtPoint( Vector2 point )
         {
-            var roadLine = this._stored.RoadLanes.FirstOrDefault( s => s.HitTest( point ) );
+            var roadLine = this._stored.RoadLanes.FirstOrDefault( s => s.IsHitted( point ) );
             return roadLine;
         }
 
@@ -86,9 +86,15 @@ namespace RoadTrafficSimulator.Road
             this.Children.ForEach( s => s.Translate( matrixTranslation ) );
         }
 
-        public override bool HitTest( Vector2 point )
+        public override ILogicControl HitTest(Vector2 point)
+        {
+            return null;
+        }
+
+        public override bool IsHitted( Vector2 location )
         {
             return false;
         }
+
     }
 }

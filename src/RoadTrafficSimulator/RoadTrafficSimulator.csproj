@@ -17,6 +17,7 @@
     <XnaProfile>HiDef</XnaProfile>
     <XnaCrossPlatformGroupID>13b4f265-27b8-45f8-8619-75ba157a4b4c</XnaCrossPlatformGroupID>
     <XnaOutputType>Library</XnaOutputType>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +32,29 @@
     <PlatformTarget>x86</PlatformTarget>
     <XnaCompressContent>false</XnaCompressContent>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>True</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsContainerAnalysis>False</CodeContractsContainerAnalysis>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -79,6 +103,12 @@
     <Reference Include="mscorlib">
       <Private>False</Private>
     </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.0.0.0\lib\NET40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Extended">
+      <HintPath>..\packages\NLog.2.0.0.0\lib\NET40\NLog.Extended.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System">
@@ -115,6 +145,7 @@
     <Compile Include="CompositeConnectionCommand.cs" />
     <Compile Include="ConnectObjectCommand.cs" />
     <Compile Include="EventExtensionMethod.cs" />
+    <Compile Include="Extension\IControlExtensions.cs" />
     <Compile Include="Extension\Vector2Ex.cs" />
     <Compile Include="Extension\Vector3ExtensionMethod.cs" />
     <Compile Include="Factories\Factories.cs" />
@@ -178,9 +209,10 @@
     <Compile Include="Road\ConetableBase.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectEndRoadLaneEdgeWithRoadJunctionEdge.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectEndRoadLaneEdgeWithRoadLaneConnection.cs" />
+    <Compile Include="Road\Connectors\Commands\ConnectRoadConnectionWithRoadConnection.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectRoadJunctionEdge.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectRoadJunctionEdgeWitEndRoadLaneEdge.cs" />
-    <Compile Include="Road\Connectors\Commands\ConnectRoadLaneConnectionWithEndRoadLane.cs" />
+    <Compile Include="Road\Connectors\Commands\ConnectRoadConnectionWithEndRoadLane.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectSideRoadLaneEdges.cs" />
     <Compile Include="Road\Connectors\EndRoadLaneEdgeConnector.cs" />
     <Compile Include="Road\Connectors\IConnector.cs" />
@@ -255,6 +287,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs_src\Arcane.Xna.Presentation\Arcane.Xna.Presentation.csproj">

@@ -12,12 +12,12 @@ namespace RoadTrafficSimulator.Infrastructure.Control
         IControl Parent { get; }
 
         IObservable<bool> IsSelectedChanged { get; }
+        int Order { get; }
+        bool IsSelected { get; set; }
     }
 
     public interface IControl : ILogicControl
     {
-        bool IsSelected { get; set; }
-
         IObservable<TranslationChangedEventArgs> Translated { get; }
 
         IVertexContainer VertexContainer { get; }
@@ -32,7 +32,9 @@ namespace RoadTrafficSimulator.Infrastructure.Control
 
         IControl GetRoot();
 
-        bool HitTest( Vector2 point );
+        bool IsHitted( Vector2 location );
+
+        ILogicControl HitTest( Vector2 point );
     }
 
     public interface ISingleControl : IControl

@@ -49,7 +49,8 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
 
         public void OnLeftButtonClick( XnaMouseState state )
         {
-            var control = this.FindControlAtPoint( state.Location );
+            // TODO CHange it
+            var control = this.FindControlAtPoint( state.Location ) as IControl;
             if ( control != null && control != this._owner )
             {
                 control.MouseSupport.OnLeftButtonClick( state );
@@ -63,11 +64,12 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         public void OnLeftButtonPressed( XnaMouseState state )
         {
             Debug.Assert( this._selectedControlBase == null, "this._selectedControl == null" );
-            this._selectedControlBase = this.FindControlAtPoint( state.Location );
+            //TODO Change it
+            this._selectedControlBase = this.FindControlAtPoint( state.Location ) as IControl;
             if ( this._selectedControlBase == null )
             {
                 this._selectedControlBase = this._owner;
-                Debug.Assert( this._owner.HitTest( state.Location ), "this._owner.HitTest(state.Location)" );
+                Debug.Assert( this._owner.IsHitted( state.Location ), "this._owner.HitTest(state.Location)" );
             }
 
             if ( this._selectedControlBase != null )
@@ -86,10 +88,15 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             }
         }
 
-        private IControl FindControlAtPoint( Vector2 location )
+        private ILogicControl FindControlAtPoint( Vector2 location )
         {
-            var hitChildren = this._owner.Children.FirstOrDefault( s => s.HitTest( location ) );
-            return hitChildren ?? this._owner;
+            var hitChildren = this._owner.Children.FirstOrDefault( s => s.IsHitted( location ) );
+            if( hitChildren != null )
+            {
+                return hitChildren.HitTest(location) ?? this._owner;
+            }
+
+            return this._owner;
         }
 
         public void OnLeftButtonReleased( XnaMouseState state )

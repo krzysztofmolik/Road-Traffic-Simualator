@@ -17,6 +17,7 @@ namespace RoadTrafficSimulator.Infrastructure.Control
         protected ControlBaseBase()
         {
             this.TranslatedSubject = new Subject<TranslationChangedEventArgs>();
+            this.Order = 0;
         }
 
         public abstract IVertexContainer<TVertex> SpecifiedVertexContainer { get; }
@@ -28,6 +29,7 @@ namespace RoadTrafficSimulator.Infrastructure.Control
         public abstract Vector2 Location { get; }
 
         public abstract IControl Parent { get; }
+        public int Order { get; protected set; }
 
         public bool IsSelected
         {
@@ -75,14 +77,23 @@ namespace RoadTrafficSimulator.Infrastructure.Control
             return root;
         }
 
+        public virtual bool IsHitted(Vector2 location)
+        {
+            return HitTestAlghoritm.HitTest( location, this.VertexContainer.Shape.ShapePoints);
+        }
+
         public virtual Vector2 ToControlPosition( Vector2 screenCordination )
         {
             return this.Location - screenCordination;
         }
 
-        public virtual bool HitTest( Vector2 point )
+        public virtual ILogicControl HitTest( Vector2 point )
         {
-            return HitTestAlghoritm.HitTest( point, this.VertexContainer.Shape.ShapePoints );
+            if ( HitTestAlghoritm.HitTest( point, this.VertexContainer.Shape.ShapePoints ) )
+            {
+                return this;
+            }
+            return null;
         }
     }
 }

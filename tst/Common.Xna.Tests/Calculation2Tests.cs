@@ -8,13 +8,17 @@ namespace Common.Xna.Tests
     public class Calculation2Tests
     {
         private const float RoadHeight = 2.0f;
-        private Calculation2 _calculation2;
+        private Calculation2 _calculationAroundStartPoint;
+        private Calculation2 _calculationAroundEndPoint;
 
         [SetUp]
         public void SetUp()
         {
-            this._calculation2 = new Calculation2( PointRotation.Start, RoadHeight );
+            this._calculationAroundStartPoint = new Calculation2( PointRotation.Start, RoadHeight );
+            this._calculationAroundEndPoint = new Calculation2( PointRotation.End, RoadHeight );
         }
+
+        #region StartPoint
 
         [Test]
         public void Should_correct_calculate_points_for_parpendicular_road_lane()
@@ -22,7 +26,7 @@ namespace Common.Xna.Tests
             var prev = new Vector2( 0.0f, 0.0f );
             var orginal = new Vector2( 5.0f, 0.0f );
             var next = new Vector2( 5.0f, 5.0f );
-            var result = this._calculation2.Calculate( VectorOption.Some( prev ), orginal, VectorOption.Some( next ) );
+            var result = this._calculationAroundStartPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.Some( next ) );
 
             Assert.That( result, Is.EqualTo( new Vector2( 3.0f, 2.0f ) ) );
         }
@@ -33,7 +37,7 @@ namespace Common.Xna.Tests
             var prev = new Vector2( 0.0f, 0.0f );
             var orginal = new Vector2( 5.0f, 0.0f );
             var next = new Vector2( 5.0f, -5.0f );
-            var result = this._calculation2.Calculate( VectorOption.Some( prev ), orginal, VectorOption.Some( next ) );
+            var result = this._calculationAroundStartPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.Some( next ) );
 
             Assert.That( result, Is.EqualTo( new Vector2( 7.0f, 2.0f ) ) );
         }
@@ -44,7 +48,7 @@ namespace Common.Xna.Tests
             var prev = new Vector2( 0.0f, 0.0f );
             var orginal = new Vector2( -5.0f, 0.0f );
             var next = new Vector2( -5.0f, -5.0f );
-            var result = this._calculation2.Calculate( VectorOption.Some( prev ), orginal, VectorOption.Some( next ) );
+            var result = this._calculationAroundStartPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.Some( next ) );
 
             Assert.That( result, Is.EqualTo( new Vector2( -3.0f, -2.0f ) ) );
         }
@@ -55,7 +59,7 @@ namespace Common.Xna.Tests
             var prev = new Vector2( 0.0f, 0.0f );
             var orginal = new Vector2( -5.0f, 0.0f );
             var next = new Vector2( -5.0f, 5.0f );
-            var result = this._calculation2.Calculate( VectorOption.Some( prev ), orginal, VectorOption.Some( next ) );
+            var result = this._calculationAroundStartPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.Some( next ) );
 
             Assert.That( result, Is.EqualTo( new Vector2( -7.0f, -2.0f ) ) );
         }
@@ -66,7 +70,7 @@ namespace Common.Xna.Tests
             var prev = new Vector2( 0.0f, 0.0f );
             var orginal = new Vector2( 5.0f, 0.0f );
 
-            var result = this._calculation2.Calculate( VectorOption.Some( prev ), orginal, VectorOption.None );
+            var result = this._calculationAroundStartPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.None );
 
             Assert.That( result, Is.EqualTo( new Vector2( 5, 2 ) ) );
         }
@@ -77,7 +81,7 @@ namespace Common.Xna.Tests
             var prev = new Vector2( 0.0f, 0.0f );
             var orginal = new Vector2( 0.0f, -5.0f );
 
-            var result = this._calculation2.Calculate( VectorOption.Some( prev ), orginal, VectorOption.None );
+            var result = this._calculationAroundStartPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.None );
 
             Assert.That( result, Is.EqualTo( new Vector2( 2, -5 ) ) );
         }
@@ -88,7 +92,7 @@ namespace Common.Xna.Tests
             var prev = new Vector2( 0.0f, 0.0f );
             var orginal = new Vector2( -5.0f, 0.0f );
 
-            var result = this._calculation2.Calculate( VectorOption.Some( prev ), orginal, VectorOption.None );
+            var result = this._calculationAroundStartPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.None );
 
             Assert.That( result, Is.EqualTo( new Vector2( -5, -2 ) ) );
         }
@@ -99,7 +103,7 @@ namespace Common.Xna.Tests
             var prev = new Vector2( 0.0f, 0.0f );
             var orginal = new Vector2( -0.0f, 5.0f );
 
-            var result = this._calculation2.Calculate( VectorOption.Some( prev ), orginal, VectorOption.None );
+            var result = this._calculationAroundStartPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.None );
 
             Assert.That( result, Is.EqualTo( new Vector2( -2, 5 ) ) );
         }
@@ -110,7 +114,7 @@ namespace Common.Xna.Tests
             var orginal = new Vector2( 0.0f, 0.0f );
             var next = new Vector2( 5.0f, 0.0f );
 
-            var result = this._calculation2.Calculate( VectorOption.None, orginal, VectorOption.Some( next ) );
+            var result = this._calculationAroundStartPoint.Calculate( VectorOption.None, orginal, VectorOption.Some( next ) );
 
             Assert.That( result, Is.EqualTo( new Vector2( 0, 2 ) ) );
         }
@@ -121,7 +125,7 @@ namespace Common.Xna.Tests
             var orginal = new Vector2( 0.0f, 0.0f );
             var next = new Vector2( 0.0f, -5.0f );
 
-            var result = this._calculation2.Calculate( VectorOption.None, orginal, VectorOption.Some( next ) );
+            var result = this._calculationAroundStartPoint.Calculate( VectorOption.None, orginal, VectorOption.Some( next ) );
 
             Assert.That( result, Is.EqualTo( new Vector2( 2, 0 ) ) );
         }
@@ -132,7 +136,7 @@ namespace Common.Xna.Tests
             var orginal = new Vector2( 0.0f, 0.0f );
             var next = new Vector2( -5.0f, 0.0f );
 
-            var result = this._calculation2.Calculate( VectorOption.None, orginal, VectorOption.Some( next ) );
+            var result = this._calculationAroundStartPoint.Calculate( VectorOption.None, orginal, VectorOption.Some( next ) );
 
             Assert.That( result, Is.EqualTo( new Vector2( 0, -2 ) ) );
         }
@@ -143,9 +147,148 @@ namespace Common.Xna.Tests
             var orginal = new Vector2( 0.0f, 0.0f );
             var next = new Vector2( 0.0f, 5.0f );
 
-            var result = this._calculation2.Calculate( VectorOption.None, orginal, VectorOption.Some( next ) );
+            var result = this._calculationAroundStartPoint.Calculate( VectorOption.None, orginal, VectorOption.Some( next ) );
 
             Assert.That( result, Is.EqualTo( new Vector2( -2, 0 ) ) );
         }
+
+        #endregion StartPoint
+
+        #region EndPoint
+
+        [Test]
+        public void Should_correct_calculate_points_for_parpendicular_road_lane_endPoint()
+        {
+            var prev = new Vector2( 0.0f, 0.0f );
+            var orginal = new Vector2( 5.0f, 0.0f );
+            var next = new Vector2( 5.0f, 5.0f );
+            var result = this._calculationAroundEndPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.Some( next ) );
+
+            Assert.That( result, Is.EqualTo( new Vector2( 7.0f, -2.0f ) ) );
+        }
+
+        [Test]
+        public void Should_correct_calculate_points_for_parpendicular_road_lane2_endPoint()
+        {
+            var prev = new Vector2( 0.0f, 0.0f );
+            var orginal = new Vector2( 5.0f, 0.0f );
+            var next = new Vector2( 5.0f, -5.0f );
+            var result = this._calculationAroundEndPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.Some( next ) );
+
+            Assert.That( result, Is.EqualTo( new Vector2( 3.0f, -2.0f ) ) );
+        }
+
+        [Test]
+        public void Should_correct_calculate_points_for_parpendicular_road_lane3_endPoint()
+        {
+            var prev = new Vector2( 0.0f, 0.0f );
+            var orginal = new Vector2( -5.0f, 0.0f );
+            var next = new Vector2( -5.0f, -5.0f );
+            var result = this._calculationAroundEndPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.Some( next ) );
+
+            Assert.That( result, Is.EqualTo( new Vector2( 7.0f, 2.0f ) ) );
+        }
+
+        [Test]
+        public void Should_correct_calculate_points_for_parpendicular_road_lane4_endPoint()
+        {
+            var prev = new Vector2( 0.0f, 0.0f );
+            var orginal = new Vector2( -5.0f, 0.0f );
+            var next = new Vector2( -5.0f, 5.0f );
+            var result = this._calculationAroundEndPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.Some( next ) );
+
+            Assert.That( result, Is.EqualTo( new Vector2( -3.0f, 2.0f ) ) );
+        }
+
+        [Test]
+        public void Should_correct_calculte_points_for_prev_vector_endPoint()
+        {
+            var prev = new Vector2( 0.0f, 0.0f );
+            var orginal = new Vector2( 5.0f, 0.0f );
+
+            var result = this._calculationAroundEndPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.None );
+
+            Assert.That( result, Is.EqualTo( new Vector2( 5, 2 ) ) );
+        }
+
+        [Test]
+        public void Should_correct_calculte_points_for_prev_vector2_endPoint()
+        {
+            var prev = new Vector2( 0.0f, 0.0f );
+            var orginal = new Vector2( 0.0f, -5.0f );
+
+            var result = this._calculationAroundEndPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.None );
+
+            Assert.That( result, Is.EqualTo( new Vector2( 2, -5 ) ) );
+        }
+
+        [Test]
+        public void Should_correct_calculte_points_for_prev_vector3_endPoint()
+        {
+            var prev = new Vector2( 0.0f, 0.0f );
+            var orginal = new Vector2( -5.0f, 0.0f );
+
+            var result = this._calculationAroundEndPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.None );
+
+            Assert.That( result, Is.EqualTo( new Vector2( -5, -2 ) ) );
+        }
+
+        [Test]
+        public void Should_correct_calculte_points_for_prev_vector4_endPoitn()
+        {
+            var prev = new Vector2( 0.0f, 0.0f );
+            var orginal = new Vector2( -0.0f, 5.0f );
+
+            var result = this._calculationAroundEndPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.None );
+
+            Assert.That( result, Is.EqualTo( new Vector2( -2, 5 ) ) );
+        }
+
+        [Test]
+        public void Should_correct_calculte_points_for_next_vector_endPoint()
+        {
+            var orginal = new Vector2( 0.0f, 0.0f );
+            var next = new Vector2( 5.0f, 0.0f );
+
+            var result = this._calculationAroundEndPoint.Calculate( VectorOption.None, orginal, VectorOption.Some( next ) );
+
+            Assert.That( result, Is.EqualTo( new Vector2( 0, 2 ) ) );
+        }
+
+        [Test]
+        public void Should_correct_calculte_points_for_next_vector2_endPoint()
+        {
+            var orginal = new Vector2( 0.0f, 0.0f );
+            var next = new Vector2( 0.0f, -5.0f );
+
+            var result = this._calculationAroundEndPoint.Calculate( VectorOption.None, orginal, VectorOption.Some( next ) );
+
+            Assert.That( result, Is.EqualTo( new Vector2( 2, 0 ) ) );
+        }
+
+        [Test]
+        public void Should_correct_calculte_points_for_next_vector3_endPoint()
+        {
+            var orginal = new Vector2( 0.0f, 0.0f );
+            var next = new Vector2( -5.0f, 0.0f );
+
+            var result = this._calculationAroundEndPoint.Calculate( VectorOption.None, orginal, VectorOption.Some( next ) );
+
+            Assert.That( result, Is.EqualTo( new Vector2( 0, -2 ) ) );
+        }
+
+        [Test]
+        public void Should_correct_calculte_points_for_next_vector4_endPoint()
+        {
+            var orginal = new Vector2( 0.0f, 0.0f );
+            var next = new Vector2( 0.0f, 5.0f );
+
+            var result = this._calculationAroundEndPoint.Calculate( VectorOption.None, orginal, VectorOption.Some( next ) );
+
+            Assert.That( result, Is.EqualTo( new Vector2( -2, 0 ) ) );
+        }
+
+        #endregion StartPoint
+
     }
 }

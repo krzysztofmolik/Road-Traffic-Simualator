@@ -160,7 +160,7 @@ namespace RoadTrafficSimulator.Road
 
         private RoadJunctionEdge GetRoadJuctionEdge( Vector2 location )
         {
-            return this._visitator.Where( c => c.HitTest( location ) ).OfType<RoadJunctionEdge>().FirstOrDefault();
+            return this._visitator.Where( c => c.IsHitted( location ) ).OfType<RoadJunctionEdge>().FirstOrDefault();
         }
     }
 }

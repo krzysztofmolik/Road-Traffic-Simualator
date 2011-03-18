@@ -18,7 +18,7 @@ namespace RoadTrafficSimulator
         private readonly CompositeConnectionCommand _compositeConnectionCommand;
         private readonly VisitAllChildren _visitator;
 
-        private IControl[] _lastClickedEdges;
+        private ILogicControl _lastClickedEdges;
 
         public ConnectObjectCommand(
                             IMouseInformation mouseInformation,
@@ -62,8 +62,8 @@ namespace RoadTrafficSimulator
 
             if ( this._lastClickedEdges == null )
             {
-                this._lastClickedEdges = edges.ToArray();
-                this._lastClickedEdges.ForEach( s => s.IsSelected = true );
+                this._lastClickedEdges = edges;
+                this._lastClickedEdges.IsSelected = true;
             }
             else
             {
@@ -72,20 +72,26 @@ namespace RoadTrafficSimulator
             }
         }
 
-        private void Begin( IEnumerable<IControl> first, IEnumerable<IControl> second )
+        private void Begin( ILogicControl first, ILogicControl second )
         {
-            foreach ( var firstControl in first )
-            {
-                foreach ( var secondControl in second )
-                {
-                    this._compositeConnectionCommand.Connect( firstControl, secondControl );
-                }
-            }
+            this._compositeConnectionCommand.Connect(first, second);
         }
 
-        private IEnumerable<IControl> FindControlAtPoint( Vector2 location )
+        private ILogicControl FindControlAtPoint( Vector2 location )
         {
-            return this._visitator.Where( c => c.HitTest( location ) );
+            // TODO Chenge it
+            ILogicControl control = null;
+            this._visitator.FirstOrDefault( s =>
+                                                      {
+                                                          var hited = s.HitTest(location);
+                                                          if (hited != null)
+                                                          {
+                                                              control = hited;
+                                                              return true;
+                                                          }
+                                                          return false;
+                                                      });
+            return control;
         }
     }
 }

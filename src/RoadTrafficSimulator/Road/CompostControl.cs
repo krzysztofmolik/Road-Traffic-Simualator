@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using RoadTrafficSimulator.Infrastructure.Control;
+using System.Linq;
 
 namespace RoadTrafficSimulator.Road
 {
@@ -30,6 +31,17 @@ namespace RoadTrafficSimulator.Road
             {
                 this._childrens.Remove( singleControlBase );
             }
+        }
+
+        public override ILogicControl HitTest( Microsoft.Xna.Framework.Vector2 point )
+        {
+            var control = this._childrens.Select( c => c.HitTest( point ) ).Where( c => c != null ).FirstOrDefault();
+            if( control != null )
+            {
+                return control;
+            }
+
+            return base.HitTest( point );
         }
     }
 }

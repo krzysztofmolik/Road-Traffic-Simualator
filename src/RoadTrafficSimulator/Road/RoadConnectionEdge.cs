@@ -31,6 +31,17 @@ namespace RoadTrafficSimulator.Road
             get { return this._roadConnection.IsSelectedChanged; }
         }
 
+        public int Order
+        {
+            get { return this._roadConnection.Order; }
+        }
+
+        public bool IsSelected
+        {
+            get { return this._roadConnection.IsSelected; }
+            set { this._roadConnection.IsSelected = true; }
+        }
+
         public MovablePoint StartPoint
         {
             get { return this._shouldInvert ? this._roadConnection.EndPoint : this._roadConnection.StartPoint; }

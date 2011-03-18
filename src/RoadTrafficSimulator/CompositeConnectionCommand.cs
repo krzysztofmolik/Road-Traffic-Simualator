@@ -14,7 +14,7 @@ namespace RoadTrafficSimulator
             this._connectionCommand = connectionCommand;
         }
 
-        public bool Connect( IControl first, IControl second )
+        public bool Connect( ILogicControl first, ILogicControl second )
         {
             var connector = this._connectionCommand.FirstOrDefault( s => s.Connect( first, second ) );
             return connector != null;
