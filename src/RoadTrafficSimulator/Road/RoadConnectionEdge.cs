@@ -31,15 +31,15 @@ namespace RoadTrafficSimulator.Road
             get { return this._roadConnection.IsSelectedChanged; }
         }
 
-        public int Order
-        {
-            get { return this._roadConnection.Order; }
-        }
-
         public bool IsSelected
         {
             get { return this._roadConnection.IsSelected; }
             set { this._roadConnection.IsSelected = true; }
+        }
+
+        public void Update()
+        {
+            this._roadConnection.Update();
         }
 
         public MovablePoint StartPoint

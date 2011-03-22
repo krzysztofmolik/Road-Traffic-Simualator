@@ -288,6 +288,31 @@ namespace Common.Xna.Tests
             Assert.That( result, Is.EqualTo( new Vector2( -2, 0 ) ) );
         }
 
+        [Test]
+        public void Test1()
+        {
+            var orginalStart = new Vector2( 0.0f, 0.0f );
+            var orginalEnd = new Vector2( -2.0f, 2.0f );
+            var prevStart = new Vector2( -4.0f, 0.0f );
+            var prevEnd = new Vector2( -4.0f, 2.0f );
+            var nextStart = new Vector2( 2.0f, 4.0f );
+            var nextEnd = new Vector2( 0.0f, 4.0f );
+
+            var resultAroundStart = this._calculationAroundEndPoint.Calculate( VectorOption.Some( prevEnd ), orginalEnd, VectorOption.Some( nextEnd ) );
+            var recalculate = new CalculateEdgeAngel( RoadHeight ).Calculate(
+                VectorOption.Some( this.Location( prevStart, prevEnd ) ),
+                this.Location( resultAroundStart, orginalEnd ),
+                VectorOption.Some( this.Location( nextStart, nextEnd ) ) );
+
+            Assert.That( resultAroundStart, Is.EqualTo( recalculate.Start ) );
+
+        }
+
+        private Vector2 Location( Vector2 start, Vector2 end )
+        {
+            return start + ( ( end - start ) / 2 );
+        }
+
         #endregion StartPoint
 
     }

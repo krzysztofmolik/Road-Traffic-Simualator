@@ -12,8 +12,8 @@ namespace RoadTrafficSimulator.Infrastructure.Control
         IControl Parent { get; }
 
         IObservable<bool> IsSelectedChanged { get; }
-        int Order { get; }
         bool IsSelected { get; set; }
+        void Update();
     }
 
     public interface IControl : ILogicControl

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using Autofac;
 using Microsoft.Xna.Framework;
@@ -13,7 +12,6 @@ using RoadTrafficSimulator.Road.Connectors.Commands;
 using RoadTrafficSimulator.Road.Controls;
 using RoadTrafficSimulator.Utile.DependencyInjection;
 using Xna;
-using XnaRoadTrafficConstructor.Infrastucure;
 using XnaRoadTrafficConstructor.MouseHandler;
 using XnaRoadTrafficConstructor.MouseHandler.JunctionMouseHandler;
 using XnaRoadTrafficConstructor.Road;
@@ -84,7 +82,7 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             builder.RegisterType<ConnectRoadConnectionWithEndRoadLane>().As<IConnectionCommand>();
             builder.RegisterType<ConnectRoadJunctionEdgeWitEndRoadLaneEdge>().As<IConnectionCommand>();
             builder.RegisterType<ConnectSideRoadLaneEdges>().As<IConnectionCommand>();
-            builder.RegisterType<ConnectRoadConnectionWithRoadConnection>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectRoadConnectionWithRoadConnection>().As<ConnectRoadConnectionWithRoadConnection>().As<IConnectionCommand>();
             builder.RegisterType<ScreenZoom>().As<IBackgroundJob>();
 
             this.RegisterFactoryMethods( builder );

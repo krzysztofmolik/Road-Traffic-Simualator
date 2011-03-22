@@ -35,7 +35,7 @@ namespace RoadTrafficSimulatorTests.IntegrationTests.Helpers
             roadJunctionWithRoadLaneConnection.Connect( this.FirstRoadJunction, this.FirstRoadLaneBlock );
             roadLaneWithRoadConnection.Connect( this.FirstRoadLaneBlock, this.RoadConnection );
             roadConnectionWithRoadLane.Connect( this.RoadConnection, this.SecondRoadLaneBlock );
-            roadLaneWithRoadJunction.Connect( this.SecondRoadLaneBlock, this.SecondRoadJunction):
+            roadLaneWithRoadJunction.Connect( this.SecondRoadLaneBlock, this.SecondRoadJunction);
         }
     }
 }

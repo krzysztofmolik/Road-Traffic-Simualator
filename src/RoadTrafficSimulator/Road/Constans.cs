@@ -4,7 +4,7 @@ namespace XnaRoadTrafficConstructor.Road
 {
     public static class Constans
     {
-        public const float Epsilon = 0.001f;
+        public const float Epsilon = 0.007f;
         public const float DistanceArrowWidth = 0.10f;
         public const float DistanceArrowHeight = 0.02f;
 

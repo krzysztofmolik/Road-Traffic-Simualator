@@ -12,7 +12,7 @@ open Microsoft.Xna.Framework
             let yDelta = System.Math.Abs( left.Y - right.Y )
             let isSmal( value ) = value < epsilon
 
-            ( xDelta |> isSmal && yDelta |> isSmal )
+            isSmal( xDelta) && isSmal( yDelta )
 
         [<System.Runtime.CompilerServices.Extension>]   
         let angel( left:Vector2, right:Vector2 ) = 

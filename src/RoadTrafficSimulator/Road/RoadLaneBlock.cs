@@ -29,7 +29,6 @@ namespace RoadTrafficSimulator.Road
         public RoadLaneBlock( Factories.Factories factories, IControl parent )
         {
             this._parent = parent;
-            this.Order = this._parent.Order + 1;
             this._factories = factories;
             this._roadLaneBlockVertexContainer = new RoadLaneBlockVertexContainer( this );
             this._mouseSupport = new CompositeControlMouseSupport( this );

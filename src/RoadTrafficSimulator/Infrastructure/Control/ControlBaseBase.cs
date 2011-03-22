@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
@@ -17,7 +16,6 @@ namespace RoadTrafficSimulator.Infrastructure.Control
         protected ControlBaseBase()
         {
             this.TranslatedSubject = new Subject<TranslationChangedEventArgs>();
-            this.Order = 0;
         }
 
         public abstract IVertexContainer<TVertex> SpecifiedVertexContainer { get; }
@@ -29,7 +27,6 @@ namespace RoadTrafficSimulator.Infrastructure.Control
         public abstract Vector2 Location { get; }
 
         public abstract IControl Parent { get; }
-        public int Order { get; protected set; }
 
         public bool IsSelected
         {
@@ -53,12 +50,17 @@ namespace RoadTrafficSimulator.Infrastructure.Control
 
         public void Invalidate()
         {
-            this.OnRedraw();
+            this.OnInvalidate();
         }
 
-        protected virtual void OnRedraw()
+        protected virtual void OnInvalidate()
         {
             this._redrawEvent.OnNext( new Unit() );
+        }
+
+        protected virtual void OnTranslate()
+        {
+            this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
         }
 
         protected ISubject<TranslationChangedEventArgs> TranslatedSubject { get; private set; }
@@ -77,9 +79,9 @@ namespace RoadTrafficSimulator.Infrastructure.Control
             return root;
         }
 
-        public virtual bool IsHitted(Vector2 location)
+        public virtual bool IsHitted( Vector2 location )
         {
-            return HitTestAlghoritm.HitTest( location, this.VertexContainer.Shape.ShapePoints);
+            return HitTestAlghoritm.HitTest( location, this.VertexContainer.Shape.ShapePoints );
         }
 
         public virtual Vector2 ToControlPosition( Vector2 screenCordination )
@@ -94,6 +96,11 @@ namespace RoadTrafficSimulator.Infrastructure.Control
                 return this;
             }
             return null;
+        }
+
+        public virtual void Update()
+        {
+            this.OnTranslate();
         }
     }
 }

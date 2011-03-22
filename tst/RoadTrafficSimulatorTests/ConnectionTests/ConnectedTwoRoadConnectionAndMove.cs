@@ -28,8 +28,8 @@ namespace RoadTrafficSimulatorTests.ConnectionTests
         [Test]
         public void TestChangeName()
         {
-            var result = this._roadConnectionConnectionCommand.Connect( this._firstLane.RoadConnection, this._secondLane.RoadConnection );
-            Assert.That( result, Is.True );
+            this._roadConnectionConnectionCommand.Connect( this._firstLane.RoadConnection, this._secondLane.RoadConnection );
+            this._firstLane.SecondRoadJunction.SetLocation( new Vector2( 2.0f, 2.0f ) );
         }
     }
 }

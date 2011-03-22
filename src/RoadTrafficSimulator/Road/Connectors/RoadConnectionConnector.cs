@@ -42,9 +42,9 @@ namespace RoadTrafficSimulator.Road.Connectors
             var otherSideOfLane = this.GetLaneEdgeOpositeTo( roadLaneEdge );
             this.NextEdge = otherSideOfLane;
 
-            this.NextEdge.Translated.Subscribe( x => this._owner.RecalculatePosition() );
             this.ConnectBySubscribingToEvent( this._owner.RightEdge.StartPoint, roadLaneEdge.EndPoint );
             this.ConnectBySubscribingToEvent( this._owner.RightEdge.EndPoint, roadLaneEdge.StartPoint );
+            this.NextEdge.Translated.Subscribe( x => this._owner.RecalculatePosition() );
             this._owner.RecalculatePosition();
         }
 
@@ -54,24 +54,14 @@ namespace RoadTrafficSimulator.Road.Connectors
             return owner.LeftEdge == roadLaneEdge ? owner.RightEdge : owner.LeftEdge;
         }
 
-        public void NotifyAboutTranslation()
-        {
-            if ( this.PreviousEdge != null )
-            {
-                this.PreviousEdge.RecalculatePosition();
-            }
-
-            if ( this.NextEdge != null )
-            {
-                this.NextEdge.RecalculatePosition();
-            }
-        }
-
         public void ConnectBeginBottomWith( RoadConnection roadConnection )
         {
             this.Bottom = roadConnection;
-            this.ConnectBySubscribingToEvent( roadConnection.EndPoint, this._owner.StartPoint );
-            roadConnection.EndPoint.Translated.Subscribe( _ => this._owner.RecalculatePostitionAroundStartPoint() );
+            roadConnection.EndPoint.Translated.Subscribe(_ =>
+                                                             {
+                                                                 this._owner.StartPoint.SetLocation( roadConnection.EndLocation);
+                                                                 this._owner.RecalculatePostitionAroundStartPoint();
+                                                             });
             var delta = roadConnection.EndLocation - this._owner.StartLocation;
             this._owner.StartPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
             this._owner.EndPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
@@ -80,15 +70,22 @@ namespace RoadTrafficSimulator.Road.Connectors
         public void ConnectEndTopWith( RoadConnection roadConnection )
         {
             this.Top = roadConnection;
-            this.ConnectBySubscribingToEvent( roadConnection.StartPoint, this._owner.EndPoint );
-            roadConnection.StartPoint.Translated.Subscribe( _ => this._owner.RecalculatePostitionAroundEndPoint());
+            roadConnection.StartPoint.Translated.Subscribe(_ =>
+                                                               {
+                                                                   this._owner.EndPoint.SetLocation( roadConnection.StartLocation);
+                                                                   this._owner.RecalculatePostitionAroundEndPoint();
+                                                               });
         }
 
         public void ConnectBeginTopWith( RoadConnection roadConnection )
         {
             this.Top = roadConnection;
-            this.ConnectBySubscribingToEvent( roadConnection.StartPoint, this._owner.EndPoint );
-            roadConnection.StartPoint.Translated.Subscribe( _ => this._owner.RecalculatePostitionAroundEndPoint() );
+            roadConnection.StartPoint.Translated.Subscribe( _ =>
+                                                               {
+                                                                   this._owner.EndPoint.SetLocation( roadConnection.StartLocation );
+                                                                   this._owner.RecalculatePostitionAroundEndPoint();
+                                                               } );
+
             var delta = roadConnection.StartLocation - this._owner.EndLocation;
             this._owner.StartPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
             this._owner.EndPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
@@ -97,8 +94,11 @@ namespace RoadTrafficSimulator.Road.Connectors
         public void ConnectEndBottomWith( RoadConnection roadConnection )
         {
             this.Bottom = roadConnection;
-            this.ConnectBySubscribingToEvent( roadConnection.EndPoint, this._owner.StartPoint );
-            roadConnection.EndPoint.Translated.Subscribe( _ => this._owner.RecalculatePostitionAroundStartPoint());
+            roadConnection.EndPoint.Translated.Subscribe(_ =>
+                                                             {
+                                                                 this._owner.StartPoint.SetLocation( roadConnection.EndLocation);
+                                                                 this._owner.RecalculatePostitionAroundStartPoint();
+                                                             });
         }
     }
 }

@@ -64,7 +64,6 @@ namespace RoadTrafficSimulator.Road.Connectors
             this.NextEdge = edge.LeftEdge;
             edge.LeftEdge.StartPoint.Translated.Subscribe( s => this.UpdateEndPointLocation( s.Control ) );
             edge.LeftEdge.EndPoint.Translated.Subscribe( s => this.UpdateStartPointLocation( s.Control ) );
-            edge.Translated.Subscribe( s => this._endRoadLaneEdge.RecalculatePosition() );
             this.UpdateStartPointLocation( edge.LeftEdge.EndPoint );
             this.UpdateEndPointLocation( edge.LeftEdge.StartPoint );
         }
@@ -79,7 +78,6 @@ namespace RoadTrafficSimulator.Road.Connectors
             this.NextEdge = edge;
             edge.StartPoint.Translated.Subscribe( s => this.UpdateEndPointLocation( s.Control ) );
             edge.EndPoint.Translated.Subscribe( s => this.UpdateStartPointLocation( s.Control ) );
-            edge.Translated.Subscribe( s => this._endRoadLaneEdge.RecalculatePosition() );
             this.UpdateStartPointLocation( edge.EndPoint );
             this.UpdateEndPointLocation( edge.StartPoint );
         }

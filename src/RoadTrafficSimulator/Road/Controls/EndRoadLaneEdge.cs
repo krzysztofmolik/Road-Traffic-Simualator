@@ -19,7 +19,6 @@ namespace RoadTrafficSimulator.Road.Controls
             : base( factories, startPoint, endPoint, width )
         {
             this._parrent = parent;
-            this.Order = this._parrent.Order + 1;
             this.Connector = new EndRoadLaneEdgeConnector( this );
         }
 

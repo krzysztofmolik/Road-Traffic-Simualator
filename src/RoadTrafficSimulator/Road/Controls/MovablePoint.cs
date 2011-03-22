@@ -2,18 +2,19 @@
 using Common.Xna;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NLog;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
 using XnaRoadTrafficConstructor.Road;
 using XnaVs10.Extension;
-using Math = System.Math;
 
 namespace RoadTrafficSimulator.Road.Controls
 {
     public class MovablePoint : SingleControl<VertexPositionColor>
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly MovablePointVertexContainer _movablePointVertexContainer;
         private readonly IMouseSupport _mouseSupport;
         private readonly IControl _parent;
@@ -52,6 +53,7 @@ namespace RoadTrafficSimulator.Road.Controls
             var newLocation = Vector2.Transform( this.Location, matrixTranslation );
             if ( newLocation == this._location )
             {
+                Logger.Warn( "Given location is not valid, newLocation = {0}", newLocation );
                 return;
             }
 
@@ -59,16 +61,27 @@ namespace RoadTrafficSimulator.Road.Controls
             this.OnTranslate();
         }
 
-        protected virtual void OnTranslate()
+        public void SetLocationWithoutEvent( Vector2 newLocation )
         {
-            this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
+            if ( newLocation.IsValid() == false )
+            {
+                Logger.Warn( "Given location is not valid, newLocation = {0}", newLocation );
+                return;
+            }
+
+            if ( this.Location.Equal( newLocation, Constans.Epsilon ) )
+            {
+                return;
+            }
+
+            this._location = newLocation;
         }
 
         public void SetLocation( Vector2 newLocation )
         {
             if ( newLocation.IsValid() == false )
             {
-                throw new ArgumentException("New location is not valid");
+                throw new ArgumentException( "New location is not valid" );
             }
 
             if ( this.Location.Equal( newLocation, Constans.Epsilon ) )

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Autofac;
 using Caliburn.Micro;
+using NLog;
 using RoadTrafficConstructor;
 using XnaInWpf.Presenters.Interfaces;
 using Module = Autofac.Module;
@@ -10,8 +11,9 @@ using System.Linq;
 
 namespace XnaInWpf
 {
-    public class AutofacBootstrapper : Caliburn.Micro.Bootstrapper<IShellViewModel>
+    public class AutofacBootstrapper : Bootstrapper<IShellViewModel>
     {
+        private readonly static Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private IContainer _container;
 
         private IContainer BuildContainer()
@@ -23,6 +25,8 @@ namespace XnaInWpf
             autofacBuilder.RegisterModule( new CaliburnMicroModule() );
             autofacBuilder.RegisterModule( new PresentersModule() );
             autofacBuilder.RegisterModule( new XnaInWpfModule() );
+
+            Logger.Trace("Test log");
 
             return autofacBuilder.Build();
         }
