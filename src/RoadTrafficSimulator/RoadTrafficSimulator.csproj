@@ -208,7 +208,7 @@
     <Compile Include="Road\CompostControl.cs" />
     <Compile Include="Road\ConetableBase.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectEndRoadLaneEdgeWithRoadJunctionEdge.cs" />
-    <Compile Include="Road\Connectors\Commands\ConnectEndRoadLaneEdgeWithRoadLaneConnection.cs" />
+    <Compile Include="Road\Connectors\Commands\ConnectEndRoadLaneEdgeWithRoadConnection.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectRoadConnectionWithRoadConnection.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectRoadJunctionEdge.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectRoadJunctionEdgeWitEndRoadLaneEdge.cs" />
@@ -253,7 +253,6 @@
     <Compile Include="Road\ScreenZoom.cs" />
     <Compile Include="Road\SideRoadLine.cs" />
     <Compile Include="Road\StopLine.cs" />
-    <Compile Include="Road\Stored.cs" />
     <Compile Include="Road\VertexPositionTextureDrawer.cs" />
     <Compile Include="Road\WorldController.cs" />
     <Compile Include="Sprites\Layer2D.cs" />

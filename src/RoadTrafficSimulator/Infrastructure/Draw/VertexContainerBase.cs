@@ -11,8 +11,6 @@ namespace RoadTrafficSimulator.Infrastructure.Draw
         protected VertexContainerBase( T @object )
         {
             this.Object = @object.NotNull();
-            // TODO Remove translate
-            this.Object.Translated.Subscribe( s => this.Vertex = this.UpdateShapeAndCreateVertex() );
             this.Object.Redrawed.Subscribe( s => this.Vertex = this.UpdateShapeAndCreateVertex() );
         }
 

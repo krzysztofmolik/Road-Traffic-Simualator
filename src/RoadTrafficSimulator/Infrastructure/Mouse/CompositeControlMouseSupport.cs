@@ -93,7 +93,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             var hitChildren = this._owner.Children.FirstOrDefault( s => s.IsHitted( location ) );
             if( hitChildren != null )
             {
-                return hitChildren.HitTest(location) ?? this._owner;
+                return hitChildren.GetHittedControl(location) ?? this._owner;
             }
 
             return this._owner;

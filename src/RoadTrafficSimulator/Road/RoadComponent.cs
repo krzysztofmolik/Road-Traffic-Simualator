@@ -37,7 +37,7 @@ namespace RoadTrafficSimulator.Road
                     IEventAggregator eventAggreator,
                     Func<Vector2, ICompositeControl, IRoadJunctionBlock> roadJunctionBlockFactory,
                     SelectControlCommand selectCommand,
-                    IGraphicsDeviceService graphicsDeviceService, RoadLayer roadLayer)
+                    IGraphicsDeviceService graphicsDeviceService, RoadLayer roadLayer )
             : base( graphicsDeviceService )
         {
             this._backgroundJobs = backgroundJobs;
@@ -70,7 +70,10 @@ namespace RoadTrafficSimulator.Road
         private void SubscribeToMessages()
         {
             this._roadJunctionCreator.JunctionCreated.Subscribe( location =>
-                this._roadLayer.AddChild( this._roadJunctionBlockFactory( location, this._roadLayer ) ) );
+                                                                    {
+                                                                        var children = this._roadJunctionBlockFactory( location, this._roadLayer );
+                                                                        this._roadLayer.AddChild( children );
+                                                                    } );
         }
 
         public void StartConnectingObject()

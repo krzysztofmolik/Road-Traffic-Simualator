@@ -31,7 +31,6 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             builder.RegisterType<Camera3D>().SingleInstance();
             builder.RegisterType<SpriteBatch>().As<SpriteBatch>();
             builder.RegisterType<PrimitiveBatch>().As<PrimitiveBatch>();
-            builder.RegisterType<Stored>().SingleInstance();
             builder.RegisterType<RoadLayer>().InstancePerLifetimeScope();
             builder.Register( s => new VisitAllChildren( s.Resolve<RoadLayer>() ) );
 
@@ -77,7 +76,7 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             builder.RegisterType<ConnectObjectCommand>();
             builder.RegisterType<CompositeConnectionCommand>();
             builder.RegisterType<ConnectRoadJunctionEdge>().As<IConnectionCommand>();
-            builder.RegisterType<ConnectEndRoadLaneEdgeWithRoadLaneConnection>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectEndRoadLaneEdgeWithRoadConnection>().As<IConnectionCommand>();
             builder.RegisterType<ConnectEndRoadLaneEdgeWithRoadJunctionEdge>().As<IConnectionCommand>();
             builder.RegisterType<ConnectRoadConnectionWithEndRoadLane>().As<IConnectionCommand>();
             builder.RegisterType<ConnectRoadJunctionEdgeWitEndRoadLaneEdge>().As<IConnectionCommand>();

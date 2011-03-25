@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
-using RoadTrafficSimulator.Infrastructure.Control;
+﻿using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Road.Connectors;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
@@ -14,8 +12,8 @@ namespace RoadTrafficSimulator.Road.Controls
         private readonly SideRoadLaneConnector _connector;
         private LaneType _laneType;
 
-        public SideRoadLaneEdge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, float width, RoadLaneBlock parent )
-            : base( factories, startPoint, endPoint, width )
+        public SideRoadLaneEdge(Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, RoadLaneBlock parent)
+            : base( factories, startPoint, endPoint )
         {
             this._connector = new SideRoadLaneConnector( this );
             this._parent = parent;
@@ -41,11 +39,11 @@ namespace RoadTrafficSimulator.Road.Controls
             set
             {
                 this._laneType = value;
-                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
+                this.Redraw();
             }
         }
 
-        public override IVertexContainer<VertexPositionColor> SpecifiedVertexContainer
+        public override IVertexContainer VertexContainer
         {
             get { return this._vertexContainer; }
         }

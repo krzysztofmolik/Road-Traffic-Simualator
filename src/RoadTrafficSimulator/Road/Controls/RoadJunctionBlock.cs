@@ -1,14 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
-using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
 using XnaRoadTrafficConstructor.Road;
-using XnaRoadTrafficConstructor.VertexContainers;
 
 namespace RoadTrafficSimulator.Road.Controls
 {
@@ -16,7 +13,7 @@ namespace RoadTrafficSimulator.Road.Controls
     {
         private readonly RoadJunctionEdge[] _roadJunctionEdges = new RoadJunctionEdge[ EdgeType.Count ];
         private readonly MovablePoint[] _points = new MovablePoint[ Corners.Count ];
-        private readonly IVertexContainer<VertexPositionColor> _specifiedVertexContainer;
+        private readonly IVertexContainer<VertexPositionColor> _concretVertexContainer;
         private readonly IMouseSupport _mouseSupport;
         private readonly IControl _parent;
 
@@ -25,7 +22,8 @@ namespace RoadTrafficSimulator.Road.Controls
             this._parent = parent;
             const float halfRoadWidth = Constans.RoadHeight / 2;
             this._roadJunctionEdges = Enumerable.Range( 0, EdgeType.Count ).Select( s => new RoadJunctionEdge( factories, this ) ).ToArray();
-            this._points = Enumerable.Range( 0, Corners.Count ).Select( s => new MovablePoint( factories, Vector2.Zero, this ) ).ToArray();
+            this._points = new MovablePoint[ Corners.Count ];
+
             var leftTop = new Vector2( location.X - halfRoadWidth, location.Y + halfRoadWidth );
             this.LeftTop = new MovablePoint( factories, leftTop, this );
             this.RightTop = new MovablePoint( factories, leftTop + new Vector2( Constans.RoadHeight, 0 ), this );
@@ -35,7 +33,7 @@ namespace RoadTrafficSimulator.Road.Controls
             this._points.ForEach( this.AddChild );
             this._roadJunctionEdges.ForEach( this.AddChild );
 
-            this._specifiedVertexContainer = factories.VertexContainerFactory.Create( this );
+            this._concretVertexContainer = factories.VertexContainerFactory.Create( this );
             this._mouseSupport = new CompositeControlMouseSupport( this );
         }
 
@@ -68,11 +66,7 @@ namespace RoadTrafficSimulator.Road.Controls
 
         public MovablePoint LeftBottom
         {
-            get
-            {
-                return this._points[ Corners.LeftBottom ];
-            }
-
+            get { return this._points[ Corners.LeftBottom ]; }
             set
             {
                 this._points[ Corners.LeftBottom ] = value;
@@ -83,11 +77,7 @@ namespace RoadTrafficSimulator.Road.Controls
 
         public MovablePoint RightBottom
         {
-            get
-            {
-                return this._points[ Corners.RightBottom ];
-            }
-
+            get { return this._points[ Corners.RightBottom ]; }
             set
             {
                 this._points[ Corners.RightBottom ] = value;
@@ -98,11 +88,7 @@ namespace RoadTrafficSimulator.Road.Controls
 
         public MovablePoint RightTop
         {
-            get
-            {
-                return this._points[ Corners.RightTop ];
-            }
-
+            get { return this._points[ Corners.RightTop ]; }
             set
             {
                 this._points[ Corners.RightTop ] = value;
@@ -113,11 +99,7 @@ namespace RoadTrafficSimulator.Road.Controls
 
         public MovablePoint LeftTop
         {
-            get
-            {
-                return this._points[ Corners.LeftTop ];
-            }
-
+            get { return this._points[ Corners.LeftTop ]; }
             set
             {
                 this._points[ Corners.LeftTop ] = value;
@@ -131,9 +113,9 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return _roadJunctionEdges; }
         }
 
-        public override IVertexContainer<VertexPositionColor> SpecifiedVertexContainer
+        public override IVertexContainer VertexContainer
         {
-            get { return this._specifiedVertexContainer; }
+            get { return this._concretVertexContainer; }
         }
 
         public override IMouseSupport MouseSupport
@@ -156,14 +138,14 @@ namespace RoadTrafficSimulator.Road.Controls
         public MovablePoint CornerHitTest( Vector2 point )
         {
             // TODO Change it
-            var hittedControl = this._points.FirstOrDefault( p => p.IsHitted(point));
-            if( hittedControl  != null )
+            var hittedControl = this._points.FirstOrDefault( p => p.IsHitted( point ) );
+            if ( hittedControl != null )
             {
-                return hittedControl.HitTest(point) as MovablePoint;
+                return hittedControl.GetHittedControl( point ) as MovablePoint;
             }
+
             return null;
         }
-
         public override void Translate( Matrix matrixTranslation )
         {
             this.LeftTop.Translate( matrixTranslation );
@@ -171,11 +153,7 @@ namespace RoadTrafficSimulator.Road.Controls
             this.RightBottom.Translate( matrixTranslation );
             this.LeftBottom.Translate( matrixTranslation );
 
-            // TODO Notify about translation
-        }
-
-        public void Normalize()
-        {
+            this.RoadJunctionEdges.ForEach( edge => edge.Invalidate() );
         }
     }
 }

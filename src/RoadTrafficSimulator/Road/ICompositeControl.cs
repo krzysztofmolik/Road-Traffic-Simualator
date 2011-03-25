@@ -8,6 +8,6 @@ namespace RoadTrafficSimulator.Road
     {
         IEnumerable<IControl> Children { get; }
 
-        void AddChild( IControl singleControlBase );
+        void AddChild( IControl control );
     }
 }

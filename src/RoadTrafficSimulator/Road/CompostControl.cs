@@ -15,33 +15,39 @@ namespace RoadTrafficSimulator.Road
             get { return this._childrens; }
         }
 
-        public void AddChild( IControl singleControlBase )
+        public void AddChild( IControl control )
         {
             lock ( this._synchronizationObject )
             {
-                this._childrens.Add( singleControlBase );
+                this._childrens.Add( control );
             }
 
-            singleControlBase.Translated.Subscribe( s => this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) ) );
+            control.Translated.Subscribe( s => this.OnChildrenTranslated() );
+            control.Redrawed.Subscribe( s => this.OnChildrenRedrawed() );
+        }
+
+        protected virtual void OnChildrenTranslated()
+        { }
+
+        protected virtual void OnChildrenRedrawed()
+        {
+            this.Redraw();
         }
 
         public void RemoveChild( ISingleControl singleControlBase )
         {
-            lock ( this._synchronizationObject )
-            {
-                this._childrens.Remove( singleControlBase );
-            }
+            // TODO Implement it
         }
 
-        public override ILogicControl HitTest( Microsoft.Xna.Framework.Vector2 point )
+        public override ILogicControl GetHittedControl( Microsoft.Xna.Framework.Vector2 point )
         {
-            var control = this._childrens.Select( c => c.HitTest( point ) ).Where( c => c != null ).FirstOrDefault();
-            if( control != null )
+            var control = this._childrens.Select( c => c.GetHittedControl( point ) ).Where( c => c != null ).FirstOrDefault();
+            if ( control != null )
             {
                 return control;
             }
 
-            return base.HitTest( point );
+            return base.GetHittedControl( point );
         }
     }
 }

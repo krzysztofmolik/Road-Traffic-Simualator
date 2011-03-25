@@ -1,24 +1,22 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
+using System.Linq;
 
 namespace RoadTrafficSimulator.Road.Controls
 {
     public abstract class Edge : CompostControl<VertexPositionColor>
     {
-        private readonly EdgeVertexContainer _specifiedVertexContainer;
+        private readonly EdgeVertexContainer _concretVertexContainer;
         private readonly IMouseSupport _mouseSupport;
-        private float _width;
         private MovablePoint _startPoint;
         private MovablePoint _endPoint;
 
         protected Edge( Factories.Factories factories )
         {
-            this._specifiedVertexContainer = new EdgeVertexContainer( this );
+            this._concretVertexContainer = new EdgeVertexContainer( this );
             this._mouseSupport = new CompositeControlMouseSupport( this );
             this._startPoint = new MovablePoint( factories, Vector2.Zero, this );
             this._endPoint = new MovablePoint( factories, Vector2.Zero, this );
@@ -26,12 +24,11 @@ namespace RoadTrafficSimulator.Road.Controls
             this.AddChild( this._endPoint );
         }
 
-        protected Edge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, float width )
+        protected Edge(Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint)
             : this( factories )
         {
             this.StartPoint = startPoint;
             this.EndPoint = endPoint;
-            this._width = width;
         }
 
         public Vector2 StartLocation
@@ -52,7 +49,7 @@ namespace RoadTrafficSimulator.Road.Controls
                 this.RemoveChild( this._startPoint );
                 this._startPoint = value;
                 this.AddChild( value );
-                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
+                this.Invalidate();
             }
         }
 
@@ -64,23 +61,13 @@ namespace RoadTrafficSimulator.Road.Controls
                 this.RemoveChild( this._endPoint );
                 this._endPoint = value;
                 this.AddChild( value );
-                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
+                this.Invalidate();
             }
         }
 
-        public float Width
+        public override IVertexContainer VertexContainer
         {
-            get { return this._width; }
-            set
-            {
-                this._width = value;
-                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
-            }
-        }
-
-        public override IVertexContainer<VertexPositionColor> SpecifiedVertexContainer
-        {
-            get { return this._specifiedVertexContainer; }
+            get { return this._concretVertexContainer; }
         }
 
         public override IMouseSupport MouseSupport
@@ -97,18 +84,23 @@ namespace RoadTrafficSimulator.Road.Controls
         {
             var startPoint = this.StartPoint.Location;
             var endPoint = this.EndPoint.Location;
-            this.StartPoint.Translate( matrixTranslation );
-            this.EndPoint.Translate( matrixTranslation );
+            this.StartPoint.TranslateWithoutEvent( matrixTranslation );
+            this.EndPoint.TranslateWithoutEvent( matrixTranslation );
+
+            if( startPoint != this.StartPoint.Location )
+            {
+                this.StartPoint.Invalidate();
+            }
+
+            if( endPoint != this.EndPoint.Location )
+            {
+                this.EndPoint.Invalidate();
+            }
 
             if ( startPoint != this.StartPoint.Location || endPoint != this.EndPoint.Location )
             {
-                this.OnTranslated();
+                this.Invalidate();
             }
-        }
-
-        protected virtual void OnTranslated()
-        {
-            this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
         }
     }
 }

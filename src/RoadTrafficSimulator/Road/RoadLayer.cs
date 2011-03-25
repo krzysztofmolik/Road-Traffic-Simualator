@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,27 +13,21 @@ namespace RoadTrafficSimulator.Road
 {
     public class RoadLayer : CompostControl<VertexPositionColor>
     {
-        private readonly Stored _stored;
-        private readonly RoadLayerVertexContainer _specifiedVertexContainer;
+        private readonly RoadLayerVertexContainer _concretVertexContainer;
         private readonly Graphic _graphics;
         private readonly IMouseSupport _mouseSupport;
         private Vector2 _location = Vector2.Zero;
 
-        public RoadLayer(
-                Factories.Factories factories, 
-                Stored stored,
-                Graphic graphics )
+        public RoadLayer(Factories.Factories factories, Graphic graphics)
         {
-            this._stored = stored.NotNull();
-
-            this._specifiedVertexContainer = new RoadLayerVertexContainer( this );
+            this._concretVertexContainer = new RoadLayerVertexContainer( this );
             this._graphics = graphics;
             this._mouseSupport = new RoadLayerMouseSupport( this );
         }
 
-        public override IVertexContainer<VertexPositionColor> SpecifiedVertexContainer
+        public override IVertexContainer VertexContainer
         {
-            get { return this._specifiedVertexContainer; }
+            get { return this._concretVertexContainer; }
         }
 
         public override IMouseSupport MouseSupport
@@ -52,41 +45,19 @@ namespace RoadTrafficSimulator.Road
             get { return null; }
         }
 
-        public IRoadLaneBlock GetRoadLineAtPoint( Vector2 point )
-        {
-            var roadLine = this._stored.RoadLanes.FirstOrDefault( s => s.IsHitted( point ) );
-            return roadLine;
-        }
-
         public void Draw( GameTime timeSpan )
         {
-            this._specifiedVertexContainer.Draw( this._graphics );
+            this._concretVertexContainer.Draw( this._graphics );
 
             this._graphics.VertexPositionalColorDrawer.Flush();
         }
-
-        public LightsLocation GetLightPosition( Vector2 mousePosition )
-        {
-            var lightPosition = from roadLine in this._stored.RoadLanes
-                                let block = roadLine.HitRoadBlock( mousePosition )
-                                where block != null
-                                select block.FirstOrDefault();
-
-            return lightPosition.Where( t => t is LightsLocation ).FirstOrDefault() as LightsLocation;
-        }
-
-        public void SetLight( LightsLocation lightsLocation )
-        {
-            lightsLocation.Light = new NormalLight();
-        }
-
         public override void Translate( Matrix matrixTranslation )
         {
             this._location = Vector2.Transform( this._location, matrixTranslation );
             this.Children.ForEach( s => s.Translate( matrixTranslation ) );
         }
 
-        public override ILogicControl HitTest(Vector2 point)
+        public override ILogicControl GetHittedControl(Vector2 point)
         {
             return null;
         }

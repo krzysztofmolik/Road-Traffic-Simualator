@@ -1,13 +1,8 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Road.Connectors;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
-using XnaRoadTrafficConstructor.Road;
-using XnaVs10.MathHelpers;
 
 namespace RoadTrafficSimulator.Road.Controls
 {
@@ -27,7 +22,7 @@ namespace RoadTrafficSimulator.Road.Controls
         }
 
         public RoadJunctionEdge(Factories.Factories factories,  MovablePoint startPoint, MovablePoint endPoint, float width, RoadJunctionBlock parent )
-            : base( factories, startPoint, endPoint, width )
+            : base( factories, startPoint, endPoint )
         {
             this._parent = parent;
         }
@@ -47,24 +42,9 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return this._parent; }
         }
 
-        public override IVertexContainer<VertexPositionColor> SpecifiedVertexContainer
+        public override IVertexContainer VertexContainer
         {
             get { return this._vertexContainer; }
-        }
-
-        public float Length
-        {
-            get { return Vector2.Distance( this.StartLocation, this.EndLocation ); }
-        }
-
-        private Tuple<Vector2, Vector2> GetParpendicularLineToLane( EndRoadLaneEdge endRoadLaneEdge )
-        {
-            var opositeEdge = endRoadLaneEdge.GetOppositeEdge();
-            return MyMathHelper.CreatePerpendicualrLine( this.Location, opositeEdge.Location, Constans.RoadHeight );
-        }
-
-        public void RecalculatePosition()
-        {
         }
     }
 }

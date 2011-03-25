@@ -66,7 +66,7 @@ namespace XnaRoadTrafficConstructor.MouseHandler.JunctionMouseHandler
 
         private IRoadJunctionBlock FindBlockAtLocation( Vector2 location )
         {
-//            return this._stored.RoadJunctionBlock.FirstOrDefault( s => s.HitTest( location ) );
+//            return this._stored.RoadJunctionBlock.FirstOrDefault( s => s.GetHittedControl( location ) );
             return null;
         }
     }

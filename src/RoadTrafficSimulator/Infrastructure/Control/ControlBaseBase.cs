@@ -9,23 +9,14 @@ namespace RoadTrafficSimulator.Infrastructure.Control
 {
     public abstract class ControlBaseBase<TVertex> : IControl
     {
-        private readonly ISubject<bool> _isSelectedChanged = new Subject<bool>();
-        private bool _isSelected;
+        private readonly ISubject<bool> _selectionChanged = new Subject<bool>();
         private readonly ISubject<Unit> _redrawEvent = new Subject<Unit>();
+        private readonly ISubject<TranslationChangedEventArgs> _translatedSubject = new Subject<TranslationChangedEventArgs>();
+        private bool _isSelected;
 
-        protected ControlBaseBase()
-        {
-            this.TranslatedSubject = new Subject<TranslationChangedEventArgs>();
-        }
-
-        public abstract IVertexContainer<TVertex> SpecifiedVertexContainer { get; }
-
-        public IVertexContainer VertexContainer { get { return this.SpecifiedVertexContainer; } }
-
+        public abstract IVertexContainer VertexContainer { get; } 
         public abstract IMouseSupport MouseSupport { get; }
-
         public abstract Vector2 Location { get; }
-
         public abstract IControl Parent { get; }
 
         public bool IsSelected
@@ -34,62 +25,39 @@ namespace RoadTrafficSimulator.Infrastructure.Control
             set
             {
                 this._isSelected = value;
-                this._isSelectedChanged.OnNext( value );
-                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
+                this._selectionChanged.OnNext( value );
+                this.Redraw();
             }
         }
 
-        public IObservable<TranslationChangedEventArgs> Translated { get { return this.TranslatedSubject; } }
+        public IObservable<TranslationChangedEventArgs> Translated { get { return this._translatedSubject; } }
 
         public IObservable<Unit> Redrawed { get { return this._redrawEvent; } }
 
-        public IObservable<bool> IsSelectedChanged
+        public IObservable<bool> SelectionChanged
         {
-            get { return this._isSelectedChanged; }
+            get { return this._selectionChanged; }
         }
 
         public void Invalidate()
         {
-            this.OnInvalidate();
+            this.OnTranslate();
+            this.Redraw();
         }
 
-        protected virtual void OnInvalidate()
+        public virtual void Redraw()
         {
-            this._redrawEvent.OnNext( new Unit() );
+            this.OnRedraw();
         }
-
-        protected virtual void OnTranslate()
-        {
-            this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
-        }
-
-        protected ISubject<TranslationChangedEventArgs> TranslatedSubject { get; private set; }
 
         public abstract void Translate( Matrix matrixTranslation );
-
-        public IControl GetRoot()
-        {
-            IControl root = this;
-            while ( root.Parent != null )
-            {
-                var newRoot = root.Parent;
-                root = newRoot;
-            }
-
-            return root;
-        }
 
         public virtual bool IsHitted( Vector2 location )
         {
             return HitTestAlghoritm.HitTest( location, this.VertexContainer.Shape.ShapePoints );
         }
 
-        public virtual Vector2 ToControlPosition( Vector2 screenCordination )
-        {
-            return this.Location - screenCordination;
-        }
-
-        public virtual ILogicControl HitTest( Vector2 point )
+        public virtual ILogicControl GetHittedControl( Vector2 point )
         {
             if ( HitTestAlghoritm.HitTest( point, this.VertexContainer.Shape.ShapePoints ) )
             {
@@ -98,9 +66,19 @@ namespace RoadTrafficSimulator.Infrastructure.Control
             return null;
         }
 
-        public virtual void Update()
+        public virtual Vector2 ToControlPosition( Vector2 screenCordination )
         {
-            this.OnTranslate();
+            return this.Location - screenCordination;
+        }
+
+        protected virtual void OnRedraw()
+        {
+            this._redrawEvent.OnNext( new Unit() );
+        }
+
+        protected virtual void OnTranslate()
+        {
+            this._translatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
         }
     }
 }

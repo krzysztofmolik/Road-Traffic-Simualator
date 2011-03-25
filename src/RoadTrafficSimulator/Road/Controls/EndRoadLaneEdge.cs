@@ -16,7 +16,7 @@ namespace RoadTrafficSimulator.Road.Controls
         }
 
         public EndRoadLaneEdge(Factories.Factories factories,  MovablePoint startPoint, MovablePoint endPoint, float width, RoadLaneBlock parent )
-            : base( factories, startPoint, endPoint, width )
+            : base( factories, startPoint, endPoint )
         {
             this._parrent = parent;
             this.Connector = new EndRoadLaneEdgeConnector( this );
@@ -46,19 +46,6 @@ namespace RoadTrafficSimulator.Road.Controls
 
             // else
             return this._parrent.LeftEdge;
-        }
-
-        private void Contract( MovablePoint point )
-        {
-            System.Diagnostics.Contracts.Contract.Requires( point != null );
-        }
-
-        public void RecalculatePosition()
-        {
-            this.Contract( null );
-            this.Invalidate();
-            // TODO Implement
-//            throw new NotImplementedException();
         }
     }
 }

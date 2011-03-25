@@ -30,8 +30,6 @@ namespace RoadTrafficSimulator.Road.Connectors.Commands
             firstEdge.Connector.ConnectEndWith( secondEdge );
             secondEdge.Connector.ConnectBeginWith( firstEdge );
 
-            firstEdge.RecalculatePosition();
-            secondEdge.RecalculatePosition();
             return true;
         }
 

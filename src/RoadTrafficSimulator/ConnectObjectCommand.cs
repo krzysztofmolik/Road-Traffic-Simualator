@@ -83,7 +83,7 @@ namespace RoadTrafficSimulator
             ILogicControl control = null;
             this._visitator.FirstOrDefault( s =>
                                                       {
-                                                          var hited = s.HitTest(location);
+                                                          var hited = s.GetHittedControl(location);
                                                           if (hited != null)
                                                           {
                                                               control = hited;

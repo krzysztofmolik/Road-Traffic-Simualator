@@ -55,7 +55,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             var hitedControl = this._owner.Children.FirstOrDefault( s => s.IsHitted( location ) );
             if( hitedControl != null )
             {
-                return hitedControl.HitTest(location);
+                return hitedControl.GetHittedControl(location);
             }
             return null;
         }

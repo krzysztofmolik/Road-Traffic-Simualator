@@ -29,9 +29,6 @@ namespace RoadTrafficSimulator.Road.Connectors
         {
             // TODO Check it
             this.PreviousEdge = this.GetLaneEdgeOpositeTo( roadLaneEdge );
-            this.ConnectBySubscribingToEvent( roadLaneEdge.StartPoint, this._owner.LeftEdge.EndPoint );
-            this.ConnectBySubscribingToEvent( roadLaneEdge.EndPoint, this._owner.LeftEdge.StartPoint );
-
             this.PreviousEdge.Translated.Subscribe( x => this._owner.RecalculatePosition() );
 
             this._owner.RecalculatePosition();
@@ -42,8 +39,6 @@ namespace RoadTrafficSimulator.Road.Connectors
             var otherSideOfLane = this.GetLaneEdgeOpositeTo( roadLaneEdge );
             this.NextEdge = otherSideOfLane;
 
-            this.ConnectBySubscribingToEvent( this._owner.RightEdge.StartPoint, roadLaneEdge.EndPoint );
-            this.ConnectBySubscribingToEvent( this._owner.RightEdge.EndPoint, roadLaneEdge.StartPoint );
             this.NextEdge.Translated.Subscribe( x => this._owner.RecalculatePosition() );
             this._owner.RecalculatePosition();
         }

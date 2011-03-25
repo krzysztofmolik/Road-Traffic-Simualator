@@ -47,7 +47,7 @@ namespace RoadTrafficSimulator.Factories
                 return;
             }
 
-            var control = selectedControl.HitTest( mouseState.Location );
+            var control = selectedControl.GetHittedControl( mouseState.Location );
 
             if ( this.MultiSelect() )
             {

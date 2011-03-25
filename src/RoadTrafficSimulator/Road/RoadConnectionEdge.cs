@@ -26,9 +26,9 @@ namespace RoadTrafficSimulator.Road
             get { return this._roadConnection.Parent; }
         }
 
-        public IObservable<bool> IsSelectedChanged
+        public IObservable<bool> SelectionChanged
         {
-            get { return this._roadConnection.IsSelectedChanged; }
+            get { return this._roadConnection.SelectionChanged; }
         }
 
         public bool IsSelected
@@ -37,9 +37,14 @@ namespace RoadTrafficSimulator.Road
             set { this._roadConnection.IsSelected = true; }
         }
 
-        public void Update()
+        public void Redraw()
         {
-            this._roadConnection.Update();
+            this._roadConnection.Redraw();
+        }
+
+        public void Invalidate()
+        {
+            this._roadConnection.Invalidate();
         }
 
         public MovablePoint StartPoint

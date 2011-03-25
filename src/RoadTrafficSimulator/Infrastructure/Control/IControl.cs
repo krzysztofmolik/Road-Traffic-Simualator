@@ -11,9 +11,10 @@ namespace RoadTrafficSimulator.Infrastructure.Control
 
         IControl Parent { get; }
 
-        IObservable<bool> IsSelectedChanged { get; }
+        IObservable<bool> SelectionChanged { get; }
         bool IsSelected { get; set; }
-        void Update();
+        void Redraw();
+        void Invalidate();
     }
 
     public interface IControl : ILogicControl
@@ -30,11 +31,9 @@ namespace RoadTrafficSimulator.Infrastructure.Control
 
         Vector2 ToControlPosition( Vector2 screenPosition );
 
-        IControl GetRoot();
-
         bool IsHitted( Vector2 location );
 
-        ILogicControl HitTest( Vector2 point );
+        ILogicControl GetHittedControl( Vector2 point );
     }
 
     public interface ISingleControl : IControl

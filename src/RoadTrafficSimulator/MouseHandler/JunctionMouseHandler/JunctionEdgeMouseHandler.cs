@@ -69,7 +69,7 @@ namespace XnaRoadTrafficConstructor.MouseHandler.JunctionMouseHandler
             var hittedControl = block.RoadJunctionEdges.FirstOrDefault( s => s.IsHitted( mousePressedPoint ) );
             if( hittedControl != null )
             {
-                return hittedControl.HitTest( mousePressedPoint) as RoadJunctionEdge;
+                return hittedControl.GetHittedControl( mousePressedPoint) as RoadJunctionEdge;
             }
             return null;
         }

@@ -1,5 +1,4 @@
 ﻿using RoadTrafficSimulator.Infrastructure.Control;
-using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Road.Controls;
 
 namespace RoadTrafficSimulator.Road.Connectors.Commands
@@ -19,8 +18,6 @@ namespace RoadTrafficSimulator.Road.Connectors.Commands
             roadLaneEdge.Connector.ConnectEndWith(roadJunctionEdge);
             roadJunctionEdge.Connector.ConnectBeginWith( roadLaneEdge );
 
-            roadLaneEdge.RecalculatePosition();
-            roadJunctionEdge.RecalculatePosition();
             return true;
         }
     }

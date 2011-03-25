@@ -38,7 +38,7 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return this._parent; }
         }
 
-        public override IVertexContainer<VertexPositionColor> SpecifiedVertexContainer
+        public override IVertexContainer VertexContainer
         {
             get { return this._movablePointVertexContainer; }
         }
@@ -46,6 +46,19 @@ namespace RoadTrafficSimulator.Road.Controls
         public override IMouseSupport MouseSupport
         {
             get { return this._mouseSupport; }
+        }
+
+        public void TranslateWithoutEvent( Matrix matrixTranslation )
+        {
+            var newLocation = Vector2.Transform( this.Location, matrixTranslation );
+            if ( newLocation == this._location )
+            {
+                Logger.Warn( "Given location is not valid, newLocation = {0}", newLocation );
+                return;
+            }
+
+            this._location = newLocation;
+            
         }
 
         public override void Translate( Matrix matrixTranslation )
@@ -58,7 +71,7 @@ namespace RoadTrafficSimulator.Road.Controls
             }
 
             this._location = newLocation;
-            this.OnTranslate();
+            this.Invalidate();
         }
 
         public void SetLocationWithoutEvent( Vector2 newLocation )

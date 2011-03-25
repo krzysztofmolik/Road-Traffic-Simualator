@@ -4,7 +4,7 @@ using RoadTrafficSimulator.Road.Controls;
 
 namespace RoadTrafficSimulator.Road.Connectors.Commands
 {
-    public class ConnectEndRoadLaneEdgeWithRoadLaneConnection : IConnectionCommand
+    public class ConnectEndRoadLaneEdgeWithRoadConnection : IConnectionCommand
     {
         public virtual bool Connect( ILogicControl first, ILogicControl second )
         {

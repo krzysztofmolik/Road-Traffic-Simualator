@@ -15,8 +15,7 @@ namespace RoadTrafficSimulator.Road
 {
     public class RoadLaneBlock : CompostControl<VertexPositionColor>, IRoadLaneBlock
     {
-        private readonly IList<IControl> _roadBlocks;
-
+        private readonly IList<IControl> _roadBlocks; 
         private readonly RoadLaneBlockVertexContainer _roadLaneBlockVertexContainer;
         private readonly IMouseSupport _mouseSupport;
         private readonly IControl _parent;
@@ -26,19 +25,23 @@ namespace RoadTrafficSimulator.Road
         private MovablePoint _leftBottom;
         private MovablePoint _rightBottom;
 
+        private RoadLaneBlock()
+        {
+            this._roadLaneBlockVertexContainer = new RoadLaneBlockVertexContainer( this );
+            this._mouseSupport = new CompositeControlMouseSupport( this );
+            this._roadBlocks = new List<IControl>();
+        }
+
         public RoadLaneBlock( Factories.Factories factories, IControl parent )
+            : this()
         {
             this._parent = parent;
             this._factories = factories;
-            this._roadLaneBlockVertexContainer = new RoadLaneBlockVertexContainer( this );
-            this._mouseSupport = new CompositeControlMouseSupport( this );
-
             this._leftTopPoint = new MovablePoint( factories, new Vector2( 1, 0 ), this );
             this._rightTop = new MovablePoint( factories, new Vector2( 1, 1 ), this );
             this._rightBottom = new MovablePoint( factories, new Vector2( 1, 0 ), this );
             this._leftBottom = new MovablePoint( factories, new Vector2( 0, 0 ), this );
             this.CreateEdges();
-            this._roadBlocks = this.CreateRoadBlock();
             this.AddToChildCollection();
         }
 
@@ -106,7 +109,7 @@ namespace RoadTrafficSimulator.Road
                 this._leftTopPoint = value;
                 this.LeftEdge.EndPoint = value;
                 this.TopEdge.StartPoint = value;
-                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
+                this.Invalidate();
             }
         }
 
@@ -122,7 +125,7 @@ namespace RoadTrafficSimulator.Road
                 this._rightTop = value;
                 this.TopEdge.EndPoint = value;
                 this.RightEdge.StartPoint = value;
-                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
+                this.Invalidate();
             }
         }
 
@@ -138,7 +141,7 @@ namespace RoadTrafficSimulator.Road
                 this._rightBottom = value;
                 this.RightEdge.EndPoint = value;
                 this.BottomEdge.StartPoint = value;
-                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
+                this.Invalidate();
             }
         }
 
@@ -154,7 +157,7 @@ namespace RoadTrafficSimulator.Road
                 this._leftBottom = value;
                 this.BottomEdge.EndPoint = value;
                 this.LeftEdge.StartPoint = value;
-                this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
+                this.Invalidate();
             }
         }
 
@@ -173,7 +176,7 @@ namespace RoadTrafficSimulator.Road
             get { return this._roadBlocks; }
         }
 
-        public override IVertexContainer<VertexPositionColor> SpecifiedVertexContainer
+        public override IVertexContainer VertexContainer
         {
             get { return this._roadLaneBlockVertexContainer; }
         }
@@ -202,26 +205,21 @@ namespace RoadTrafficSimulator.Road
 
         public override void Translate( Matrix matrixTranslation )
         {
-            this.LeftTopPoint.Translate( matrixTranslation );
-            this.RightTopPoint.Translate( matrixTranslation );
-            this.RightBottomPoint.Translate( matrixTranslation );
-            this.LeftBottomPoint.Translate( matrixTranslation );
+            this.LeftTopPoint.TranslateWithoutEvent( matrixTranslation );
+            this.LeftTopPoint.Redraw();
 
+            this.RightTopPoint.TranslateWithoutEvent( matrixTranslation );
+            this.RightTopPoint.Redraw();
+
+            this.RightBottomPoint.TranslateWithoutEvent( matrixTranslation );
+            this.RightBottomPoint.Redraw();
+
+            this.LeftBottomPoint.TranslateWithoutEvent( matrixTranslation );
+            this.LeftBottomPoint.Redraw();
+
+            // TODO WithoutEvent
             this.RoadBlocks.ForEach( b => b.Translate( matrixTranslation ) );
-            this.TranslatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
-        }
-
-        protected void RaiseVectorChanged()
-        {
-            if ( this.VectorChanged != null )
-            {
-                this.VectorChanged( this, EventArgs.Empty );
-            }
-        }
-
-        private List<IControl> CreateRoadBlock()
-        {
-            return new List<IControl>();
+            this.Invalidate();
         }
 
         private void AddToChildCollection()
@@ -236,9 +234,9 @@ namespace RoadTrafficSimulator.Road
         private void CreateEdges()
         {
             this.LeftEdge = new EndRoadLaneEdge( this._factories, this.LeftBottomPoint, this.LeftTopPoint, Constans.PointSize, this );
-            this.TopEdge = new SideRoadLaneEdge( this._factories, this.LeftTopPoint, this.RightTopPoint, Constans.PointSize, this );
+            this.TopEdge = new SideRoadLaneEdge( this._factories, this.LeftTopPoint, this.RightTopPoint, this );
             this.RightEdge = new EndRoadLaneEdge( this._factories, this.RightTopPoint, this.RightBottomPoint, Constans.PointSize, this );
-            this.BottomEdge = new SideRoadLaneEdge( this._factories, this.RightBottomPoint, this.LeftBottomPoint, Constans.PointSize, this );
+            this.BottomEdge = new SideRoadLaneEdge( this._factories, this.RightBottomPoint, this.LeftBottomPoint, this );
         }
 
         public EndRoadLaneEdge OpositeEdge( EndRoadLaneEdge edge )

@@ -1,7 +1,6 @@
 ﻿using Common.Xna;
 using Microsoft.FSharp.Core;
 using Microsoft.Xna.Framework;
-using NLog;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Road.Connectors;
 using RoadTrafficSimulator.Road.Controls;
@@ -11,7 +10,6 @@ namespace RoadTrafficSimulator.Road
 {
     public class RoadConnection : Edge
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly RoadConnectionConnector _connector;
         private readonly IControl _parent;
 
@@ -40,11 +38,10 @@ namespace RoadTrafficSimulator.Road
 
         public RoadConnectionEdge RightEdge { get; private set; }
 
-        protected override void OnTranslated()
+        protected override void OnTranslate()
         {
-            base.OnTranslated();
-            //            this.RecalculatePosition( this.LeftEdge );
-            //            this.Connector.NotifyAboutTranslation();
+            base.OnTranslate();
+            this.RecalculatePosition();
         }
 
         public void RecalculatePostitionAroundStartPoint()
@@ -91,8 +88,8 @@ namespace RoadTrafficSimulator.Road
                                    : FSharpOption<Vector2>.None;
 
             var line = calculator.Calculate(prevLocation, this.Location, nextLocation);
-            this.StartPoint.SetLocationWithoutEvent(line.Start);
-            this.EndPoint.SetLocationWithoutEvent(line.End);
+            this.StartPoint.SetLocation(line.Start);
+            this.EndPoint.SetLocation(line.End);
         }
     }
 }

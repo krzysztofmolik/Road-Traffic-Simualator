@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,11 +13,11 @@ namespace RoadTrafficSimulator.Road.Controls
     public class MovableRectangle : CompostControl<VertexPositionColor>
     {
         private readonly MovablePoint[] _points;
-        private readonly IVertexContainer<VertexPositionColor> _specifiedVertexContainer;
+        private readonly IVertexContainer<VertexPositionColor> _concretVertexContainer;
         private readonly IMouseSupport _mouseSupport;
         private readonly IControl _parent;
 
-        public MovableRectangle(Factories.Factories factories,  Vector2 leftTop, float width, float height, MovablePoint parent )
+        public MovableRectangle( Factories.Factories factories, Vector2 leftTop, float width, float height, MovablePoint parent )
             : this( factories, parent )
         {
             this.LeftTop = new MovablePoint( factories, leftTop, this );
@@ -27,7 +26,7 @@ namespace RoadTrafficSimulator.Road.Controls
             this.LeftBottom = new MovablePoint( factories, this.RightBottom.Location + new Vector2( -width, 0 ), this );
         }
 
-        public MovableRectangle(Factories.Factories factories,  Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom, IControl parent )
+        public MovableRectangle( Factories.Factories factories, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom, IControl parent )
             : this( factories, parent )
         {
             this.LeftTop = new MovablePoint( factories, leftTop, this );
@@ -45,12 +44,12 @@ namespace RoadTrafficSimulator.Road.Controls
             this.LeftBottom = leftBottom;
         }
 
-        private MovableRectangle(Factories.Factories factories,  IControl parent )
+        private MovableRectangle( Factories.Factories factories, IControl parent )
         {
             this._parent = parent;
             this._mouseSupport = new CompositeControlMouseSupport( this );
-            this._points = Enumerable.Range( 0, Corners.Count ).Select( i => new MovablePoint( factories, Vector2.Zero, this ) ).ToArray();
-            this._specifiedVertexContainer = new MovableRectlangeVertexContainer( this );
+            this._points = new MovablePoint[ Corners.Count ];
+            this._concretVertexContainer = new MovableRectlangeVertexContainer( this );
         }
 
         public IEnumerable<MovablePoint> Points
@@ -118,9 +117,9 @@ namespace RoadTrafficSimulator.Road.Controls
             }
         }
 
-        public override IVertexContainer<VertexPositionColor> SpecifiedVertexContainer
+        public override IVertexContainer VertexContainer
         {
-            get { return this._specifiedVertexContainer; }
+            get { return this._concretVertexContainer; }
         }
 
         public override IMouseSupport MouseSupport
@@ -140,7 +139,11 @@ namespace RoadTrafficSimulator.Road.Controls
 
         public override void Translate( Matrix matrixTranslation )
         {
-            this.Points.ForEach( s => s.Translate( matrixTranslation ) );
+            this.Points.ForEach( s =>
+                                    {
+                                        s.Translate( matrixTranslation );
+                                        s.Redraw();
+                                    } );
         }
     }
 }
