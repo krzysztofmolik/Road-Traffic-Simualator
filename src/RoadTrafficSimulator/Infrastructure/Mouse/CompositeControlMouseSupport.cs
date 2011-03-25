@@ -8,7 +8,9 @@ using RoadTrafficSimulator.Factories;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
 using RoadTrafficSimulator.Road;
+using RoadTrafficSimulator.Road.Controls;
 using XnaVs10.Extension;
+using RoadTrafficSimulator.Extension;
 
 namespace RoadTrafficSimulator.Infrastructure.Mouse
 {
@@ -91,9 +93,9 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         private ILogicControl FindControlAtPoint( Vector2 location )
         {
             var hitChildren = this._owner.Children.FirstOrDefault( s => s.IsHitted( location ) );
-            if( hitChildren != null )
+            if ( hitChildren != null )
             {
-                return hitChildren.GetHittedControl(location) ?? this._owner;
+                return hitChildren.GetHittedControl( location ) ?? this._owner;
             }
 
             return this._owner;

@@ -52,11 +52,11 @@ namespace RoadTrafficSimulator.Road.Connectors
         public void ConnectBeginBottomWith( RoadConnection roadConnection )
         {
             this.Bottom = roadConnection;
-            roadConnection.EndPoint.Translated.Subscribe(_ =>
+            roadConnection.EndPoint.Translated.Subscribe( _ =>
                                                              {
-                                                                 this._owner.StartPoint.SetLocation( roadConnection.EndLocation);
-                                                                 this._owner.RecalculatePostitionAroundStartPoint();
-                                                             });
+                                                                 var changed = this._owner.StartPoint.SetLocation( roadConnection.EndLocation );
+                                                                 if ( changed ) { this._owner.RecalculatePostitionAroundStartPoint(); }
+                                                             } );
             var delta = roadConnection.EndLocation - this._owner.StartLocation;
             this._owner.StartPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
             this._owner.EndPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
@@ -65,11 +65,11 @@ namespace RoadTrafficSimulator.Road.Connectors
         public void ConnectEndTopWith( RoadConnection roadConnection )
         {
             this.Top = roadConnection;
-            roadConnection.StartPoint.Translated.Subscribe(_ =>
+            roadConnection.StartPoint.Translated.Subscribe( _ =>
                                                                {
-                                                                   this._owner.EndPoint.SetLocation( roadConnection.StartLocation);
-                                                                   this._owner.RecalculatePostitionAroundEndPoint();
-                                                               });
+                                                                   var changed = this._owner.EndPoint.SetLocation( roadConnection.StartLocation );
+                                                                   if ( changed ) { this._owner.RecalculatePostitionAroundEndPoint(); }
+                                                               } );
         }
 
         public void ConnectBeginTopWith( RoadConnection roadConnection )
@@ -77,8 +77,8 @@ namespace RoadTrafficSimulator.Road.Connectors
             this.Top = roadConnection;
             roadConnection.StartPoint.Translated.Subscribe( _ =>
                                                                {
-                                                                   this._owner.EndPoint.SetLocation( roadConnection.StartLocation );
-                                                                   this._owner.RecalculatePostitionAroundEndPoint();
+                                                                   var changed = this._owner.EndPoint.SetLocation( roadConnection.StartLocation );
+                                                                   if ( changed ) { this._owner.RecalculatePostitionAroundEndPoint(); }
                                                                } );
 
             var delta = roadConnection.StartLocation - this._owner.EndLocation;
@@ -89,11 +89,11 @@ namespace RoadTrafficSimulator.Road.Connectors
         public void ConnectEndBottomWith( RoadConnection roadConnection )
         {
             this.Bottom = roadConnection;
-            roadConnection.EndPoint.Translated.Subscribe(_ =>
+            roadConnection.EndPoint.Translated.Subscribe( _ =>
                                                              {
-                                                                 this._owner.StartPoint.SetLocation( roadConnection.EndLocation);
-                                                                 this._owner.RecalculatePostitionAroundStartPoint();
-                                                             });
+                                                                 var changed = this._owner.StartPoint.SetLocation( roadConnection.EndLocation );
+                                                                 if ( changed ) { this._owner.RecalculatePostitionAroundStartPoint(); }
+                                                             } );
         }
     }
 }

@@ -74,36 +74,39 @@ namespace RoadTrafficSimulator.Road.Controls
             this.Invalidate();
         }
 
-        public void SetLocationWithoutEvent( Vector2 newLocation )
+        public bool SetLocationWithoutEvent( Vector2 newLocation )
         {
             if ( newLocation.IsValid() == false )
             {
                 Logger.Warn( "Given location is not valid, newLocation = {0}", newLocation );
-                return;
-            }
-
-            if ( this.Location.Equal( newLocation, Constans.Epsilon ) )
-            {
-                return;
-            }
-
-            this._location = newLocation;
-        }
-
-        public void SetLocation( Vector2 newLocation )
-        {
-            if ( newLocation.IsValid() == false )
-            {
                 throw new ArgumentException( "New location is not valid" );
             }
 
             if ( this.Location.Equal( newLocation, Constans.Epsilon ) )
             {
-                return;
+                return false;
+            }
+
+            this._location = newLocation;
+            return true;
+        }
+
+        public bool SetLocation( Vector2 newLocation )
+        {
+            if ( newLocation.IsValid() == false )
+            {
+                Logger.Warn( "Given location is not valid, newLocation = {0}", newLocation );
+                throw new ArgumentException( "New location is not valid" );
+            }
+
+            if ( this.Location.Equal( newLocation, Constans.Epsilon ) )
+            {
+                return false;
             }
 
             var diff = newLocation - this.Location;
             this.Translate( Matrix.CreateTranslation( diff.ToVector3() ) );
+            return true;
         }
     }
 }
