@@ -24,7 +24,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\x86\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;WINDOWS;_NO_DEBUG_HEAP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoStdLib>true</NoStdLib>
@@ -149,6 +149,7 @@
     <Compile Include="Extension\Vector2Ex.cs" />
     <Compile Include="Extension\Vector3ExtensionMethod.cs" />
     <Compile Include="Factories\Factories.cs" />
+    <Compile Include="Factories\IMouseHandlerFactory.cs" />
     <Compile Include="Factories\SelectControlCommand.cs" />
     <Compile Include="Factories\SelectionSupportFactory.cs" />
     <Compile Include="GameComponent1.cs" />
@@ -168,15 +169,18 @@
     <Compile Include="Infrastructure\Draw\VertexPositionColorDrawer.cs" />
     <Compile Include="Infrastructure\GameComponent.cs" />
     <Compile Include="Infrastructure\InfrastructureModule.cs" />
-    <Compile Include="Infrastructure\Mouse\CompositeControlMouseSupport.cs" />
-    <Compile Include="Infrastructure\Mouse\ControlMouseSupport.cs" />
+    <Compile Include="Infrastructure\Mouse\CompositeControlMouseHandler.cs" />
+    <Compile Include="Infrastructure\Mouse\ControlMouseHandler.cs" />
     <Compile Include="Infrastructure\Mouse\FilterMouseInformation.cs" />
     <Compile Include="Infrastructure\Mouse\IMouseInformation.cs" />
-    <Compile Include="Infrastructure\Mouse\IMouseSupport.cs" />
+    <Compile Include="Infrastructure\Mouse\IMouseHandler.cs" />
     <Compile Include="Infrastructure\Mouse\MouseInformation.cs" />
+    <Compile Include="Infrastructure\Mouse\NotMovableMouseHandler.cs" />
     <Compile Include="Infrastructure\Mouse\PriorityMouseInfomrmation.cs" />
     <Compile Include="Infrastructure\Mouse\RoadJunctionConnectionSupport.cs" />
-    <Compile Include="Infrastructure\Mouse\RoadLayerMouseSupport.cs" />
+    <Compile Include="Infrastructure\Mouse\RoadLayerMouseHandler.cs" />
+    <Compile Include="Infrastructure\Mouse\SelectedControlsCollection.cs" />
+    <Compile Include="Infrastructure\Mouse\SelectedControls.cs" />
     <Compile Include="Infrastructure\UpdateableGameComponent.cs" />
     <Compile Include="Integration\MessageBroker.cs" />
     <Compile Include="Interfaces\IPrimitiveBatch.cs" />
@@ -187,14 +191,11 @@
     <Compile Include="MathHelpers\IntersectionTwoVectors.cs" />
     <Compile Include="MathHelpers\IsVectorCross.cs" />
     <Compile Include="MathHelpers\MyMathHelper.cs" />
-    <Compile Include="MouseHandler\IMouseHandler.cs" />
     <Compile Include="MouseHandler\Infrastructure\XnaMouseState.cs" />
     <Compile Include="MouseHandler\JunctionMouseHandler\INestedJunctionMouseHandler.cs" />
     <Compile Include="MouseHandler\JunctionMouseHandler\JunctionCornerMouseHandler.cs" />
     <Compile Include="MouseHandler\JunctionMouseHandler\JunctionDefaultMouseHandler.cs" />
     <Compile Include="MouseHandler\JunctionMouseHandler\JunctionEdgeMouseHandler.cs" />
-    <Compile Include="MouseHandler\JunctionMouseHandler\JuntionMouseHandlerComposite.cs" />
-    <Compile Include="MouseHandler\MouseDownCompositeHandler.cs" />
     <Compile Include="MouseInputNotify.cs" />
     <Compile Include="MouseStateEventArgs.cs" />
     <Compile Include="MoveObject.cs" />

@@ -28,7 +28,7 @@ namespace RoadTrafficSimulatorTests.IntegrationTests.Helpers
         public void Connect()
         {
             var roadJunctionWithRoadLaneConnection = IOC.GetService<ConnectRoadJunctionEdgeWitEndRoadLaneEdge>();
-            var roadLaneWithRoadConnection = IOC.GetService<ConnectEndRoadLaneEdgeWithRoadLaneConnection>();
+            var roadLaneWithRoadConnection = IOC.GetService<ConnectEndRoadLaneEdgeWithRoadConnection>();
             var roadConnectionWithRoadLane = IOC.GetService<ConnectRoadConnectionWithEndRoadLane>();
             var roadLaneWithRoadJunction = IOC.GetService<ConnectEndRoadLaneEdgeWithRoadJunctionEdge>();
 

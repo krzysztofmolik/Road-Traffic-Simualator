@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
@@ -5,13 +6,15 @@ using XnaVs10.Extension;
 
 namespace RoadTrafficSimulator.Infrastructure.Mouse
 {
-    public class ControlMouseSupport : IMouseSupport
+    public class SingleControlMouseHandler : IMouseHandler
     {
         private readonly IControl _owner;
+        private readonly SelectedControls _selectedControls;
 
-        public ControlMouseSupport( IControl owner )
+        public SingleControlMouseHandler( IControl owner, SelectedControls selectedControls )
         {
             this._owner = owner;
+            this._selectedControls = selectedControls;
         }
 
         public void OnMove( XnaMouseState state )
@@ -21,7 +24,16 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
 
         public void OnLeftButtonClick( XnaMouseState state )
         {
-            this._owner.IsSelected = !this._owner.IsSelected;
+            var seleected = !this._owner.IsSelected;
+            if ( seleected )
+            {
+                this._selectedControls.Add( this._owner );
+            }
+            else
+            {
+                this._selectedControls.Remove( this._owner );
+            }
+            this._owner.IsSelected = seleected;
         }
 
         public void OnLeftButtonPressed( XnaMouseState state )

@@ -10,21 +10,21 @@ namespace RoadTrafficSimulator.Road.Controls
     public abstract class Edge : CompostControl<VertexPositionColor>
     {
         private readonly EdgeVertexContainer _concretVertexContainer;
-        private readonly IMouseSupport _mouseSupport;
+        private readonly IMouseHandler _mouseSupport;
         private MovablePoint _startPoint;
         private MovablePoint _endPoint;
 
         protected Edge( Factories.Factories factories )
         {
             this._concretVertexContainer = new EdgeVertexContainer( this );
-            this._mouseSupport = new CompositeControlMouseSupport( this );
+            this._mouseSupport = factories.MouseHandlerFactory.Create( this );
             this._startPoint = new MovablePoint( factories, Vector2.Zero, this );
             this._endPoint = new MovablePoint( factories, Vector2.Zero, this );
             this.AddChild( this._startPoint );
             this.AddChild( this._endPoint );
         }
 
-        protected Edge(Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint)
+        protected Edge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint )
             : this( factories )
         {
             this.StartPoint = startPoint;
@@ -70,7 +70,7 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return this._concretVertexContainer; }
         }
 
-        public override IMouseSupport MouseSupport
+        public override IMouseHandler MouseSupport
         {
             get { return this._mouseSupport; }
         }
@@ -87,12 +87,12 @@ namespace RoadTrafficSimulator.Road.Controls
             this.StartPoint.TranslateWithoutEvent( matrixTranslation );
             this.EndPoint.TranslateWithoutEvent( matrixTranslation );
 
-            if( startPoint != this.StartPoint.Location )
+            if ( startPoint != this.StartPoint.Location )
             {
                 this.StartPoint.Invalidate();
             }
 
-            if( endPoint != this.EndPoint.Location )
+            if ( endPoint != this.EndPoint.Location )
             {
                 this.EndPoint.Invalidate();
             }

@@ -15,9 +15,9 @@ namespace RoadTrafficSimulator.Road
 {
     public class RoadLaneBlock : CompostControl<VertexPositionColor>, IRoadLaneBlock
     {
-        private readonly IList<IControl> _roadBlocks; 
+        private readonly IList<IControl> _roadBlocks;
         private readonly RoadLaneBlockVertexContainer _roadLaneBlockVertexContainer;
-        private readonly IMouseSupport _mouseSupport;
+        private readonly IMouseHandler _mouseSupport;
         private readonly IControl _parent;
         private readonly Factories.Factories _factories;
         private MovablePoint _leftTopPoint;
@@ -25,15 +25,15 @@ namespace RoadTrafficSimulator.Road
         private MovablePoint _leftBottom;
         private MovablePoint _rightBottom;
 
-        private RoadLaneBlock()
+        private RoadLaneBlock( Factories.Factories factories )
         {
             this._roadLaneBlockVertexContainer = new RoadLaneBlockVertexContainer( this );
-            this._mouseSupport = new CompositeControlMouseSupport( this );
+            this._mouseSupport = factories.MouseHandlerFactory.Create( this );
             this._roadBlocks = new List<IControl>();
         }
 
         public RoadLaneBlock( Factories.Factories factories, IControl parent )
-            : this()
+            : this( factories )
         {
             this._parent = parent;
             this._factories = factories;
@@ -181,7 +181,7 @@ namespace RoadTrafficSimulator.Road
             get { return this._roadLaneBlockVertexContainer; }
         }
 
-        public override IMouseSupport MouseSupport
+        public override IMouseHandler MouseSupport
         {
             get { return this._mouseSupport; }
         }

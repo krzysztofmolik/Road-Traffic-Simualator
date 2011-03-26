@@ -1,29 +1,25 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Common;
 using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Factories;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
 using RoadTrafficSimulator.Road;
-using RoadTrafficSimulator.Road.Controls;
 using XnaVs10.Extension;
-using RoadTrafficSimulator.Extension;
 
 namespace RoadTrafficSimulator.Infrastructure.Mouse
 {
-    public class CompositeControlMouseSupport : IMouseSupport
+    public class CompositeControlMouseHandler : IMouseHandler
     {
         private readonly ICompositeControl _owner;
+        private readonly SelectedControls _selectedControls;
 
         private IControl _selectedControlBase;
         private Vector2 _selctedControlOffset;
 
-        public CompositeControlMouseSupport( ICompositeControl owner )
+        public CompositeControlMouseHandler( ICompositeControl owner, SelectedControls selectedControls )
         {
             this._owner = owner;
+            this._selectedControls = selectedControls;
         }
 
         public void OnMove( XnaMouseState state )
@@ -59,6 +55,15 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             }
             else
             {
+                var selected = !this._owner.IsSelected;
+                if ( selected )
+                {
+                    this._selectedControls.Add( this._owner );
+                }
+                else
+                {
+                    this._selectedControls.Remove( this._owner );
+                }
                 this._owner.IsSelected = !this._owner.IsSelected;
             }
         }

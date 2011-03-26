@@ -16,14 +16,14 @@ namespace RoadTrafficSimulator.Road.Controls
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly MovablePointVertexContainer _movablePointVertexContainer;
-        private readonly IMouseSupport _mouseSupport;
+        private readonly IMouseHandler _mouseSupport;
         private readonly IControl _parent;
         private Vector2 _location;
 
         public MovablePoint( Factories.Factories factories, Vector2 location, IControl parent )
         {
             this._parent = parent;
-            this._mouseSupport = new ControlMouseSupport( this );
+            this._mouseSupport = factories.MouseHandlerFactory.Create( this );
             this._location = location;
             this._movablePointVertexContainer = new MovablePointVertexContainer( this );
         }
@@ -43,7 +43,7 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return this._movablePointVertexContainer; }
         }
 
-        public override IMouseSupport MouseSupport
+        public override IMouseHandler MouseSupport
         {
             get { return this._mouseSupport; }
         }
@@ -58,7 +58,7 @@ namespace RoadTrafficSimulator.Road.Controls
             }
 
             this._location = newLocation;
-            
+
         }
 
         public override void Translate( Matrix matrixTranslation )

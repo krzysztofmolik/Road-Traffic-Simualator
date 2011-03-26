@@ -18,7 +18,7 @@ namespace RoadTrafficSimulatorTests.ConnectionTests
         private RoadJunctionBlock _roadJunctionBlock;
         private RoadConnection _connection;
         private RoadLaneBlock _roadLane;
-        private ConnectEndRoadLaneEdgeWithRoadLaneConnection _edgeConnectionConnecto;
+        private ConnectEndRoadLaneEdgeWithRoadConnection _edgeConnectionConnecto;
         private ConnectRoadJunctionEdgeWitEndRoadLaneEdge _roadJunctionConnector;
 
         [SetUp]
@@ -30,7 +30,7 @@ namespace RoadTrafficSimulatorTests.ConnectionTests
             this._roadLane = new RoadLaneBlock( this._factories, null );
 
             this._roadJunctionConnector = new ConnectRoadJunctionEdgeWitEndRoadLaneEdge();
-            this._edgeConnectionConnecto = new ConnectEndRoadLaneEdgeWithRoadLaneConnection();
+            this._edgeConnectionConnecto = new ConnectEndRoadLaneEdgeWithRoadConnection();
 
         }
 

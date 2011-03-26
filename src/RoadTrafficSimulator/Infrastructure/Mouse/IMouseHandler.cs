@@ -2,7 +2,7 @@
 
 namespace RoadTrafficSimulator.Infrastructure.Mouse
 {
-    public interface IMouseSupport
+    public interface IMouseHandler
     {
         void OnMove( XnaMouseState state );
 

@@ -14,7 +14,7 @@ namespace RoadTrafficSimulator.Road.Controls
         private readonly RoadJunctionEdge[] _roadJunctionEdges = new RoadJunctionEdge[ EdgeType.Count ];
         private readonly MovablePoint[] _points = new MovablePoint[ Corners.Count ];
         private readonly IVertexContainer<VertexPositionColor> _concretVertexContainer;
-        private readonly IMouseSupport _mouseSupport;
+        private readonly IMouseHandler _mouseSupport;
         private readonly IControl _parent;
 
         public RoadJunctionBlock( Factories.Factories factories, Vector2 location, IControl parent )
@@ -34,7 +34,7 @@ namespace RoadTrafficSimulator.Road.Controls
             this._roadJunctionEdges.ForEach( this.AddChild );
 
             this._concretVertexContainer = factories.VertexContainerFactory.Create( this );
-            this._mouseSupport = new CompositeControlMouseSupport( this );
+            this._mouseSupport = factories.MouseHandlerFactory.Create(this);
         }
 
         #region Poperties
@@ -118,7 +118,7 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return this._concretVertexContainer; }
         }
 
-        public override IMouseSupport MouseSupport
+        public override IMouseHandler MouseSupport
         {
             get { return this._mouseSupport; }
         }

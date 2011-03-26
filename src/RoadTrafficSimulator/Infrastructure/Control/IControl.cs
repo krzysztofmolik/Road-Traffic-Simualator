@@ -23,7 +23,7 @@ namespace RoadTrafficSimulator.Infrastructure.Control
 
         IVertexContainer VertexContainer { get; }
 
-        IMouseSupport MouseSupport { get; }
+        IMouseHandler MouseSupport { get; }
 
         IObservable<Unit> Redrawed { get; }
 
@@ -33,7 +33,7 @@ namespace RoadTrafficSimulator.Infrastructure.Control
 
         bool IsHitted( Vector2 location );
 
-        ILogicControl GetHittedControl( Vector2 point );
+        ILogicControl GetHittedControl(Vector2 point);
     }
 
     public interface ISingleControl : IControl

@@ -15,7 +15,7 @@ namespace RoadTrafficSimulator.Infrastructure.Control
         private bool _isSelected;
 
         public abstract IVertexContainer VertexContainer { get; } 
-        public abstract IMouseSupport MouseSupport { get; }
+        public abstract IMouseHandler MouseSupport { get; }
         public abstract Vector2 Location { get; }
         public abstract IControl Parent { get; }
 
@@ -57,7 +57,7 @@ namespace RoadTrafficSimulator.Infrastructure.Control
             return HitTestAlghoritm.HitTest( location, this.VertexContainer.Shape.ShapePoints );
         }
 
-        public virtual ILogicControl GetHittedControl( Vector2 point )
+        public virtual ILogicControl GetHittedControl(Vector2 point)
         {
             if ( HitTestAlghoritm.HitTest( point, this.VertexContainer.Shape.ShapePoints ) )
             {

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Factories;
 using RoadTrafficSimulator.Infrastructure;
+using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Integration;
 using RoadTrafficSimulator.Road;
@@ -12,12 +13,9 @@ using RoadTrafficSimulator.Road.Connectors.Commands;
 using RoadTrafficSimulator.Road.Controls;
 using RoadTrafficSimulator.Utile.DependencyInjection;
 using Xna;
-using XnaRoadTrafficConstructor.MouseHandler;
 using XnaRoadTrafficConstructor.MouseHandler.JunctionMouseHandler;
-using XnaRoadTrafficConstructor.Road;
 using XnaRoadTrafficConstructor.Utils.DependencyInjection;
 using XnaVs10.Sprites;
-using XnaVs10.Utils;
 using Module = Autofac.Module;
 
 namespace RoadTrafficSimulator.Utils.DependencyInjection
@@ -65,12 +63,6 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             builder.RegisterType<JunctionCornerMouseHandler>();
             builder.RegisterType<JunctionEdgeMouseHandler>();
 
-            builder.RegisterType<JuntionMouseHandlerComposite>()
-                .As<IMouseHandler>()
-                .WithMetadata<IOrderMeta>( order => order.For( s => s.Order, 10 ) );
-
-            builder.RegisterType<MouseDownCompositeHandler>();
-
             builder.RegisterModule( new InfrastructureModule() );
 
             builder.RegisterType<ConnectObjectCommand>();
@@ -83,6 +75,14 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             builder.RegisterType<ConnectSideRoadLaneEdges>().As<IConnectionCommand>();
             builder.RegisterType<ConnectRoadConnectionWithRoadConnection>().As<ConnectRoadConnectionWithRoadConnection>().As<IConnectionCommand>();
             builder.RegisterType<ScreenZoom>().As<IBackgroundJob>();
+
+            builder.RegisterType<SelectedControls>().SingleInstance();
+            builder.RegisterType<MouseHandlerFactory>().SingleInstance();
+            builder.Register( s => new Func<RoadLayer, IMouseHandler>(r => new RoadLayerMouseHandler(r, s.Resolve<SelectedControls>())));
+            builder.Register( s => new Func<IControl, IMouseHandler>(r => new SingleControlMouseHandler(r, s.Resolve<SelectedControls>())));
+            builder.Register( s => new Func<ICompositeControl, IMouseHandler>(r => new CompositeControlMouseHandler(r, s.Resolve<SelectedControls>())));
+            builder.RegisterType<NotMovableMouseHandler>().As<IMouseHandler>().InstancePerDependency();
+
 
             this.RegisterFactoryMethods( builder );
 

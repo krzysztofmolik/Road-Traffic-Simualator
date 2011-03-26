@@ -1,5 +1,6 @@
 ﻿using System;
 using RoadTrafficSimulator.Infrastructure.Control;
+using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Road.Connectors;
 
 namespace RoadTrafficSimulator.Road.Controls
@@ -7,11 +8,13 @@ namespace RoadTrafficSimulator.Road.Controls
     public class EndRoadLaneEdge : Edge
     {
         private readonly RoadLaneBlock _parrent;
+        private readonly IMouseHandler _notMovableMouseSupport;
 
         public EndRoadLaneEdge(Factories.Factories factories,  RoadLaneBlock parent ) 
             : base(factories)
         {
             this._parrent = parent;
+            this._notMovableMouseSupport = factories.MouseHandlerFactory.CreateEmpty();
             this.Connector = new EndRoadLaneEdgeConnector( this );
         }
 
@@ -35,6 +38,11 @@ namespace RoadTrafficSimulator.Road.Controls
         public EndRoadLaneEdgeConnector Connector
         {
             get; private set;
+        }
+
+        public override Infrastructure.Mouse.IMouseHandler MouseSupport
+        {
+            get { return this._notMovableMouseSupport; }
         }
 
         public EndRoadLaneEdge GetOppositeEdge()

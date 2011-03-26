@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
 using System.Linq;
 
@@ -39,7 +40,7 @@ namespace RoadTrafficSimulator.Road
             // TODO Implement it
         }
 
-        public override ILogicControl GetHittedControl( Microsoft.Xna.Framework.Vector2 point )
+        public override ILogicControl GetHittedControl(Vector2 point)
         {
             var control = this._childrens.Select( c => c.GetHittedControl( point ) ).Where( c => c != null ).FirstOrDefault();
             if ( control != null )

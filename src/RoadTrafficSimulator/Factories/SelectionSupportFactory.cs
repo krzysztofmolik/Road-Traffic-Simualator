@@ -17,5 +17,4 @@ namespace RoadTrafficSimulator.Factories
             return new RoadJunctionBlockVertexContainer( roadJunctionBlock );
         }
     }
-
 }

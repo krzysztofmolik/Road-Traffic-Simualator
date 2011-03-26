@@ -201,6 +201,17 @@ namespace Common.Xna.Tests
         }
 
         [Test]
+        public void Should_correct_calculate_points_for_parpendicular_road_lane4_endPoint2()
+        {
+            var prev = new Vector2( 0.0f, 0.0f );
+            var orginal = new Vector2( -5.0f, 0.0f );
+            var next = new Vector2( -5.0f, 5.0f );
+            var result = this._calculationAroundEndPoint.Calculate( VectorOption.Some( prev ), orginal, VectorOption.Some( next ) );
+
+            Assert.That( result, Is.EqualTo( new Vector2( -3.0f, 2.0f ) ) );
+        }
+
+        [Test]
         public void Should_correct_calculte_points_for_prev_vector_endPoint()
         {
             var prev = new Vector2( 0.0f, 0.0f );

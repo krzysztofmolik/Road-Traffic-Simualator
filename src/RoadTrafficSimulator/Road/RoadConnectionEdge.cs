@@ -34,7 +34,7 @@ namespace RoadTrafficSimulator.Road
         public bool IsSelected
         {
             get { return this._roadConnection.IsSelected; }
-            set { this._roadConnection.IsSelected = true; }
+            set { this._roadConnection.IsSelected = value; }
         }
 
         public void Redraw()
