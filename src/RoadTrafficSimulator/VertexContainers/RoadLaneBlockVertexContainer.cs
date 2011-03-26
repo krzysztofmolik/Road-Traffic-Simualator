@@ -33,10 +33,11 @@ namespace XnaRoadTrafficConstructor.VertexContainers
         private IShape CreateShape()
         {
             return new Quadrangle(
-                                this.Object.LeftTopLocation,
-                                this.Object.RightTopLocation,
+
+                                this.Object.LeftBottomLocation,
                                 this.Object.RightBottomLocation,
-                                this.Object.LeftBottomLocation );
+                                this.Object.RightTopLocation,
+                                this.Object.LeftTopLocation );
         }
 
         public override IShape Shape

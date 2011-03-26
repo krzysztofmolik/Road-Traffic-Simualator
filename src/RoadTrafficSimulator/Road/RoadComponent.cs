@@ -5,7 +5,6 @@ using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using RoadTrafficSimulator.Factories;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Integration;
 using RoadTrafficSimulator.Road.Controls;
@@ -24,7 +23,6 @@ namespace RoadTrafficSimulator.Road
         private readonly ConnectObjectCommand _connectObjectCommand;
         private readonly IEventAggregator _eventAggreator;
         private readonly Func<Vector2, ICompositeControl, IRoadJunctionBlock> _roadJunctionBlockFactory;
-        private readonly SelectControlCommand _selectCommand;
         private RoadLayer _roadLayer;
 
         public RoadComponent(
@@ -36,12 +34,10 @@ namespace RoadTrafficSimulator.Road
                     ConnectObjectCommand connectObjectCommand,
                     IEventAggregator eventAggreator,
                     Func<Vector2, ICompositeControl, IRoadJunctionBlock> roadJunctionBlockFactory,
-                    SelectControlCommand selectCommand,
                     IGraphicsDeviceService graphicsDeviceService, RoadLayer roadLayer )
             : base( graphicsDeviceService )
         {
             this._backgroundJobs = backgroundJobs;
-            this._selectCommand = selectCommand;
             this._roadJunctionCreator = roadJunctionCreator;
             this._connectObjectCommand = connectObjectCommand;
             this._eventAggreator = eventAggreator;
@@ -148,16 +144,6 @@ namespace RoadTrafficSimulator.Road
         public void AddingRoadLaneEnd()
         {
             this._roadLaneCreator.End();
-        }
-
-        public void StopSelectingObject()
-        {
-            this._selectCommand.Stop();
-        }
-
-        public void StartSelectingObject()
-        {
-            this._selectCommand.Start();
         }
     }
 }

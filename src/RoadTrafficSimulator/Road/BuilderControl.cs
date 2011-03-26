@@ -119,39 +119,8 @@ namespace RoadTrafficSimulator.Road
                 .Where( s => s.Key == Keys.C && this._keyboardInformation.IsKeyPressed( Keys.LeftAlt ) )
                 .Subscribe( s => this.ConnectingObject = true );
 
-            this._keyboardInformation.KeyPressed
-                .Where( s => s.Key == Keys.S && this._keyboardInformation.IsKeyPressed( Keys.LeftAlt ) )
-                .Subscribe( s => this.SelecteObject = true );
-
             this._keyboardInformation.KeyRelease.Where( s => s.Key == Keys.Escape )
                 .Subscribe( s => this.CancelAllOperation() );
-        }
-
-        protected bool SelecteObject
-        {
-            get
-            {
-                return this._selecteObject;
-            }
-
-            set
-            {
-                if ( this._selecteObject == value )
-                {
-                    return;
-                }
-
-                this._selecteObject = value;
-
-                if ( this._selecteObject )
-                {
-                    this.RoadComponent.StartSelectingObject();
-                }
-                else
-                {
-                    this.RoadComponent.StopSelectingObject();
-                }
-            }
         }
 
         private void CancelAllOperation()

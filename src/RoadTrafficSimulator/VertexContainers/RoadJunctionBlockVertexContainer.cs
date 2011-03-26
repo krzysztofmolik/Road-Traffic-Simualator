@@ -24,10 +24,11 @@ namespace RoadTrafficSimulator.VertexContainers
         private Quadrangle CreateShape()
         {
             return new Quadrangle(
-                                  this.Object.LeftTopLocation,
-                                  this.Object.RightTopLocation,
+
+                                  this.Object.LeftBottomLocation,
                                   this.Object.RightBottomLocation,
-                                  this.Object.LeftBottomLocation);
+                                  this.Object.RightTopLocation,
+                                  this.Object.LeftTopLocation);
         }
 
         protected override VertexPositionColor[] UpdateShapeAndCreateVertex()

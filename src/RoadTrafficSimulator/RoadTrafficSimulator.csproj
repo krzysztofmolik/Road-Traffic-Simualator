@@ -150,7 +150,6 @@
     <Compile Include="Extension\Vector3ExtensionMethod.cs" />
     <Compile Include="Factories\Factories.cs" />
     <Compile Include="Factories\IMouseHandlerFactory.cs" />
-    <Compile Include="Factories\SelectControlCommand.cs" />
     <Compile Include="Factories\SelectionSupportFactory.cs" />
     <Compile Include="GameComponent1.cs" />
     <Compile Include="GameModule.cs" />

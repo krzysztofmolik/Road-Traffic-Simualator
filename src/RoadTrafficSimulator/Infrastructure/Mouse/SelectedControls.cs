@@ -21,6 +21,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         {
             lock ( this._lock )
             {
+                control.IsSelected = false;
                 this._selectedControls.Remove( control );
             }
         }
@@ -29,6 +30,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         {
             lock ( this._lock )
             {
+                this._selectedControls.ForEach( s => s.IsSelected = false );
                 this._selectedControls.Clear();
             }
         }

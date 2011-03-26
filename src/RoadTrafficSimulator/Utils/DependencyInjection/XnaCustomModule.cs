@@ -87,8 +87,6 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             this.RegisterFactoryMethods( builder );
 
             this.RegisterFactories( builder );
-
-            builder.RegisterType<SelectControlCommand>().SingleInstance();
         }
 
         private void RegisterFactoryMethods( ContainerBuilder builder )
