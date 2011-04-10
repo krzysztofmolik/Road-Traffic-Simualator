@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,12 +10,12 @@ using XnaRoadTrafficConstructor.Road;
 
 namespace RoadTrafficSimulator.Road.Controls
 {
-    public class RoadJunctionBlock : CompostControl<VertexPositionColor>, IRoadJunctionBlock
+    public class RoadJunctionBlock : CompositControl<VertexPositionColor>, IRoadJunctionBlock
     {
         private readonly RoadJunctionEdge[] _roadJunctionEdges = new RoadJunctionEdge[ EdgeType.Count ];
         private readonly MovablePoint[] _points = new MovablePoint[ Corners.Count ];
         private readonly IVertexContainer<VertexPositionColor> _concretVertexContainer;
-        private readonly IMouseHandler _mouseSupport;
+        private readonly IMouseHandler _mouseHandler;
         private readonly IControl _parent;
 
         public RoadJunctionBlock( Factories.Factories factories, Vector2 location, IControl parent )
@@ -34,7 +35,7 @@ namespace RoadTrafficSimulator.Road.Controls
             this._roadJunctionEdges.ForEach( this.AddChild );
 
             this._concretVertexContainer = factories.VertexContainerFactory.Create( this );
-            this._mouseSupport = factories.MouseHandlerFactory.Create(this);
+            this._mouseHandler = factories.MouseHandlerFactory.Create( this );
         }
 
         #region Poperties
@@ -118,9 +119,9 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return this._concretVertexContainer; }
         }
 
-        public override IMouseHandler MouseSupport
+        public override IMouseHandler MouseHandler
         {
-            get { return this._mouseSupport; }
+            get { return this._mouseHandler; }
         }
 
         public override Vector2 Location
@@ -146,6 +147,7 @@ namespace RoadTrafficSimulator.Road.Controls
 
             return null;
         }
+
         public override void Translate( Matrix matrixTranslation )
         {
             this.LeftTop.Translate( matrixTranslation );
@@ -155,5 +157,23 @@ namespace RoadTrafficSimulator.Road.Controls
 
             this.RoadJunctionEdges.ForEach( edge => edge.Invalidate() );
         }
+
+        public override void TranslateWithoutNotification(Matrix translationMatrix)
+        {
+            this.LeftTop.TranslateWithoutEvent( translationMatrix );
+            this.RightTop.TranslateWithoutEvent( translationMatrix );
+            this.RightBottom.TranslateWithoutEvent( translationMatrix );
+            this.LeftBottom.TranslateWithoutEvent( translationMatrix );
+        }
+
+        protected override void OnInvalidate()
+        {
+            this.LeftTop.Invalidate();
+            this.RightTop.Invalidate();
+            this.RightBottom.Invalidate();
+            this.LeftBottom.Invalidate();
+            base.OnInvalidate();
+        }
+
     }
 }

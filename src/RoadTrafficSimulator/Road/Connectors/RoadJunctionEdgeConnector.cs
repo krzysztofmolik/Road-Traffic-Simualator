@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Road.Controls;
@@ -29,13 +28,15 @@ namespace RoadTrafficSimulator.Road.Connectors
         {
             roadJunctionEdge.StartPoint.Translated.Subscribe( s => this._owner.EndPoint.SetLocation( s.Control.Location ) );
             roadJunctionEdge.EndPoint.Translated.Subscribe( s => this._owner.StartPoint.SetLocation( s.Control.Location ) );
-            this.MoveSecondJunction( roadJunctionEdge, this._owner );
         }
 
         public void ConnectEndWith( RoadJunctionEdge roadJunctionEdge )
         {
             roadJunctionEdge.StartPoint.Translated.Subscribe( s => this._owner.EndPoint.SetLocation( s.Control.Location ) );
             roadJunctionEdge.EndPoint.Translated.Subscribe( s => this._owner.StartPoint.SetLocation( s.Control.Location ) );
+
+            var tranlationVector = roadJunctionEdge.Location - this._owner.Location;
+            this._owner.Parent.Translate( tranlationVector.ToTranslationMatrix() );
         }
 
         public void ConnectBeginWith( Edge roadLaneEdge )
@@ -48,18 +49,6 @@ namespace RoadTrafficSimulator.Road.Connectors
         public void ConnectEndWith( Edge edge )
         {
             this.NextEdge = edge;
-        }
-
-        // TODO Remove it if not nes...
-        private void MoveSecondJunction( RoadJunctionEdge firstEdge, RoadJunctionEdge secondEdge )
-        {
-            var secondParent = secondEdge.RoadJunctionParent;
-
-            var firstEdgeCanter = firstEdge.StartLocation + ( ( firstEdge.EndLocation - firstEdge.StartLocation ) / 2 );
-            var secondEdgeCenter = secondEdge.StartLocation + ( ( secondEdge.EndLocation - secondEdge.StartLocation ) / 2 );
-            var diff = firstEdgeCanter - secondEdgeCenter;
-
-            secondParent.Translate( Matrix.CreateTranslation( diff.ToVector3() ) );
         }
 
         public bool AreConnected( RoadJunctionEdge edge )

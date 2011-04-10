@@ -74,7 +74,7 @@
 //            get { return this._stopLineVertexContainer; }
 //        }
 //
-//        public override IMouseSupport MouseSupport
+//        public override IMouseSupport MouseHandler
 //        {
 //            get { return this._mouseSupport; }
 //        }

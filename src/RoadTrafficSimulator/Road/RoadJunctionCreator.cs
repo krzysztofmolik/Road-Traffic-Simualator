@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+using NLog;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
-using XnaRoadTrafficConstructor;
 
 namespace RoadTrafficSimulator.Road
 {
     public class RoadJunctionCreator
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IMouseInformation _mouseInformation;
         private bool _shouldProcess;
         private readonly ISubject<Vector2> _juctionCreated = new Subject<Vector2>();
@@ -50,10 +50,12 @@ namespace RoadTrafficSimulator.Road
                 this._shouldProcess = value;
                 if ( this._shouldProcess )
                 {
+                    Logger.Trace( "Start recording mouse" );
                     this._mouseInformation.StartRecord();
                 }
                 else
                 {
+                    Logger.Trace( "Stop recording mouse" );
                     this._mouseInformation.StopRecord();
                 }
             }

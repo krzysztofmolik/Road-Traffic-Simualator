@@ -2,6 +2,7 @@
 using System.Linq;
 using Common;
 using Microsoft.Xna.Framework;
+using NLog;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
@@ -80,6 +81,8 @@ namespace RoadTrafficSimulator.Road
 
     public class RoadLaneCreatorController
     {
+        private static Logger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly IMouseInformation _mouseInformation;
         private readonly VisitAllChildren _visitator;
         private readonly RoadLaneCreator _roadLaneCreator;
@@ -104,12 +107,14 @@ namespace RoadTrafficSimulator.Road
 
         public void Begin( IControl owner )
         {
+            Logger.Trace("Start recording mouse");
             this._isFirst = true;
             this._mouseInformation.StartRecord();
         }
 
         public void End()
         {
+            Logger.Trace("Stop recording mouse");
             this._mouseInformation.StopRecord();
 
             // TODO Finish road lane at some control

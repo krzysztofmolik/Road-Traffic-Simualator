@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace XnaRoadTrafficConstructor.Road
 {
@@ -14,5 +15,7 @@ namespace XnaRoadTrafficConstructor.Road
         public const float PointSize = 0.01f;
 
         public static readonly Color RoadColor = new Color(162, 162, 162);
+
+        public const float CarMoveEpsilon = 0.00005f;
     }
 }

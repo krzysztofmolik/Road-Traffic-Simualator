@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Autofac;
 using Common;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Integration;
@@ -57,10 +55,10 @@ namespace RoadTrafficSimulator.Road
 
         private void SubscribeToMouseInformation()
         {
-            this._mouseInformation.LeftButtonPressed.Subscribe( s => this._roadLayer.MouseSupport.OnLeftButtonPressed( s ) );
-            this._mouseInformation.LeftButtonRelease.Subscribe( s => this._roadLayer.MouseSupport.OnLeftButtonReleased( s ) );
-            this._mouseInformation.LeftButtonClicked.Subscribe( s => this._roadLayer.MouseSupport.OnLeftButtonClick( s ) );
-            this._mouseInformation.MousePositionChanged.Subscribe( s => this._roadLayer.MouseSupport.OnMove( s ) );
+            this._mouseInformation.LeftButtonPressed.Subscribe( s => this._roadLayer.MouseHandler.OnLeftButtonPressed( s ) );
+            this._mouseInformation.LeftButtonRelease.Subscribe( s => this._roadLayer.MouseHandler.OnLeftButtonReleased( s ) );
+            this._mouseInformation.LeftButtonClicked.Subscribe( s => this._roadLayer.MouseHandler.OnLeftButtonClick( s ) );
+            this._mouseInformation.MousePositionChanged.Subscribe( s => this._roadLayer.MouseHandler.OnMove( s ) );
         }
 
         private void SubscribeToMessages()

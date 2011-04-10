@@ -15,7 +15,7 @@ namespace RoadTrafficSimulator.Infrastructure.Control
         private bool _isSelected;
 
         public abstract IVertexContainer VertexContainer { get; } 
-        public abstract IMouseHandler MouseSupport { get; }
+        public abstract IMouseHandler MouseHandler { get; }
         public abstract Vector2 Location { get; }
         public abstract IControl Parent { get; }
 
@@ -41,7 +41,7 @@ namespace RoadTrafficSimulator.Infrastructure.Control
 
         public void Invalidate()
         {
-            this.OnTranslate();
+            this.OnInvalidate();
             this.Redraw();
         }
 
@@ -51,6 +51,8 @@ namespace RoadTrafficSimulator.Infrastructure.Control
         }
 
         public abstract void Translate( Matrix matrixTranslation );
+
+        public abstract void TranslateWithoutNotification(Matrix translationMatrix);
 
         public virtual bool IsHitted( Vector2 location )
         {
@@ -76,7 +78,7 @@ namespace RoadTrafficSimulator.Infrastructure.Control
             this._redrawEvent.OnNext( new Unit() );
         }
 
-        protected virtual void OnTranslate()
+        protected virtual void OnInvalidate()
         {
             this._translatedSubject.OnNext( new TranslationChangedEventArgs( this ) );
         }

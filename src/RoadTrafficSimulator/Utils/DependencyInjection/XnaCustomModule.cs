@@ -77,10 +77,11 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             builder.RegisterType<ScreenZoom>().As<IBackgroundJob>();
 
             builder.RegisterType<SelectedControls>().SingleInstance();
+            builder.RegisterType<MoveControl>().SingleInstance();
             builder.RegisterType<MouseHandlerFactory>().SingleInstance();
-            builder.Register( s => new Func<RoadLayer, IMouseHandler>(r => new RoadLayerMouseHandler(r, s.Resolve<SelectedControls>())));
-            builder.Register( s => new Func<IControl, IMouseHandler>(r => new SingleControlMouseHandler(r, s.Resolve<SelectedControls>())));
-            builder.Register( s => new Func<ICompositeControl, IMouseHandler>(r => new CompositeControlMouseHandler(r, s.Resolve<SelectedControls>())));
+            builder.Register( s => new Func<RoadLayer, IMouseHandler>( r => new RoadLayerMouseHandler( r, s.Resolve<SelectedControls>() ) ) );
+            builder.Register( s => new Func<IControl, IMouseHandler>( r => new SingleControlMouseHandler( r, s.Resolve<SelectedControls>(), s.Resolve<MoveControl>() ) ) );
+            builder.Register( s => new Func<ICompositeControl, IMouseHandler>( r => new CompositeControlMouseHandler( r, s.Resolve<SelectedControls>(), s.Resolve<MoveControl>() ) ) );
             builder.RegisterType<NotMovableMouseHandler>().As<IMouseHandler>().InstancePerDependency();
 
 

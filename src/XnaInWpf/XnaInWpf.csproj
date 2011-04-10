@@ -124,6 +124,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AutofacBootstrapper.cs" />
+    <Compile Include="Presenters\Blocks\CarsInserter\CarsInserterViewModel.cs" />
     <Compile Include="Presenters\Blocks\Junctions\RoadJunctionViewModel.cs" />
     <Compile Include="Presenters\Blocks\RoadLane\OneRoadLaneViewModel.cs" />
     <Compile Include="Presenters\Blocks\Junctions\RoadJunctionBlockViewModelModel.cs" />

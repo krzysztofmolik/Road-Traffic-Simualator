@@ -3,21 +3,20 @@ using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
-using System.Linq;
 
 namespace RoadTrafficSimulator.Road.Controls
 {
-    public abstract class Edge : CompostControl<VertexPositionColor>
+    public abstract class Edge : CompositControl<VertexPositionColor>
     {
         private readonly EdgeVertexContainer _concretVertexContainer;
-        private readonly IMouseHandler _mouseSupport;
+        private readonly IMouseHandler _mouseHandler;
         private MovablePoint _startPoint;
         private MovablePoint _endPoint;
 
         protected Edge( Factories.Factories factories )
         {
             this._concretVertexContainer = new EdgeVertexContainer( this );
-            this._mouseSupport = factories.MouseHandlerFactory.Create( this );
+            this._mouseHandler = factories.MouseHandlerFactory.Create( this );
             this._startPoint = new MovablePoint( factories, Vector2.Zero, this );
             this._endPoint = new MovablePoint( factories, Vector2.Zero, this );
             this.AddChild( this._startPoint );
@@ -70,14 +69,20 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return this._concretVertexContainer; }
         }
 
-        public override IMouseHandler MouseSupport
+        public override IMouseHandler MouseHandler
         {
-            get { return this._mouseSupport; }
+            get { return this._mouseHandler; }
         }
 
         public override Vector2 Location
         {
             get { return this.StartLocation + ( ( this.EndLocation - this.StartLocation ) / 2 ); }
+        }
+
+        public override void TranslateWithoutNotification( Matrix translationMatrix )
+        {
+            this.StartPoint.TranslateWithoutEvent( translationMatrix );
+            this.EndPoint.TranslateWithoutEvent( translationMatrix );
         }
 
         public override void Translate( Matrix matrixTranslation )

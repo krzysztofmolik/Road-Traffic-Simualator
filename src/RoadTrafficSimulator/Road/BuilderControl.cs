@@ -1,20 +1,27 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
+using RoadTrafficSimulator.Extension;
 
 namespace RoadTrafficSimulator.Road
 {
     public class BuilderControl
     {
         private readonly KeyboardInputNotify _keyboardInformation;
+        private readonly Lazy<CarsInserterCreator> _carsInserter;
         private bool _connectingObject;
         private bool _addingRoadLane;
         private bool _addingRoadJunctionBlock;
         private bool _selecteObject;
 
-        public BuilderControl( KeyboardInputNotify keyboardInformation )
+        // TODO Check lazy
+        public BuilderControl( KeyboardInputNotify keyboardInformation, Lazy<CarsInserterCreator> carsInserter )
         {
+            Contract.Requires( keyboardInformation != null);
+            Contract.Requires( carsInserter != null);
             this._keyboardInformation = keyboardInformation;
+            this._carsInserter = carsInserter;
 
             this.SubscribeMessages();
         }
@@ -113,6 +120,10 @@ namespace RoadTrafficSimulator.Road
             }
         }
 
+        public void InsertCarsInserter()
+        {            this._carsInserter.ValueOrThrow().Start();
+        }
+
         private void SubscribeMessages()
         {
             this._keyboardInformation.KeyPressed
@@ -128,6 +139,7 @@ namespace RoadTrafficSimulator.Road
             this.AddingRoadLane = false;
             this.AddingRoadJunctionBlock = false;
             this.ConnectingObject = false;
+            this._carsInserter.ValueOrThrow().Stop();
         }
     }
 }

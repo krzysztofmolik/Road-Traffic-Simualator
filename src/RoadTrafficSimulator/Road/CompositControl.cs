@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace RoadTrafficSimulator.Road
 {
-    public abstract class CompostControl<TVertex> : ControlBaseBase<TVertex>, ICompositeControl
+    public abstract class CompositControl<TVertex> : ControlBaseBase<TVertex>, ICompositeControl
     {
         private readonly object _synchronizationObject = new object();
         private readonly IList<IControl> _childrens = new List<IControl>();

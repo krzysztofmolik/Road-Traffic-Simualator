@@ -71,7 +71,7 @@
 //            get { return this._lightLocationVertexContainer; }
 //        }
 //
-//        public override IMouseSupport MouseSupport
+//        public override IMouseSupport MouseHandler
 //        {
 //            get { return this._mouseSupport; }
 //        }

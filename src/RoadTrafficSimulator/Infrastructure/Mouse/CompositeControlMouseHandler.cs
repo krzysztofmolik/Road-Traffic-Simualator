@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
 using RoadTrafficSimulator.Road;
-using XnaVs10.Extension;
 
 namespace RoadTrafficSimulator.Infrastructure.Mouse
 {
@@ -12,13 +11,15 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
     {
         private readonly ICompositeControl _owner;
         private readonly SelectedControls _selectedControls;
+        private readonly MoveControl _moveControl;
 
         private IControl _selectedControlBase;
         private Vector2 _selctedControlOffset;
 
-        public CompositeControlMouseHandler( ICompositeControl owner, SelectedControls selectedControls )
+        public CompositeControlMouseHandler( ICompositeControl owner, SelectedControls selectedControls, MoveControl moveControl )
         {
             this._owner = owner;
+            this._moveControl = moveControl;
             this._selectedControls = selectedControls;
         }
 
@@ -36,12 +37,12 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         {
             if ( this._selectedControlBase != this._owner )
             {
-                this._selectedControlBase.MouseSupport.OnMove( state );
+                this._selectedControlBase.MouseHandler.OnMove(state);
             }
             else
             {
                 var moveVector = state.Location - this._owner.Location + this._selctedControlOffset;
-                this._owner.Translate( Matrix.CreateTranslation( moveVector.ToVector3() ) );
+                this._moveControl.Translate( this._owner, moveVector );
             }
         }
 
@@ -51,20 +52,11 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             var control = this.FindControlAtPoint( state.Location ) as IControl;
             if ( control != null && control != this._owner )
             {
-                control.MouseSupport.OnLeftButtonClick( state );
+                control.MouseHandler.OnLeftButtonClick( state );
             }
             else
             {
-                var selected = !this._owner.IsSelected;
-                if ( selected )
-                {
-                    this._selectedControls.Add( this._owner );
-                }
-                else
-                {
-                    this._selectedControls.Remove( this._owner );
-                }
-                this._owner.IsSelected = !this._owner.IsSelected;
+                this._selectedControls.ToggleSelection( this._owner );
             }
         }
 
@@ -91,16 +83,16 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         {
             if ( this._selectedControlBase != this._owner )
             {
-                this._selectedControlBase.MouseSupport.OnLeftButtonPressed( state );
+                this._selectedControlBase.MouseHandler.OnLeftButtonPressed( state );
             }
         }
 
         private ILogicControl FindControlAtPoint( Vector2 location )
         {
-            var hitChildren = this._owner.Children.FirstOrDefault( s => s.IsHitted( location ) );
-            if ( hitChildren != null )
+            var hittedControl = this._owner.Children.FirstOrDefault( s => s.IsHitted( location ) );
+            if ( hittedControl != null )
             {
-                return hitChildren.GetHittedControl( location ) ?? this._owner;
+                return hittedControl.GetHittedControl( location ) ?? this._owner;
             }
 
             return this._owner;
@@ -126,7 +118,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             }
             if ( this._selectedControlBase != this._owner )
             {
-                this._selectedControlBase.MouseSupport.OnLeftButtonReleased( state );
+                this._selectedControlBase.MouseHandler.OnLeftButtonReleased( state );
             }
             else
             {

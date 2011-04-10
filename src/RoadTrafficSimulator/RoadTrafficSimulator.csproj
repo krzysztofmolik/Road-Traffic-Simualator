@@ -141,11 +141,14 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cars\Car.cs" />
+    <Compile Include="Cars\CarMouseHandler.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="CompositeConnectionCommand.cs" />
     <Compile Include="ConnectObjectCommand.cs" />
     <Compile Include="EventExtensionMethod.cs" />
     <Compile Include="Extension\IControlExtensions.cs" />
+    <Compile Include="Extension\LazyExtensions.cs" />
     <Compile Include="Extension\Vector2Ex.cs" />
     <Compile Include="Extension\Vector3ExtensionMethod.cs" />
     <Compile Include="Factories\Factories.cs" />
@@ -174,6 +177,7 @@
     <Compile Include="Infrastructure\Mouse\IMouseInformation.cs" />
     <Compile Include="Infrastructure\Mouse\IMouseHandler.cs" />
     <Compile Include="Infrastructure\Mouse\MouseInformation.cs" />
+    <Compile Include="Infrastructure\Mouse\MoveControl.cs" />
     <Compile Include="Infrastructure\Mouse\NotMovableMouseHandler.cs" />
     <Compile Include="Infrastructure\Mouse\PriorityMouseInfomrmation.cs" />
     <Compile Include="Infrastructure\Mouse\RoadJunctionConnectionSupport.cs" />
@@ -205,7 +209,9 @@
     <Compile Include="RoadBuilderCommandCenter.cs" />
     <Compile Include="RoadTrafficSimulatorMessages\XnaWindowInitialized.cs" />
     <Compile Include="Road\BuilderControl.cs" />
-    <Compile Include="Road\CompostControl.cs" />
+    <Compile Include="Road\CarsComponet.cs" />
+    <Compile Include="Road\CarsInserterCreator.cs" />
+    <Compile Include="Road\CompositControl.cs" />
     <Compile Include="Road\ConetableBase.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectEndRoadLaneEdgeWithRoadJunctionEdge.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectEndRoadLaneEdgeWithRoadConnection.cs" />
@@ -221,6 +227,8 @@
     <Compile Include="Road\Connectors\SideRoadLaneConnector.cs" />
     <Compile Include="Road\ConnectPlace.cs" />
     <Compile Include="Road\Constans.cs" />
+    <Compile Include="Road\Controls\CarsInsertedConnector.cs" />
+    <Compile Include="Road\Controls\CarsInserter.cs" />
     <Compile Include="Road\Controls\Edge.cs" />
     <Compile Include="Road\Controls\EndRoadLaneEdge.cs" />
     <Compile Include="Road\Controls\InvisibleShape.cs" />

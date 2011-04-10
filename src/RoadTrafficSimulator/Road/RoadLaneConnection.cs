@@ -38,9 +38,9 @@ namespace RoadTrafficSimulator.Road
 
         public RoadConnectionEdge RightEdge { get; private set; }
 
-        protected override void OnTranslate()
+        protected override void OnInvalidate()
         {
-            base.OnTranslate();
+            base.OnInvalidate();
             this.RecalculatePosition();
         }
 

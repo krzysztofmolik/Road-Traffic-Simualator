@@ -2,6 +2,7 @@
 using System.Linq;
 using Common;
 using Microsoft.Xna.Framework.Input;
+using NLog;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
 using RoadTrafficSimulator.Utils;
@@ -17,6 +18,7 @@ namespace RoadTrafficSimulator.Road
 
     public class ScreenZoom : IBackgroundJob
     {
+        private static Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly KeyboardInputNotify _keyboard;
         private readonly IMouseInformation _mouseInforamtion;
         private readonly Camera3D _camera3D;
@@ -34,8 +36,8 @@ namespace RoadTrafficSimulator.Road
 
         public void Start()
         {
-            this._leftControlPressed = this._keyboard.KeyPressed.Where( s => s.Key == Keys.LeftControl ).Subscribe( s => this.BeginZooming() );
-            this._leftControlReleased = this._keyboard.KeyRelease.Where( s => s.Key == Keys.LeftControl ).Subscribe( s => this.EndZooming() );
+//            this._leftControlPressed = this._keyboard.KeyPressed.Where( s => s.Key == Keys.LeftControl ).Subscribe( s => this.BeginZooming() );
+//            this._leftControlReleased = this._keyboard.KeyRelease.Where( s => s.Key == Keys.LeftControl ).Subscribe( s => this.EndZooming() );
             this._scrollChanged = this._mouseInforamtion.ScrollWheelChanged.Subscribe( this.Zooming );
         }
 
@@ -48,11 +50,13 @@ namespace RoadTrafficSimulator.Road
 
         private void EndZooming()
         {
+            Logger.Trace("Stop recording mouse");
             this._mouseInforamtion.StopRecord();
         }
 
         private void BeginZooming()
         {
+            Logger.Trace("Start recording mouse");
             this._mouseInforamtion.StartRecord();
         }
 

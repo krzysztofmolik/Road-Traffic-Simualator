@@ -1,5 +1,7 @@
 using System;
+using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
+using XnaVs10.Extension;
 
 namespace XnaVs10.Extension
 {
@@ -41,6 +43,11 @@ namespace XnaVs10.Extension
             return PointDistanceFromLine( lineBegin, lineEnd, baseVector );
         }
 
+        public static Matrix ToTranslationMatrix( this Vector2 vector2 )
+        {
+            return Matrix.CreateTranslation( vector2.ToVector3() );
+        }
+
         public static float AngelBetween( this Vector2 baseVector, Vector2 secondVector )
         {
             baseVector.Normalize();
@@ -55,12 +62,12 @@ namespace XnaVs10.Extension
 
             var t = Vector2.Dot( P - A, u ) / Vector2.Dot( u, u );
 
-            if( t < 0 )
+            if ( t < 0 )
             {
                 t = 0;
             }
 
-            if( t > 1 ) t = 1;
+            if ( t > 1 ) t = 1;
             {
                 return A + u * t;
             }

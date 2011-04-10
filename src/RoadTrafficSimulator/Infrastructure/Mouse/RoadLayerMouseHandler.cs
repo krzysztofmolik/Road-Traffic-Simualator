@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
 using RoadTrafficSimulator.Road;
+using XnaVs10.Extension;
 
 namespace RoadTrafficSimulator.Infrastructure.Mouse
 {
@@ -28,15 +29,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
                 return;
             }
 
-            if ( this._mouseOwner.IsSelected )
-            {
-                this._selectedControls.ForEach( c => c.MouseSupport.OnMove( state ) );
-            }
-            else
-            {
-                this._mouseOwner.MouseSupport.OnMove( state );
-            }
-
+            this._mouseOwner.MouseHandler.OnMove( state );
         }
 
         public void OnLeftButtonClick( XnaMouseState state )
@@ -44,7 +37,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             var control = this.FindControlAtPoint( state.Location ) as IControl;
             if ( control != null )
             {
-                control.MouseSupport.OnLeftButtonClick( state );
+                control.MouseHandler.OnLeftButtonClick( state );
             }
             else
             {
@@ -59,7 +52,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             this._mouseOwner = this.FindControlAtPoint( state.Location ) as IControl;
             if ( this._mouseOwner != null )
             {
-                this._mouseOwner.MouseSupport.OnLeftButtonPressed( state );
+                this._mouseOwner.MouseHandler.OnLeftButtonPressed( state );
             }
             else
             {
@@ -79,7 +72,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
                 return;
             }
 
-            this._mouseOwner.MouseSupport.OnLeftButtonReleased( state );
+            this._mouseOwner.MouseHandler.OnLeftButtonReleased( state );
             this._mouseOwner = null;
         }
     }

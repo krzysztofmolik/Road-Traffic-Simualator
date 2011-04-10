@@ -23,11 +23,13 @@ namespace RoadTrafficSimulator.Infrastructure.Control
 
         IVertexContainer VertexContainer { get; }
 
-        IMouseHandler MouseSupport { get; }
+        IMouseHandler MouseHandler { get; }
 
         IObservable<Unit> Redrawed { get; }
 
         void Translate( Matrix matrixTranslation );
+
+        void TranslateWithoutNotification( Matrix translationMatrix );
 
         Vector2 ToControlPosition( Vector2 screenPosition );
 

@@ -16,14 +16,14 @@ namespace RoadTrafficSimulator.Road.Controls
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly MovablePointVertexContainer _movablePointVertexContainer;
-        private readonly IMouseHandler _mouseSupport;
+        private readonly IMouseHandler _mouseHandler;
         private readonly IControl _parent;
         private Vector2 _location;
 
         public MovablePoint( Factories.Factories factories, Vector2 location, IControl parent )
         {
             this._parent = parent;
-            this._mouseSupport = factories.MouseHandlerFactory.Create( this );
+            this._mouseHandler = factories.MouseHandlerFactory.Create( this );
             this._location = location;
             this._movablePointVertexContainer = new MovablePointVertexContainer( this );
         }
@@ -43,9 +43,9 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return this._movablePointVertexContainer; }
         }
 
-        public override IMouseHandler MouseSupport
+        public override IMouseHandler MouseHandler
         {
-            get { return this._mouseSupport; }
+            get { return this._mouseHandler; }
         }
 
         public void TranslateWithoutEvent( Matrix matrixTranslation )
@@ -63,7 +63,13 @@ namespace RoadTrafficSimulator.Road.Controls
 
         public override void Translate( Matrix matrixTranslation )
         {
-            var newLocation = Vector2.Transform( this.Location, matrixTranslation );
+            this.TranslateWithoutNotification( matrixTranslation );
+            this.Invalidate();
+        }
+
+        public override void TranslateWithoutNotification( Matrix translationMatrix )
+        {
+            var newLocation = Vector2.Transform( this.Location, translationMatrix );
             if ( newLocation == this._location )
             {
                 Logger.Warn( "Given location is not valid, newLocation = {0}", newLocation );
@@ -71,24 +77,6 @@ namespace RoadTrafficSimulator.Road.Controls
             }
 
             this._location = newLocation;
-            this.Invalidate();
-        }
-
-        public bool SetLocationWithoutEvent( Vector2 newLocation )
-        {
-            if ( newLocation.IsValid() == false )
-            {
-                Logger.Warn( "Given location is not valid, newLocation = {0}", newLocation );
-                throw new ArgumentException( "New location is not valid" );
-            }
-
-            if ( this.Location.Equal( newLocation, Constans.Epsilon ) )
-            {
-                return false;
-            }
-
-            this._location = newLocation;
-            return true;
         }
 
         public bool SetLocation( Vector2 newLocation )

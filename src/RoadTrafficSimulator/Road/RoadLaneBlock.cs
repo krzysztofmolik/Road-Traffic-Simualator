@@ -13,11 +13,11 @@ using XnaRoadTrafficConstructor.VertexContainers;
 
 namespace RoadTrafficSimulator.Road
 {
-    public class RoadLaneBlock : CompostControl<VertexPositionColor>, IRoadLaneBlock
+    public class RoadLaneBlock : CompositControl<VertexPositionColor>, IRoadLaneBlock
     {
         private readonly IList<IControl> _roadBlocks;
         private readonly RoadLaneBlockVertexContainer _roadLaneBlockVertexContainer;
-        private readonly IMouseHandler _mouseSupport;
+        private readonly IMouseHandler _mouseHandler;
         private readonly IControl _parent;
         private readonly Factories.Factories _factories;
         private MovablePoint _leftTopPoint;
@@ -28,7 +28,7 @@ namespace RoadTrafficSimulator.Road
         private RoadLaneBlock( Factories.Factories factories )
         {
             this._roadLaneBlockVertexContainer = new RoadLaneBlockVertexContainer( this );
-            this._mouseSupport = factories.MouseHandlerFactory.Create( this );
+            this._mouseHandler = factories.MouseHandlerFactory.Create( this );
             this._roadBlocks = new List<IControl>();
         }
 
@@ -181,9 +181,9 @@ namespace RoadTrafficSimulator.Road
             get { return this._roadLaneBlockVertexContainer; }
         }
 
-        public override IMouseHandler MouseSupport
+        public override IMouseHandler MouseHandler
         {
-            get { return this._mouseSupport; }
+            get { return this._mouseHandler; }
         }
 
         public override Vector2 Location
@@ -220,6 +220,15 @@ namespace RoadTrafficSimulator.Road
             // TODO WithoutEvent
             this.RoadBlocks.ForEach( b => b.Translate( matrixTranslation ) );
             this.Invalidate();
+        }
+
+        public override void TranslateWithoutNotification( Matrix translationMatrix )
+        {
+            this.LeftTopPoint.TranslateWithoutEvent( translationMatrix );
+            this.RightTopPoint.TranslateWithoutEvent( translationMatrix );
+            this.RightBottomPoint.TranslateWithoutEvent( translationMatrix );
+            this.LeftBottomPoint.TranslateWithoutEvent( translationMatrix );
+            this.RoadBlocks.ForEach( b => b.TranslateWithoutNotification( translationMatrix ) );
         }
 
         private void AddToChildCollection()

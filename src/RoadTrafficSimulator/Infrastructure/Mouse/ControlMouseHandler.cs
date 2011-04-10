@@ -1,8 +1,6 @@
-using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.MouseHandler.Infrastructure;
-using XnaVs10.Extension;
 
 namespace RoadTrafficSimulator.Infrastructure.Mouse
 {
@@ -10,45 +8,35 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
     {
         private readonly IControl _owner;
         private readonly SelectedControls _selectedControls;
+        private readonly MoveControl _moveControl;
+        private Vector2 _clickOffset;
 
-        public SingleControlMouseHandler( IControl owner, SelectedControls selectedControls )
+        public SingleControlMouseHandler( IControl owner, SelectedControls selectedControls, MoveControl moveControl )
         {
             this._owner = owner;
             this._selectedControls = selectedControls;
+            this._moveControl = moveControl;
         }
 
         public void OnMove( XnaMouseState state )
         {
-            this.Move( state );
+            var translationVector = state.Location - this._owner.Location + this._clickOffset;
+            this._moveControl.Translate( this._owner, translationVector );
         }
 
         public void OnLeftButtonClick( XnaMouseState state )
         {
-            var seleected = !this._owner.IsSelected;
-            if ( seleected )
-            {
-                this._selectedControls.Add( this._owner );
-            }
-            else
-            {
-                this._selectedControls.Remove( this._owner );
-            }
-            this._owner.IsSelected = seleected;
+            this._selectedControls.ToggleSelection( this._owner );
         }
 
         public void OnLeftButtonPressed( XnaMouseState state )
         {
-            this._owner.ToControlPosition( state.Location );
+            this._clickOffset = this._owner.ToControlPosition( state.Location );
         }
 
         public void OnLeftButtonReleased( XnaMouseState state )
         {
-        }
-
-        private void Move( XnaMouseState state )
-        {
-            var moveVector = state.Location - this._owner.Location;
-            this._owner.Translate( Matrix.CreateTranslation( moveVector.ToVector3() ) );
+            this._clickOffset = Vector2.Zero;
         }
     }
 }

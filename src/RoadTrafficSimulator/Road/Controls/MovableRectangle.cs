@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,11 +11,11 @@ using XnaRoadTrafficConstructor.VertexContainers;
 
 namespace RoadTrafficSimulator.Road.Controls
 {
-    public class MovableRectangle : CompostControl<VertexPositionColor>
+    public class MovableRectangle : CompositControl<VertexPositionColor>
     {
         private readonly MovablePoint[] _points;
         private readonly IVertexContainer<VertexPositionColor> _concretVertexContainer;
-        private readonly IMouseHandler _mouseSupport;
+        private readonly IMouseHandler _mouseHandler;
         private readonly IControl _parent;
 
         public MovableRectangle( Factories.Factories factories, Vector2 leftTop, float width, float height, MovablePoint parent )
@@ -47,7 +48,7 @@ namespace RoadTrafficSimulator.Road.Controls
         private MovableRectangle( Factories.Factories factories, IControl parent )
         {
             this._parent = parent;
-            this._mouseSupport = factories.MouseHandlerFactory.Create(this);
+            this._mouseHandler = factories.MouseHandlerFactory.Create(this);
             this._points = new MovablePoint[ Corners.Count ];
             this._concretVertexContainer = new MovableRectlangeVertexContainer( this );
         }
@@ -122,9 +123,9 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return this._concretVertexContainer; }
         }
 
-        public override IMouseHandler MouseSupport
+        public override IMouseHandler MouseHandler
         {
-            get { return this._mouseSupport; }
+            get { return this._mouseHandler; }
         }
 
         public override Vector2 Location
@@ -142,8 +143,12 @@ namespace RoadTrafficSimulator.Road.Controls
             this.Points.ForEach( s =>
                                     {
                                         s.Translate( matrixTranslation );
-                                        s.Redraw();
                                     } );
+        }
+
+        public override void TranslateWithoutNotification(Matrix translationMatrix)
+        {
+            this.Points.ForEach( s => s.TranslateWithoutNotification( translationMatrix ));
         }
     }
 }

@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Xna.Tests", "..\tst\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoadTrafficSimulatorTests", "..\tst\RoadTrafficSimulatorTests\RoadTrafficSimulatorTests.csproj", "{11A7CD2D-5F64-41A4-96ED-7C55B7A47457}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoadTrafficSimulator.RoadComponents", "RoadTrafficSimulator.RoadComponents\RoadTrafficSimulator.RoadComponents.csproj", "{C40A624A-857A-45D2-B3F6-A55EA3455EBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +185,20 @@ Global
 		{11A7CD2D-5F64-41A4-96ED-7C55B7A47457}.Release|x86.ActiveCfg = Release|Any CPU
 		{11A7CD2D-5F64-41A4-96ED-7C55B7A47457}.Release|Xbox 360.ActiveCfg = Release|Any CPU
 		{11A7CD2D-5F64-41A4-96ED-7C55B7A47457}.Release|Zune.ActiveCfg = Release|Any CPU
+		{C40A624A-857A-45D2-B3F6-A55EA3455EBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C40A624A-857A-45D2-B3F6-A55EA3455EBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C40A624A-857A-45D2-B3F6-A55EA3455EBF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C40A624A-857A-45D2-B3F6-A55EA3455EBF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C40A624A-857A-45D2-B3F6-A55EA3455EBF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C40A624A-857A-45D2-B3F6-A55EA3455EBF}.Debug|Xbox 360.ActiveCfg = Debug|Any CPU
+		{C40A624A-857A-45D2-B3F6-A55EA3455EBF}.Debug|Zune.ActiveCfg = Debug|Any CPU
+		{C40A624A-857A-45D2-B3F6-A55EA3455EBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C40A624A-857A-45D2-B3F6-A55EA3455EBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C40A624A-857A-45D2-B3F6-A55EA3455EBF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C40A624A-857A-45D2-B3F6-A55EA3455EBF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C40A624A-857A-45D2-B3F6-A55EA3455EBF}.Release|x86.ActiveCfg = Release|Any CPU
+		{C40A624A-857A-45D2-B3F6-A55EA3455EBF}.Release|Xbox 360.ActiveCfg = Release|Any CPU
+		{C40A624A-857A-45D2-B3F6-A55EA3455EBF}.Release|Zune.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
