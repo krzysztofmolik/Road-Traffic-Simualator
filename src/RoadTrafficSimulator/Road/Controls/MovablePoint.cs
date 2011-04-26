@@ -17,12 +17,11 @@ namespace RoadTrafficSimulator.Road.Controls
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly MovablePointVertexContainer _movablePointVertexContainer;
         private readonly IMouseHandler _mouseHandler;
-        private readonly IControl _parent;
         private Vector2 _location;
 
         public MovablePoint( Factories.Factories factories, Vector2 location, IControl parent )
         {
-            this._parent = parent;
+            this.Parent = parent;
             this._mouseHandler = factories.MouseHandlerFactory.Create( this );
             this._location = location;
             this._movablePointVertexContainer = new MovablePointVertexContainer( this );
@@ -33,10 +32,7 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return this._location; }
         }
 
-        public override IControl Parent
-        {
-            get { return this._parent; }
-        }
+        public override IControl Parent { get; set; }
 
         public override IVertexContainer VertexContainer
         {

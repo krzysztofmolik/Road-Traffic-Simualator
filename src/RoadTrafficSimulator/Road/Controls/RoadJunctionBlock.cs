@@ -16,11 +16,10 @@ namespace RoadTrafficSimulator.Road.Controls
         private readonly MovablePoint[] _points = new MovablePoint[ Corners.Count ];
         private readonly IVertexContainer<VertexPositionColor> _concretVertexContainer;
         private readonly IMouseHandler _mouseHandler;
-        private readonly IControl _parent;
 
         public RoadJunctionBlock( Factories.Factories factories, Vector2 location, IControl parent )
         {
-            this._parent = parent;
+            this.Parent = parent;
             const float halfRoadWidth = Constans.RoadHeight / 2;
             this._roadJunctionEdges = Enumerable.Range( 0, EdgeType.Count ).Select( s => new RoadJunctionEdge( factories, this ) ).ToArray();
             this._points = new MovablePoint[ Corners.Count ];
@@ -129,10 +128,7 @@ namespace RoadTrafficSimulator.Road.Controls
             get { return this.LeftTopLocation; }
         }
 
-        public override IControl Parent
-        {
-            get { return this._parent; }
-        }
+        public override IControl Parent { get; set; }
 
         #endregion Properties
 

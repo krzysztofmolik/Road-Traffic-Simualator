@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Autofac;
+using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Factories;
@@ -41,6 +42,7 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
                                   {
                                       s.Context.Resolve<BuilderControl>().RoadComponent = s.Instance;
                                       s.Context.Resolve<WorldController>().RoadComponent = s.Instance;
+                                      s.Context.Resolve<IEventAggregator>().Subscribe( s.Instance );
                                   } )
                 .InstancePerLifetimeScope();
             builder.RegisterType<BuilderControl>().InstancePerLifetimeScope();
@@ -59,6 +61,7 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             builder.RegisterType<RoadLaneCreator>();
             builder.RegisterType<RoadLaneCreatorController>();
             builder.RegisterType<RoadJunctionCreator>();
+            builder.RegisterType<CarsInserterCreator>();
 
             builder.RegisterType<JunctionCornerMouseHandler>();
             builder.RegisterType<JunctionEdgeMouseHandler>();
@@ -73,6 +76,7 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             builder.RegisterType<ConnectRoadConnectionWithEndRoadLane>().As<IConnectionCommand>();
             builder.RegisterType<ConnectRoadJunctionEdgeWitEndRoadLaneEdge>().As<IConnectionCommand>();
             builder.RegisterType<ConnectSideRoadLaneEdges>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectCarInserterWithEnd>().As<IConnectionCommand>();
             builder.RegisterType<ConnectRoadConnectionWithRoadConnection>().As<ConnectRoadConnectionWithRoadConnection>().As<IConnectionCommand>();
             builder.RegisterType<ScreenZoom>().As<IBackgroundJob>();
 

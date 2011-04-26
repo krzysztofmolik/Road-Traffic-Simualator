@@ -18,7 +18,6 @@ namespace RoadTrafficSimulator.Road
         private readonly IList<IControl> _roadBlocks;
         private readonly RoadLaneBlockVertexContainer _roadLaneBlockVertexContainer;
         private readonly IMouseHandler _mouseHandler;
-        private readonly IControl _parent;
         private readonly Factories.Factories _factories;
         private MovablePoint _leftTopPoint;
         private MovablePoint _rightTop;
@@ -35,7 +34,7 @@ namespace RoadTrafficSimulator.Road
         public RoadLaneBlock( Factories.Factories factories, IControl parent )
             : this( factories )
         {
-            this._parent = parent;
+            this.Parent = parent;
             this._factories = factories;
             this._leftTopPoint = new MovablePoint( factories, new Vector2( 1, 0 ), this );
             this._rightTop = new MovablePoint( factories, new Vector2( 1, 1 ), this );
@@ -191,10 +190,7 @@ namespace RoadTrafficSimulator.Road
             get { return this.LeftTopLocation; }
         }
 
-        public override IControl Parent
-        {
-            get { return this._parent; }
-        }
+        public override IControl Parent { get; set; }
 
         public IEnumerable<IControl> HitRoadBlock( Vector2 point )
         {

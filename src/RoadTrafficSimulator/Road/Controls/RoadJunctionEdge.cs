@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using System;
+using System.ComponentModel;
+using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Road.Connectors;
 using RoadTrafficSimulator.VertexContainers;
@@ -10,7 +12,7 @@ namespace RoadTrafficSimulator.Road.Controls
     {
         private readonly RoadJunctionEdgeConnector _roadJunctionEndConnector;
 
-        private readonly RoadJunctionBlock _parent;
+        private RoadJunctionBlock _parent;
         private readonly IVertexContainer<VertexPositionColor> _vertexContainer;
 
         public RoadJunctionEdge(Factories.Factories factories,  RoadJunctionBlock parent ) 
@@ -40,6 +42,11 @@ namespace RoadTrafficSimulator.Road.Controls
         public override sealed IControl Parent
         {
             get { return this._parent; }
+            set
+            {
+                if( (value is RoadJunctionBlock) == false) { throw new ArgumentException("Only RoadJuntionBlock is allowed"); }
+                this._parent = (RoadJunctionBlock) value;
+            }
         }
 
         public override IVertexContainer VertexContainer

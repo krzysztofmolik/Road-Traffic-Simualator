@@ -1,4 +1,5 @@
-﻿using Common.Xna;
+﻿using System;
+using Common.Xna;
 using Microsoft.FSharp.Core;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
@@ -8,8 +9,8 @@ namespace RoadTrafficSimulator.Road.Controls
 {
     public class CarsInserter : Edge
     {
+        private readonly CarsInsertedConnector _connector;
         private IControl _parent;
-        private CarsInsertedConnector _connector;
 
         public CarsInserter( Factories.Factories factories, Vector2 location, IControl parent )
             : base( factories )
@@ -18,12 +19,15 @@ namespace RoadTrafficSimulator.Road.Controls
             this._connector = new CarsInsertedConnector( this );
             this.StartPoint.SetLocation( location - new Vector2( 0, Constans.RoadHeight / 2 ) );
             this.EndPoint.SetLocation( location + new Vector2( 0, Constans.RoadHeight / 2 ) );
+            this.RightEdge = new InvertPointEdgeAdapter(this);
         }
 
-        public CarsInserter( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint )
-            : base( factories, startPoint, endPoint ) {  }
+        public InvertPointEdgeAdapter RightEdge { get; private set; }
 
-        public override IControl Parent { get { return this._parent; } }
+        public CarsInserter( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint )
+            : base( factories, startPoint, endPoint ) { }
+
+        public override IControl Parent { get { return this._parent; } set { this._parent = value; } }
 
         public CarsInsertedConnector Connector { get { return this._connector; } }
 

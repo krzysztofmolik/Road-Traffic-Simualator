@@ -1,9 +1,10 @@
-﻿using RoadTrafficSimulator.Infrastructure.Control;
+﻿using System;
+using RoadTrafficSimulator.Infrastructure.Control;
 
 namespace RoadTrafficSimulator
 {
     public interface IConnectionCommand
     {
-        bool Connect(ILogicControl first, ILogicControl second);
+        bool Connect( ILogicControl first, ILogicControl second );
     }
 }

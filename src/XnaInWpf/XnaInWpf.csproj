@@ -124,12 +124,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AutofacBootstrapper.cs" />
+    <Compile Include="Presenters\Blocks\CarsInserter\CarsInserterView.xaml.cs">
+      <DependentUpon>CarsInserterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presenters\Blocks\CarsInserter\CarsInserterViewModel.cs" />
-    <Compile Include="Presenters\Blocks\Junctions\RoadJunctionViewModel.cs" />
     <Compile Include="Presenters\Blocks\RoadLane\OneRoadLaneViewModel.cs" />
     <Compile Include="Presenters\Blocks\Junctions\RoadJunctionBlockViewModelModel.cs" />
-    <Compile Include="Presenters\Blocks\RoadLane\RoadLaneFolderViewModel.cs" />
-    <Compile Include="Presenters\Blocks\RoadLane\TwoRoadLaneViewModel.cs" />
     <Compile Include="Presenters\DebugMouseInformation.cs" />
     <Compile Include="Presenters\Blocks\RoadLane\OneRoadLaneView.xaml.cs">
       <DependentUpon>OneRoadLaneView.xaml</DependentUpon>
@@ -137,19 +137,14 @@
     <Compile Include="Presenters\Blocks\Junctions\RoadJunctionBlockView.xaml.cs">
       <DependentUpon>RoadJunctionBlockView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presenters\Blocks\Junctions\RoadJunctionView.xaml.cs">
-      <DependentUpon>RoadJunctionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presenters\Blocks\RoadLane\RoadLaneFolderView.xaml.cs">
-      <DependentUpon>RoadLaneFolderView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Presenters\Blocks\Lights\StandardLightView.xaml.cs">
       <DependentUpon>StandardLightView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presenters\Blocks\RoadLane\TwoRoadLaneView.xaml.cs">
-      <DependentUpon>TwoRoadLaneView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="XnaInWpfModule.cs" />
+    <Page Include="Presenters\Blocks\CarsInserter\CarsInserterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Presenters\Blocks\Lights\LightsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -162,19 +157,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Presenters\Blocks\Junctions\RoadJunctionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Presenters\Blocks\RoadLane\RoadLaneFolderView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Presenters\Blocks\Lights\StandardLightView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Presenters\Blocks\RoadLane\TwoRoadLaneView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

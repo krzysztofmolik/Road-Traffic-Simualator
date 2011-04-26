@@ -17,7 +17,7 @@ namespace RoadTrafficSimulator.Infrastructure.Control
         public abstract IVertexContainer VertexContainer { get; } 
         public abstract IMouseHandler MouseHandler { get; }
         public abstract Vector2 Location { get; }
-        public abstract IControl Parent { get; }
+        public abstract IControl Parent { get; set; }
 
         public bool IsSelected
         {

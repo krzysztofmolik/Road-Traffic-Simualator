@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Integration;
+using RoadTrafficSimulator.Messages;
 using RoadTrafficSimulator.Road.Controls;
 using RoadTrafficSimulator.RoadTrafficSimulatorMessages;
 using DrawableGameComponent = RoadTrafficSimulator.Infrastructure.DrawableGameComponent;
@@ -12,7 +13,7 @@ using DrawableGameComponent = RoadTrafficSimulator.Infrastructure.DrawableGameCo
 namespace RoadTrafficSimulator.Road
 {
     // TODO Change name
-    public class RoadComponent : DrawableGameComponent, IDisposable
+    public class RoadComponent : DrawableGameComponent, IHandle<AddControlToRoadLayer>, IDisposable
     {
         private readonly RoadLaneCreatorController _roadLaneCreator;
         private readonly IEnumerable<IBackgroundJob> _backgroundJobs;
@@ -142,6 +143,13 @@ namespace RoadTrafficSimulator.Road
         public void AddingRoadLaneEnd()
         {
             this._roadLaneCreator.End();
+        }
+
+        public void Handle( AddControlToRoadLayer message )
+        {
+            var control = message.Control;
+            control.Parent = this._roadLayer;
+            this._roadLayer.AddChild( control );
         }
     }
 }

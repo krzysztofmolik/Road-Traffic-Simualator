@@ -145,6 +145,7 @@
     <Compile Include="Cars\CarMouseHandler.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="CompositeConnectionCommand.cs" />
+    <Compile Include="ConnectCarInserterWithEnd.cs" />
     <Compile Include="ConnectObjectCommand.cs" />
     <Compile Include="EventExtensionMethod.cs" />
     <Compile Include="Extension\IControlExtensions.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="MathHelpers\IntersectionTwoVectors.cs" />
     <Compile Include="MathHelpers\IsVectorCross.cs" />
     <Compile Include="MathHelpers\MyMathHelper.cs" />
+    <Compile Include="Messages\AddControlToRoadLayer.cs" />
     <Compile Include="MouseHandler\Infrastructure\XnaMouseState.cs" />
     <Compile Include="MouseHandler\JunctionMouseHandler\INestedJunctionMouseHandler.cs" />
     <Compile Include="MouseHandler\JunctionMouseHandler\JunctionCornerMouseHandler.cs" />
@@ -231,6 +233,7 @@
     <Compile Include="Road\Controls\CarsInserter.cs" />
     <Compile Include="Road\Controls\Edge.cs" />
     <Compile Include="Road\Controls\EndRoadLaneEdge.cs" />
+    <Compile Include="Road\Controls\IEdgeLine.cs" />
     <Compile Include="Road\Controls\InvisibleShape.cs" />
     <Compile Include="Road\Controls\IRoadJunctionBlock.cs" />
     <Compile Include="Road\Controls\LaneType.cs" />
@@ -244,13 +247,14 @@
     <Compile Include="Road\ICompositeControl.cs" />
     <Compile Include="Road\IConnectable.cs" />
     <Compile Include="Road\ILight.cs" />
+    <Compile Include="Road\InvertPointEdgeAdapter.cs" />
     <Compile Include="Road\IRoadLaneBlock.cs" />
     <Compile Include="Road\LightLocation.cs" />
     <Compile Include="Road\LineCorners.cs" />
     <Compile Include="Road\RoadCommponets\NormalLight.cs" />
     <Compile Include="Road\RoadComponent.cs" />
     <Compile Include="Road\Connectors\UpdateConnected.cs" />
-    <Compile Include="Road\RoadConnectionEdge.cs" />
+    <Compile Include="Road\NormalPointEdgeAdapter.cs" />
     <Compile Include="Road\RoadJunctionCreator.cs" />
     <Compile Include="Road\RoadLaneArrow.cs" />
     <Compile Include="Road\RoadLaneBlock.cs" />

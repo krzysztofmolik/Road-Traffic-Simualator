@@ -28,7 +28,7 @@ namespace RoadTrafficConstructor.Presenters.Blocks.CarsInserter
 
         public void Execute(BuilderControl builderControl)
         {
-            builderControl.InsertCarsInserter = true;
+            builderControl.InsertCarsInserter();
         }
     }
 }

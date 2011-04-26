@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using RoadTrafficSimulator.Integration;
 using RoadTrafficSimulator.Road;
 
 namespace RoadTrafficConstructor.Presenters.Blocks.Junctions
@@ -11,7 +10,7 @@ namespace RoadTrafficConstructor.Presenters.Blocks.Junctions
     {
         public Type Parent
         {
-            get { return typeof( RoadJunctionViewModel ); }
+            get { return null; }
         }
 
         public string Name

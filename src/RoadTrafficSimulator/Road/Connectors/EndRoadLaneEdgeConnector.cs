@@ -43,6 +43,7 @@ namespace RoadTrafficSimulator.Road.Connectors
             this._endRoadLaneEdge.StartPoint.Redraw();
         }
 
+        // TODO This the same as overload function, remove this one
         public void ConnectBeginWith( RoadConnection edge )
         {
             if ( this.PreviousEdge != null )
@@ -73,7 +74,7 @@ namespace RoadTrafficSimulator.Road.Connectors
             this.UpdateEndPointLocation( edge.LeftEdge.StartPoint );
         }
 
-        public void ConnectEndWith( Edge edge )
+        public void ConnectEndWith( IEdgeLine edge )
         {
             if ( this.NextEdge != null )
             {

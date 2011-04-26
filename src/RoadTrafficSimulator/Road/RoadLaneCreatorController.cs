@@ -30,10 +30,7 @@ namespace RoadTrafficSimulator.Road
 
         public void StartFrom( IControl control )
         {
-            if ( this._lastConnectedControl != null )
-            {
-                throw new InvalidOperationException();
-            }
+            if ( this._lastConnectedControl != null ) { throw new InvalidOperationException(); }
 
             this._lastConnectedControl = control.NotNull();
         }
@@ -123,6 +120,7 @@ namespace RoadTrafficSimulator.Road
         private void MousePressed( XnaMouseState mouseState )
         {
             var edge = this.GetRoadJuctionEdge( mouseState.Location );
+            if( this.IsAppropiate(edge) == false ) { return; }
 
             if ( this._isFirst )
             {
@@ -132,6 +130,11 @@ namespace RoadTrafficSimulator.Road
             {
                 this.ProcessControl( edge, mouseState.Location );
             }
+        }
+
+        private bool IsAppropiate(IControl edge)
+        {
+            return edge == null || edge is RoadJunctionEdge || edge is CarsInserter;
         }
 
         private void ProcessControl( IControl edge, Vector2 location )
@@ -154,18 +157,15 @@ namespace RoadTrafficSimulator.Road
 
         private void ProcessFirstControl( IControl control )
         {
-            if ( control == null )
-            {
-                return;
-            }
+            if ( control == null ) { return; }
 
             this._isFirst = false;
             this._roadLaneCreator.StartFrom( control );
         }
 
-        private RoadJunctionEdge GetRoadJuctionEdge( Vector2 location )
+        private IControl GetRoadJuctionEdge( Vector2 location )
         {
-            return this._visitator.Where( c => c.IsHitted( location ) ).OfType<RoadJunctionEdge>().FirstOrDefault();
+            return this._visitator.Where( c => c.IsHitted( location ) ).FirstOrDefault();
         }
     }
 }

@@ -1,21 +1,30 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Diagnostics.Contracts;
 using System.Linq;
-using Microsoft.Xna.Framework;
+using Common;
 using RoadTrafficSimulator.Infrastructure.Mouse;
+using System;
+using RoadTrafficSimulator.Messages;
+using RoadTrafficSimulator.Road.Controls;
 
 namespace RoadTrafficSimulator.Road
 {
     public class CarsInserterCreator
     {
-        private IMouseInformation _mouseInformation;
+        private readonly IMouseInformation _mouseInformation;
         private bool _process;
-        private ISubject<Vector2> _createCarsInserer = new Subject<Vector2>();
 
-        public CarsInserterCreator( IMouseInformation mouseInformation )
+        public CarsInserterCreator( IMouseInformation mouseInformation, Factories.Factories factories, IEventAggregator eventAggregator )
         {
+            Contract.Requires( mouseInformation != null );
+            Contract.Requires( factories != null );
+            Contract.Requires( eventAggregator != null );
             this._mouseInformation = mouseInformation;
-            this._mouseInformation.LeftButtonPressed.Where( s => this.Process ).Subscribe( s => this._createCarsInserer.OnNext( s.Location ) );
+            this._mouseInformation.LeftButtonPressed.Where( s => this.Process )
+                                                    .Subscribe( s =>
+                                                                {
+                                                                    var carInserter = new CarsInserter( factories, s.Location, null );
+                                                                    eventAggregator.Publish( new AddControlToRoadLayer( carInserter ) );
+                                                                } );
         }
 
         public bool Process

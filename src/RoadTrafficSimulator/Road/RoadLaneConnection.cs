@@ -1,4 +1,5 @@
-﻿using Common.Xna;
+﻿using System;
+using Common.Xna;
 using Microsoft.FSharp.Core;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
@@ -11,17 +12,16 @@ namespace RoadTrafficSimulator.Road
     public class RoadConnection : Edge
     {
         private readonly RoadConnectionConnector _connector;
-        private readonly IControl _parent;
 
         public RoadConnection( Factories.Factories factories, Vector2 location, IControl parent )
             : base( factories )
         {
-            this._parent = parent;
+            this.Parent = parent;
             this._connector = new RoadConnectionConnector( this );
             this.StartPoint.SetLocation( location - new Vector2( 0, Constans.RoadHeight / 2 ) );
             this.EndPoint.SetLocation( location + new Vector2( 0, Constans.RoadHeight / 2 ) );
-            this.LeftEdge = new RoadConnectionEdge( this, shouldInvert: false );
-            this.RightEdge = new RoadConnectionEdge( this, shouldInvert: true );
+            this.LeftEdge = new NormalPointEdgeAdapter( this );
+            this.RightEdge = new InvertPointEdgeAdapter( this );
         }
 
         public RoadConnectionConnector Connector
@@ -29,14 +29,11 @@ namespace RoadTrafficSimulator.Road
             get { return this._connector; }
         }
 
-        public override IControl Parent
-        {
-            get { return this._parent; }
-        }
+        public override IControl Parent { get; set; }
 
-        public RoadConnectionEdge LeftEdge { get; private set; }
+        public NormalPointEdgeAdapter LeftEdge { get; private set; }
 
-        public RoadConnectionEdge RightEdge { get; private set; }
+        public InvertPointEdgeAdapter RightEdge { get; private set; }
 
         protected override void OnInvalidate()
         {
@@ -78,18 +75,18 @@ namespace RoadTrafficSimulator.Road
 
         public void RecalculatePosition()
         {
-            var calculator = new CalculateEdgeAngel(Constans.RoadHeight);
+            var calculator = new CalculateEdgeAngel( Constans.RoadHeight );
             var prevLocation = this.Connector.PreviousEdge != null
-                                   ? FSharpOption<Vector2>.Some(this.Connector.PreviousEdge.Location)
+                                   ? FSharpOption<Vector2>.Some( this.Connector.PreviousEdge.Location )
                                    : FSharpOption<Vector2>.None;
 
             var nextLocation = this.Connector.NextEdge != null
-                                   ? FSharpOption<Vector2>.Some(this.Connector.NextEdge.Location)
+                                   ? FSharpOption<Vector2>.Some( this.Connector.NextEdge.Location )
                                    : FSharpOption<Vector2>.None;
 
-            var line = calculator.Calculate(prevLocation, this.Location, nextLocation);
-            this.StartPoint.SetLocation(line.Start);
-            this.EndPoint.SetLocation(line.End);
+            var line = calculator.Calculate( prevLocation, this.Location, nextLocation );
+            this.StartPoint.SetLocation( line.Start );
+            this.EndPoint.SetLocation( line.End );
         }
     }
 }

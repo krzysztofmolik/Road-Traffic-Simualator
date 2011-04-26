@@ -9,7 +9,7 @@ namespace RoadTrafficSimulator.Infrastructure.Control
     {
         Vector2 Location { get; }
 
-        IControl Parent { get; }
+        IControl Parent { get; set; }
 
         IObservable<bool> SelectionChanged { get; }
         bool IsSelected { get; set; }

@@ -1,4 +1,5 @@
-﻿using RoadTrafficSimulator.Infrastructure.Control;
+﻿using System;
+using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Road.Connectors;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
@@ -7,7 +8,7 @@ namespace RoadTrafficSimulator.Road.Controls
 {
     public class SideRoadLaneEdge : Edge
     {
-        private readonly RoadLaneBlock _parent;
+        private RoadLaneBlock _parent;
         private readonly SideRoadLaneEdgeVertexContainer _vertexContainer;
         private readonly SideRoadLaneConnector _connector;
         private LaneType _laneType;
@@ -51,6 +52,11 @@ namespace RoadTrafficSimulator.Road.Controls
         public override IControl Parent
         {
             get { return this._parent; }
+            set
+            {
+                if ( ( value is RoadLaneBlock ) == false ) { throw new ArgumentException("Only RoadLaneBlockI is valid"); }
+                this._parent = (RoadLaneBlock) value;
+            }
         }
 
         public SideRoadLaneConnector Connector

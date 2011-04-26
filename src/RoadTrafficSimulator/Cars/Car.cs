@@ -20,7 +20,7 @@ namespace RoadTrafficSimulator.Cars
             this._mouseHandler = new CarMouseHandler();
         }
 
-        public abstract override IVertexContainer VertexContainer { get; };
+        public abstract override IVertexContainer VertexContainer { get; }
 
         public override IMouseHandler MouseHandler { get { return this._mouseHandler;  } }
 

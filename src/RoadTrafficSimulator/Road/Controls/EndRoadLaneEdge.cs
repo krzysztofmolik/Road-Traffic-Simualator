@@ -8,18 +8,18 @@ namespace RoadTrafficSimulator.Road.Controls
 {
     public class EndRoadLaneEdge : Edge
     {
-        private readonly RoadLaneBlock _parrent;
+        private RoadLaneBlock _parrent;
         private readonly IMouseHandler _notMovableMouseHandler;
 
-        public EndRoadLaneEdge(Factories.Factories factories,  RoadLaneBlock parent ) 
-            : base(factories)
+        public EndRoadLaneEdge( Factories.Factories factories, RoadLaneBlock parent )
+            : base( factories )
         {
             this._parrent = parent;
             this._notMovableMouseHandler = factories.MouseHandlerFactory.CreateEmpty();
             this.Connector = new EndRoadLaneEdgeConnector( this );
         }
 
-        public EndRoadLaneEdge(Factories.Factories factories,  MovablePoint startPoint, MovablePoint endPoint, float width, RoadLaneBlock parent )
+        public EndRoadLaneEdge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, float width, RoadLaneBlock parent )
             : base( factories, startPoint, endPoint )
         {
             this._parrent = parent;
@@ -34,11 +34,17 @@ namespace RoadTrafficSimulator.Road.Controls
         public override IControl Parent
         {
             get { return this._parrent; }
+            set
+            {
+                if( (value is RoadLaneBlock) ==false ) { throw new ArgumentException("Only RoadLaneBlock is valid"); }
+                this._parrent = ( RoadLaneBlock ) value;
+            }
         }
 
         public EndRoadLaneEdgeConnector Connector
         {
-            get; private set;
+            get;
+            private set;
         }
 
         public override Infrastructure.Mouse.IMouseHandler MouseHandler

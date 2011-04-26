@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using Common;
 using Microsoft.Xna.Framework;
@@ -32,7 +33,11 @@ namespace Xna.Road
 
         public IRoadLaneBlock[] ConnectedRoads
         {
-            get { return this._connectedRoads; }
+            get
+            {
+                Contract.Assume(this._connectedRoads != null);
+               return this._connectedRoads;
+            }
         }
 
         public bool IsAnyRoadConnected

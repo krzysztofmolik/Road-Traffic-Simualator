@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Mouse;
@@ -39,6 +40,8 @@ namespace RoadTrafficSimulator.Road
         public override IControl Parent
         {
             get { return null; }
+            set { throw new InvalidOperationException( "RoadLayer can't have " +
+                                                       "parent" ); }
         }
 
         public void Draw( GameTime timeSpan )
@@ -51,7 +54,7 @@ namespace RoadTrafficSimulator.Road
         {
         }
 
-        public override void TranslateWithoutNotification(Matrix translationMatrix)
+        public override void TranslateWithoutNotification( Matrix translationMatrix )
         {
         }
 

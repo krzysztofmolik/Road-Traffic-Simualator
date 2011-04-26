@@ -121,7 +121,8 @@ namespace RoadTrafficSimulator.Road
         }
 
         public void InsertCarsInserter()
-        {            this._carsInserter.ValueOrThrow().Start();
+        {
+            this._carsInserter.ValueOrThrow().Start();
         }
 
         private void SubscribeMessages()
