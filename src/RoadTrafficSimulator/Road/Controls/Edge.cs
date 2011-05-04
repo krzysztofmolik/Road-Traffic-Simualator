@@ -6,7 +6,7 @@ using XnaRoadTrafficConstructor.Infrastucure.Draw;
 
 namespace RoadTrafficSimulator.Road.Controls
 {
-    public abstract class Edge : CompositControl<VertexPositionColor>, IEdgeLine
+    public abstract class Edge : CompositControl<VertexPositionColor>, IEdge
     {
         private readonly EdgeVertexContainer _concretVertexContainer;
         private readonly IMouseHandler _mouseHandler;

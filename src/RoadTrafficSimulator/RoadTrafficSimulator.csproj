@@ -145,7 +145,8 @@
     <Compile Include="Cars\CarMouseHandler.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="CompositeConnectionCommand.cs" />
-    <Compile Include="ConnectCarInserterWithEnd.cs" />
+    <Compile Include="ConnectCarInserterWithEndRoadLane.cs" />
+    <Compile Include="ConnectEndRoadLaneWithCarsRemover.cs" />
     <Compile Include="ConnectObjectCommand.cs" />
     <Compile Include="EventExtensionMethod.cs" />
     <Compile Include="Extension\IControlExtensions.cs" />
@@ -181,7 +182,6 @@
     <Compile Include="Infrastructure\Mouse\MoveControl.cs" />
     <Compile Include="Infrastructure\Mouse\NotMovableMouseHandler.cs" />
     <Compile Include="Infrastructure\Mouse\PriorityMouseInfomrmation.cs" />
-    <Compile Include="Infrastructure\Mouse\RoadJunctionConnectionSupport.cs" />
     <Compile Include="Infrastructure\Mouse\RoadLayerMouseHandler.cs" />
     <Compile Include="Infrastructure\Mouse\SelectedControlsCollection.cs" />
     <Compile Include="Infrastructure\Mouse\SelectedControls.cs" />
@@ -213,8 +213,11 @@
     <Compile Include="Road\BuilderControl.cs" />
     <Compile Include="Road\CarsComponet.cs" />
     <Compile Include="Road\CarsInserterCreator.cs" />
+    <Compile Include="Road\CarsRemoverCreator.cs" />
     <Compile Include="Road\CompositControl.cs" />
     <Compile Include="Road\ConetableBase.cs" />
+    <Compile Include="Road\Connectors\Commands\ConnectCarsInserterWithCarsInserter.cs" />
+    <Compile Include="Road\Connectors\Commands\ConnectCarsRemoverWithCarsRemover.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectEndRoadLaneEdgeWithRoadJunctionEdge.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectEndRoadLaneEdgeWithRoadConnection.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectRoadConnectionWithRoadConnection.cs" />
@@ -222,6 +225,7 @@
     <Compile Include="Road\Connectors\Commands\ConnectRoadJunctionEdgeWitEndRoadLaneEdge.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectRoadConnectionWithEndRoadLane.cs" />
     <Compile Include="Road\Connectors\Commands\ConnectSideRoadLaneEdges.cs" />
+    <Compile Include="Road\Connectors\ConnectEdgesHelper.cs" />
     <Compile Include="Road\Connectors\EndRoadLaneEdgeConnector.cs" />
     <Compile Include="Road\Connectors\IConnector.cs" />
     <Compile Include="Road\Connectors\RoadConnectionConnector.cs" />
@@ -231,8 +235,11 @@
     <Compile Include="Road\Constans.cs" />
     <Compile Include="Road\Controls\CarsInsertedConnector.cs" />
     <Compile Include="Road\Controls\CarsInserter.cs" />
+    <Compile Include="Road\Controls\CarsRemover.cs" />
+    <Compile Include="Road\Controls\CarsRemoverConnector.cs" />
     <Compile Include="Road\Controls\Edge.cs" />
     <Compile Include="Road\Controls\EndRoadLaneEdge.cs" />
+    <Compile Include="Road\Controls\IEdge.cs" />
     <Compile Include="Road\Controls\IEdgeLine.cs" />
     <Compile Include="Road\Controls\InvisibleShape.cs" />
     <Compile Include="Road\Controls\IRoadJunctionBlock.cs" />

@@ -3,7 +3,7 @@ using RoadTrafficSimulator.Road.Controls;
 
 namespace RoadTrafficSimulator
 {
-    public class ConnectCarInserterWithEnd : IConnectionCommand
+    public class ConnectCarInserterWithEndRoadLane : IConnectionCommand
     {
         public bool Connect( ILogicControl first, ILogicControl second )
         {

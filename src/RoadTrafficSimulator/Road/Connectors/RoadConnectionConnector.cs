@@ -1,29 +1,26 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Road.Controls;
-using XnaRoadTrafficConstructor.Road;
-using XnaVs10.MathHelpers;
-using XnaVs10.Extension;
 
 namespace RoadTrafficSimulator.Road.Connectors
 {
-    public class RoadConnectionConnector : ConnectorBase
+    public class RoadConnectionConnector
     {
         private readonly RoadConnection _owner;
+        private readonly ConnectEdgesHelper _helper;
 
         public RoadConnectionConnector( RoadConnection owner )
         {
             this._owner = owner;
+            this._helper = new ConnectEdgesHelper( owner );
         }
 
         public EndRoadLaneEdge PreviousEdge { get; private set; }
 
         public EndRoadLaneEdge NextEdge { get; private set; }
 
-        public RoadConnection Top { get; private set; }
+        public IEdgeLine Top { get; private set; }
 
-        public RoadConnection Bottom { get; private set; }
+        public IEdgeLine Bottom { get; private set; }
 
         public void ConnectBeginWith( EndRoadLaneEdge roadLaneEdge )
         {
@@ -49,51 +46,28 @@ namespace RoadTrafficSimulator.Road.Connectors
             return owner.LeftEdge == roadLaneEdge ? owner.RightEdge : owner.LeftEdge;
         }
 
-        public void ConnectBeginBottomWith( RoadConnection roadConnection )
+        public void ConnectBeginBottomWith( IEdgeLine roadConnection )
         {
             this.Bottom = roadConnection;
-            roadConnection.EndPoint.Translated.Subscribe( _ =>
-                                                             {
-                                                                 var changed = this._owner.StartPoint.SetLocation( roadConnection.EndLocation );
-                                                                 if ( changed ) { this._owner.RecalculatePostitionAroundStartPoint(); }
-                                                             } );
-            var delta = roadConnection.EndLocation - this._owner.StartLocation;
-            this._owner.StartPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
-            this._owner.EndPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
+            this._helper.ConnectBeginBottomWith( roadConnection );
         }
 
-        public void ConnectEndTopWith( RoadConnection roadConnection )
+        public void ConnectEndTopWith( IEdgeLine roadConnection )
         {
             this.Top = roadConnection;
-            roadConnection.StartPoint.Translated.Subscribe( _ =>
-                                                               {
-                                                                   var changed = this._owner.EndPoint.SetLocation( roadConnection.StartLocation );
-                                                                   if ( changed ) { this._owner.RecalculatePostitionAroundEndPoint(); }
-                                                               } );
+            this._helper.ConnectEndTopWith( roadConnection );
         }
 
-        public void ConnectBeginTopWith( RoadConnection roadConnection )
+        public void ConnectBeginTopWith( IEdgeLine roadConnection )
         {
             this.Top = roadConnection;
-            roadConnection.StartPoint.Translated.Subscribe( _ =>
-                                                               {
-                                                                   var changed = this._owner.EndPoint.SetLocation( roadConnection.StartLocation );
-                                                                   if ( changed ) { this._owner.RecalculatePostitionAroundEndPoint(); }
-                                                               } );
-
-            var delta = roadConnection.StartLocation - this._owner.EndLocation;
-            this._owner.StartPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
-            this._owner.EndPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
+            this._helper.ConnectBeginTopWith( roadConnection );
         }
 
-        public void ConnectEndBottomWith( RoadConnection roadConnection )
+        public void ConnectEndBottomWith( IEdgeLine roadConnection )
         {
             this.Bottom = roadConnection;
-            roadConnection.EndPoint.Translated.Subscribe( _ =>
-                                                             {
-                                                                 var changed = this._owner.StartPoint.SetLocation( roadConnection.EndLocation );
-                                                                 if ( changed ) { this._owner.RecalculatePostitionAroundStartPoint(); }
-                                                             } );
+            this._helper.ConnectEndBottomWith( roadConnection );
         }
     }
 }

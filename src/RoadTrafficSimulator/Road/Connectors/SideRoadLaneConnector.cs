@@ -1,10 +1,11 @@
 ﻿using System;
-using RoadTrafficSimulator.Infrastructure.Mouse;
+using RoadTrafficSimulator.Extension;
+using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Road.Controls;
 
 namespace RoadTrafficSimulator.Road.Connectors
 {
-    public class SideRoadLaneConnector : ConnectorBase
+    public class SideRoadLaneConnector
     {
         private readonly SideRoadLaneEdge _owner;
 
@@ -18,7 +19,11 @@ namespace RoadTrafficSimulator.Road.Connectors
         // TODO Change name
         public void ConnectChangeName( SideRoadLaneEdge edge )
         {
-            this.ConnectBySubscribingToEvent( this._owner, edge );
+            ((IControl) this._owner).Translated.Subscribe(s =>
+                                                              {
+                                                                  edge.SetLocation( ((IControl) this._owner).Location);
+                                                                  ((IControl) edge).Redraw();
+                                                              });
             this.SideRoadLaneEdge = edge;
         }
     }

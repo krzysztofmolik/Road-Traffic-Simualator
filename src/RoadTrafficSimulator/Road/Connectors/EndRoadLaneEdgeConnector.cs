@@ -16,7 +16,7 @@ namespace RoadTrafficSimulator.Road.Connectors
         public ILogicControl PreviousEdge { get; private set; }
         public ILogicControl NextEdge { get; private set; }
 
-        public void ConnectBeginWith( Edge edge )
+        public void ConnectBeginWith( IEdge edge )
         {
             if ( this.PreviousEdge != null )
             {
@@ -74,7 +74,7 @@ namespace RoadTrafficSimulator.Road.Connectors
             this.UpdateEndPointLocation( edge.LeftEdge.StartPoint );
         }
 
-        public void ConnectEndWith( IEdgeLine edge )
+        public void ConnectEndWith( IEdge edge )
         {
             if ( this.NextEdge != null )
             {

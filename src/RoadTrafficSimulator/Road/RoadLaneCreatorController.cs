@@ -134,7 +134,8 @@ namespace RoadTrafficSimulator.Road
 
         private bool IsAppropiate(IControl edge)
         {
-            return edge == null || edge is RoadJunctionEdge || edge is CarsInserter;
+            // TODO: Fix it, this should be resolved in more appropiate way
+            return edge == null || edge is RoadJunctionEdge || edge is CarsInserter || edge is CarsRemover;
         }
 
         private void ProcessControl( IControl edge, Vector2 location )

@@ -1,5 +1,4 @@
-﻿using System;
-using Common.Xna;
+﻿using Common.Xna;
 using Microsoft.FSharp.Core;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
@@ -9,7 +8,7 @@ using XnaRoadTrafficConstructor.Road;
 
 namespace RoadTrafficSimulator.Road
 {
-    public class RoadConnection : Edge
+    public class RoadConnection : Edge, IEdgeLine
     {
         private readonly RoadConnectionConnector _connector;
 

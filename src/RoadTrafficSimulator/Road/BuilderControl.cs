@@ -10,18 +10,20 @@ namespace RoadTrafficSimulator.Road
     {
         private readonly KeyboardInputNotify _keyboardInformation;
         private readonly Lazy<CarsInserterCreator> _carsInserter;
+        private readonly Lazy<CarsRemoverCreator> _carsRemover;
         private bool _connectingObject;
         private bool _addingRoadLane;
         private bool _addingRoadJunctionBlock;
         private bool _selecteObject;
 
         // TODO Check lazy
-        public BuilderControl( KeyboardInputNotify keyboardInformation, Lazy<CarsInserterCreator> carsInserter )
+        public BuilderControl( KeyboardInputNotify keyboardInformation, Lazy<CarsInserterCreator> carsInserter, Lazy<CarsRemoverCreator> carsRemover )
         {
             Contract.Requires( keyboardInformation != null);
             Contract.Requires( carsInserter != null);
             this._keyboardInformation = keyboardInformation;
             this._carsInserter = carsInserter;
+            this._carsRemover = carsRemover;
 
             this.SubscribeMessages();
         }
@@ -125,6 +127,11 @@ namespace RoadTrafficSimulator.Road
             this._carsInserter.ValueOrThrow().Start();
         }
 
+        public void InsertCarsRemover()
+        {
+            this._carsRemover.ValueOrThrow().Start();
+        }
+
         private void SubscribeMessages()
         {
             this._keyboardInformation.KeyPressed
@@ -141,6 +148,7 @@ namespace RoadTrafficSimulator.Road
             this.AddingRoadJunctionBlock = false;
             this.ConnectingObject = false;
             this._carsInserter.ValueOrThrow().Stop();
+            this._carsRemover.ValueOrThrow().Stop();
         }
     }
 }

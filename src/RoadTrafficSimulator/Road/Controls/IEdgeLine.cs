@@ -3,10 +3,10 @@ using RoadTrafficSimulator.Infrastructure.Control;
 
 namespace RoadTrafficSimulator.Road.Controls
 {
-    public interface IEdgeLine : ILogicControl
+    public interface IEdgeLine : IEdge
     {
-        MovablePoint StartPoint { get; }
-        MovablePoint EndPoint { get; }
-        IObservable<TranslationChangedEventArgs> Translated { get; }
+        void RecalculatePostitionAroundStartPoint();
+        void RecalculatePostitionAroundEndPoint();
+        void RecalculatePosition();
     }
 }

@@ -62,6 +62,7 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             builder.RegisterType<RoadLaneCreatorController>();
             builder.RegisterType<RoadJunctionCreator>();
             builder.RegisterType<CarsInserterCreator>();
+            builder.RegisterType<CarsRemoverCreator>();
 
             builder.RegisterType<JunctionCornerMouseHandler>();
             builder.RegisterType<JunctionEdgeMouseHandler>();
@@ -76,8 +77,11 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             builder.RegisterType<ConnectRoadConnectionWithEndRoadLane>().As<IConnectionCommand>();
             builder.RegisterType<ConnectRoadJunctionEdgeWitEndRoadLaneEdge>().As<IConnectionCommand>();
             builder.RegisterType<ConnectSideRoadLaneEdges>().As<IConnectionCommand>();
-            builder.RegisterType<ConnectCarInserterWithEnd>().As<IConnectionCommand>();
-            builder.RegisterType<ConnectRoadConnectionWithRoadConnection>().As<ConnectRoadConnectionWithRoadConnection>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectCarInserterWithEndRoadLane>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectCarsInserterWithCarsInserter>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectCarsRemoverWithCarsRemover>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectEndRoadLaneWithCarsRemover>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectRoadConnectionWithRoadConnection>().As<IConnectionCommand>();
             builder.RegisterType<ScreenZoom>().As<IBackgroundJob>();
 
             builder.RegisterType<SelectedControls>().SingleInstance();

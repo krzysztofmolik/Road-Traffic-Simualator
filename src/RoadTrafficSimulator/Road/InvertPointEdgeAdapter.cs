@@ -7,9 +7,9 @@ namespace RoadTrafficSimulator.Road
 {
     public class InvertPointEdgeAdapter : IEdgeLine
     {
-        private readonly Edge _edge;
+        private readonly IEdgeLine _edge;
 
-        public InvertPointEdgeAdapter( Edge edge )
+        public InvertPointEdgeAdapter( IEdgeLine edge )
         {
             this._edge = edge;
         }
@@ -59,6 +59,21 @@ namespace RoadTrafficSimulator.Road
         public IObservable<TranslationChangedEventArgs> Translated
         {
             get { return this._edge.Translated; }
+        }
+
+        public void RecalculatePostitionAroundStartPoint()
+        {
+            this._edge.RecalculatePostitionAroundEndPoint();
+        }
+
+        public void RecalculatePostitionAroundEndPoint()
+        {
+            this._edge.RecalculatePostitionAroundStartPoint();
+        }
+
+        public void RecalculatePosition()
+        {
+            this._edge.RecalculatePosition();
         }
     }
 }

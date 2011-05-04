@@ -6,7 +6,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6DC5BCBA-E764-4E20-A898-5FFBB8631704}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RoadTrafficConstructor</RootNamespace>
     <AssemblyName>RoadTrafficConstructor</AssemblyName>
@@ -58,7 +58,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>RoadTrafficConstructor.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac">
@@ -128,6 +128,10 @@
       <DependentUpon>CarsInserterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presenters\Blocks\CarsInserter\CarsInserterViewModel.cs" />
+    <Compile Include="Presenters\Blocks\CarsRemover\CarsRemoverView.xaml.cs">
+      <DependentUpon>CarsRemoverView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presenters\Blocks\CarsRemover\CarsRemoverViewModel.cs" />
     <Compile Include="Presenters\Blocks\RoadLane\OneRoadLaneViewModel.cs" />
     <Compile Include="Presenters\Blocks\Junctions\RoadJunctionBlockViewModelModel.cs" />
     <Compile Include="Presenters\DebugMouseInformation.cs" />
@@ -144,6 +148,10 @@
     <Page Include="Presenters\Blocks\CarsInserter\CarsInserterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presenters\Blocks\CarsRemover\CarsRemoverView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Presenters\Blocks\Lights\LightsView.xaml">
       <SubType>Designer</SubType>

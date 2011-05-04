@@ -1,12 +1,11 @@
 ﻿using System;
 using RoadTrafficSimulator.Infrastructure.Control;
-using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Road.Controls;
 using XnaVs10.Extension;
 
 namespace RoadTrafficSimulator.Road.Connectors
 {
-    public class RoadJunctionEdgeConnector : ConnectorBase
+    public class RoadJunctionEdgeConnector
     {
         private readonly RoadJunctionEdge _owner;
 
@@ -41,8 +40,16 @@ namespace RoadTrafficSimulator.Road.Connectors
 
         public void ConnectBeginWith( Edge roadLaneEdge )
         {
-            this.ConnectBySubscribingToEvent( this._owner.StartPoint, roadLaneEdge.EndPoint );
-            this.ConnectBySubscribingToEvent( this._owner.EndPoint, roadLaneEdge.StartPoint );
+            this._owner.StartPoint.Translated.Subscribe( s =>
+                                                {
+                                                    roadLaneEdge.EndPoint.SetLocation( ( ( IControl ) this._owner.StartPoint ).Location );
+                                                    roadLaneEdge.EndPoint.Redraw();
+                                                } );
+            this._owner.EndPoint.Translated.Subscribe( s =>
+                                                {
+                                                    roadLaneEdge.StartPoint.SetLocation( ( ( IControl ) this._owner.EndPoint ).Location );
+                                                    roadLaneEdge.StartPoint.Redraw();
+                                                } );
             this.PreviousEdge = roadLaneEdge;
         }
 
