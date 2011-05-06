@@ -14,13 +14,11 @@ namespace RoadTrafficSimulator.Road.Connectors
             this._owner = owner;
         }
 
-        public Edge PreviousEdge { get; private set; }
-
-        public Edge NextEdge { get; set; }
+        public Edge Edge { get; private set; }
 
         public bool AreAllSlotOccupied
         {
-            get { return this.PreviousEdge != null && this.NextEdge != null; }
+            get { return this.Edge != null; }
         }
 
         public void ConnectBeginWith( RoadJunctionEdge roadJunctionEdge )
@@ -50,17 +48,17 @@ namespace RoadTrafficSimulator.Road.Connectors
                                                     roadLaneEdge.StartPoint.SetLocation( ( ( IControl ) this._owner.EndPoint ).Location );
                                                     roadLaneEdge.StartPoint.Redraw();
                                                 } );
-            this.PreviousEdge = roadLaneEdge;
+            this.Edge = roadLaneEdge;
         }
 
         public void ConnectEndWith( Edge edge )
         {
-            this.NextEdge = edge;
+            this.Edge = edge;
         }
 
         public bool AreConnected( RoadJunctionEdge edge )
         {
-            return this.PreviousEdge == edge || this.NextEdge == edge;
+            return this.Edge == edge;
         }
     }
 }

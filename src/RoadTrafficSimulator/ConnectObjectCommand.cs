@@ -48,8 +48,7 @@ namespace RoadTrafficSimulator
         private void SubscribeToMouseEvent()
         {
             this._mouseInformation.LeftButtonClicked.Subscribe( this.LeftButtonClicked );
-            this._keyboardInformation.KeyPressed.Where( s => s.Key == Keys.Escape )
-                                                          .Subscribe( u => this.End() );
+            this._keyboardInformation.KeyPressed.Where( s => s.Key == Keys.Escape ).Subscribe( u => this.End() );
         }
 
         private void LeftButtonClicked( XnaMouseState mouseState )

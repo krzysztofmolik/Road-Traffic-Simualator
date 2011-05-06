@@ -247,6 +247,7 @@
     <Compile Include="Road\Controls\MovablePoint.cs" />
     <Compile Include="Road\Controls\MovableRectangle.cs" />
     <Compile Include="Road\Controls\Quadrangle.cs" />
+    <Compile Include="Road\Controls\RoadConnection.cs" />
     <Compile Include="Road\Controls\RoadJunctionBlock.cs" />
     <Compile Include="Road\Controls\RoadJunctionEdge.cs" />
     <Compile Include="Road\Controls\RoadSide.cs" />
@@ -265,7 +266,6 @@
     <Compile Include="Road\RoadJunctionCreator.cs" />
     <Compile Include="Road\RoadLaneArrow.cs" />
     <Compile Include="Road\RoadLaneBlock.cs" />
-    <Compile Include="Road\RoadLaneConnection.cs" />
     <Compile Include="Road\RoadLaneCreatorController.cs" />
     <Compile Include="Road\RoadLayer.cs" />
     <Compile Include="Road\RoadLight.cs" />

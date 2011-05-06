@@ -1,12 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Windows;
-using Arcane.Xna.Presentation;
 using Autofac;
 using Common;
 using RoadTrafficConstructor.Presenters.Blocks;
-using RoadTrafficSimulator;
-using RoadTrafficSimulator.Integration;
 using RoadTrafficSimulator.Road;
 using RoadTrafficSimulator.RoadTrafficSimulatorMessages;
 using XnaInWpf.Presenters;

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
+using RoadTrafficSimulator.Road.Controls;
 
 namespace RoadTrafficSimulator.Road.Connectors.Commands
 {

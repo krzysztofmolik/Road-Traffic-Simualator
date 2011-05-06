@@ -175,12 +175,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Presenters\XnaView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -195,7 +189,6 @@
     <Compile Include="Presenters\Interfaces\IShellViewModel.cs" />
     <Compile Include="Presenters\Interfaces\IXnaViewModel.cs" />
     <Compile Include="Presenters\MyModelBase.cs" />
-    <Compile Include="Presenters\XnaViewModel.cs" />
     <Compile Include="Presenters\ShellViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -215,9 +208,6 @@
     </Compile>
     <Compile Include="Presenters\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presenters\XnaView.xaml.cs">
-      <DependentUpon>XnaView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using RoadTrafficSimulator.Infrastructure.Draw;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;
 

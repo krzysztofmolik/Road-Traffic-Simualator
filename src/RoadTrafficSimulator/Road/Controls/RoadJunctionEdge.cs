@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Control;
+using RoadTrafficSimulator.Infrastructure.Draw;
 using RoadTrafficSimulator.Road.Connectors;
 using RoadTrafficSimulator.VertexContainers;
 using XnaRoadTrafficConstructor.Infrastucure.Draw;

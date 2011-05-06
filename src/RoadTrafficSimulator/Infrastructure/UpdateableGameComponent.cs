@@ -17,7 +17,7 @@ namespace RoadTrafficSimulator.Infrastructure
 
         private int _updateOrder;
 
-        public void Update( GameTime gameTime )
+        public virtual void Update( GameTime gameTime )
         {
         }
 

@@ -4,6 +4,7 @@ using NUnit.Framework;
 using RoadTrafficSimulator.Factories;
 using RoadTrafficSimulator.Road;
 using RoadTrafficSimulator.Road.Connectors.Commands;
+using RoadTrafficSimulator.Road.Controls;
 using RoadTrafficSimulatorTests.IntegrationTests.Infacstructure;
 
 namespace RoadTrafficSimulatorTests.ConnectionTests

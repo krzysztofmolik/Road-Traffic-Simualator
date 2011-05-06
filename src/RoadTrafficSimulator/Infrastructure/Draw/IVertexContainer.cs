@@ -1,5 +1,7 @@
 ﻿
-namespace XnaRoadTrafficConstructor.Infrastucure.Draw
+using XnaRoadTrafficConstructor.Infrastucure.Draw;
+
+namespace RoadTrafficSimulator.Infrastructure.Draw
 {
     public interface IVertexContainer
     {

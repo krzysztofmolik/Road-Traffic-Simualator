@@ -1,12 +1,11 @@
-﻿using Common.Xna;
+using Common.Xna;
 using Microsoft.FSharp.Core;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Road.Connectors;
-using RoadTrafficSimulator.Road.Controls;
 using XnaRoadTrafficConstructor.Road;
 
-namespace RoadTrafficSimulator.Road
+namespace RoadTrafficSimulator.Road.Controls
 {
     public class RoadConnection : Edge, IEdgeLine
     {

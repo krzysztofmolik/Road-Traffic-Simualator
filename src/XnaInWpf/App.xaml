@@ -1,10 +1,11 @@
 ﻿<Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:XnaInWpf="clr-namespace:XnaInWpf" x:Class="RoadTrafficConstructor.App" >
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:XnaInWpf="clr-namespace:XnaInWpf"
+             xmlns:RoadTrafficConstructor="clr-namespace:RoadTrafficConstructor" x:Class="RoadTrafficConstructor.App" >
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <XnaInWpf:AutofacBootstrapper x:Key="bootstrapper" />
+                    <RoadTrafficConstructor:AutofacBootstrapper x:Key="bootstrapper" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

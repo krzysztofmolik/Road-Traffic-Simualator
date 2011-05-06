@@ -24,13 +24,9 @@ using Mouse = Microsoft.Xna.Framework.Input.Mouse;
 
 namespace RoadTrafficSimulator
 {
-    /// <summary>
-    /// Interaction logic for XnaWindow.xaml
-    /// </summary>
     public partial class XnaWindow : Game, INotifyPropertyChanged
     {
         private readonly Autofac.IContainer _serviceLocator;
-        private Camera3D _camera;
         private KeyboardInputNotify _keybordInput;
         private MouseInputNotify _mouseInput;
 
@@ -50,9 +46,6 @@ namespace RoadTrafficSimulator
 
             this.RoadComponent = this._serviceLocator.Resolve<RoadComponent>();
             this.Components.Add( this.RoadComponent );
-
-
-            this._camera = this._serviceLocator.Resolve<Camera3D>();
         }
 
         protected override void Update( GameTime gameTime )
@@ -69,4 +62,5 @@ namespace RoadTrafficSimulator
             var handler = PropertyChanged;
             if ( handler != null ) handler( this, new PropertyChangedEventArgs( propertyName ) );
         }
-    }}
+    }
+}

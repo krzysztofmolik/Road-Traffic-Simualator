@@ -4,12 +4,11 @@ using System.Reflection;
 using Autofac;
 using Caliburn.Micro;
 using NLog;
-using RoadTrafficConstructor;
 using XnaInWpf.Presenters.Interfaces;
-using Module = Autofac.Module;
 using System.Linq;
+using Module = Autofac.Module;
 
-namespace XnaInWpf
+namespace RoadTrafficConstructor
 {
     public class AutofacBootstrapper : Bootstrapper<IShellViewModel>
     {
