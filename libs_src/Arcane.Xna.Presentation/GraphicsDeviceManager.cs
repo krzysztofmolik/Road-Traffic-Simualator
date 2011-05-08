@@ -70,24 +70,6 @@ namespace Arcane.Xna.Presentation
         // Methods
         static GraphicsDeviceManager()
         {
-            //            MultiSampleType[] typeArray2 = new MultiSampleType[ 0x11 ];
-            //            typeArray2[ 0 ] = MultiSampleType.NonMaskable;
-            //            typeArray2[ 1 ] = MultiSampleType.SixteenSamples;
-            //            typeArray2[ 2 ] = MultiSampleType.FifteenSamples;
-            //            typeArray2[ 3 ] = MultiSampleType.FourteenSamples;
-            //            typeArray2[ 4 ] = MultiSampleType.ThirteenSamples;
-            //            typeArray2[ 5 ] = MultiSampleType.TwelveSamples;
-            //            typeArray2[ 6 ] = MultiSampleType.ElevenSamples;
-            //            typeArray2[ 7 ] = MultiSampleType.TenSamples;
-            //            typeArray2[ 8 ] = MultiSampleType.NineSamples;
-            //            typeArray2[ 9 ] = MultiSampleType.EightSamples;
-            //            typeArray2[ 10 ] = MultiSampleType.SevenSamples;
-            //            typeArray2[ 11 ] = MultiSampleType.SixSamples;
-            //            typeArray2[ 12 ] = MultiSampleType.FiveSamples;
-            //            typeArray2[ 13 ] = MultiSampleType.FourSamples;
-            //            typeArray2[ 14 ] = MultiSampleType.ThreeSamples;
-            //            typeArray2[ 15 ] = MultiSampleType.TwoSamples;
-            //            multiSampleTypes = typeArray2;
             depthFormatsWithStencil = new DepthFormat[]
                                           {
                                               DepthFormat.Depth24Stencil8, 
@@ -111,7 +93,6 @@ namespace Arcane.Xna.Presentation
             }
             this.game = game;
             game.Window.SizeChanged += new System.Windows.SizeChangedEventHandler( this.GameWindowClientSizeChanged );
-            //game.Window.ScreenDeviceNameChanged += new EventHandler(this.GameWindowScreenDeviceNameChanged);
         }
 
 
@@ -129,13 +110,6 @@ namespace Arcane.Xna.Presentation
                     baseDeviceInfo.PresentationParameters.BackBufferFormat = SurfaceFormat.Color;
                     baseDeviceInfo.PresentationParameters.DepthStencilFormat = DepthFormat.None;
                     baseDeviceInfo.PresentationParameters.DeviceWindowHandle = IntPtr.Zero;
-                    //                    baseDeviceInfo.PresentationParameters.EnableAutoDepthStencil = true;
-                    //                    baseDeviceInfo.PresentationParameters.BackBufferCount = 1;
-                    //                    baseDeviceInfo.PresentationParameters.PresentOptions = PresentOptions.None;
-                    //                    baseDeviceInfo.PresentationParameters.SwapEffect = SwapEffect.Discard;
-                    //                    baseDeviceInfo.PresentationParameters.FullScreenRefreshRateInHz = 0;
-                    //                    baseDeviceInfo.PresentationParameters.MultiSampleQuality = 0;
-                    //                    baseDeviceInfo.PresentationParameters.MultiSampleType = MultiSampleType.None;
                     baseDeviceInfo.PresentationParameters.IsFullScreen = this.IsFullScreen;
                     baseDeviceInfo.PresentationParameters.PresentationInterval = this.SynchronizeWithVerticalRetrace ? PresentInterval.One : PresentInterval.Immediate;
                     for ( int i = 0; i < ValidAdapterFormats.Length; i++ )

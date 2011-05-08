@@ -47,7 +47,6 @@
         </Border>
 
         <ContentPresenter Grid.Column="1"
-                          Margin="-4,-4,4,4" 
                           Content="{Wpf:Resolve Type={x:Type RoadTrafficSimulator:XnaWindow}}" 
                           VerticalAlignment="Stretch" 
                           HorizontalAlignment="Stretch" />

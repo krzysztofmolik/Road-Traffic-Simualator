@@ -20,6 +20,12 @@ namespace RoadTrafficSimulator.Utils
             this._zoom = MathHelper.PiOver2;
             this.InitCamera();
             this.UpdateCamera();
+            this._game.Window.SizeChanged += (sender, args) =>
+                                                 {
+                                                     this.AspectRatio = this._game.GraphicsDevice.Viewport.AspectRatio;
+                                                     this.Projection = this.CreateProjection(this._zoom);
+                                                     this.UpdateCamera();
+                                                 };
         }
 
         public event EventHandler<CameraChangedEventArgs> Changed;
@@ -35,11 +41,6 @@ namespace RoadTrafficSimulator.Utils
             get { return this._zoom; }
             set
             {
-                if ( this._zoom == value )
-                {
-                    return;
-                }
-
                 this._zoom = value;
 
                 this.Projection = this.CreateProjection( this._zoom );
