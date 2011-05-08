@@ -9,12 +9,12 @@ using DrawableGameComponent = RoadTrafficSimulator.Infrastructure.DrawableGameCo
 namespace RoadTrafficSimulator.RoadComponents
 {
     // TODO Change name and move to different namespace
-    public class TrafficModel : DrawableGameComponent
+    public class SimulationModeMainComponent : DrawableGameComponent
     {
         private List<IRoadElement> _roadElements = new List<IRoadElement>();
         private Graphic _graphic;
 
-        public TrafficModel( IGraphicsDeviceService graphicsDeviceService, Graphic graphic )
+        public SimulationModeMainComponent( IGraphicsDeviceService graphicsDeviceService, Graphic graphic )
             : base( graphicsDeviceService )
         {
             Contract.Requires( graphic != null );

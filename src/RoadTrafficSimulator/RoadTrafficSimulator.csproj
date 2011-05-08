@@ -196,6 +196,7 @@
     <Compile Include="MathHelpers\IsVectorCross.cs" />
     <Compile Include="MathHelpers\MyMathHelper.cs" />
     <Compile Include="Messages\AddControlToRoadLayer.cs" />
+    <Compile Include="Messages\ChangeZoomMessage.cs" />
     <Compile Include="MouseHandler\Infrastructure\XnaMouseState.cs" />
     <Compile Include="MouseHandler\JunctionMouseHandler\INestedJunctionMouseHandler.cs" />
     <Compile Include="MouseHandler\JunctionMouseHandler\JunctionCornerMouseHandler.cs" />
@@ -260,7 +261,7 @@
     <Compile Include="Road\LightLocation.cs" />
     <Compile Include="Road\LineCorners.cs" />
     <Compile Include="Road\RoadCommponets\NormalLight.cs" />
-    <Compile Include="Road\RoadComponent.cs" />
+    <Compile Include="Road\BuildModeMainComponent.cs" />
     <Compile Include="Road\Connectors\UpdateConnected.cs" />
     <Compile Include="Road\NormalPointEdgeAdapter.cs" />
     <Compile Include="Road\RoadJunctionCreator.cs" />

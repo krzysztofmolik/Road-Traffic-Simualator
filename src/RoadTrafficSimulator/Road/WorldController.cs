@@ -8,12 +8,12 @@ namespace RoadTrafficSimulator.Road
     {
         private readonly Camera3D _camera;
 
-        public WorldController(Camera3D camera)
+        public WorldController( Camera3D camera )
         {
             this._camera = camera.NotNull();
         }
 
-        public RoadComponent RoadComponent { get; set; }
+        public BuildModeMainComponent BuildModeMainComponent { get; set; }
 
         public void SetZoom( float zoom )
         {

@@ -37,11 +37,11 @@ namespace RoadTrafficSimulator.Utils.DependencyInjection
             builder.RegisterType<ContentManagerAdapter>().As<IContentManager>();
             builder.RegisterType<KeyboardInputNotify>().As<KeyboardInputNotify>().SingleInstance();
             builder.RegisterType<MouseInputNotify>().As<MouseInputNotify>().SingleInstance();
-            builder.RegisterType<RoadComponent>()
+            builder.RegisterType<BuildModeMainComponent>()
                 .OnActivated( s =>
                                   {
-                                      s.Context.Resolve<BuilderControl>().RoadComponent = s.Instance;
-                                      s.Context.Resolve<WorldController>().RoadComponent = s.Instance;
+                                      s.Context.Resolve<BuilderControl>().BuildModeMainComponent = s.Instance;
+                                      s.Context.Resolve<WorldController>().BuildModeMainComponent = s.Instance;
                                       s.Context.Resolve<IEventAggregator>().Subscribe( s.Instance );
                                   } )
                 .InstancePerLifetimeScope();

@@ -26,12 +26,12 @@ namespace RoadTrafficSimulator.RoadComponents
             this._handlers.Register<LaneCornerBuilder>( this.OnLaneCorner );
         }
 
-        public TrafficModel Build( IEnumerable<IControl> controls )
+        public SimulationModeMainComponent Build( IEnumerable<IControl> controls )
         {
             controls.ForEach( s => this._handlers.Handle( s ) );
             this._connectElementsAction.ForEach( a => a() );
 
-            var result = new TrafficModel();
+            var result = new SimulationModeMainComponent();
         }
 
         private void OnLaneCorner( LaneCornerBuilder roadConnection )

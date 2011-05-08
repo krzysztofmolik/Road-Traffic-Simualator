@@ -1,6 +1,8 @@
 using System;
+using System.Diagnostics.Contracts;
+using Common;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using RoadTrafficSimulator.Messages;
 using Xna;
 using Xna.Extension;
 using XnaVs10;
@@ -9,21 +11,25 @@ using Game = Arcane.Xna.Presentation.Game;
 
 namespace RoadTrafficSimulator.Utils
 {
-    public class Camera3D : IDisposable
+    public class Camera3D : IHandle<ChangeZoomMessage>, IDisposable
     {
-        private readonly Arcane.Xna.Presentation.Game _game;
+        private readonly Game _game;
         private float _zoom;
 
-        public Camera3D( Game game )
+        public Camera3D( Game game, IEventAggregator eventAggregator )
         {
+            Contract.Requires( game != null );
+            Contract.Requires( eventAggregator != null );
+
             this._game = game;
             this._zoom = MathHelper.PiOver2;
+            eventAggregator.Subscribe( this );
             this.InitCamera();
             this.UpdateCamera();
-            this._game.Window.SizeChanged += (sender, args) =>
+            this._game.Window.SizeChanged += ( sender, args ) =>
                                                  {
                                                      this.AspectRatio = this._game.GraphicsDevice.Viewport.AspectRatio;
-                                                     this.Projection = this.CreateProjection(this._zoom);
+                                                     this.Projection = this.CreateProjection( this._zoom );
                                                      this.UpdateCamera();
                                                  };
         }
@@ -41,8 +47,10 @@ namespace RoadTrafficSimulator.Utils
             get { return this._zoom; }
             set
             {
-                this._zoom = value;
-
+                var newValue = value;
+                if ( newValue < 0.01f ) { newValue = 0.01f; }
+                if ( newValue > MathHelper.Pi - 0.01f ) { newValue = MathHelper.Pi - 0.01f; }
+                this._zoom = newValue;
                 this.Projection = this.CreateProjection( this._zoom );
                 this.UpdateCamera();
             }
@@ -54,7 +62,7 @@ namespace RoadTrafficSimulator.Utils
         public Vector2 ToSpace( Vector2 point )
         {
             // NOTE Ugly workaround about dispose problem
-            if( this._game.GraphicsDevice == null ) { return point; }
+            if ( this._game.GraphicsDevice == null ) { return point; }
 
             var tranlate = this._game.GraphicsDevice.Viewport.Unproject(
                 point.ToVector3(),
@@ -67,7 +75,7 @@ namespace RoadTrafficSimulator.Utils
 
         public void Dispose()
         {
-//            this._game.DeviceReset -= this.OnDeviceReset;
+            //            this._game.DeviceReset -= this.OnDeviceReset;
         }
 
         private void InitCamera()
@@ -80,20 +88,22 @@ namespace RoadTrafficSimulator.Utils
 
         private Matrix CreateProjection( float zoom )
         {
-            if ( zoom > MathHelper.Pi ) { zoom = (float) Math.Round(MathHelper.Pi, 2); }
-            if( zoom < 0 ) { zoom = 0.01f; }
+            if ( zoom > MathHelper.Pi ) { zoom = ( float ) Math.Round( MathHelper.Pi, 2 ); }
+            if ( zoom < 0 ) { zoom = 0.01f; }
 
             return Matrix.CreatePerspectiveFieldOfView( zoom, this.AspectRatio, 1, 500 );
-        }
-
-        private void OnDeviceReset( object sender, EventArgs e )
-        {
-            this.UpdateCamera();
         }
 
         private void UpdateCamera()
         {
             this.Changed.Raise( this, new CameraChangedEventArgs() );
+        }
+
+        public void Handle( ChangeZoomMessage message )
+        {
+            var zoomPercentValue = MathHelper.Pi * message.Percent * 0.01f;
+
+            this.Zoom = MathHelper.Pi - zoomPercentValue;
         }
     }
 }

@@ -7,31 +7,47 @@ using Xna;
 using Game = Arcane.Xna.Presentation.Game;
 using Keyboard = Microsoft.Xna.Framework.Input.Keyboard;
 using Mouse = Microsoft.Xna.Framework.Input.Mouse;
+using System.Linq;
 
 namespace RoadTrafficSimulator
 {
     public partial class XnaWindow : Game, INotifyPropertyChanged
     {
-        private readonly Autofac.IContainer _serviceLocator;
+        private readonly Autofac.IContainer _container;
         private KeyboardInputNotify _keybordInput;
         private MouseInputNotify _mouseInput;
 
-        public XnaWindow( IServiceProvider service, Autofac.IContainer serviceLocator)
+        public XnaWindow( IServiceProvider service, Autofac.IContainer container )
             : base( service )
         {
-            this._serviceLocator = serviceLocator;
+            this._container = container;
             this.InitializeComponent();
         }
 
-        protected RoadComponent RoadComponent { get; private set; }
+        protected BuildModeMainComponent BuildModeMainComponent { get; private set; }
 
         protected override void Initialize()
         {
-            this._keybordInput = this._serviceLocator.Resolve<KeyboardInputNotify>();
-            this._mouseInput = this._serviceLocator.Resolve<MouseInputNotify>();
+            this._keybordInput = this._container.Resolve<KeyboardInputNotify>();
+            this._mouseInput = this._container.Resolve<MouseInputNotify>();
 
-            this.RoadComponent = this._serviceLocator.Resolve<RoadComponent>();
-            this.Components.Add( this.RoadComponent );
+            this.BuildModeMainComponent = this._container.Resolve<BuildModeMainComponent>();
+            this.Components.Add( this.BuildModeMainComponent );
+        }
+
+        public void RemoveComponent<T>() where T : class
+        {
+            var component = this.Components.OfType<T>().FirstOrDefault();
+            if ( component != null )
+            {
+                this.Components.Remove( ( IGameComponent ) component );
+            }
+        }
+
+        public void AddComponent( IGameComponent component )
+        {
+            this.Components.Add( component );
+            component.Initialize();
         }
 
         protected override void Update( GameTime gameTime )

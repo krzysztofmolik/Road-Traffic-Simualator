@@ -45,10 +45,9 @@
   <ItemGroup>
     <Compile Include="Builder.cs" />
     <Compile Include="GenericFactory.cs" />
-    <Compile Include="RoadLaneBlockTrafficInformation .cs" />
     <Compile Include="IRoadElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TrafficModel.cs" />
+    <Compile Include="SimulationModeMainComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

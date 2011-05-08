@@ -12,8 +12,7 @@ using DrawableGameComponent = RoadTrafficSimulator.Infrastructure.DrawableGameCo
 
 namespace RoadTrafficSimulator.Road
 {
-    // TODO Change name
-    public class RoadComponent : DrawableGameComponent, IHandle<AddControlToRoadLayer>, IDisposable
+    public class BuildModeMainComponent : DrawableGameComponent, IHandle<AddControlToRoadLayer>, IDisposable
     {
         private readonly RoadLaneCreatorController _roadLaneCreator;
         private readonly IEnumerable<IBackgroundJob> _backgroundJobs;
@@ -24,7 +23,7 @@ namespace RoadTrafficSimulator.Road
         private readonly Func<Vector2, ICompositeControl, IRoadJunctionBlock> _roadJunctionBlockFactory;
         private RoadLayer _roadLayer;
 
-        public RoadComponent(
+        public BuildModeMainComponent(
                     IEnumerable<IBackgroundJob> backgroundJobs,
                     MessageBroker messageBroker,
                     RoadLaneCreatorController roadLaneCreator,

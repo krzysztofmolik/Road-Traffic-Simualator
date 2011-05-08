@@ -3,10 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Converters="clr-namespace:RoadTrafficConstructor.Converters"
     x:Class="RoadTrafficConstructor.Presenters.ShellView" 
-    Width="1280" Height="1024" >
+    Width="1280" Height="1024" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d">
     <Window.Resources>
         <Color x:Key="BorderBackground">#FF225A72</Color>
-      <Converters:BoolNegation x:Key="BoolNegation" />
+        <Converters:BoolNegation x:Key="BoolNegation" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -33,9 +34,10 @@
                     </StackPanel>
                 </TabItem>
                 <TabItem Header="Zoom control">
-                    <StackPanel Orientation="Vertical">
-                        <Button Width="50" Height="50" Name="IncreaseZoom" Content="-"/>
-                        <Button Width="50" Height="50" Name="DecreaseZoom" Content="+"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Width="50" Height="50" Name="DecreaseZoom" Content="-"/>
+                        <ProgressBar Minimum="0" Maximum="100" Width="200" Value="{Binding Path=ZoomValue}"/>
+                        <Button Width="50" Height="50" Name="IncreaseZoom" Content="+"/>
                     </StackPanel>
                 </TabItem>
 

@@ -4,6 +4,7 @@ using Caliburn.Micro;
 using Common;
 using RoadTrafficConstructor.Presenters.BuildMode;
 using RoadTrafficConstructor.Presenters.SimulationMode;
+using RoadTrafficSimulator.Messages;
 using RoadTrafficSimulator.Road;
 using RoadTrafficSimulator.RoadTrafficSimulatorMessages;
 using IEventAggregator = Common.IEventAggregator;
@@ -19,6 +20,7 @@ namespace RoadTrafficConstructor.Presenters
 
         private IMouseInformationModel _mouseInformation;
         private bool _isBuildMode;
+        private int _zoomValue;
 
         public ShellViewModel(
             Func<IMouseInformationModel> mouseInformationFactory,
@@ -33,6 +35,7 @@ namespace RoadTrafficConstructor.Presenters
             this.ServiceProvider = this._container.Resolve<IServiceProvider>();
 
             this.SwitchToBuildMode();
+            this.ZoomValue = 50;
         }
 
         private IServiceProvider ServiceProvider { get; set; }
@@ -45,18 +48,27 @@ namespace RoadTrafficConstructor.Presenters
 
         public void IncreaseZoom()
         {
-            if ( this._wordController == null ) { return; }
-
-            var zoomValue = this._wordController.GetZoom();
-            this._wordController.SetZoom( zoomValue + 0.1f );
+            this.ZoomValue += 10;
         }
 
         public void DecreaseZoom()
         {
-            if ( this._wordController == null ) { return; }
+            this.ZoomValue -= 10;
+        }
 
-            var zoomValue = this._wordController.GetZoom();
-            this._wordController.SetZoom( zoomValue - 0.1f );
+        public int ZoomValue
+        {
+            get { return this._zoomValue; }
+            set
+            {
+                var newValue = value;
+                if ( newValue > 100 ) { newValue = 100; }
+                if ( newValue < 0 ) { newValue = 0; }
+                if ( newValue == this._zoomValue ) { return; }
+                this._zoomValue = newValue;
+                this.NotifyOfPropertyChange( () => this.ZoomValue );
+                this._eventAggreator.Publish( new ChangeZoomMessage( newValue ) );
+            }
         }
 
         public IMouseInformationModel MouseInformationModel

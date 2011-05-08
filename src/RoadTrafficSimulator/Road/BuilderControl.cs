@@ -28,7 +28,7 @@ namespace RoadTrafficSimulator.Road
             this.SubscribeMessages();
         }
 
-        public RoadComponent RoadComponent { get; set; }
+        public BuildModeMainComponent BuildModeMainComponent { get; set; }
 
         public bool AddingRoadLane
         {
@@ -47,11 +47,11 @@ namespace RoadTrafficSimulator.Road
                 this._addingRoadLane = value;
                 if ( this._addingRoadLane )
                 {
-                    this.RoadComponent.AddingRoadLaneBegin();
+                    this.BuildModeMainComponent.AddingRoadLaneBegin();
                 }
                 else
                 {
-                    this.RoadComponent.AddingRoadLaneEnd();
+                    this.BuildModeMainComponent.AddingRoadLaneEnd();
                 }
             }
         }
@@ -86,11 +86,11 @@ namespace RoadTrafficSimulator.Road
 
                 if ( this._addingRoadJunctionBlock )
                 {
-                    this.RoadComponent.AddingRoadJunctionBlockBegin();
+                    this.BuildModeMainComponent.AddingRoadJunctionBlockBegin();
                 }
                 else
                 {
-                    this.RoadComponent.AddingRoadJunctionBlockEnd();
+                    this.BuildModeMainComponent.AddingRoadJunctionBlockEnd();
                 }
             }
         }
@@ -113,11 +113,11 @@ namespace RoadTrafficSimulator.Road
 
                 if ( this._connectingObject )
                 {
-                    this.RoadComponent.StartConnectingObject();
+                    this.BuildModeMainComponent.StartConnectingObject();
                 }
                 else
                 {
-                    this.RoadComponent.StopConnectingObject();
+                    this.BuildModeMainComponent.StopConnectingObject();
                 }
             }
         }
