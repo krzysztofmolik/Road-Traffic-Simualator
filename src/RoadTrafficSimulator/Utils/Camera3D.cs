@@ -52,6 +52,9 @@ namespace RoadTrafficSimulator.Utils
 
         public Vector2 ToSpace( Vector2 point )
         {
+            // NOTE Ugly workaround about dispose problem
+            if( this._game.GraphicsDevice == null ) { return point; }
+
             var tranlate = this._game.GraphicsDevice.Viewport.Unproject(
                 point.ToVector3(),
                 this.Projection,

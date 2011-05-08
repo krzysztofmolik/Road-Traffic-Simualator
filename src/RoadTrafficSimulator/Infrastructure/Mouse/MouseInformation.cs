@@ -108,6 +108,8 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
 
         public void Dispose()
         {
+            this._timer.Stop();
+            this._timer.Close();
             this.StopRecord();
             this._mousePositionChanged.OnCompleted();
             this._timer.Elapsed -= UpdateMouseInformation;

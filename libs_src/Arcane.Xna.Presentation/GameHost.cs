@@ -23,15 +23,15 @@ namespace Arcane.Xna.Presentation
 
         #region Fields
 
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        [System.Diagnostics.DebuggerBrowsable( System.Diagnostics.DebuggerBrowsableState.Never )]
         private bool doneRun;
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        [System.Diagnostics.DebuggerBrowsable( System.Diagnostics.DebuggerBrowsableState.Never )]
         private Game game;
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        [System.Diagnostics.DebuggerBrowsable( System.Diagnostics.DebuggerBrowsableState.Never )]
         private Game gameControl;
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        [System.Diagnostics.DebuggerBrowsable( System.Diagnostics.DebuggerBrowsableState.Never )]
         private Window _topLevelControl;
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        [System.Diagnostics.DebuggerBrowsable( System.Diagnostics.DebuggerBrowsableState.Never )]
         internal Window _frontWindow;
 
         #endregion
@@ -59,16 +59,16 @@ namespace Arcane.Xna.Presentation
         {
             get
             {
-                if (this._topLevelControl != Window.GetWindow(this.game))
+                if ( this._topLevelControl != Window.GetWindow( this.game ) )
                 {
-                    this._topLevelControl = Window.GetWindow(this.game);
+                    this._topLevelControl = Window.GetWindow( this.game );
                     this.Owner = this._topLevelControl;
-                    this._topLevelControl.Closing -= new System.ComponentModel.CancelEventHandler(_topLevelControl_Closing);
-                    this._topLevelControl.Closing += new System.ComponentModel.CancelEventHandler(_topLevelControl_Closing);
-                    this._topLevelControl.Closed -= new EventHandler(_topLevelControl_Closed);
-                    this._topLevelControl.Closed += new EventHandler(_topLevelControl_Closed);
-                    this._topLevelControl.LocationChanged -= new EventHandler(MainWindow_LocationChanged);
-                    this._topLevelControl.LocationChanged += new EventHandler(MainWindow_LocationChanged);
+                    this._topLevelControl.Closing -= new System.ComponentModel.CancelEventHandler( _topLevelControl_Closing );
+                    this._topLevelControl.Closing += new System.ComponentModel.CancelEventHandler( _topLevelControl_Closing );
+                    this._topLevelControl.Closed -= new EventHandler( _topLevelControl_Closed );
+                    this._topLevelControl.Closed += new EventHandler( _topLevelControl_Closed );
+                    this._topLevelControl.LocationChanged -= new EventHandler( MainWindow_LocationChanged );
+                    this._topLevelControl.LocationChanged += new EventHandler( MainWindow_LocationChanged );
                     this.UpdateBounds();
                 }
                 return this._topLevelControl;
@@ -80,7 +80,7 @@ namespace Arcane.Xna.Presentation
         {
             get
             {
-                return new System.Windows.Interop.WindowInteropHelper(this).Handle;
+                return new System.Windows.Interop.WindowInteropHelper( this ).Handle;
             }
         }
 
@@ -89,7 +89,7 @@ namespace Arcane.Xna.Presentation
 
         #region Constructors
 
-        public GameHost(Game canvas)
+        public GameHost( Game canvas )
         {
             this.game = canvas;
             this.HookElementEvents();
@@ -118,15 +118,15 @@ namespace Arcane.Xna.Presentation
 
         public void UpdateBounds()
         {
-            if (this.IsVisible)
+            if ( this.IsVisible )
             {
-                GeneralTransform gt = this.game.TransformToVisual(this.TopLevelWindow);
+                GeneralTransform gt = this.game.TransformToVisual( this.TopLevelWindow );
 
                 this.Width = this._frontWindow.Width = this.game.ActualWidth;
                 this.Height = this._frontWindow.Height = this.game.ActualHeight;
 
-                this.Left = this._frontWindow.Left = this.TopLevelWindow.Left + gt.Transform(new Point(0, 0)).X + 8;
-                this.Top = this._frontWindow.Top = this.TopLevelWindow.Top + gt.Transform(new Point(0, 0)).Y + 28;
+                this.Left = this._frontWindow.Left = this.TopLevelWindow.Left + gt.Transform( new Point( 0, 0 ) ).X + 8;
+                this.Top = this._frontWindow.Top = this.TopLevelWindow.Top + gt.Transform( new Point( 0, 0 ) ).Y + 28;
             }
         }
 
@@ -135,22 +135,22 @@ namespace Arcane.Xna.Presentation
 
         #region Life methods
 
-        [DllImport("kernel32.dll")]
-        private static extern UIntPtr SetThreadAffinityMask(IntPtr hThread, UIntPtr dwThreadAffinityMask);
-        [DllImport("kernel32.dll")]
+        [DllImport( "kernel32.dll" )]
+        private static extern UIntPtr SetThreadAffinityMask( IntPtr hThread, UIntPtr dwThreadAffinityMask );
+        [DllImport( "kernel32.dll" )]
         private static extern IntPtr GetCurrentProcess();
-        [DllImport("kernel32.dll")]
+        [DllImport( "kernel32.dll" )]
         private static extern IntPtr GetCurrentThread();
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool GetProcessAffinityMask(IntPtr hProcess, out UIntPtr lpProcessAffinityMask, out UIntPtr lpSystemAffinityMask);
+        [DllImport( "kernel32.dll", SetLastError = true )]
+        private static extern bool GetProcessAffinityMask( IntPtr hProcess, out UIntPtr lpProcessAffinityMask, out UIntPtr lpSystemAffinityMask );
         private void LockThreadToProcessor()
         {
             UIntPtr lpProcessAffinityMask = UIntPtr.Zero;
             UIntPtr lpSystemAffinityMask = UIntPtr.Zero;
-            if (GetProcessAffinityMask(GetCurrentProcess(), out lpProcessAffinityMask, out lpSystemAffinityMask) && (lpProcessAffinityMask != UIntPtr.Zero))
+            if ( GetProcessAffinityMask( GetCurrentProcess(), out lpProcessAffinityMask, out lpSystemAffinityMask ) && ( lpProcessAffinityMask != UIntPtr.Zero ) )
             {
-                UIntPtr dwThreadAffinityMask = (UIntPtr)(lpProcessAffinityMask.ToUInt64() & (~lpProcessAffinityMask.ToUInt64() + 1));
-                SetThreadAffinityMask(GetCurrentThread(), dwThreadAffinityMask);
+                UIntPtr dwThreadAffinityMask = ( UIntPtr ) ( lpProcessAffinityMask.ToUInt64() & ( ~lpProcessAffinityMask.ToUInt64() + 1 ) );
+                SetThreadAffinityMask( GetCurrentThread(), dwThreadAffinityMask );
             }
         }
 
@@ -161,14 +161,14 @@ namespace Arcane.Xna.Presentation
 
         internal void PreRun()
         {
-            if (this.doneRun)
+            if ( this.doneRun )
             {
-                throw new InvalidOperationException(Properties.Resources.NoMultipleRuns);
+                throw new InvalidOperationException( Properties.Resources.NoMultipleRuns );
             }
             try
             {
             }
-            catch (Exception)
+            catch ( Exception )
             {
                 PostRun();
                 throw;
@@ -189,41 +189,42 @@ namespace Arcane.Xna.Presentation
 
         private void HookElementEvents()
         {
-            this.game.SizeChanged += new SizeChangedEventHandler(this.Game_SizeChanged);
-            this.game.IsVisibleChanged += new DependencyPropertyChangedEventHandler(this.Game_IsVisibleChanged);
+            this.game.SizeChanged += new SizeChangedEventHandler( this.Game_SizeChanged );
+            this.game.IsVisibleChanged += new DependencyPropertyChangedEventHandler( this.Game_IsVisibleChanged );
         }
 
-        void _topLevelControl_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        void _topLevelControl_Closing( object sender, System.ComponentModel.CancelEventArgs e )
         {
             this.Owner = null;
         }
 
-        void MainWindow_LocationChanged(object sender, EventArgs e)
+        void MainWindow_LocationChanged( object sender, EventArgs e )
         {
             this.UpdateBounds();
         }
 
-        void Game_SizeChanged(object sender, SizeChangedEventArgs e)
+        void Game_SizeChanged( object sender, SizeChangedEventArgs e )
         {
             UpdateBounds();
         }
 
-        void _topLevelControl_Closed(object sender, EventArgs e)
+        void _topLevelControl_Closed( object sender, EventArgs e )
         {
-         }
+            this.game.Exit();
+        }
 
-        void Game_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        void Game_IsVisibleChanged( object sender, DependencyPropertyChangedEventArgs e )
         {
-            if ((bool)e.NewValue)
+            if ( ( bool ) e.NewValue )
             {
-                if (!this.IsActive)
+                if ( !this.IsActive )
                 {
                     this.Show();
-                    if (this._frontWindow.Owner != this)
+                    if ( this._frontWindow.Owner != this )
                         this._frontWindow.Owner = this;
                     this._frontWindow.Show();
                 }
-             }
+            }
             else
             {
                 this.Hide();

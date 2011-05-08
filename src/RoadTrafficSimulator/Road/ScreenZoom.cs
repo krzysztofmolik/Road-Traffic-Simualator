@@ -38,14 +38,14 @@ namespace RoadTrafficSimulator.Road
         {
 //            this._leftControlPressed = this._keyboard.KeyPressed.Where( s => s.Key == Keys.LeftControl ).Subscribe( s => this.BeginZooming() );
 //            this._leftControlReleased = this._keyboard.KeyRelease.Where( s => s.Key == Keys.LeftControl ).Subscribe( s => this.EndZooming() );
-            this._scrollChanged = this._mouseInforamtion.ScrollWheelChanged.Subscribe( this.Zooming );
+//            this._scrollChanged = this._mouseInforamtion.ScrollWheelChanged.Subscribe( this.Zooming );
         }
 
         public void Stop()
         {
-            this._leftControlPressed.Dispose();
-            this._leftControlReleased.Dispose();
-            this._scrollChanged.Dispose();
+//            this._leftControlPressed.Dispose();
+//            this._leftControlReleased.Dispose();
+//            this._scrollChanged.Dispose();
         }
 
         private void EndZooming()

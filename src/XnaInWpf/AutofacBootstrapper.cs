@@ -30,6 +30,12 @@ namespace RoadTrafficConstructor
             return autofacBuilder.Build();
         }
 
+        protected override void OnExit( object sender, EventArgs e )
+        {
+            Console.WriteLine("sddf");
+            base.OnExit( sender, e );
+        }
+
         protected override void Configure()
         {
             this._container = this.BuildContainer();
