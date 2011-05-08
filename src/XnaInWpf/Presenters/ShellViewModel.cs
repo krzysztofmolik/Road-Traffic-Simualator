@@ -1,9 +1,9 @@
 using System;
-using System.Collections.Generic;
 using Autofac;
 using Caliburn.Micro;
 using Common;
-using RoadTrafficConstructor.Presenters.BuildMode.Blocks;
+using RoadTrafficConstructor.Presenters.BuildMode;
+using RoadTrafficConstructor.Presenters.SimulationMode;
 using RoadTrafficSimulator.Road;
 using RoadTrafficSimulator.RoadTrafficSimulatorMessages;
 using IEventAggregator = Common.IEventAggregator;
@@ -17,15 +17,11 @@ namespace RoadTrafficConstructor.Presenters
         private readonly ILifetimeScope _container;
         private WorldController _wordController;
 
-        private IEnumerable<IBlockViewModel> _blocks;
-        private IBlockViewModel _selectedItem;
         private IMouseInformationModel _mouseInformation;
-        private bool _shouldShowStopLine;
-        private bool _showRoadDirection;
+        private bool _isBuildMode;
 
         public ShellViewModel(
             Func<IMouseInformationModel> mouseInformationFactory,
-            BuilderControl builderControl,
             IEventAggregator eventAggreator,
             ILifetimeScope container )
         {
@@ -36,7 +32,7 @@ namespace RoadTrafficConstructor.Presenters
             this._eventAggreator.Subscribe( this );
             this.ServiceProvider = this._container.Resolve<IServiceProvider>();
 
-            this.ActivateItem( this._container.Resolve<BuildJunctionViewModel>() );
+            this.SwitchToBuildMode();
         }
 
         private IServiceProvider ServiceProvider { get; set; }
@@ -47,13 +43,9 @@ namespace RoadTrafficConstructor.Presenters
             this._wordController = worldController.NotNull();
         }
 
-
         public void IncreaseZoom()
         {
-            if ( this._wordController == null )
-            {
-                return;
-            }
+            if ( this._wordController == null ) { return; }
 
             var zoomValue = this._wordController.GetZoom();
             this._wordController.SetZoom( zoomValue + 0.1f );
@@ -61,10 +53,7 @@ namespace RoadTrafficConstructor.Presenters
 
         public void DecreaseZoom()
         {
-            if ( this._wordController == null )
-            {
-                return;
-            }
+            if ( this._wordController == null ) { return; }
 
             var zoomValue = this._wordController.GetZoom();
             this._wordController.SetZoom( zoomValue - 0.1f );
@@ -83,6 +72,29 @@ namespace RoadTrafficConstructor.Presenters
         public void Handle( XnaWindowInitialized message )
         {
             this._wordController = this._container.Resolve<WorldController>();
+        }
+
+        public bool IsBuildMode
+        {
+            get { return this._isBuildMode; }
+            set
+            {
+                if ( this._isBuildMode == value ) { return; }
+                this._isBuildMode = value;
+                this.NotifyOfPropertyChange( () => this.IsBuildMode );
+            }
+        }
+
+        public void SwtichToSimulationMode()
+        {
+            this.IsBuildMode = false;
+            this.ActivateItem( this._container.Resolve<SimulationViewModel>() );
+        }
+
+        public void SwitchToBuildMode()
+        {
+            this.ActivateItem( this._container.Resolve<BuildJunctionViewModel>() );
+            this.IsBuildMode = true;
         }
     }
 }

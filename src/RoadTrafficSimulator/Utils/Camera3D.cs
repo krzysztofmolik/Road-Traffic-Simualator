@@ -80,6 +80,9 @@ namespace RoadTrafficSimulator.Utils
 
         private Matrix CreateProjection( float zoom )
         {
+            if ( zoom > MathHelper.Pi ) { zoom = (float) Math.Round(MathHelper.Pi, 2); }
+            if( zoom < 0 ) { zoom = 0.01f; }
+
             return Matrix.CreatePerspectiveFieldOfView( zoom, this.AspectRatio, 1, 500 );
         }
 

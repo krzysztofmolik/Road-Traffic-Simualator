@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace RoadTrafficConstructor.Presenters
+namespace RoadTrafficConstructor.Presenters.BuildMode
 {
     public partial class BuildJunctionView : UserControl
     {

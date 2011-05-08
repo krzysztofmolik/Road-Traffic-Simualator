@@ -124,6 +124,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AutofacBootstrapper.cs" />
+    <Compile Include="Converters\BoolNegation.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\CarsInserter\CarsInserterView.xaml.cs">
       <DependentUpon>CarsInserterView.xaml</DependentUpon>
     </Compile>
@@ -148,6 +149,10 @@
     <Compile Include="Presenters\BuildMode\Blocks\Lights\StandardLightView.xaml.cs">
       <DependentUpon>StandardLightView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presenters\SimulationMode\SimulationView.xaml.cs">
+      <DependentUpon>SimulationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presenters\SimulationMode\SimulationViewModel.cs" />
     <Compile Include="XnaInWpfModule.cs" />
     <Page Include="Presenters\BuildMode\Blocks\CarsInserter\CarsInserterView.xaml">
       <SubType>Designer</SubType>
@@ -187,6 +192,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Presenters\SimulationMode\SimulationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Presenters\BuildMode\Blocks\BlockManager.cs" />
@@ -275,9 +284,7 @@
   <ItemGroup>
     <Resource Include="Images\RoadLane.PNG" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Presenters\SimulationMode\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

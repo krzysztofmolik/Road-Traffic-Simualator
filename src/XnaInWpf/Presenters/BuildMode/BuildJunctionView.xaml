@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="RoadTrafficConstructor.Presenters.BuildJunctionView"
+﻿<UserControl x:Class="RoadTrafficConstructor.Presenters.BuildMode.BuildJunctionView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,7 +13,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <Border BorderThickness="0,0,1,0" BorderBrush="Black" Grid.Column="0">
+        <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0">
             <Border.Background>
                 <SolidColorBrush Color="{DynamicResource BorderBackground}"/>
             </Border.Background>
@@ -46,9 +46,6 @@
             </StackPanel>
         </Border>
 
-        <ContentPresenter Grid.Column="1"
-                          Content="{Wpf:Resolve Type={x:Type RoadTrafficSimulator:XnaWindow}}" 
-                          VerticalAlignment="Stretch" 
-                          HorizontalAlignment="Stretch" />
+        <ContentPresenter Grid.Column="1" Content="{Wpf:Resolve Type={x:Type RoadTrafficSimulator:XnaWindow}}"/>
     </Grid>
 </UserControl>

@@ -6,7 +6,7 @@ using RoadTrafficConstructor.Presenters.BuildMode.Blocks;
 using RoadTrafficSimulator.Road;
 using XnaInWpf.Presenters.Blocks;
 
-namespace RoadTrafficConstructor.Presenters
+namespace RoadTrafficConstructor.Presenters.BuildMode
 {
     public class BuildJunctionViewModel : INotifyPropertyChanged
     {
