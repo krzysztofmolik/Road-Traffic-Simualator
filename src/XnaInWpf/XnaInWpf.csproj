@@ -124,48 +124,56 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AutofacBootstrapper.cs" />
-    <Compile Include="Presenters\Blocks\CarsInserter\CarsInserterView.xaml.cs">
+    <Compile Include="Presenters\BuildMode\Blocks\CarsInserter\CarsInserterView.xaml.cs">
       <DependentUpon>CarsInserterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presenters\Blocks\CarsInserter\CarsInserterViewModel.cs" />
-    <Compile Include="Presenters\Blocks\CarsRemover\CarsRemoverView.xaml.cs">
+    <Compile Include="Presenters\BuildMode\Blocks\CarsInserter\CarsInserterViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\CarsRemover\CarsRemoverView.xaml.cs">
       <DependentUpon>CarsRemoverView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presenters\Blocks\CarsRemover\CarsRemoverViewModel.cs" />
-    <Compile Include="Presenters\Blocks\RoadLane\OneRoadLaneViewModel.cs" />
-    <Compile Include="Presenters\Blocks\Junctions\RoadJunctionBlockViewModelModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\CarsRemover\CarsRemoverViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\RoadLane\OneRoadLaneViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\Junctions\RoadJunctionBlockViewModelModel.cs" />
+    <Compile Include="Presenters\BuildMode\BuildJunctionViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\BuildJunctionView.xaml.cs">
+      <DependentUpon>BuildJunctionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presenters\DebugMouseInformation.cs" />
-    <Compile Include="Presenters\Blocks\RoadLane\OneRoadLaneView.xaml.cs">
+    <Compile Include="Presenters\BuildMode\Blocks\RoadLane\OneRoadLaneView.xaml.cs">
       <DependentUpon>OneRoadLaneView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presenters\Blocks\Junctions\RoadJunctionBlockView.xaml.cs">
+    <Compile Include="Presenters\BuildMode\Blocks\Junctions\RoadJunctionBlockView.xaml.cs">
       <DependentUpon>RoadJunctionBlockView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presenters\Blocks\Lights\StandardLightView.xaml.cs">
+    <Compile Include="Presenters\BuildMode\Blocks\Lights\StandardLightView.xaml.cs">
       <DependentUpon>StandardLightView.xaml</DependentUpon>
     </Compile>
     <Compile Include="XnaInWpfModule.cs" />
-    <Page Include="Presenters\Blocks\CarsInserter\CarsInserterView.xaml">
+    <Page Include="Presenters\BuildMode\Blocks\CarsInserter\CarsInserterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Presenters\Blocks\CarsRemover\CarsRemoverView.xaml">
+    <Page Include="Presenters\BuildMode\Blocks\CarsRemover\CarsRemoverView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Presenters\Blocks\Lights\LightsView.xaml">
+    <Page Include="Presenters\BuildMode\Blocks\Lights\LightsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Presenters\Blocks\RoadLane\OneRoadLaneView.xaml">
+    <Page Include="Presenters\BuildMode\Blocks\RoadLane\OneRoadLaneView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Presenters\Blocks\Junctions\RoadJunctionBlockView.xaml">
+    <Page Include="Presenters\BuildMode\Blocks\Junctions\RoadJunctionBlockView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Presenters\Blocks\Lights\StandardLightView.xaml">
+    <Page Include="Presenters\BuildMode\Blocks\Lights\StandardLightView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presenters\BuildMode\BuildJunctionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -181,14 +189,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Presenters\Blocks\BlockManager.cs" />
-    <Compile Include="Presenters\Blocks\IBlockViewModel.cs" />
-    <Compile Include="Presenters\Blocks\IBlockManager.cs" />
-    <Compile Include="Presenters\Blocks\Lights\LightsViewModel.cs" />
-    <Compile Include="Presenters\Blocks\Lights\StandardLightViewModel.cs" />
-    <Compile Include="Presenters\Interfaces\IShellViewModel.cs" />
-    <Compile Include="Presenters\Interfaces\IXnaViewModel.cs" />
-    <Compile Include="Presenters\MyModelBase.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\BlockManager.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\IBlockViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\IBlockManager.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\Lights\LightsViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\Lights\StandardLightViewModel.cs" />
+    <Compile Include="Presenters\IShellViewModel.cs" />
     <Compile Include="Presenters\ShellViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -203,7 +209,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Presenters\Blocks\Lights\LightsView.xaml.cs">
+    <Compile Include="Presenters\BuildMode\Blocks\Lights\LightsView.xaml.cs">
       <DependentUpon>LightsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presenters\ShellView.xaml.cs">
@@ -269,7 +275,9 @@
   <ItemGroup>
     <Resource Include="Images\RoadLane.PNG" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Presenters\SimulationMode\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

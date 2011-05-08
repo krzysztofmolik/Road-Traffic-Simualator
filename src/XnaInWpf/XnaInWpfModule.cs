@@ -2,7 +2,7 @@
 using Autofac;
 using Caliburn.Micro;
 using RoadTrafficConstructor.Presenters;
-using RoadTrafficConstructor.Presenters.Blocks;
+using RoadTrafficConstructor.Presenters.BuildMode.Blocks;
 using RoadTrafficSimulator;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Utile.DependencyInjection;

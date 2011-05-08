@@ -4,8 +4,8 @@ using System.Reflection;
 using Autofac;
 using Caliburn.Micro;
 using NLog;
-using XnaInWpf.Presenters.Interfaces;
 using System.Linq;
+using RoadTrafficConstructor.Presenters;
 using Module = Autofac.Module;
 
 namespace RoadTrafficConstructor

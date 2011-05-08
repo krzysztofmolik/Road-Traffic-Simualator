@@ -1,7 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using XnaInWpf.Presenters;
+using Common.Wpf;
 
 namespace RoadTrafficConstructor.Presenters
 {
@@ -12,7 +14,7 @@ namespace RoadTrafficConstructor.Presenters
         string MouseYPosition { get; set; }
     }
 
-    public class DebugMouseInformationModel : MyModelBase, IMouseInformationModel
+    public class DebugMouseInformationModel : IMouseInformationModel, INotifyPropertyChanged
     {
         private readonly IMouseInformation _mouseInformation;
         private string _mouseXPosition;
@@ -36,7 +38,7 @@ namespace RoadTrafficConstructor.Presenters
             set
             {
                 this._shouldShowMousePosition = value;
-                this.OnPropertyChanged( () => this.ShouldShowMousePositoion);
+                this.PropertyChanged.Raise(this, t => t.ShouldShowMousePositoion);
             }
         }
 
@@ -49,7 +51,7 @@ namespace RoadTrafficConstructor.Presenters
             set
             {
                 this._mouseXPosition = value;
-                this.OnPropertyChanged( () => this.MouseXPosition );
+                this.PropertyChanged.Raise(this, t => t.MouseXPosition);
             }
         }
 
@@ -59,8 +61,10 @@ namespace RoadTrafficConstructor.Presenters
             set 
             {
                 this._mouseYPosition = value; 
-                this.OnPropertyChanged( () => this.MouseYPosition );
+                this.PropertyChanged.Raise(this, t => t.MouseYPosition);
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
