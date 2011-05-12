@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using Common.Wpf;
 using RoadTrafficConstructor.Presenters.BuildMode.Blocks;
+using RoadTrafficSimulator.Components.BuildMode;
 using RoadTrafficSimulator.Road;
 using XnaInWpf.Presenters.Blocks;
 

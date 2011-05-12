@@ -256,6 +256,14 @@
       <Project>{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RoadTrafficSimulator.Components.BuildMode\RoadTrafficSimulator.Components.BuildMode.csproj">
+      <Project>{4BC816C1-90AE-48A5-893E-1A6CC5FDF67A}</Project>
+      <Name>RoadTrafficSimulator.Components.BuildMode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RoadTrafficSimulator.Infrastructure\RoadTrafficSimulator.Infrastructure.csproj">
+      <Project>{A2F9A00C-F5BE-4B47-AAA5-BBEA921D4DB9}</Project>
+      <Name>RoadTrafficSimulator.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RoadTrafficSimulator\RoadTrafficSimulator.csproj">
       <Project>{59FF8BF8-1029-48F3-9F84-5C9933B0D1EC}</Project>
       <Name>RoadTrafficSimulator</Name>

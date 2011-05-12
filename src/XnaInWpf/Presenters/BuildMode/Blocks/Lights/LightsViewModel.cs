@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Common.Wpf;
+using RoadTrafficSimulator.Components.BuildMode;
 using RoadTrafficSimulator.Road;
 
 namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.Lights

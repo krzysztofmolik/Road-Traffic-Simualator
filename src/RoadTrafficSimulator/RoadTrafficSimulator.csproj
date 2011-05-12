@@ -141,163 +141,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cars\Car.cs" />
-    <Compile Include="Cars\CarMouseHandler.cs" />
-    <Compile Include="Class1.cs" />
-    <Compile Include="CompositeConnectionCommand.cs" />
-    <Compile Include="ConnectCarInserterWithEndRoadLane.cs" />
-    <Compile Include="ConnectEndRoadLaneWithCarsRemover.cs" />
-    <Compile Include="ConnectObjectCommand.cs" />
-    <Compile Include="EventExtensionMethod.cs" />
-    <Compile Include="Extension\IControlExtensions.cs" />
-    <Compile Include="Extension\LazyExtensions.cs" />
-    <Compile Include="Extension\Vector2Ex.cs" />
-    <Compile Include="Extension\Vector3ExtensionMethod.cs" />
-    <Compile Include="Factories\Factories.cs" />
-    <Compile Include="Factories\IMouseHandlerFactory.cs" />
-    <Compile Include="Factories\SelectionSupportFactory.cs" />
-    <Compile Include="GameComponent1.cs" />
     <Compile Include="GameModule.cs" />
-    <Compile Include="GraphicHelpers.cs" />
-    <Compile Include="GraphicLine.cs" />
-    <Compile Include="IConnectionCommand.cs" />
-    <Compile Include="ICustomDrawable.cs" />
-    <Compile Include="Infrastructure\Control\Control.cs" />
-    <Compile Include="Infrastructure\Control\ControlBaseBase.cs" />
-    <Compile Include="Infrastructure\Control\IControl.cs" />
-    <Compile Include="Infrastructure\Control\TranslationChangedEventArgs.cs" />
-    <Compile Include="Infrastructure\Draw\Graphic.cs" />
-    <Compile Include="Infrastructure\Draw\IShape.cs" />
-    <Compile Include="Infrastructure\Draw\IVertexContainer.cs" />
-    <Compile Include="Infrastructure\Draw\VertexContainerBase.cs" />
-    <Compile Include="Infrastructure\Draw\VertexPositionColorDrawer.cs" />
-    <Compile Include="Infrastructure\GameComponent.cs" />
-    <Compile Include="Infrastructure\InfrastructureModule.cs" />
-    <Compile Include="Infrastructure\Mouse\CompositeControlMouseHandler.cs" />
-    <Compile Include="Infrastructure\Mouse\ControlMouseHandler.cs" />
-    <Compile Include="Infrastructure\Mouse\FilterMouseInformation.cs" />
-    <Compile Include="Infrastructure\Mouse\IMouseInformation.cs" />
-    <Compile Include="Infrastructure\Mouse\IMouseHandler.cs" />
-    <Compile Include="Infrastructure\Mouse\MouseInformation.cs" />
-    <Compile Include="Infrastructure\Mouse\MoveControl.cs" />
-    <Compile Include="Infrastructure\Mouse\NotMovableMouseHandler.cs" />
-    <Compile Include="Infrastructure\Mouse\PriorityMouseInfomrmation.cs" />
-    <Compile Include="Infrastructure\Mouse\RoadLayerMouseHandler.cs" />
-    <Compile Include="Infrastructure\Mouse\SelectedControlsCollection.cs" />
-    <Compile Include="Infrastructure\Mouse\SelectedControls.cs" />
-    <Compile Include="Infrastructure\UpdateableGameComponent.cs" />
-    <Compile Include="Integration\MessageBroker.cs" />
-    <Compile Include="Interfaces\IPrimitiveBatch.cs" />
-    <Compile Include="KeyboardKeysChangedArgs.cs" />
-    <Compile Include="KeyboardInputNotify.cs" />
-    <Compile Include="KeysState.cs" />
-    <Compile Include="MathHelpers\HitTestAlghoritm.cs" />
-    <Compile Include="MathHelpers\IntersectionTwoVectors.cs" />
-    <Compile Include="MathHelpers\IsVectorCross.cs" />
-    <Compile Include="MathHelpers\MyMathHelper.cs" />
-    <Compile Include="Messages\AddControlToRoadLayer.cs" />
-    <Compile Include="Messages\ChangeZoomMessage.cs" />
-    <Compile Include="MouseHandler\Infrastructure\XnaMouseState.cs" />
-    <Compile Include="MouseHandler\JunctionMouseHandler\INestedJunctionMouseHandler.cs" />
-    <Compile Include="MouseHandler\JunctionMouseHandler\JunctionCornerMouseHandler.cs" />
-    <Compile Include="MouseHandler\JunctionMouseHandler\JunctionDefaultMouseHandler.cs" />
-    <Compile Include="MouseHandler\JunctionMouseHandler\JunctionEdgeMouseHandler.cs" />
-    <Compile Include="MouseInputNotify.cs" />
-    <Compile Include="MouseStateEventArgs.cs" />
-    <Compile Include="MoveObject.cs" />
-    <Compile Include="Point.cs" />
-    <Compile Include="PrimitiveBatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RectlangeDraw.cs" />
-    <Compile Include="RoadBuilderCommandCenter.cs" />
-    <Compile Include="RoadTrafficSimulatorMessages\XnaWindowInitialized.cs" />
-    <Compile Include="Road\BuilderControl.cs" />
-    <Compile Include="Road\CarsComponet.cs" />
-    <Compile Include="Road\CarsInserterCreator.cs" />
-    <Compile Include="Road\CarsRemoverCreator.cs" />
-    <Compile Include="Road\CompositControl.cs" />
-    <Compile Include="Road\ConetableBase.cs" />
-    <Compile Include="Road\Connectors\Commands\ConnectCarsInserterWithCarsInserter.cs" />
-    <Compile Include="Road\Connectors\Commands\ConnectCarsRemoverWithCarsRemover.cs" />
-    <Compile Include="Road\Connectors\Commands\ConnectEndRoadLaneEdgeWithRoadJunctionEdge.cs" />
-    <Compile Include="Road\Connectors\Commands\ConnectEndRoadLaneEdgeWithRoadConnection.cs" />
-    <Compile Include="Road\Connectors\Commands\ConnectRoadConnectionWithRoadConnection.cs" />
-    <Compile Include="Road\Connectors\Commands\ConnectRoadJunctionEdge.cs" />
-    <Compile Include="Road\Connectors\Commands\ConnectRoadJunctionEdgeWitEndRoadLaneEdge.cs" />
-    <Compile Include="Road\Connectors\Commands\ConnectRoadConnectionWithEndRoadLane.cs" />
-    <Compile Include="Road\Connectors\Commands\ConnectSideRoadLaneEdges.cs" />
-    <Compile Include="Road\Connectors\ConnectEdgesHelper.cs" />
-    <Compile Include="Road\Connectors\EndRoadLaneEdgeConnector.cs" />
-    <Compile Include="Road\Connectors\IConnector.cs" />
-    <Compile Include="Road\Connectors\RoadConnectionConnector.cs" />
-    <Compile Include="Road\Connectors\RoadJunctionEdgeConnector.cs" />
-    <Compile Include="Road\Connectors\SideRoadLaneConnector.cs" />
-    <Compile Include="Road\ConnectPlace.cs" />
-    <Compile Include="Road\Constans.cs" />
-    <Compile Include="Road\Controls\CarsInsertedConnector.cs" />
-    <Compile Include="Road\Controls\CarsInserter.cs" />
-    <Compile Include="Road\Controls\CarsRemover.cs" />
-    <Compile Include="Road\Controls\CarsRemoverConnector.cs" />
-    <Compile Include="Road\Controls\Edge.cs" />
-    <Compile Include="Road\Controls\EndRoadLaneEdge.cs" />
-    <Compile Include="Road\Controls\IEdge.cs" />
-    <Compile Include="Road\Controls\IEdgeLine.cs" />
-    <Compile Include="Road\Controls\InvisibleShape.cs" />
-    <Compile Include="Road\Controls\IRoadJunctionBlock.cs" />
-    <Compile Include="Road\Controls\LaneType.cs" />
-    <Compile Include="Road\Controls\MovablePoint.cs" />
-    <Compile Include="Road\Controls\MovableRectangle.cs" />
-    <Compile Include="Road\Controls\Quadrangle.cs" />
-    <Compile Include="Road\Controls\RoadConnection.cs" />
-    <Compile Include="Road\Controls\RoadJunctionBlock.cs" />
-    <Compile Include="Road\Controls\RoadJunctionEdge.cs" />
-    <Compile Include="Road\Controls\RoadSide.cs" />
-    <Compile Include="Road\Controls\SideRoadLaneEdge.cs" />
-    <Compile Include="Road\ICompositeControl.cs" />
-    <Compile Include="Road\IConnectable.cs" />
-    <Compile Include="Road\ILight.cs" />
-    <Compile Include="Road\InvertPointEdgeAdapter.cs" />
-    <Compile Include="Road\IRoadLaneBlock.cs" />
-    <Compile Include="Road\LightLocation.cs" />
-    <Compile Include="Road\LineCorners.cs" />
-    <Compile Include="Road\RoadCommponets\NormalLight.cs" />
-    <Compile Include="Road\BuildModeMainComponent.cs" />
-    <Compile Include="Road\Connectors\UpdateConnected.cs" />
-    <Compile Include="Road\NormalPointEdgeAdapter.cs" />
-    <Compile Include="Road\RoadJunctionCreator.cs" />
-    <Compile Include="Road\RoadLaneArrow.cs" />
-    <Compile Include="Road\RoadLaneBlock.cs" />
-    <Compile Include="Road\RoadLaneCreatorController.cs" />
-    <Compile Include="Road\RoadLayer.cs" />
-    <Compile Include="Road\RoadLight.cs" />
-    <Compile Include="Road\ScreenZoom.cs" />
-    <Compile Include="Road\SideRoadLine.cs" />
-    <Compile Include="Road\StopLine.cs" />
-    <Compile Include="Road\VertexPositionTextureDrawer.cs" />
-    <Compile Include="Road\WorldController.cs" />
-    <Compile Include="Sprites\Layer2D.cs" />
-    <Compile Include="TextureInfo.cs" />
-    <Compile Include="Utils\Camera3D.cs" />
-    <Compile Include="Utils\DependencyInjection\ContentManager.cs" />
-    <Compile Include="Utils\DependencyInjection\IContentManager.cs" />
-    <Compile Include="Utils\DependencyInjection\XnaCustomModule.cs" />
-    <Compile Include="Utils\IOrderMeta.cs" />
-    <Compile Include="Utils\Point.cs" />
-    <Compile Include="Utils\RectangleToTriangleList.cs" />
-    <Compile Include="VertexContainers\DirectionVertexContainer.cs" />
-    <Compile Include="VertexContainers\EdgeVertexContainer.cs" />
-    <Compile Include="VertexContainers\LigthLocationVertexContainer.cs" />
-    <Compile Include="VertexContainers\MovablePointVertexContainer.cs" />
-    <Compile Include="VertexContainers\MovableRectlangeVertexContainer.cs" />
-    <Compile Include="VertexContainers\RoadJunctionEdgeVertexContainer.cs" />
-    <Compile Include="VertexContainers\RoadJunctionBlockVertexContainer.cs" />
-    <Compile Include="VertexContainers\RoadLaneBlockVertexContainer.cs" />
-    <Compile Include="VertexContainers\RoadLayerVertexContainer.cs" />
-    <Compile Include="VertexContainers\SideRoadLaneEdgeVertexContainer.cs" />
-    <Compile Include="VertexContainers\StopLineVertexContainer.cs" />
-    <Compile Include="VertexContainers\Style.cs" />
-    <Compile Include="VisitAllChildren.cs" />
-    <Compile Include="WorldSide.cs" />
     <Compile Include="XnaWindow.xaml.cs">
       <DependentUpon>XnaWindow.xaml</DependentUpon>
     </Compile>
@@ -320,6 +165,18 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RoadTrafficSimulator.Components.BuildMode\RoadTrafficSimulator.Components.BuildMode.csproj">
+      <Project>{4BC816C1-90AE-48A5-893E-1A6CC5FDF67A}</Project>
+      <Name>RoadTrafficSimulator.Components.BuildMode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RoadTrafficSimulator.Components.SimulationMode\RoadTrafficSimulator.Components.SimulationMode.csproj">
+      <Project>{50D9C38B-3C73-443A-848E-E477786E826D}</Project>
+      <Name>RoadTrafficSimulator.Components.SimulationMode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RoadTrafficSimulator.Infrastructure\RoadTrafficSimulator.Infrastructure.csproj">
+      <Project>{A2F9A00C-F5BE-4B47-AAA5-BBEA921D4DB9}</Project>
+      <Name>RoadTrafficSimulator.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

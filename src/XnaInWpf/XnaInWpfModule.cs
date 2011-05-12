@@ -5,8 +5,6 @@ using RoadTrafficConstructor.Presenters;
 using RoadTrafficConstructor.Presenters.BuildMode.Blocks;
 using RoadTrafficSimulator;
 using RoadTrafficSimulator.Infrastructure.Mouse;
-using RoadTrafficSimulator.Utile.DependencyInjection;
-using RoadTrafficSimulator.Utils.DependencyInjection;
 using XnaInWpf.Presenters.Blocks;
 using EventAggregator = Common.EventAggregator;
 using IEventAggregator = Common.IEventAggregator;
@@ -18,7 +16,6 @@ namespace RoadTrafficConstructor
         protected override void Load( ContainerBuilder builder )
         {
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
-            builder.RegisterModule( new XnaCustomModule() );
             builder.RegisterModule( new GameModule() );
 
             builder.RegisterType<BlockManager>().As<IBlockManager>();

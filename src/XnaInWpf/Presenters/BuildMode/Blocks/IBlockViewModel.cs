@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using RoadTrafficSimulator.Road;
+using RoadTrafficSimulator.Components.BuildMode;
 
 namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks
 {

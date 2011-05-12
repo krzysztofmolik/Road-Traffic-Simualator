@@ -1,13 +1,10 @@
-using System;
-using System.Threading;
 using Microsoft.Xna.Framework;
 using NUnit.Framework;
-using RoadTrafficSimulator.Factories;
-using RoadTrafficSimulator.Road;
-using RoadTrafficSimulator.Road.Connectors.Commands;
-using RoadTrafficSimulator.Road.Controls;
+using RoadTrafficSimulator.Components.BuildMode.Connectors.Commands;
+using RoadTrafficSimulator.Components.BuildMode.Controls;
+using RoadTrafficSimulator.Components.BuildMode.Factories;
+using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulatorTests.IntegrationTests.Infacstructure;
-using XnaRoadTrafficConstructor.Road;
 
 namespace RoadTrafficSimulatorTests.ConnectionTests
 {

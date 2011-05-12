@@ -2,11 +2,11 @@
 using System.ComponentModel;
 using Autofac;
 using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Road;
-using Xna;
+using RoadTrafficSimulator.Components.BuildMode;
+using RoadTrafficSimulator.Infrastructure;
+using RoadTrafficSimulator.Infrastructure.Mouse;
 using Game = Arcane.Xna.Presentation.Game;
 using Keyboard = Microsoft.Xna.Framework.Input.Keyboard;
-using Mouse = Microsoft.Xna.Framework.Input.Mouse;
 using System.Linq;
 
 namespace RoadTrafficSimulator
@@ -15,7 +15,7 @@ namespace RoadTrafficSimulator
     {
         private readonly Autofac.IContainer _container;
         private KeyboardInputNotify _keybordInput;
-        private MouseInputNotify _mouseInput;
+        private MouseInformation _mouseInput;
 
         public XnaWindow( IServiceProvider service, Autofac.IContainer container )
             : base( service )
@@ -29,7 +29,7 @@ namespace RoadTrafficSimulator
         protected override void Initialize()
         {
             this._keybordInput = this._container.Resolve<KeyboardInputNotify>();
-            this._mouseInput = this._container.Resolve<MouseInputNotify>();
+            this._mouseInput = this._container.Resolve<MouseInformation>();
 
             this.BuildModeMainComponent = this._container.Resolve<BuildModeMainComponent>();
             this.Components.Add( this.BuildModeMainComponent );
@@ -52,7 +52,7 @@ namespace RoadTrafficSimulator
 
         protected override void Update( GameTime gameTime )
         {
-            this._mouseInput.Update( Mouse.GetState() );
+            this._mouseInput.Update( gameTime );
             this._keybordInput.Update( Keyboard.GetState() );
             base.Update( gameTime );
         }

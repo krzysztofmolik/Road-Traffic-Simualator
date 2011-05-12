@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{4BC816C1-90AE-48A5-893E-1A6CC5FDF67A}</ProjectGuid>
+    <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RoadTrafficSimulator.Components.BuildMode</RootNamespace>
+    <AssemblyName>RoadTrafficSimulator.Components.BuildMode</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
+    <XnaPlatform>Windows</XnaPlatform>
+    <XnaProfile>HiDef</XnaProfile>
+    <XnaCrossPlatformGroupID>e3d14551-1dac-410e-9f9c-c5880d03773c</XnaCrossPlatformGroupID>
+    <XnaOutputType>Library</XnaOutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\x86\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <XnaCompressContent>false</XnaCompressContent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\x86\Release</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <XnaCompressContent>true</XnaCompressContent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\libs\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.GamerServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Xact, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Video, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Avatar, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Net, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="mscorlib">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.CoreEx">
+      <HintPath>..\..\libs\Rx\System.CoreEx.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive">
+      <HintPath>..\..\libs\Rx\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Net">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BuildModeModule.cs" />
+    <Compile Include="CompositeConnectionCommand.cs" />
+    <Compile Include="ConnectObjectCommand.cs" />
+    <Compile Include="Controls\RoadLaneBlock.cs" />
+    <Compile Include="Creators\RoadLaneCreator.cs" />
+    <Compile Include="Factories\Factories.cs" />
+    <Compile Include="Factories\IMouseHandlerFactory.cs" />
+    <Compile Include="Factories\SelectionSupportFactory.cs" />
+    <Compile Include="IConnectionCommand.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BuilderControl.cs" />
+    <Compile Include="BuildModeMainComponent.cs" />
+    <Compile Include="Connectors\Commands\ConnectCarsInserterWithCarsInserter.cs" />
+    <Compile Include="Connectors\Commands\ConnectCarsRemoverWithCarsRemover.cs" />
+    <Compile Include="Connectors\Commands\ConnectEndRoadLaneEdgeWithRoadConnection.cs" />
+    <Compile Include="Connectors\Commands\ConnectEndRoadLaneEdgeWithRoadJunctionEdge.cs" />
+    <Compile Include="Connectors\Commands\ConnectRoadConnectionWithEndRoadLane.cs" />
+    <Compile Include="Connectors\Commands\ConnectRoadConnectionWithRoadConnection.cs" />
+    <Compile Include="Connectors\Commands\ConnectRoadJunctionEdge.cs" />
+    <Compile Include="Connectors\Commands\ConnectRoadJunctionEdgeWitEndRoadLaneEdge.cs" />
+    <Compile Include="Connectors\Commands\ConnectSideRoadLaneEdges.cs" />
+    <Compile Include="Connectors\ConnectCarInserterWithEndRoadLane.cs" />
+    <Compile Include="Connectors\ConnectEdgesHelper.cs" />
+    <Compile Include="Connectors\ConnectEndRoadLaneWithCarsRemover.cs" />
+    <Compile Include="Connectors\EndRoadLaneEdgeConnector.cs" />
+    <Compile Include="Connectors\RoadConnectionConnector.cs" />
+    <Compile Include="Connectors\RoadJunctionEdgeConnector.cs" />
+    <Compile Include="Connectors\SideRoadLaneConnector.cs" />
+    <Compile Include="Controls\CarsInsertedConnector.cs" />
+    <Compile Include="Controls\CarsInserter.cs" />
+    <Compile Include="Controls\CarsRemover.cs" />
+    <Compile Include="Controls\CarsRemoverConnector.cs" />
+    <Compile Include="Controls\Edge.cs" />
+    <Compile Include="Controls\EndRoadLaneEdge.cs" />
+    <Compile Include="Controls\IEdge.cs" />
+    <Compile Include="Controls\IEdgeLine.cs" />
+    <Compile Include="Controls\InvisibleShape.cs" />
+    <Compile Include="Controls\IRoadJunctionBlock.cs" />
+    <Compile Include="Controls\IRoadLaneBlock.cs" />
+    <Compile Include="Controls\LaneType.cs" />
+    <Compile Include="Controls\MovablePoint.cs" />
+    <Compile Include="Controls\MovableRectangle.cs" />
+    <Compile Include="Controls\RoadConnection.cs" />
+    <Compile Include="Controls\RoadJunctionBlock.cs" />
+    <Compile Include="Controls\RoadJunctionEdge.cs" />
+    <Compile Include="Controls\RoadLayer.cs" />
+    <Compile Include="Controls\RoadSide.cs" />
+    <Compile Include="Controls\SideRoadLaneEdge.cs" />
+    <Compile Include="Creators\CarsInserterCreator.cs" />
+    <Compile Include="Creators\CarsRemoverCreator.cs" />
+    <Compile Include="Creators\RoadJunctionCreator.cs" />
+    <Compile Include="Creators\RoadLaneCreatorController.cs" />
+    <Compile Include="InvertPointEdgeAdapter.cs" />
+    <Compile Include="NormalPointEdgeAdapter.cs" />
+    <Compile Include="RoadLayerMouseHandler.cs" />
+    <Compile Include="VertexContainers\DirectionVertexContainer.cs" />
+    <Compile Include="VertexContainers\EdgeVertexContainer.cs" />
+    <Compile Include="VertexContainers\MovablePointVertexContainer.cs" />
+    <Compile Include="VertexContainers\MovableRectlangeVertexContainer.cs" />
+    <Compile Include="VertexContainers\RoadJunctionBlockVertexContainer.cs" />
+    <Compile Include="VertexContainers\RoadJunctionEdgeVertexContainer.cs" />
+    <Compile Include="VertexContainers\RoadLaneBlockVertexContainer.cs" />
+    <Compile Include="VertexContainers\RoadLayerVertexContainer.cs" />
+    <Compile Include="VertexContainers\SideRoadLaneEdgeVertexContainer.cs" />
+    <Compile Include="VertexContainers\Style.cs" />
+    <Compile Include="VisitAllChildren.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common.Xna\Common.Xna.fsproj">
+      <Project>{6836F589-D243-44F9-A7FA-221E4178A41E}</Project>
+      <Name>Common.Xna</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RoadTrafficSimulator.Infrastructure\RoadTrafficSimulator.Infrastructure.csproj">
+      <Project>{A2F9A00C-F5BE-4B47-AAA5-BBEA921D4DB9}</Project>
+      <Name>RoadTrafficSimulator.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
+  <!--
+      To modify your build process, add your task inside one of the targets below and uncomment it. 
+      Other similar extension points exist, see Microsoft.Common.targets.
+      <Target Name="BeforeBuild">
+      </Target>
+      <Target Name="AfterBuild">
+      </Target>
+    -->
+</Project>

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using RoadTrafficSimulator.Components.BuildMode;
 using RoadTrafficSimulator.Road;
 
 namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.Junctions

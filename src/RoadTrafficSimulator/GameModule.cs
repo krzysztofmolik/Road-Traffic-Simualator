@@ -1,8 +1,8 @@
 using Autofac;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using RoadTrafficSimulator.Components.BuildMode;
+using RoadTrafficSimulator.Components.SimulationMode;
+using RoadTrafficSimulator.Infrastructure;
 using Game = Arcane.Xna.Presentation.Game;
-using GraphicsDeviceManager = Arcane.Xna.Presentation.GraphicsDeviceManager;
 
 namespace RoadTrafficSimulator
 {
@@ -11,9 +11,9 @@ namespace RoadTrafficSimulator
         protected override void Load( ContainerBuilder builder )
         {
             builder.RegisterType<XnaWindow>().As<Game, XnaWindow>().SingleInstance();
-            builder.RegisterType<GraphicsDeviceManager>().As<IGraphicsDeviceManager, IGraphicsDeviceService>().SingleInstance();
-            builder.Register(s => s.Resolve<IGraphicsDeviceService>().GraphicsDevice).InstancePerDependency();
-            builder.Register(s => s.Resolve<Game>().Content).InstancePerDependency();
+            builder.RegisterModule( new SimulationModeModule() );
+            builder.RegisterModule( new BuildModeModule() );
+            builder.RegisterModule( new InfrastructureModule() );
         }
     }
 }

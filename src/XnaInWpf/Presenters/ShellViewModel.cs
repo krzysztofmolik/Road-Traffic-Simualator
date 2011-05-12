@@ -4,19 +4,16 @@ using Caliburn.Micro;
 using Common;
 using RoadTrafficConstructor.Presenters.BuildMode;
 using RoadTrafficConstructor.Presenters.SimulationMode;
-using RoadTrafficSimulator.Messages;
-using RoadTrafficSimulator.Road;
-using RoadTrafficSimulator.RoadTrafficSimulatorMessages;
+using RoadTrafficSimulator.Infrastructure.Messages;
 using IEventAggregator = Common.IEventAggregator;
 
 namespace RoadTrafficConstructor.Presenters
 {
-    public sealed class ShellViewModel : Conductor<object>, IShellViewModel, Common.IHandle<XnaWindowInitialized>
+    public sealed class ShellViewModel : Conductor<object>, IShellViewModel
     {
         private readonly Func<IMouseInformationModel> _mouseInformationFactory;
         private readonly IEventAggregator _eventAggreator;
         private readonly ILifetimeScope _container;
-        private WorldController _wordController;
 
         private IMouseInformationModel _mouseInformation;
         private bool _isBuildMode;
@@ -40,10 +37,9 @@ namespace RoadTrafficConstructor.Presenters
 
         private IServiceProvider ServiceProvider { get; set; }
 
-        public void Initialize( WorldController worldController )
+        public void Initialize()
         {
             this.MouseInformationModel = this._mouseInformationFactory();
-            this._wordController = worldController.NotNull();
         }
 
         public void IncreaseZoom()
@@ -67,7 +63,7 @@ namespace RoadTrafficConstructor.Presenters
                 if ( newValue == this._zoomValue ) { return; }
                 this._zoomValue = newValue;
                 this.NotifyOfPropertyChange( () => this.ZoomValue );
-                this._eventAggreator.Publish( new ChangeZoomMessage( newValue ) );
+                this._eventAggreator.Publish( new ChangedZoom( newValue ) );
             }
         }
 
@@ -79,11 +75,6 @@ namespace RoadTrafficConstructor.Presenters
                 this._mouseInformation = value;
                 this.RaisePropertyChangedEventImmediately( "MouseInformationModel" );
             }
-        }
-
-        public void Handle( XnaWindowInitialized message )
-        {
-            this._wordController = this._container.Resolve<WorldController>();
         }
 
         public bool IsBuildMode
@@ -100,13 +91,15 @@ namespace RoadTrafficConstructor.Presenters
         public void SwtichToSimulationMode()
         {
             this.IsBuildMode = false;
+            this._eventAggreator.Publish( new ChangedToSimulationMode() );
             this.ActivateItem( this._container.Resolve<SimulationViewModel>() );
         }
 
         public void SwitchToBuildMode()
         {
-            this.ActivateItem( this._container.Resolve<BuildJunctionViewModel>() );
             this.IsBuildMode = true;
+            this._eventAggreator.Publish( new ChangedToBuildMode() );
+            this.ActivateItem( this._container.Resolve<BuildJunctionViewModel>() );
         }
     }
 }

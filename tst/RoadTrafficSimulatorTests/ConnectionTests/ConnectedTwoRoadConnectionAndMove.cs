@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using NUnit.Framework;
-using RoadTrafficSimulator.Road.Connectors.Commands;
+using RoadTrafficSimulator.Components.BuildMode.Connectors.Commands;
 using RoadTrafficSimulatorTests.IntegrationTests.Helpers;
-using RoadTrafficSimulator.Extension;
 using RoadTrafficSimulatorTests.IntegrationTests.Infacstructure;
+using RoadTrafficSimulator.Infrastructure.Extension;
 
 namespace RoadTrafficSimulatorTests.ConnectionTests
 {
