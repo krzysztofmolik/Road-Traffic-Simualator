@@ -119,7 +119,6 @@
     <Compile Include="Controls\TranslationChangedEventArgs.cs" />
     <Compile Include="DependencyInjection\ContentManager.cs" />
     <Compile Include="DependencyInjection\IContentManager.cs" />
-    <Compile Include="DependencyInjection\InfractructureModule.cs" />
     <Compile Include="Draw\Graphic.cs" />
     <Compile Include="Draw\IShape.cs" />
     <Compile Include="Draw\IVertexContainer.cs" />

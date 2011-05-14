@@ -76,7 +76,6 @@
     <Compile Include="Ensure.cs" />
     <Compile Include="EventAggregator.cs" />
     <Compile Include="Extensions\EventExtensions.cs" />
-    <Compile Include="Extensions\LazyExtensions.cs" />
     <Compile Include="Extensions\TypeExtension.cs" />
     <Compile Include="ExtesnionsForEnumType.cs" />
     <Compile Include="Handler\CompositeHandler.cs" />

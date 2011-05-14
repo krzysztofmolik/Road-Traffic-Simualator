@@ -126,12 +126,12 @@ namespace RoadTrafficSimulator.Components.BuildMode
 
         public void InsertCarsInserter()
         {
-            this._carsInserter.ValueOrThrow().Start();
+            this._carsInserter.Value.Start();
         }
 
         public void InsertCarsRemover()
         {
-            this._carsRemover.ValueOrThrow().Start();
+            this._carsRemover.Value.Start();
         }
 
         private void SubscribeMessages()
@@ -149,8 +149,8 @@ namespace RoadTrafficSimulator.Components.BuildMode
             this.AddingRoadLane = false;
             this.AddingRoadJunctionBlock = false;
             this.ConnectingObject = false;
-            this._carsInserter.ValueOrThrow().Stop();
-            this._carsRemover.ValueOrThrow().Stop();
+            this._carsInserter.Value.Stop();
+            this._carsRemover.Value.Stop();
         }
     }
 }
