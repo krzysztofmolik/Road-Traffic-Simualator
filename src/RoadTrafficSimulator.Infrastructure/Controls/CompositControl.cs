@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Infrastructure.Control;
 using System.Linq;
-using RoadTrafficSimulator.Infrastructure.Controls;
+using RoadTrafficSimulator.Road;
 using XnaVs10.MathHelpers;
 
-namespace RoadTrafficSimulator.Road
+namespace RoadTrafficSimulator.Infrastructure.Controls
 {
     public abstract class CompositControl<TVertex> : ControlBaseBase<TVertex>, ICompositeControl
     {

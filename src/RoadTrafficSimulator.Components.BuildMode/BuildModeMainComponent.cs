@@ -1,25 +1,31 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using Arcane.Xna.Presentation;
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.BuildMode.Creators;
+using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Messages;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Road;
 using DrawableGameComponent = RoadTrafficSimulator.Infrastructure.DrawableGameComponent;
+using System.Linq;
 
 namespace RoadTrafficSimulator.Components.BuildMode
 {
-    public class BuildModeMainComponent : DrawableGameComponent, IHandle<AddControlToRoadLayer>, IDisposable
+    // TODO Is IHandle<AddControlToRoadLayer> needed ??
+    public class BuildModeMainComponent : DrawableGameComponent, IHandle<AddControlToRoadLayer>,  IUnitializable
     {
         private readonly RoadLaneCreatorController _roadLaneCreator;
         private readonly RoadJunctionCreator _roadJunctionCreator;
         private readonly IMouseInformation _mouseInformation;
         private readonly ConnectObjectCommand _connectObjectCommand;
-        private readonly IEventAggregator _eventAggreator;
         private readonly Func<Vector2, ICompositeControl, IRoadJunctionBlock> _roadJunctionBlockFactory;
-        private RoadLayer _roadLayer;
+        private readonly RoadLayer _roadLayer;
+        private readonly List<IDisposable> _subscribtions = new List<IDisposable>();
 
         public BuildModeMainComponent(
                     RoadLaneCreatorController roadLaneCreator,
@@ -31,35 +37,41 @@ namespace RoadTrafficSimulator.Components.BuildMode
                     IGraphicsDeviceService graphicsDeviceService, RoadLayer roadLayer )
             : base( graphicsDeviceService )
         {
+            eventAggreator.Subscribe( this );
             this._roadJunctionCreator = roadJunctionCreator;
             this._connectObjectCommand = connectObjectCommand;
-            this._eventAggreator = eventAggreator;
             this._roadJunctionBlockFactory = roadJunctionBlockFactory;
             this._mouseInformation = mouseInformation;
             this._roadLaneCreator = roadLaneCreator;
             this._roadLayer = roadLayer;
 
-            this.SubscribeToMessages();
-            this.SubscribeToMouseInformation();
+            this.Subscribe();
 
             this._mouseInformation.StartRecord();
         }
 
-        private void SubscribeToMouseInformation()
+        public IEnumerable<IControl> GetAllBuildControls()
         {
-            this._mouseInformation.LeftButtonPressed.Subscribe( s => this._roadLayer.MouseHandler.OnLeftButtonPressed( s ) );
-            this._mouseInformation.LeftButtonRelease.Subscribe( s => this._roadLayer.MouseHandler.OnLeftButtonReleased( s ) );
-            this._mouseInformation.LeftButtonClicked.Subscribe( s => this._roadLayer.MouseHandler.OnLeftButtonClick( s ) );
-            this._mouseInformation.MousePositionChanged.Subscribe( s => this._roadLayer.MouseHandler.OnMove( s ) );
+            return this._roadLayer.Children.ToArray();
         }
 
-        private void SubscribeToMessages()
+        private void Subscribe()
         {
-            this._roadJunctionCreator.JunctionCreated.Subscribe( location =>
+            this._subscribtions.Add( this._mouseInformation.LeftButtonPressed.Subscribe( s => this._roadLayer.MouseHandler.OnLeftButtonPressed( s ) ) );
+            this._subscribtions.Add( this._mouseInformation.LeftButtonRelease.Subscribe( s => this._roadLayer.MouseHandler.OnLeftButtonReleased( s ) ) );
+            this._subscribtions.Add( this._mouseInformation.LeftButtonClicked.Subscribe( s => this._roadLayer.MouseHandler.OnLeftButtonClick( s ) ) );
+            this._subscribtions.Add( this._mouseInformation.MousePositionChanged.Subscribe( s => this._roadLayer.MouseHandler.OnMove( s ) ) );
+            this._subscribtions.Add( this._roadJunctionCreator.JunctionCreated.Subscribe( location =>
                                                                     {
                                                                         var children = this._roadJunctionBlockFactory( location, this._roadLayer );
                                                                         this._roadLayer.AddChild( children );
-                                                                    } );
+                                                                    } ) );
+        }
+
+        private void Unsubscribe()
+        {
+            this._subscribtions.ForEach( s => s.Dispose() );
+            this._subscribtions.Clear();
         }
 
         public void StartConnectingObject()
@@ -69,6 +81,14 @@ namespace RoadTrafficSimulator.Components.BuildMode
 
         public void StopConnectingObject()
         {
+            this._connectObjectCommand.End();
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            this.Subscribe();
+            this._mouseInformation.StartRecord();
             this._connectObjectCommand.End();
         }
 
@@ -107,10 +127,6 @@ namespace RoadTrafficSimulator.Components.BuildMode
             base.Draw( gameTime );
         }
 
-        public void Dispose()
-        {
-        }
-
         public void AddingRoadJunctionBlockBegin()
         {
             this._roadJunctionCreator.Begin();
@@ -136,6 +152,12 @@ namespace RoadTrafficSimulator.Components.BuildMode
             var control = message.Control;
             control.Parent = this._roadLayer;
             this._roadLayer.AddChild( control );
+        }
+
+        public void Unitialize()
+        {
+            this.Unsubscribe();
+            this._mouseInformation.StopRecord();
         }
     }
 }

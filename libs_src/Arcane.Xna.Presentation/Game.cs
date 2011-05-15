@@ -600,6 +600,11 @@ namespace Arcane.Xna.Presentation
                 this._drawableComponents.Remove( drawable );
                 drawable.DrawOrderChanged -= this.DrawableDrawOrderChanged;
             }
+            IUnitializable unitializable = e.GameComponent as IUnitializable;
+            if(unitializable != null )
+            {
+                unitializable.Unitialize();
+            }
         }
 
         private void UpdateableUpdateOrderChanged( object sender, EventArgs e )

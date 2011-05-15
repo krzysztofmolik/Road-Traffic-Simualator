@@ -6,7 +6,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 {
     public abstract class RoadElementBase : IRoadElement
     {
-        private IControl _control;
+        private readonly IControl _control;
 
         public RoadElementBase( IControl control )
         {

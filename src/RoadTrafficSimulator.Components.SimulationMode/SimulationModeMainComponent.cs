@@ -29,6 +29,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode
         {
             this._roadElements.ForEach( s => s.Draw( this._graphic, gameTime ) );
             base.Draw( gameTime );
+            this._graphic.VertexPositionalColorDrawer.Flush();
+            this._graphic.VertexPositionalTextureDrawer.Flush();
         }
 
         public override void Update( GameTime time )

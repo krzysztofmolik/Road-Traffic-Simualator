@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using Common.Handler;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
-using RoadTrafficSimulator.Components.BuildMode.Creators;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Draw;
 using Common;
+using System.Linq;
 
 namespace RoadTrafficSimulator.Components.SimulationMode
 {
@@ -24,13 +24,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             this._handlers.Register<RoadConnection>( this.OnLaneCorner );
         }
 
-        public SimulationModeMainComponent Build( IEnumerable<IControl> controls )
+        public IEnumerable<IRoadElement> ConvertToSimulationMode( IEnumerable<IControl> controls )
         {
             controls.ForEach( s => this._handlers.Handle( s ) );
             this._connectElementsAction.ForEach( a => a() );
-
-            // TODO Implement
-            return null;
+            return this._elements.Values.ToArray();
         }
 
         private void OnLaneCorner( RoadConnection roadConnection )

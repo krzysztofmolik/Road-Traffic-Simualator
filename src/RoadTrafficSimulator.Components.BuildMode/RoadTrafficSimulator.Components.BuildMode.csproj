@@ -170,6 +170,10 @@
     <Compile Include="VisitAllChildren.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libs_src\Arcane.Xna.Presentation\Arcane.Xna.Presentation.csproj">
+      <Project>{90E73111-BFB7-4A5F-B38E-D6FB56A6AD2B}</Project>
+      <Name>Arcane.Xna.Presentation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common.Xna\Common.Xna.fsproj">
       <Project>{6836F589-D243-44F9-A7FA-221E4178A41E}</Project>
       <Name>Common.Xna</Name>
