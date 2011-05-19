@@ -8,9 +8,9 @@
     <ProjectGuid>{6836f589-d243-44f9-a7fa-221e4178a41e}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Common.Xna</RootNamespace>
-    <AssemblyName>Common.Xna</AssemblyName>
+    <AssemblyName>Common.Xna.FSharp</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <Name>Common.Xna</Name>
+    <Name>Common.Xna.FSharp</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

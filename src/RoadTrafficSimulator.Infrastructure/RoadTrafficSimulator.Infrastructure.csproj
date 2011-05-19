@@ -46,9 +46,6 @@
     <Reference Include="Autofac">
       <HintPath>..\..\libs\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Xna">
-      <HintPath>..\RoadTrafficSimulator\bin\x86\Debug\Common.Xna.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
     </Reference>
@@ -161,6 +158,14 @@
     <ProjectReference Include="..\..\libs_src\Arcane.Xna.Presentation\Arcane.Xna.Presentation.csproj">
       <Project>{90E73111-BFB7-4A5F-B38E-D6FB56A6AD2B}</Project>
       <Name>Arcane.Xna.Presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common.Xna.FSharp\Common.Xna.FSharp.fsproj">
+      <Project>{6836F589-D243-44F9-A7FA-221E4178A41E}</Project>
+      <Name>Common.Xna.FSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common.Xna\Common.Xna.csproj">
+      <Project>{72FF1D23-68D9-40FB-A7C5-1079C9F09B21}</Project>
+      <Name>Common.Xna</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}</Project>

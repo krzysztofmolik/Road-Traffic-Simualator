@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using Common.Handler;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
+using RoadTrafficSimulator.Components.SimulationMode.Conductors;
+using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
-using RoadTrafficSimulator.Infrastructure.Draw;
 using Common;
 using System.Linq;
+using CarsInserter = RoadTrafficSimulator.Components.SimulationMode.Elements.CarsInserter;
+using CarsRemover = RoadTrafficSimulator.Components.SimulationMode.Elements.CarsRemover;
+using CarsInserterBuilder = RoadTrafficSimulator.Components.BuildMode.Controls.CarsInserter;
 
 namespace RoadTrafficSimulator.Components.SimulationMode
 {
@@ -15,9 +20,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode
         private readonly CompositeHandler _handlers = new CompositeHandler();
         private readonly Dictionary<object, IRoadElement> _elements = new Dictionary<object, IRoadElement>();
         private readonly List<Action> _connectElementsAction = new List<Action>();
+        private readonly IEventAggregator _eventAggregator;
 
-        public Builder()
+        public Builder( IEventAggregator eventAggregator )
         {
+            Contract.Requires( eventAggregator != null );
+            this._eventAggregator = eventAggregator;
             this._handlers.Register<BuildMode.Controls.CarsInserter>( this.OnCarsInserter );
             this._handlers.Register<BuildMode.Controls.CarsRemover>( this.OnCarsRemover );
             this._handlers.Register<RoadJunctionBlock>( this.OnLaneJuntion );
@@ -61,7 +69,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         private void OnCarsRemover( BuildMode.Controls.CarsRemover carsRemover )
         {
-            var element = new CarsRemover( carsRemover );
+            var element = new CarsRemover( carsRemover, c => new CarRemoverConductor( c, this._eventAggregator ) );
             this._elements.Add( carsRemover, element );
             this._connectElementsAction.Add( () => this.ConnectCarsRemover( element ) );
         }
@@ -73,7 +81,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         private void OnCarsInserter( BuildMode.Controls.CarsInserter carsInserter )
         {
-            var element = new CarsInserter( carsInserter );
+            var element = new CarsInserter( carsInserter, c => new CarInserterConductor( c ) );
             this._elements.Add( carsInserter, element );
             this._connectElementsAction.Add( () => this.ConnectCarsInserter( element ) );
         }
@@ -90,110 +98,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             var result = this._elements[ @object ] as T;
             if ( result == null ) { throw new ArgumentException( "Invalid object" ); }
             return result;
-        }
-    }
-
-    public class CarsRemover : RoadElementBase
-    {
-        public CarsRemover( BuildMode.Controls.CarsRemover control )
-            : base( control )
-        {
-            this.CarsRemoverBuilder = control;
-        }
-
-        public BuildMode.Controls.CarsRemover CarsRemoverBuilder { get; private set; }
-
-        public Lane Lane { get; set; }
-    }
-
-    public class Lane : RoadElementBase
-    {
-        public Lane( RoadLaneBlock lane )
-            : base( lane )
-        {
-            this.RoadLaneBlock = lane;
-        }
-
-        protected RoadLaneBlock RoadLaneBlock { get; set; }
-
-        public LaneConnector Prev { get; set; }
-        public LaneConnector Next { get; set; }
-        public Lane Top { get; set; }
-        public Lane Bottom { get; set; }
-    }
-
-    public class CarsInserter : LaneConnector
-    {
-        private readonly IVertexContainer _vertexContainer;
-
-        public CarsInserter( BuildMode.Controls.CarsInserter control )
-            : base( control )
-        {
-            this.CarsInserterBuilder = control;
-        }
-
-        public BuildMode.Controls.CarsInserter CarsInserterBuilder { get; private set; }
-
-        public Lane Lane { get; set; }
-    }
-
-    public class JunctionEdge : RoadElementBase
-    {
-        public JunctionEdge( RoadJunctionEdge edge )
-            : base( edge )
-        {
-            this.EdgeBuilder = edge;
-        }
-
-        protected RoadJunctionEdge EdgeBuilder { get; set; }
-
-        public LaneJunction Junction { get; set; }
-        public Lane Lane { get; set; }
-    }
-
-    public class LaneJunction : RoadElementBase
-    {
-        public LaneJunction( RoadJunctionBlock control )
-            : base( control )
-        {
-            this.JunctionBuilder = control;
-            this.Left = new JunctionEdge( control.RoadJunctionEdges[ EdgeType.Left ] );
-            this.Top = new JunctionEdge( control.RoadJunctionEdges[ EdgeType.Top ] );
-            this.Right = new JunctionEdge( control.RoadJunctionEdges[ EdgeType.Right ] );
-            this.Bottom = new JunctionEdge( control.RoadJunctionEdges[ EdgeType.Bottom ] );
-
-            this.Left.Junction = this;
-            this.Top.Junction = this;
-            this.Right.Junction = this;
-            this.Bottom.Junction = this;
-        }
-
-        public RoadJunctionBlock JunctionBuilder { get; private set; }
-        public JunctionEdge Left { get; set; }
-        public JunctionEdge Top { get; set; }
-        public JunctionEdge Right { get; set; }
-        public JunctionEdge Bottom { get; set; }
-    }
-
-    public class LaneCorner : LaneConnector
-    {
-        public LaneCorner( RoadConnection control )
-            : base( control )
-        {
-            this.LaneCornerBuild = control;
-        }
-
-        public RoadConnection LaneCornerBuild { get; private set; }
-
-        public Lane Prev { get; set; }
-        public Lane Next { get; set; }
-    }
-
-    public abstract class LaneConnector : RoadElementBase
-    {
-        protected LaneConnector( IControl control )
-            : base( control )
-        {
         }
     }
 }

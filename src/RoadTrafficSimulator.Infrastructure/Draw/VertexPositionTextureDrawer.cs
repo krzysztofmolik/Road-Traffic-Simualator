@@ -69,5 +69,21 @@ namespace RoadTrafficSimulator.Infrastructure.Draw
                                                }
                                            } );
         }
+
+        public void DrawIndexedTraingeList( Texture2D texture, VertexPositionTexture[] block, int[] indexes )
+        {
+            this._actionBuffer.Enqueue( () =>
+                                           {
+                                               try
+                                               {
+                                                   this._basicEffect.Texture = texture;
+                                                   this._graphicsDeviceService.GraphicsDevice.DrawIndexedUserPrimitives( block, indexes );
+                                               }
+                                               finally
+                                               {
+                                                   this._basicEffect.Texture = null;
+                                               }
+                                           } );
+        }
     }
 }

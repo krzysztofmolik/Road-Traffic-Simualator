@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle( "RoadTrafficSimulator.Components" )]
-[assembly: AssemblyProduct( "RoadTrafficSimulator.Components" )]
+[assembly: AssemblyTitle( "Common.Xna" )]
+[assembly: AssemblyProduct( "Common.Xna" )]
 [assembly: AssemblyDescription( "" )]
 [assembly: AssemblyCompany( "Microsoft" )]
 [assembly: AssemblyCopyright( "Copyright © Microsoft 2011" )]
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 // On Windows, the following GUID is for the ID of the typelib if this
 // project is exposed to COM. On other platforms, it unique identifies the
 // title storage container when deploying this assembly to the device.
-[assembly: Guid( "7d53c543-2e89-450d-8c85-6e58312eed70" )]
+[assembly: Guid( "ea3bd2ef-55d5-431d-81c7-3d8637be78e6" )]
 
 // Version information for an assembly consists of the following four values:
 //

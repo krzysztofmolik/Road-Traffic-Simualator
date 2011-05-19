@@ -121,10 +121,10 @@ namespace RoadTrafficSimulator.Components.BuildMode
             this._roadLaneCreator.SetOwner( this._roadLayer );
         }
 
-        public override void Draw( GameTime gameTime )
+        public override void Draw( GameTime time )
         {
-            this._roadLayer.Draw( gameTime );
-            base.Draw( gameTime );
+            this._roadLayer.Draw( time );
+            base.Draw( time );
         }
 
         public void AddingRoadJunctionBlockBegin()

@@ -1,23 +1,24 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using RoadTrafficSimulator.Infrastructure.Draw;
+using RoadTrafficSimulator.Components.SimulationMode.Controlers;
 using DrawableGameComponent = RoadTrafficSimulator.Infrastructure.DrawableGameComponent;
+using Common;
 
 namespace RoadTrafficSimulator.Components.SimulationMode
 {
-    // TODO Change name and move to different namespace
     public class SimulationModeMainComponent : DrawableGameComponent
     {
-        private List<IRoadElement> _roadElements = new List<IRoadElement>();
-        private Graphic _graphic;
+        private readonly IEnumerable<IControlers> _cosTams;
+        private readonly List<IRoadElement> _roadElements = new List<IRoadElement>();
 
-        public SimulationModeMainComponent( IGraphicsDeviceService graphicsDeviceService, Graphic graphic )
+        public SimulationModeMainComponent( IGraphicsDeviceService graphicsDeviceService, IEnumerable<IControlers> cosTams )
             : base( graphicsDeviceService )
         {
-            Contract.Requires( graphic != null );
-            this._graphic = graphic;
+            Contract.Requires( cosTams != null );
+            this._cosTams = cosTams;
         }
 
         public void AddRoadElement( IRoadElement roadElement )
@@ -25,17 +26,14 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             this._roadElements.Add( roadElement );
         }
 
-        public override void Draw( GameTime gameTime )
+        public override void Draw( GameTime time )
         {
-            this._roadElements.ForEach( s => s.Draw( this._graphic, gameTime ) );
-            base.Draw( gameTime );
-            this._graphic.VertexPositionalColorDrawer.Flush();
-            this._graphic.VertexPositionalTextureDrawer.Flush();
+            this._cosTams.ForEach( s => s.Draw( time ) );
         }
 
         public override void Update( GameTime time )
         {
-            this._roadElements.ForEach( s => s.Update( time ) );
+            this._cosTams.ForEach( s => s.Update( time ) );
         }
 
         protected override void UnloadContent()

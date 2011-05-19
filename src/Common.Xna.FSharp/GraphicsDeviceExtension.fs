@@ -1,4 +1,4 @@
-﻿namespace Common.Xna
+﻿namespace Common.Xna.FSharp
 
 open Microsoft.Xna.Framework.Graphics;
 

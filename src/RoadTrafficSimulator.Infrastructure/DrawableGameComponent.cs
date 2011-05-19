@@ -16,7 +16,7 @@ namespace RoadTrafficSimulator.Infrastructure
             this.DrawOrder = 1;
         }
 
-        public virtual void Draw(GameTime gameTime)
+        public virtual void Draw(GameTime time)
         {
         }
 

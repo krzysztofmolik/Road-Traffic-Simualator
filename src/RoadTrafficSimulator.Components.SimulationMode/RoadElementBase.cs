@@ -1,4 +1,6 @@
+using System;
 using Microsoft.Xna.Framework;
+using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Draw;
 
@@ -21,5 +23,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode
         {
             // TODO Implement
         }
+
+        public IControl BuildControl
+        {
+            get { return this._control; }
+        }
+
+        public abstract IConductor Condutor { get; }
     }
 }
