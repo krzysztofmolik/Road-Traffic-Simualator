@@ -14,9 +14,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private MovablePoint _startPoint;
         private MovablePoint _endPoint;
 
-        protected Edge( Factories.Factories factories )
+        protected Edge( Factories.Factories factories, Style style)
         {
-            this._concretVertexContainer = new EdgeVertexContainer( this );
+            this._concretVertexContainer = new EdgeVertexContainer( this, style );
             this._mouseHandler = factories.MouseHandlerFactory.Create( this );
             this._startPoint = new MovablePoint( factories, Vector2.Zero, this );
             this._endPoint = new MovablePoint( factories, Vector2.Zero, this );
@@ -24,8 +24,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.AddChild( this._endPoint );
         }
 
-        protected Edge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint )
-            : this( factories )
+        protected Edge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, Style style)
+            : this( factories, style )
         {
             this.StartPoint = startPoint;
             this.EndPoint = endPoint;

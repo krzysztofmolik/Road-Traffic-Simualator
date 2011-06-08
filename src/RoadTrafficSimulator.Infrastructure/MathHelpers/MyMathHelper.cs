@@ -13,6 +13,7 @@ namespace RoadTrafficSimulator.Infrastructure.MathHelpers
 
             return ( float ) Math.Acos( Vector2.Dot( fistNormalized, secondNormalized ) );
         }
+
         public static Vector2 CreatePerpendicularVector( Vector2 baseVector, float length )
         {
             var perpendicualrVector = new Vector2( baseVector.Y, -baseVector.X );

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Threading;
 using Common;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure.Messages;
@@ -19,7 +20,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Creators
             Contract.Requires( factories != null );
             Contract.Requires( eventAggregator != null );
             this._mouseInformation = mouseInformation;
-            this._mouseInformation.LeftButtonPressed.Where( s => this.Process )
+            this._mouseInformation.LeftButtonClicked.Where( s => this.Process )
                                                     .Subscribe( s =>
                                                                 {
                                                                     var carInserter = new CarsInserter( factories, s.Location, null );

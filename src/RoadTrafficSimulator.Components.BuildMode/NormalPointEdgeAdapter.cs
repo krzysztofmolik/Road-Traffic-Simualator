@@ -10,9 +10,10 @@ namespace RoadTrafficSimulator.Components.BuildMode
     {
         private readonly IEdgeLine _edge;
 
-        public NormalPointEdgeAdapter( IEdgeLine edge )
+        public NormalPointEdgeAdapter( IEdgeLine edge, IControl parent )
         {
             this._edge = edge;
+            this.Parent = parent;
         }
 
         public Vector2 Location
@@ -20,11 +21,7 @@ namespace RoadTrafficSimulator.Components.BuildMode
             get { return this._edge.Location; }
         }
 
-        public IControl Parent
-        {
-            get { return this._edge.Parent; }
-            set { this._edge.Parent = value; }
-        }
+        public IControl Parent { get; set; }
 
         public IObservable<bool> SelectionChanged
         {

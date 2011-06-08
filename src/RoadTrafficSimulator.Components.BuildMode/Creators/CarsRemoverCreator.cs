@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Threading;
 using Common;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure.Messages;
@@ -36,6 +37,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Creators
         {
             if ( this._process ) { return; }
             this._process = true;
+            Thread.Sleep( 100 );
             this._mouseInformation.StartRecord();
         }
         public void Stop()

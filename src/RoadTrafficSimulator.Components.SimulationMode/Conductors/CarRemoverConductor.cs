@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Common;
 using Microsoft.Xna.Framework;
@@ -33,9 +33,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             this._eventAggregator.Publish( new CarRemoved( car ) );
         }
 
-        public void RemoveCar( Car car )
+        public void Remove(Car car)
         {
-            throw new InvalidOperationException();
+            var removedCar = this._cars.Dequeue();
+            Debug.Assert( car == removedCar );
         }
 
         public bool SholdChange( Vector2 acutalCarLocation, Vector2 direction )
@@ -62,5 +63,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
         {
             return new CarInformation() { CarDistance = float.MaxValue };
         }
+
+        public Vector2 GetCarDirection(Car car)
+        {
+            return new Vector2( 0, 0 );
+        }
+
     }
 }

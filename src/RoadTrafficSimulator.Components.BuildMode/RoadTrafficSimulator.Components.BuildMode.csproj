@@ -109,6 +109,7 @@
     <Compile Include="CompositeConnectionCommand.cs" />
     <Compile Include="ConnectObjectCommand.cs" />
     <Compile Include="Controls\RoadLaneBlock.cs" />
+    <Compile Include="Controls\Style.cs" />
     <Compile Include="Creators\RoadLaneCreator.cs" />
     <Compile Include="Factories\Factories.cs" />
     <Compile Include="Factories\IMouseHandlerFactory.cs" />
@@ -169,7 +170,6 @@
     <Compile Include="VertexContainers\RoadLaneBlockVertexContainer.cs" />
     <Compile Include="VertexContainers\RoadLayerVertexContainer.cs" />
     <Compile Include="VertexContainers\SideRoadLaneEdgeVertexContainer.cs" />
-    <Compile Include="VertexContainers\Style.cs" />
     <Compile Include="VisitAllChildren.cs" />
   </ItemGroup>
   <ItemGroup>

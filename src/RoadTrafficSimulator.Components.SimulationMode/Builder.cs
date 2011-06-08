@@ -30,6 +30,22 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             this._handlers.Register<BuildMode.Controls.CarsRemover>( this.OnCarsRemover );
             this._handlers.Register<RoadJunctionBlock>( this.OnLaneJuntion );
             this._handlers.Register<RoadConnection>( this.OnLaneCorner );
+            this._handlers.Register<RoadLaneBlock>( this.OnRoadLaneBlock );
+        }
+
+        private void OnRoadLaneBlock( RoadLaneBlock obj )
+        {
+            var lane = new Lane( obj, l => new SingleLaneConductor( l ) );
+            this._elements.Add( obj, lane );
+            this._connectElementsAction.Add( () => this.ConnectLane( lane ) );
+        }
+
+        private void ConnectLane( Lane lane )
+        {
+            lane.Prev = this.GetObject<IRoadElement>( lane.RoadLaneBlock.LeftEdge.Connector.PreviousEdge.Parent );
+            lane.Next = this.GetObject<IRoadElement>( lane.RoadLaneBlock.RightEdge.Connector.NextEdge.Parent );
+            lane.Top = this.GetObject<Lane>( lane.Top );
+            lane.Bottom = this.GetObject<Lane>( lane.Bottom );
         }
 
         public IEnumerable<IRoadElement> ConvertToSimulationMode( IEnumerable<IControl> controls )
@@ -41,15 +57,15 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         private void OnLaneCorner( RoadConnection roadConnection )
         {
-            var laneCorner = new LaneCorner( roadConnection );
+            var laneCorner = new LaneCorner( roadConnection, c => new LaneCornerConductor(c) );
             this._elements.Add( roadConnection, laneCorner );
             this._connectElementsAction.Add( () => this.ConectLaneCorner( laneCorner ) );
         }
 
         private void ConectLaneCorner( LaneCorner laneCorner )
         {
-            laneCorner.Prev = this.GetObject<Lane>( laneCorner.Prev );
-            laneCorner.Next = this.GetObject<Lane>( laneCorner.Next );
+            laneCorner.Prev = this.GetObject<Lane>( laneCorner.LaneCornerBuild.Connector.PreviousEdge.Parent );
+            laneCorner.Next = this.GetObject<Lane>( laneCorner.LaneCornerBuild.Connector.NextEdge.Parent );
         }
 
         private void OnLaneJuntion( RoadJunctionBlock roadJunctionBlock )
@@ -76,7 +92,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         private void ConnectCarsRemover( CarsRemover element )
         {
-            element.Lane = this.GetObject<Lane>( element.CarsRemoverBuilder.Connector.ConnectedRoad );
+            var connectedLane = element.CarsRemoverBuilder.Connector.ConnectedRoad;
+            if ( connectedLane == null ) { return; }
+            element.Lane = this.GetObject<Lane>( connectedLane.Parent );
         }
 
         private void OnCarsInserter( BuildMode.Controls.CarsInserter carsInserter )
@@ -88,7 +106,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         private void ConnectCarsInserter( CarsInserter element )
         {
-            element.Lane = this.GetObject<Lane>( element.CarsInserterBuilder.Connector.ConnectedRoad );
+            var connectedRoad = element.CarsInserterBuilder.Connector.ConnectedRoad;
+            if ( connectedRoad == null ) { return; }
+            element.Lane = this.GetObject<Lane>( connectedRoad.Parent );
         }
 
         private T GetObject<T>( object @object ) where T : class

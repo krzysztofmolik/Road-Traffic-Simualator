@@ -7,5 +7,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
         void AddControl( IRoadElement element );
         void Draw( GameTime gameTime );
         void Update( GameTime gameTime );
+        int Order { get; }
     }
 }

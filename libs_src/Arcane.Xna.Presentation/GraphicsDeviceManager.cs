@@ -105,7 +105,7 @@ namespace Arcane.Xna.Presentation
                 {
                     GraphicsDeviceInformation baseDeviceInfo = new GraphicsDeviceInformation();
                     baseDeviceInfo.Adapter = adapter;
-                    baseDeviceInfo.GraphicsProfile = GraphicsProfile.Reach;
+                    baseDeviceInfo.GraphicsProfile = GraphicsProfile.HiDef;
                     //                    baseDeviceInfo.DeviceType = type;
                     baseDeviceInfo.PresentationParameters.BackBufferFormat = SurfaceFormat.Color;
                     baseDeviceInfo.PresentationParameters.DepthStencilFormat = DepthFormat.None;
@@ -260,7 +260,7 @@ namespace Arcane.Xna.Presentation
             try
             {
                 newInfo.PresentationParameters.DeviceWindowHandle = new System.Windows.Interop.WindowInteropHelper( this.game.Window ).Handle;
-                var graphicsDevice = new GraphicsDevice( newInfo.Adapter, GraphicsProfile.Reach, newInfo.PresentationParameters );
+                var graphicsDevice = new GraphicsDevice( newInfo.Adapter, GraphicsProfile.HiDef, newInfo.PresentationParameters );
                 this.device = graphicsDevice;
                 this.device.DeviceResetting += this.HandleDeviceResetting;
                 this.device.DeviceReset += this.HandleDeviceReset;

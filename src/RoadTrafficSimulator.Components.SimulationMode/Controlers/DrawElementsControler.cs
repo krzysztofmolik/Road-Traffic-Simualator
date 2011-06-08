@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
@@ -30,6 +31,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
 
         public void Update( GameTime gameTime )
         {
+        }
+
+        public int Order
+        {
+            get { return (int) SimulationMode.Order.Normal; }
         }
     }
 }

@@ -19,7 +19,7 @@ namespace RoadTrafficConstructor
         {
             var autofacBuilder = new ContainerBuilder();
             autofacBuilder.Register( c => this._container ).As<IContainer>().SingleInstance();
-            autofacBuilder.RegisterType<ServiceProviderAdapter>().As<IServiceProvider>();
+            autofacBuilder.RegisterType<ServiceProviderAdapter>().As<IServiceProvider>().SingleInstance();
 
             autofacBuilder.RegisterModule( new CaliburnMicroModule() );
             autofacBuilder.RegisterModule( new PresentersModule() );

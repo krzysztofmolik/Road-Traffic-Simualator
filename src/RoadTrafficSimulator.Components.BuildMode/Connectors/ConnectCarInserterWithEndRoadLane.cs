@@ -13,8 +13,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
 
             if ( carsInseerter == null || endRoadLaneEdge == null ) { return false; }
 
-            carsInseerter.Connector.ConnectBeginWith( endRoadLaneEdge );
-            endRoadLaneEdge.Connector.ConnectEndWith(carsInseerter.RightEdge);
+            carsInseerter.Connector.ConnectEndWith( endRoadLaneEdge );
+            endRoadLaneEdge.Connector.ConnectBeginWith( carsInseerter.RightEdge );
 
             return true;
         }

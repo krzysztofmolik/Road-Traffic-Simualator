@@ -13,16 +13,16 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private IControl _parent;
 
         public CarsRemover( Factories.Factories factories, Vector2 location, IControl parent )
-            : base( factories )
+            : base( factories, Styles.CarRemoverStyle )
         {
-            this._parent = parent;
+            this._parent = this;
             this._connector = new CarsRemoverConnector( this );
             this.StartPoint.SetLocation( location - new Vector2( 0, Constans.RoadHeight / 2 ) );
             this.EndPoint.SetLocation( location + new Vector2( 0, Constans.RoadHeight / 2 ) );
         }
 
         public CarsRemover( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint )
-            : base( factories, startPoint, endPoint ) { }
+            : base( factories, startPoint, endPoint, Styles.CarRemoverStyle ) { }
 
         public override IControl Parent { get { return this._parent; } set { this._parent = value; } }
 

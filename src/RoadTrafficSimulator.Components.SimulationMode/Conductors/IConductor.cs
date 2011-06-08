@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 
@@ -13,6 +12,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
         LightInfomration GetLightInformation();
         JunctionInformation GetNextJunctionInformation();
         CarInformation GetCarAheadDistance();
+        Vector2 GetCarDirection( Car car );
+        void Remove( Car car );
     }
 
     public class LightInfomration

@@ -3,9 +3,7 @@ using Microsoft.FSharp.Core;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.BuildMode.Connectors;
 using RoadTrafficSimulator.Infrastructure;
-using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Controls;
-using RoadTrafficSimulator.Road;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
@@ -14,14 +12,14 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private readonly RoadConnectionConnector _connector;
 
         public RoadConnection( Factories.Factories factories, Vector2 location, IControl parent )
-            : base( factories )
+            : base( factories, Styles.NormalStyle )
         {
-            this.Parent = parent;
+            this.Parent = this;
             this._connector = new RoadConnectionConnector( this );
             this.StartPoint.SetLocation( location - new Vector2( 0, Constans.RoadHeight / 2 ) );
             this.EndPoint.SetLocation( location + new Vector2( 0, Constans.RoadHeight / 2 ) );
-            this.LeftEdge = new NormalPointEdgeAdapter( this );
-            this.RightEdge = new InvertPointEdgeAdapter( this );
+            this.LeftEdge = new NormalPointEdgeAdapter( this, this );
+            this.RightEdge = new InvertPointEdgeAdapter( this, this );
         }
 
         public RoadConnectionConnector Connector

@@ -26,6 +26,9 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
 
             this.MouseInformation.ScrollWheelChanged
                 .Subscribe( mousState => this.ExecuteOnTopOfStack( s => s.ScrollWheelValueDeltaSubject.OnNext( mousState ) ) );
+
+            this.MouseInformation.DoubleClick
+                .Subscribe( mousState => this.ExecuteOnTopOfStack( s => s.DoubleClickedSubject.OnNext( mousState ) ) );
         }
 
         public IMouseInformation MouseInformation { get; private set; }

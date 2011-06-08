@@ -9,7 +9,6 @@ namespace RoadTrafficSimulator.Infrastructure.Controls
 {
     public abstract class CompositControl<TVertex> : ControlBaseBase<TVertex>, ICompositeControl
     {
-        private readonly object _synchronizationObject = new object();
         private readonly IList<IControl> _childrens = new List<IControl>();
 
         public virtual IEnumerable<IControl> Children
@@ -17,12 +16,9 @@ namespace RoadTrafficSimulator.Infrastructure.Controls
             get { return this._childrens; }
         }
 
-        public void AddChild( IControl control )
+        public virtual void AddChild( IControl control )
         {
-            lock ( this._synchronizationObject )
-            {
-                this._childrens.Add( control );
-            }
+            this._childrens.Add( control );
 
             control.Translated.Subscribe( s => this.OnChildrenTranslated() );
             control.Redrawed.Subscribe( s => this.OnChildrenRedrawed() );

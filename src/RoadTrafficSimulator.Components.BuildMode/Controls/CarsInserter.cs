@@ -1,31 +1,43 @@
-﻿using Common.Xna;
+﻿using System;
+using Common.Xna;
 using Microsoft.FSharp.Core;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure;
-using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
+    public static class Styles
+    {
+        private static readonly Style _carInserterStyle = new Style { NormalColor = Color.Green, SelectionColor = Color.BlueViolet };
+        private static readonly Style _carRemoverStyle = new Style { NormalColor = Color.Red, SelectionColor = Color.BlueViolet };
+        private static readonly Style _normalStyle = new Style() { NormalColor = new Color( 162, 162, 162 ), SelectionColor = Color.BlueViolet };
+
+        public static Style CarInserterStyl { get { return _carInserterStyle; } }
+        public static Style CarRemoverStyle { get { return _carRemoverStyle; } }
+
+        public static Style NormalStyle { get { return _normalStyle; } }
+    }
+
     public class CarsInserter : Edge, IEdgeLine
     {
         private readonly CarsInsertedConnector _connector;
         private IControl _parent;
 
         public CarsInserter( Factories.Factories factories, Vector2 location, IControl parent )
-            : base( factories )
+            : base( factories, Styles.CarInserterStyl )
         {
             this._parent = parent;
             this._connector = new CarsInsertedConnector( this );
             this.StartPoint.SetLocation( location - new Vector2( 0, Constans.RoadHeight / 2 ) );
             this.EndPoint.SetLocation( location + new Vector2( 0, Constans.RoadHeight / 2 ) );
-            this.RightEdge = new InvertPointEdgeAdapter(this);
+            this.RightEdge = new InvertPointEdgeAdapter( this, this );
         }
 
         public InvertPointEdgeAdapter RightEdge { get; private set; }
 
         public CarsInserter( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint )
-            : base( factories, startPoint, endPoint ) { }
+            : base( factories, startPoint, endPoint, Styles.NormalStyle ) { }
 
         public override IControl Parent { get { return this._parent; } set { this._parent = value; } }
 

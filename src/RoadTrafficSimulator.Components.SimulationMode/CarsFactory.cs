@@ -1,35 +1,36 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Common;
-using RoadTrafficSimulator.Components.SimulationMode.Controlers;
+using RoadTrafficSimulator.Components.SimulationMode.CarsSpecification;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
-using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.Messages;
 
 namespace RoadTrafficSimulator.Components.SimulationMode
 {
-    public class CarsFactory
+    public interface ICarsFactory
     {
-        private readonly CarsDrawerControler _carsesDrawer;
-        private readonly IEventAggregator _eventAggregator;
+        void CreateCar( CarsInserter startElement );
+    }
 
-        public CarsFactory( CarsDrawerControler carsesDrawer, IEventAggregator eventAggregator )
+    public class CarsFactory : ICarsFactory
+    {
+        private readonly IEventAggregator _eventAggregator;
+        private readonly ICarSpecifiaction[] _carsSpecifications;
+        private readonly Random _rng = new Random();
+
+        public CarsFactory( IEventAggregator eventAggregator, IEnumerable<ICarSpecifiaction> carSpecifiactions )
         {
-            Contract.Requires( carsesDrawer != null );
-            Contract.Requires( eventAggregator != null );
-            this._carsesDrawer = carsesDrawer;
+            Contract.Requires( eventAggregator != null ); Contract.Requires( carSpecifiactions != null ); Contract.Ensures( this._carsSpecifications.Length > 0 );
             this._eventAggregator = eventAggregator;
+            this._carsSpecifications = carSpecifiactions.ToArray();
         }
 
         public void CreateCar( CarsInserter startElement )
         {
             if ( startElement == null ) throw new ArgumentNullException( "startElement" );
-            var car = new Car()
-                          {
-                              Velocity = 16.6666f,
-                          };
-
+            var car = this.GetRandomCarSpecifcation().Create();
             var route = this.GetRandomRoute( startElement );
             foreach ( var roadElement in route )
             {
@@ -40,13 +41,20 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             this._eventAggregator.Publish( new CarCreated( car ) );
         }
 
+        private ICarSpecifiaction GetRandomCarSpecifcation()
+        {
+            var index= this._rng.Next(0, this._carsSpecifications.Length);
+            return this._carsSpecifications[index];
+        }
+
         private IEnumerable<IRoadElement> GetRandomRoute( IRoadElement startElement )
         {
             var route = new List<IRoadElement>();
             route.Add( startElement );
+            var nextElement = startElement;
             while ( true )
             {
-                var nextElement = startElement.Condutor.GetNextRandomElement();
+                nextElement = nextElement.Condutor.GetNextRandomElement();
                 if ( nextElement == null )
                 {
                     break;

@@ -22,7 +22,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         public CarsInserter Bottom { get; private set; }
 
-        public void ConnectBeginWith( EndRoadLaneEdge roadLaneEdge )
+        public void ConnectEndWith( EndRoadLaneEdge roadLaneEdge )
         {
             this.ConnectedRoad = roadLaneEdge.GetOppositeEdge();
             this.ConnectedRoad.Translated.Subscribe( x => this._owner.RecalculatePosition() );

@@ -7,18 +7,18 @@ using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Draw;
 using RoadTrafficSimulator.Infrastructure.Extension;
 using RoadTrafficSimulator.Infrastructure.MathHelpers;
-using XnaVs10.MathHelpers;
 
 namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 {
     public class EdgeVertexContainer : VertexContainerBase<Edge, VertexPositionColor>
     {
-        private readonly Color _normalColor = new Color( 90, 90, 90 );
+        private readonly Style _style;
         private Quadrangle _quadrangle;
 
-        public EdgeVertexContainer( Edge edge )
+        public EdgeVertexContainer( Edge edge, Style style)
             : base( edge )
         {
+            this._style = style;
         }
 
         public override IShape Shape
@@ -45,7 +45,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 
         protected virtual Color GetColor()
         {
-            return this.Object.IsSelected ? Style.SelectionColor : this._normalColor;
+            return this.Object.IsSelected ? this._style.SelectionColor : this._style.NormalColor;
         }
 
         private Quadrangle CreateQuatrangle()

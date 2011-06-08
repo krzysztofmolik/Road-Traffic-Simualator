@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
+using RoadTrafficSimulator.Infrastructure;
 
 namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 {
@@ -10,7 +11,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
         private readonly Color _whenConnected = Color.White * 0;
 
         public RoadJunctionEdgeVertexContainer( RoadJunctionEdge edge )
-            : base( edge )
+            : base( edge, Styles.NormalStyle )
         {
             this._edge = edge;
         }

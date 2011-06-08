@@ -1,4 +1,5 @@
 ﻿using System;
+using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -8,8 +9,8 @@ namespace RoadTrafficSimulator.Infrastructure
     {
         private bool _enabled;
 
-        protected UpdateableGameComponent(IGraphicsDeviceService graphicsDeviceService) 
-            : base( graphicsDeviceService )
+        protected UpdateableGameComponent(IGraphicsDeviceService graphicsDeviceService, IEventAggregator eventAggregator) 
+            : base( graphicsDeviceService, eventAggregator )
         {
             this.UpdateOrder = 1;
             this.Enabled = true;

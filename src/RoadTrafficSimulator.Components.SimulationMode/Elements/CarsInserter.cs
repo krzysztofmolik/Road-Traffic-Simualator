@@ -13,6 +13,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
             Contract.Requires( control != null ); Contract.Requires( conductorFactory != null ); Contract.Ensures( this._conductor != null );
             this._conductor = conductorFactory( this );
             this.CarsInserterBuilder = control;
+            this.LastTimeCarWasInseter = DateTime.Now;
+            this.CarsInsertionInterval = TimeSpan.FromMilliseconds( 500 );
         }
 
         public Lane Lane { get; set; }

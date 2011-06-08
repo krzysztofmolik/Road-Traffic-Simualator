@@ -33,7 +33,7 @@ namespace RoadTrafficSimulator.Infrastructure
             builder.RegisterType<VertexPositionTextureDrawer>();
             builder.RegisterType<GraphicsDeviceManager>().As<IGraphicsDeviceManager, IGraphicsDeviceService>().SingleInstance();
             builder.Register(s => s.Resolve<IGraphicsDeviceService>().GraphicsDevice).InstancePerDependency();
-            builder.Register(s => s.Resolve<Game>().Content).InstancePerDependency();
+            builder.Register(s => s.Resolve<Game>().Content).SingleInstance();
         }
     }
 }

@@ -137,6 +137,8 @@
     <Compile Include="MathHelpers\MyMathHelper.cs" />
     <Compile Include="Messages\AddControlToRoadLayer.cs" />
     <Compile Include="Messages\ChangedZoom.cs" />
+    <Compile Include="Messages\IntializeContent.cs" />
+    <Compile Include="Messages\UnloadConntent.cs" />
     <Compile Include="MouseStateEventArgs.cs" />
     <Compile Include="Mouse\CompositeControlMouseHandler.cs" />
     <Compile Include="Mouse\ControlMouseHandler.cs" />
@@ -170,6 +172,11 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Content\Content.contentproj">
+      <Project>{69682D1D-B957-4F6C-9E89-BB7AE5178706}</Project>
+      <Name>Content</Name>
+      <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

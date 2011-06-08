@@ -10,10 +10,11 @@ using Game = Arcane.Xna.Presentation.Game;
 
 namespace RoadTrafficSimulator.Infrastructure
 {
-    public class Camera3D : IHandle<ChangedZoom>, IDisposable
+    public class Camera3D : IHandle<ChangedZoom>, IHandle<CenterPointChanged>, IDisposable
     {
         private readonly Game _game;
         private float _zoom;
+        private Vector2 _centerPoint;
 
         public Camera3D( Game game, IEventAggregator eventAggregator )
         {
@@ -55,8 +56,25 @@ namespace RoadTrafficSimulator.Infrastructure
             }
         }
 
+        public Vector2 CenterPoint
+        {
+            get { return this._centerPoint; }
+            set
+            {
+                if ( value == this._centerPoint ) { return; }
+                this._centerPoint = value;
+                this.View = this.CreateView( this._centerPoint );
+                this.UpdateCamera();
+            }
+        }
+
 
         protected float AspectRatio { get; private set; }
+
+        public Game Game
+        {
+            get { return this._game; }
+        }
 
         public Vector2 ToSpace( Vector2 point )
         {
@@ -80,9 +98,14 @@ namespace RoadTrafficSimulator.Infrastructure
         private void InitCamera()
         {
             this.AspectRatio = this._game.GraphicsDevice.Viewport.AspectRatio;
-            this.View = Matrix.CreateLookAt( new Vector3( 0, 0, 1 ), new Vector3( 0, 0, 0 ), Vector3.Up );
+            this.View = this.CreateView( this._centerPoint );
             this.World = Matrix.Identity;
             this.Projection = this.CreateProjection( this.Zoom );
+        }
+
+        private Matrix CreateView( Vector2 centerPoint )
+        {
+            return Matrix.CreateLookAt( new Vector3( centerPoint.X, centerPoint.Y, 1 ), new Vector3( centerPoint.X, centerPoint.Y, 0 ), Vector3.Up );
         }
 
         private Matrix CreateProjection( float zoom )
@@ -103,6 +126,11 @@ namespace RoadTrafficSimulator.Infrastructure
             var zoomPercentValue = MathHelper.Pi * message.Percent * 0.01f;
 
             this.Zoom = MathHelper.Pi - zoomPercentValue;
+        }
+
+        public void Handle( CenterPointChanged message )
+        {
+            this.CenterPoint = message.CenterPoint;
         }
     }
 }

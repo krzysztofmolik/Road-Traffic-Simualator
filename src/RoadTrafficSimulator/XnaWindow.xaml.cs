@@ -21,12 +21,14 @@ namespace RoadTrafficSimulator
         private readonly Autofac.IContainer _container;
         private KeyboardInputNotify _keybordInput;
         private MouseInformation _mouseInput;
+        private Builder _builder;
 
-        public XnaWindow( IServiceProvider service, Autofac.IContainer container, IEventAggregator eventAggregator )
+        public XnaWindow( IServiceProvider service, Autofac.IContainer container, IEventAggregator eventAggregator, Builder builder)
             : base( service )
         {
             eventAggregator.Subscribe( this );
             this._container = container;
+            this._builder = builder;
             this.InitializeComponent();
         }
 
@@ -73,8 +75,7 @@ namespace RoadTrafficSimulator
             var buildComponent = this.Components.OfType<BuildModeMainComponent>().FirstOrDefault();
             if ( buildComponent == null ) { _logger.Warn( "Build component not present when switched to simulation mode" ); return; }
             var controls = buildComponent.GetAllBuildControls();
-            var builder = new Builder();
-            var simulationControls = builder.ConvertToSimulationMode( controls );
+            var simulationControls = this._builder.ConvertToSimulationMode( controls );
             var simulationMode = this._container.Resolve<SimulationModeMainComponent>();
             simulationControls.ForEach( simulationMode.AddRoadElement );
 

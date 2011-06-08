@@ -14,7 +14,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Factories
     {
         public IVertexContainer<VertexPositionColor> Create( RoadJunctionBlock roadJunctionBlock )
         {
-            return new RoadJunctionBlockVertexContainer( roadJunctionBlock );
+            return new RoadJunctionBlockVertexContainer( roadJunctionBlock, Styles.NormalStyle );
         }
     }
 }

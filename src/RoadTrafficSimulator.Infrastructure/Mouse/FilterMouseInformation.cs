@@ -13,6 +13,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         private readonly ISubject<XnaMouseState> _leftBtuttonRelease = new Subject<XnaMouseState>();
         private readonly ISubject<XnaMouseState> _leftButtonPressed = new Subject<XnaMouseState>();
         private readonly ISubject<XnaMouseState> _leftButtonClicked = new Subject<XnaMouseState>();
+        private readonly ISubject<XnaMouseState> _doubleClicked = new Subject<XnaMouseState>();
         private ISubject<XnaMouseState> _scrollWheelValueChanged = new Subject<XnaMouseState>();
         private readonly PriorityMouseInfomrmation _priorityMouseInformation;
 
@@ -86,6 +87,11 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             get { return this._scrollWheelValueChanged; }
         }
 
+        public ISubject<XnaMouseState> DoubleClickedSubject
+        {
+            get { return this._doubleClicked; }
+        }
+
         public IObservable<XnaMouseState> MousePositionChanged
         {
             get { return this._mousePositionChanged; }
@@ -114,6 +120,11 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         public IObservable<XnaMouseState> ScrollWheelChanged
         {
             get { return this._scrollWheelValueChanged; }
+        }
+
+        public IObservable<XnaMouseState> DoubleClick
+        {
+            get { return this._doubleClicked; }
         }
 
         public void StartRecord( int inteval )

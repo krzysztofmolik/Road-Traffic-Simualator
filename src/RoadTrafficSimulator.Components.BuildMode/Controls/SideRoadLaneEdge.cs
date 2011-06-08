@@ -1,8 +1,6 @@
 ﻿using System;
 using RoadTrafficSimulator.Components.BuildMode.Connectors;
-using RoadTrafficSimulator.Components.BuildMode.Creators;
 using RoadTrafficSimulator.Components.BuildMode.VertexContainers;
-using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Draw;
 
@@ -16,7 +14,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private LaneType _laneType;
 
         public SideRoadLaneEdge(Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, RoadLaneBlock parent)
-            : base( factories, startPoint, endPoint )
+            : base( factories, startPoint, endPoint, Styles.NormalStyle )
         {
             this._connector = new SideRoadLaneConnector( this );
             this._parent = parent;

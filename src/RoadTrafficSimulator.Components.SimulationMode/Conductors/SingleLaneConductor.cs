@@ -8,12 +8,12 @@ using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 {
-    public class SingleLineConductor : IConductor
+    public class SingleLaneConductor : IConductor
     {
         private readonly Lane _lane;
         private readonly Queue<Car> _cars = new Queue<Car>();
 
-        public SingleLineConductor( Lane lane )
+        public SingleLaneConductor( Lane lane )
         {
             Contract.Requires( lane != null );
             this._lane = lane;
@@ -32,7 +32,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             this._cars.Enqueue( car );
         }
 
-        public void RemoveCar( Car car )
+        public void Remove( Car car )
         {
             var removedCar = this._cars.Dequeue();
             Debug.Assert( removedCar == car );
@@ -44,7 +44,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             // TODO Check value and extract some kind of property
             if ( distance.Length() <= 0.001f ) { return true; }
 
-            return Math.Sign( distance.X ) == Math.Sign( direction.X ) && Math.Sign( distance.Y ) == Math.Sign( direction.Y );
+            return Math.Sign( distance.X ) != Math.Sign( direction.X ) && Math.Sign( distance.Y ) != Math.Sign( direction.Y );
         }
 
         public float GetDistanceToStopLine()
@@ -65,6 +65,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
         public CarInformation GetCarAheadDistance()
         {
             return new CarInformation() { CarDistance = float.MaxValue };
+        }
+
+        public Vector2 GetCarDirection( Car car )
+        {
+            return this._lane.Next.BuildControl.Location - car.Location;
         }
     }
 }

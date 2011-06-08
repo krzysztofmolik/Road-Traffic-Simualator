@@ -50,7 +50,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
             var endLine = MyMathHelper.CreateTShape( endPoint, line.End, Constans.DistanceArrowHeight );
 
 
-            this._quadrangle = new Quadrangle(startLine.Item1, endLine.Item2, endLine.Item1, startLine.Item2);
+            this._quadrangle = new Quadrangle( startLine.Item1, endLine.Item2, endLine.Item1, startLine.Item2 );
 
             var leftBottomVertex = new VertexPositionTexture( this._quadrangle.LeftBottom.ToVector3(), Vector2Ex.LeftBottom );
             var leftTopVertex = new VertexPositionTexture( this._quadrangle.LeftTop.ToVector3(), Vector2Ex.LeftTop );

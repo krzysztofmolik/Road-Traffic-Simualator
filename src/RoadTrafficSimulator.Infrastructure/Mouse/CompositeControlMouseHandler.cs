@@ -81,7 +81,8 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
 
         private void LeftButtonPressed( XnaMouseState state )
         {
-            if ( this._selectedControlBase != this._owner )
+            // TODO O co chodzi
+            if ( this._selectedControlBase != this._owner && this._selectedControlBase.MouseHandler != null )
             {
                 this._selectedControlBase.MouseHandler.OnLeftButtonPressed( state );
             }

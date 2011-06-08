@@ -268,7 +268,7 @@ namespace Arcane.Xna.Presentation
             if ( !( System.ComponentModel.DesignerProperties.GetIsInDesignMode( this ) ) )
             {
                 this.Services = service;
-                this.Content = new ContentManager( this.Services );
+                this.Content = new ContentManager( this.Services, "Content" );
                 this._window = new GameHost( this );
                 this._window.Closed += new EventHandler( _window_Closed );
                 this._tickGenerator = new DispatcherTimer();
@@ -285,7 +285,8 @@ namespace Arcane.Xna.Presentation
                 this.totalGameTime = TimeSpan.Zero;
                 this.accumulatedElapsedGameTime = TimeSpan.Zero;
                 this.lastFrameElapsedGameTime = TimeSpan.Zero;
-                this.targetElapsedTime = TimeSpan.FromTicks( ( long ) 0x28b0a );
+//                this.targetElapsedTime = TimeSpan.FromTicks( ( long ) 0x28b0a );
+                this.targetElapsedTime = TimeSpan.FromMilliseconds( 10 );
                 this.inactiveSleepTime = TimeSpan.FromMilliseconds( 20 );
 
                 // TODO Check
@@ -308,7 +309,7 @@ namespace Arcane.Xna.Presentation
 
         private void Setup()
         {
-            this.Content = new ContentManager( this.Services );
+            //            this.Content = new ContentManager( this.Services );
         }
 
         void _tickGenerator_Tick( object sender, EventArgs e )
@@ -377,7 +378,7 @@ namespace Arcane.Xna.Presentation
                   this.drawRunningSlowly
                 );
 
-                this.GraphicsDevice.Clear( Color.White);
+                this.GraphicsDevice.Clear( Color.White );
                 this.Draw( this.gameTime );
                 this.EndDraw();
             }
@@ -601,7 +602,7 @@ namespace Arcane.Xna.Presentation
                 drawable.DrawOrderChanged -= this.DrawableDrawOrderChanged;
             }
             IUnitializable unitializable = e.GameComponent as IUnitializable;
-            if(unitializable != null )
+            if ( unitializable != null )
             {
                 unitializable.Unitialize();
             }

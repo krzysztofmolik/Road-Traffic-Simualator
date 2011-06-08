@@ -13,8 +13,11 @@ namespace RoadTrafficSimulator.Infrastructure
         public const float LaneWidth = 0.005f;
 
         public const float PointSize = 0.01f;
+        public const float MeterToKmScale = 1000f;
+        public const float FrameTimeMs = 33.3f;
 
         public static readonly Color RoadColor = new Color( 162, 162, 162 );
+        public const float MsPerHour = 1000 * 3600;
 
         public const float CarMoveEpsilon = 0.00005f;
 
@@ -26,6 +29,16 @@ namespace RoadTrafficSimulator.Infrastructure
         public static float ToVirtualUnit( float meters )
         {
             return meters / Scale;
+        }
+
+        public static float KmToVirtualUnit( float km )
+        {
+            return ToVirtualUnit( km * MeterToKmScale );
+        }
+
+        public static float VirtualUnitToKm( float virtualUnit )
+        {
+            return ToMeters( virtualUnit ) / MeterToKmScale;
         }
     }
 }

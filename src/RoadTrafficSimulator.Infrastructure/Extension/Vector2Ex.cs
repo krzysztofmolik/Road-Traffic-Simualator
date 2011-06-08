@@ -54,6 +54,16 @@ namespace RoadTrafficSimulator.Infrastructure.Extension
             return Vector2.Dot( baseVector, secondVector );
         }
 
+        public static float Angel( this Vector2 vector )
+        {
+            var atan = Math.Atan2( vector.Y, vector.X );
+            if ( atan < 0 )
+            {
+                return ( float ) atan;
+            }
+            return ( float ) ( 2 * Math.PI + atan );
+        }
+
         private static Vector2 closest_point_on_segment_AB_to_point_P( Vector2 A, Vector2 B, Vector2 P )
         {
             var u = B - A;

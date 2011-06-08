@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.BuildMode.VertexContainers;
@@ -14,6 +15,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private readonly Graphic _graphics;
         private readonly IMouseHandler _mouseHandler;
         private Vector2 _location = Vector2.Zero;
+        private Queue<Action> _actions = new Queue<Action>();
 
         public RoadLayer( Factories.Factories factories, Graphic graphics )
         {
@@ -40,16 +42,30 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public override IControl Parent
         {
             get { return null; }
-            set { throw new InvalidOperationException( "RoadLayer can't have " +
-                                                       "parent" ); }
+            set { throw new InvalidOperationException( "RoadLayer can't have " + "parent" ); }
+        }
+
+        public override void AddChild( IControl control )
+        {
+            this._actions.Enqueue( () => base.AddChild( control ) );
         }
 
         public void Draw( GameTime timeSpan )
         {
             this._concretVertexContainer.Draw( this._graphics );
-
             this._graphics.VertexPositionalColorDrawer.Flush();
+            this.RunQueueActions();
         }
+
+        private void RunQueueActions()
+        {
+            while (this._actions.Count > 0 )
+            {
+                var action = this._actions.Dequeue();
+                action();
+            }
+        }
+
         public override void Translate( Matrix matrixTranslation )
         {
         }

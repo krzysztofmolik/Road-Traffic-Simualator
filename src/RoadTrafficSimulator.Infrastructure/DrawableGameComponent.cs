@@ -1,22 +1,23 @@
 using System;
+using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace RoadTrafficSimulator.Infrastructure
 {
-    public abstract class DrawableGameComponent : UpdateableGameComponent , IDrawable
+    public abstract class DrawableGameComponent : UpdateableGameComponent, IDrawable
     {
         private bool _visible;
         private int _drawOrder;
 
-        protected DrawableGameComponent(IGraphicsDeviceService graphicsDeviceService) 
-            : base(graphicsDeviceService)
+        protected DrawableGameComponent( IGraphicsDeviceService graphicsDeviceService, IEventAggregator eventAggregator )
+            : base( graphicsDeviceService, eventAggregator )
         {
             this.Visible = true;
             this.DrawOrder = 1;
         }
 
-        public virtual void Draw(GameTime time)
+        public virtual void Draw( GameTime time )
         {
         }
 
@@ -55,7 +56,7 @@ namespace RoadTrafficSimulator.Infrastructure
         public void InvokeVisibleChanged()
         {
             var handler = VisibleChanged;
-            if (handler != null) handler(this, EventArgs.Empty);
+            if ( handler != null ) handler( this, EventArgs.Empty );
         }
 
         public event EventHandler<EventArgs> DrawOrderChanged;
@@ -63,7 +64,7 @@ namespace RoadTrafficSimulator.Infrastructure
         public void InvokeDrawOrderChanged()
         {
             var handler = DrawOrderChanged;
-            if (handler != null) handler(this, EventArgs.Empty);
+            if ( handler != null ) handler( this, EventArgs.Empty );
         }
     }
 }

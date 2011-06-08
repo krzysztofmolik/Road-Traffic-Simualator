@@ -19,6 +19,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         IObservable<XnaMouseState> LeftButtonClicked { get; }
         int ScrollWheelValueDelta { get; }
         IObservable<XnaMouseState> ScrollWheelChanged { get; }
+        IObservable<XnaMouseState> DoubleClick { get; }
         void StartRecord( int inteval = 100 );
         void StopRecord();
     }

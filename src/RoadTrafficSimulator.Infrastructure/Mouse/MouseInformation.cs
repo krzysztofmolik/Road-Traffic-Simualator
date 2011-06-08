@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Linq;
 
 namespace RoadTrafficSimulator.Infrastructure.Mouse
 {
@@ -35,6 +36,14 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         public IObservable<XnaMouseState> MousePositionChanged { get { return this._mousePositionChanged; } }
 
         public IObservable<ButtonState> LeftButtonChanged { get { return this._lefButtonChanged; } }
+
+        public IObservable<XnaMouseState> DoubleClick
+        {
+            get
+            {
+                return this._leftButtonClicked.TimeInterval().Skip( 1 ).Where( s => s.Interval < TimeSpan.FromMilliseconds( 500 ) ).Select( s => s.Value );
+            }
+        }
 
         public IObservable<XnaMouseState> LeftButtonRelease
         {
@@ -103,6 +112,10 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         public void Update( GameTime gameTime )
         {
             var mouseState = Microsoft.Xna.Framework.Input.Mouse.GetState();
+            if ( this._camera.Game.GraphicsDevice.Viewport.Bounds.Contains( mouseState.X, mouseState.Y ) == false )
+            {
+                return;
+            }
             this._screenMousePosition = new Vector2( mouseState.X, mouseState.Y );
             this._xnaMousePosition = this._camera.ToSpace( this._screenMousePosition );
             this.ScrollWheelValueDelta = this._previousMouseState.ScrollWheelValue - mouseState.ScrollWheelValue;
@@ -127,7 +140,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             }
 
             this._previousMouseState = mouseState;
-            
+
         }
 
         private void OnLeftButtonChanged( XnaMouseState mouseState )

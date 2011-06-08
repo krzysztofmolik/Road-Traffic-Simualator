@@ -4,6 +4,7 @@ using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Common.Xna;
+using Common.Xna.FSharp;
 
 namespace RoadTrafficSimulator.Infrastructure.Draw
 {

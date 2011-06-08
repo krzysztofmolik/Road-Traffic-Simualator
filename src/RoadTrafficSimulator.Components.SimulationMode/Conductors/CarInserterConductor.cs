@@ -1,17 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
+using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 {
     public class CarInserterConductor : IConductor
     {
-        private readonly IRoadElement _carInserter;
-        private Queue<Car> _cars = new Queue<Car>();
+        private readonly CarsInserter _carInserter;
+        private readonly Queue<Car> _cars = new Queue<Car>();
 
-        public CarInserterConductor( IRoadElement carInserter )
+        public CarInserterConductor( CarsInserter carInserter )
         {
             Contract.Requires( carInserter != null );
             this._carInserter = carInserter;
@@ -19,7 +21,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 
         public IRoadElement GetNextRandomElement()
         {
-            return this._carInserter;
+            return this._carInserter.Lane;
         }
 
         public void Take( Car car )
@@ -27,7 +29,13 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             this._cars.Enqueue( car );
         }
 
-        public bool SholdChange(Vector2 acutalCarLocation, Vector2 direction)
+        public void Remove( Car car )
+        {
+            var removedCar = this._cars.Dequeue();
+            Debug.Assert( car == removedCar );
+        }
+
+        public bool SholdChange( Vector2 acutalCarLocation, Vector2 direction )
         {
             return true;
         }
@@ -50,6 +58,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
         public CarInformation GetCarAheadDistance()
         {
             return new CarInformation { CarDistance = float.MaxValue };
+        }
+
+        public Vector2 GetCarDirection( Car car )
+        {
+            return this._carInserter.Lane.Condutor.GetCarDirection( car );
         }
     }
 }

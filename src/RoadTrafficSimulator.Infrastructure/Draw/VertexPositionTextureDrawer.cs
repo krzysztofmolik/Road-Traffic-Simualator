@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Common;
 using Common.Xna;
+using Common.Xna.FSharp;
 using Microsoft.Xna.Framework.Graphics;
-using Xna;
 
 namespace RoadTrafficSimulator.Infrastructure.Draw
 {
@@ -72,18 +72,20 @@ namespace RoadTrafficSimulator.Infrastructure.Draw
 
         public void DrawIndexedTraingeList( Texture2D texture, VertexPositionTexture[] block, int[] indexes )
         {
-            this._actionBuffer.Enqueue( () =>
-                                           {
-                                               try
-                                               {
-                                                   this._basicEffect.Texture = texture;
-                                                   this._graphicsDeviceService.GraphicsDevice.DrawIndexedUserPrimitives( block, indexes );
-                                               }
-                                               finally
-                                               {
-                                                   this._basicEffect.Texture = null;
-                                               }
-                                           } );
+            this._basicEffect.Texture = texture;
+            this._graphicsDeviceService.GraphicsDevice.DrawIndexedUserPrimitives( block, indexes );
+//            this._actionBuffer.Enqueue( () =>
+//                                           {
+//                                               try
+//                                               {
+//                                                   this._basicEffect.Texture = texture;
+//                                                   this._graphicsDeviceService.GraphicsDevice.DrawIndexedUserPrimitives( block, indexes );
+//                                               }
+//                                               finally
+//                                               {
+//                                                   this._basicEffect.Texture = null;
+//                                               }
+//                                           } );
         }
     }
 }
