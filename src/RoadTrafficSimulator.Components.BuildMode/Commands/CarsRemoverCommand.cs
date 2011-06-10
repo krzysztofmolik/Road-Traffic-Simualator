@@ -1,45 +1,42 @@
 using System;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Threading;
 using Common;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure.Messages;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 
-namespace RoadTrafficSimulator.Components.BuildMode.Creators
+namespace RoadTrafficSimulator.Components.BuildMode.Commands
 {
-    public class CarsRemoverCreator
+    public class CarsRemoverCommand : ICommand
     {
         private readonly IMouseInformation _mouseInformation;
         private bool _process;
 
-        public CarsRemoverCreator( IMouseInformation mouseInformation, Factories.Factories factories, IEventAggregator eventAggregator )
+        public CarsRemoverCommand( IMouseInformation mouseInformation, Factories.Factories factories, IEventAggregator eventAggregator )
         {
             Contract.Requires( mouseInformation != null );
             Contract.Requires( factories != null );
             Contract.Requires( eventAggregator != null );
             this._mouseInformation = mouseInformation;
-            this._mouseInformation.LeftButtonPressed.Where( s => this.Process )
-                .Subscribe( s =>
+            this._mouseInformation.LeftButtonPressed.Subscribe( s =>
                                 {
                                     var carInserter = new CarsRemover( factories, s.Location, null );
                                     eventAggregator.Publish( new AddControlToRoadLayer( carInserter ) );
                                 } );
         }
 
-        public bool Process
+        public CommandType CommandType
         {
-            get { return this._process; }
+            get { return CommandType.InsertCarsRemover; }
         }
 
         public void Start()
         {
             if ( this._process ) { return; }
             this._process = true;
-            Thread.Sleep( 100 );
             this._mouseInformation.StartRecord();
         }
+
         public void Stop()
         {
             if ( this._process == false ) { return; }

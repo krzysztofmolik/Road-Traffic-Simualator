@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
+using System.Linq;
+using Common;
 using Common.Wpf;
 using RoadTrafficConstructor.Presenters.BuildMode.Blocks;
-using RoadTrafficSimulator.Components.BuildMode;
-using RoadTrafficSimulator.Road;
+using RoadTrafficSimulator.Components.BuildMode.Messages;
 using XnaInWpf.Presenters.Blocks;
 
 namespace RoadTrafficConstructor.Presenters.BuildMode
@@ -14,13 +15,16 @@ namespace RoadTrafficConstructor.Presenters.BuildMode
         private IBlockViewModel _selectedItem;
         private IEnumerable<IBlockViewModel> _blocks;
         private readonly IBlockManager _blockManager;
-        private readonly BuilderControl _builderControl;
+        private readonly IEventAggregator _eventAggregator;
 
-        public BuildJunctionViewModel( IBlockManager blockManager, BuilderControl builderControl )
+        public BuildJunctionViewModel( IBlockManager blockManager, IEventAggregator eventAggregator )
         {
-            Contract.Requires( blockManager != null && builderControl != null );
+            Contract.Requires( blockManager != null );
+            Contract.Requires( eventAggregator != null );
+            Contract.Ensures( this.Blocks.Any() );
+
             this._blockManager = blockManager;
-            this._builderControl = builderControl;
+            this._eventAggregator = eventAggregator;
             this.Blocks = this._blockManager.GetRootParrents();
         }
 
@@ -59,7 +63,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode
             }
             else
             {
-                this.SelectedItem.Execute( this._builderControl );
+                this.SelectedItem.Execute( command => this._eventAggregator.Publish( new ExecuteCommand( command ) ) );
             }
         }
 

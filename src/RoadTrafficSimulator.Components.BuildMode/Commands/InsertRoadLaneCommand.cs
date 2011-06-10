@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
@@ -7,22 +7,23 @@ using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Road;
 
-namespace RoadTrafficSimulator.Components.BuildMode.Creators
+namespace RoadTrafficSimulator.Components.BuildMode.Commands
 {
-    public class RoadLaneCommandController : Command
+    public class InsertRoadLaneCommand : ICommand
     {
         private readonly IMouseInformation _mouseInformation;
         private readonly VisitAllChildren _visitator;
-        private readonly RoadLaneCreator _roadLaneCreator;
+        private readonly RoadLaneBuilder _roadLaneBuilder;
         private bool _isFirst;
         private readonly IControl _owner;
 
-        public RoadLaneCommandController( IMouseInformation mouseInformation, RoadLayer ownr, RoadLaneCreator roadLaneCreator )
+        public InsertRoadLaneCommand( IMouseInformation mouseInformation, RoadLayer ownr, RoadLaneBuilder roadLaneBuilder )
         {
             this._mouseInformation = mouseInformation;
-            this._roadLaneCreator = roadLaneCreator;
             this._mouseInformation.LeftButtonPressed.Subscribe( this.MousePressed );
             this._owner = ownr;
+            this._roadLaneBuilder = roadLaneBuilder;
+            this._roadLaneBuilder.SetOwner( ownr );
 
             this._visitator = new VisitAllChildren( this._owner );
         }
@@ -30,12 +31,17 @@ namespace RoadTrafficSimulator.Components.BuildMode.Creators
         // This is stupid, should be changed
         public void SetOwner( ICompositeControl owner )
         {
-            this._roadLaneCreator.SetOwner( owner );
+            this._roadLaneBuilder.SetOwner( owner );
         }
 
         public Type CreatedType
         {
             get { return typeof( RoadLaneBlock ); }
+        }
+
+        public CommandType CommandType
+        {
+            get { return CommandType.InserRoadLane; }
         }
 
         public void Start()
@@ -76,11 +82,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Creators
         {
             if ( edge == null )
             {
-                this._roadLaneCreator.CreateBlockTo( location );
+                this._roadLaneBuilder.CreateBlockTo( location );
             }
             else
             {
-                this._roadLaneCreator.EndIn( edge );
+                this._roadLaneBuilder.EndIn( edge );
                 this.StartFromBegining();
             }
         }
@@ -95,7 +101,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Creators
             if ( control == null ) { return; }
 
             this._isFirst = false;
-            this._roadLaneCreator.StartFrom( control );
+            this._roadLaneBuilder.StartFrom( control );
         }
 
         private IControl GetRoadJuctionEdge( Vector2 location )

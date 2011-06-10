@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using RoadTrafficSimulator.Components.BuildMode;
+using RoadTrafficSimulator.Components.BuildMode.Commands;
 using RoadTrafficSimulator.Road;
 
 namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.CarsRemover
@@ -27,9 +28,9 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.CarsRemover
             set { Debug.Assert( value.Count() == 0, "value.Count() == 0" ); }
         }
 
-        public void Execute(BuilderControl builderControl)
+        public void Execute(Action<CommandType> executeCommand)
         {
-            builderControl.InsertCarsRemover();
+            executeCommand(CommandType.InsertCarsRemover);
         }
     }
 }

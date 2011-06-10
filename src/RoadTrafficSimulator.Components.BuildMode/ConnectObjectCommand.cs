@@ -2,7 +2,8 @@ using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using RoadTrafficSimulator.Components.BuildMode.Creators;
+using RoadTrafficSimulator.Components.BuildMode.Commands;
+using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Mouse;
@@ -12,7 +13,6 @@ namespace RoadTrafficSimulator.Components.BuildMode
     public class ConnectObjectCommand : ICommand
     {
         private readonly IMouseInformation _mouseInformation;
-        private readonly KeyboardInputNotify _keyboardInformation;
         private readonly CompositeConnectionCommand _compositeConnectionCommand;
         private readonly VisitAllChildren _visitator;
 
@@ -20,32 +20,30 @@ namespace RoadTrafficSimulator.Components.BuildMode
 
         public ConnectObjectCommand(
                             IMouseInformation mouseInformation,
-                            KeyboardInputNotify keyboardInformation,
                             CompositeConnectionCommand compositeConnectionCommand,
-                            VisitAllChildren visitator )
+                            RoadLayer owner )
         {
             this._mouseInformation = mouseInformation;
-            this._keyboardInformation = keyboardInformation;
             this._compositeConnectionCommand = compositeConnectionCommand;
-            this._visitator = visitator;
-            this.SubscribeToMouseEvent();
+            this._visitator = new VisitAllChildren( owner );
+
+            this._mouseInformation.LeftButtonClicked.Subscribe( this.LeftButtonClicked );
+        }
+
+        public CommandType CommandType
+        {
+            get { return CommandType.ConnectObject; }
         }
 
         public void Stop()
         {
             this._mouseInformation.StopRecord();
             this._lastClickedEdges = null;
-
         }
 
         public void Start()
         {
             this._mouseInformation.StartRecord();
-        }
-
-        private void SubscribeToMouseEvent()
-        {
-            this._mouseInformation.LeftButtonClicked.Subscribe( this.LeftButtonClicked );
         }
 
         private void LeftButtonClicked( XnaMouseState mouseState )
@@ -70,7 +68,7 @@ namespace RoadTrafficSimulator.Components.BuildMode
 
         private void Begin( ILogicControl first, ILogicControl second )
         {
-            this._compositeConnectionCommand.Connect(first, second);
+            this._compositeConnectionCommand.Connect( first, second );
         }
 
         private ILogicControl FindControlAtPoint( Vector2 location )
@@ -79,19 +77,15 @@ namespace RoadTrafficSimulator.Components.BuildMode
             ILogicControl control = null;
             this._visitator.FirstOrDefault( s =>
                                                       {
-                                                          var hited = s.GetHittedControl(location);
-                                                          if (hited != null)
+                                                          var hited = s.GetHittedControl( location );
+                                                          if ( hited != null )
                                                           {
                                                               control = hited;
                                                               return true;
                                                           }
                                                           return false;
-                                                      });
+                                                      } );
             return control;
-        }
-        public CommandType CommandType
-        {
-            get { return CommandType.ConnectObject; }
         }
     }
 }

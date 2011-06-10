@@ -137,7 +137,6 @@
     <Compile Include="MathHelpers\MyMathHelper.cs" />
     <Compile Include="Messages\AddControlToRoadLayer.cs" />
     <Compile Include="Messages\ChangedZoom.cs" />
-    <Compile Include="Messages\InsertLights.cs" />
     <Compile Include="Messages\IntializeContent.cs" />
     <Compile Include="Messages\UnloadConntent.cs" />
     <Compile Include="MouseStateEventArgs.cs" />
