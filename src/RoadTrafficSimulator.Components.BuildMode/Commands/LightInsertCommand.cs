@@ -14,7 +14,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
         private readonly IContentManager _contentManager;
         private readonly VisitAllChildren _visistator;
 
-        public LightInsertCommand(  RoadLayer roadLayer, IMouseInformation mouseInformation, IContentManager contentManager )
+        public LightInsertCommand( RoadLayer roadLayer, IMouseInformation mouseInformation, IContentManager contentManager )
         {
             this._roadLayer = roadLayer;
             this._mouseInformation = mouseInformation;
@@ -46,7 +46,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
             if ( hittedControl == null ) { return; }
             if ( hittedControl.Connector.CanPutLights() )
             {
-                var light = new Light( mouseState.Location, this._contentManager );
+                var light = new LightBlock( mouseState.Location, this._contentManager );
+                light.Connector.ConnectWith( hittedControl );
                 // TODO this smells
                 this._roadLayer.AddChild( light );
 

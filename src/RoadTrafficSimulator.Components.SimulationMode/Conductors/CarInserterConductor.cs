@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
@@ -19,7 +18,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             this._carInserter = carInserter;
         }
 
-        public IRoadElement GetNextRandomElement()
+        public IRoadElement GetNextRandomElement(List<IRoadElement> route)
         {
             return this._carInserter.Lane;
         }
@@ -35,7 +34,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             Debug.Assert( car == removedCar );
         }
 
-        public bool SholdChange( Vector2 acutalCarLocation, Vector2 direction )
+        public bool SholdChange(Vector2 acutalCarLocation, Car car)
         {
             return true;
         }

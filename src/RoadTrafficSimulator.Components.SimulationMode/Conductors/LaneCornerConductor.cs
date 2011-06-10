@@ -19,7 +19,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             this._laneCorner = laneCorner;
         }
 
-        public IRoadElement GetNextRandomElement()
+        public IRoadElement GetNextRandomElement(List<IRoadElement> route)
         {
             return this._laneCorner.Next;
         }
@@ -36,13 +36,13 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             Debug.Assert( removedCar == car );
         }
 
-        public bool SholdChange( Vector2 acutalCarLocation, Vector2 direction )
+        public bool SholdChange(Vector2 acutalCarLocation, Car car)
         {
             var distance = this._laneCorner.BuildControl.Location - acutalCarLocation;
             // TODO Check value and extract some kind of property
             if ( distance.Length() <= 0.001f ) { return true; }
 
-            return Math.Sign( distance.X ) != Math.Sign( direction.X ) && Math.Sign( distance.Y ) != Math.Sign( direction.Y );
+            return Math.Sign( distance.X ) != Math.Sign( car.Direction.X ) && Math.Sign( distance.Y ) != Math.Sign( car.Direction.Y );
         }
 
         public float GetDistanceToStopLine()

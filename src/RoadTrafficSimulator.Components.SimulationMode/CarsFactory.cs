@@ -54,7 +54,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             var nextElement = startElement;
             while ( true )
             {
-                nextElement = nextElement.Condutor.GetNextRandomElement();
+                nextElement = nextElement.Condutor.GetNextRandomElement( route );
                 if ( nextElement == null )
                 {
                     break;
