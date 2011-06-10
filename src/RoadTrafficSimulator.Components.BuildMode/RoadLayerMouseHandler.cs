@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure;
-using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 

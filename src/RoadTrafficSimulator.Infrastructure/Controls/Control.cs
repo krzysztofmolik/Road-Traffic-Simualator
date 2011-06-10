@@ -1,6 +1,4 @@
-﻿using RoadTrafficSimulator.Infrastructure.Controls;
-
-namespace RoadTrafficSimulator.Infrastructure.Control
+﻿namespace RoadTrafficSimulator.Infrastructure.Controls
 {
     public abstract class SingleControl<TVertex> : ControlBaseBase<TVertex>, ISingleControl
     {

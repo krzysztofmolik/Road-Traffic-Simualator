@@ -1,6 +1,5 @@
 ﻿using Common.Xna;
 using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Extension;
 

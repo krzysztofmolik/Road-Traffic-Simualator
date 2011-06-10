@@ -12,26 +12,27 @@ using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Road;
 using Module = Autofac.Module;
+using Common.Extensions;
 
 namespace RoadTrafficSimulator.Components.BuildMode
 {
     public class BuildModeModule : Module
     {
-        protected override void Load(ContainerBuilder builder)
+        protected override void Load( ContainerBuilder builder )
         {
             builder.RegisterType<RoadLayer>().InstancePerLifetimeScope();
-            builder.Register(s => new VisitAllChildren(s.Resolve<RoadLayer>()));
+            builder.Register( s => new VisitAllChildren( s.Resolve<RoadLayer>() ) );
             builder.RegisterType<BuildModeMainComponent>()
-                .OnActivated(s =>
+                .OnActivated( s =>
                                  {
                                      s.Context.Resolve<BuilderControl>().BuildModeMainComponent = s.Instance;
-                                     s.Context.Resolve<IEventAggregator>().Subscribe(s.Instance);
-                                 })
+                                     s.Context.Resolve<IEventAggregator>().Subscribe( s.Instance );
+                                 } )
                 .InstancePerLifetimeScope();
             builder.RegisterType<BuilderControl>().InstancePerLifetimeScope();
 
             builder.RegisterType<RoadLaneCreator>();
-            builder.RegisterType<RoadLaneCreatorController>();
+            builder.RegisterType<RoadLaneCommandController>();
             builder.RegisterType<RoadJunctionCreator>();
             builder.RegisterType<CarsInserterCreator>();
             builder.RegisterType<CarsRemoverCreator>();
@@ -52,38 +53,45 @@ namespace RoadTrafficSimulator.Components.BuildMode
             builder.RegisterType<MouseHandlerFactory>().SingleInstance();
             builder.Register(
                 s =>
-                new Func<RoadLayer, IMouseHandler>(r => new RoadLayerMouseHandler(r, s.Resolve<SelectedControls>())));
+                new Func<RoadLayer, IMouseHandler>( r => new RoadLayerMouseHandler( r, s.Resolve<SelectedControls>() ) ) );
             builder.Register(
                 s =>
                 new Func<IControl, IMouseHandler>(
-                    r => new SingleControlMouseHandler(r, s.Resolve<SelectedControls>(), s.Resolve<MoveControl>())));
+                    r => new SingleControlMouseHandler( r, s.Resolve<SelectedControls>(), s.Resolve<MoveControl>() ) ) );
             builder.Register(
                 s =>
                 new Func<ICompositeControl, IMouseHandler>(
-                    r => new CompositeControlMouseHandler(r, s.Resolve<SelectedControls>(), s.Resolve<MoveControl>())));
-            this.RegisterFactoryMethods(builder);
+                    r => new CompositeControlMouseHandler( r, s.Resolve<SelectedControls>(), s.Resolve<MoveControl>() ) ) );
+            this.RegisterFactoryMethods( builder );
 
-            this.RegisterFactories(builder);
+            this.RegisterFactories( builder );
+            this.RegisterCreators( builder );
         }
 
-        private void RegisterFactoryMethods(ContainerBuilder builder)
+        private void RegisterCreators( ContainerBuilder builder )
         {
-            builder.Register(s => new Func<Vector2, ICompositeControl, IRoadJunctionBlock>(
-                                      (location, owner) =>
-                                      new RoadJunctionBlock(s.Resolve<Factories.Factories>(), location, owner)));
-
-            builder.Register(s => new Func<ICompositeControl, IRoadLaneBlock>(
-                                      cc => new RoadLaneBlock(s.Resolve<Factories.Factories>(), cc)));
-            builder.Register(s => new Func<Vector2, ICompositeControl, RoadConnection>(
-                                      (locatio, owner) =>
-                                      new RoadConnection(s.Resolve<Factories.Factories>(), locatio, owner)));
+            builder.RegisterAssemblyTypes( Assembly.GetAssembly( typeof( Command ) ) )
+                .Where( s => s.IsImplementingInterface<Command>() ).As<Command>();
         }
 
-        private void RegisterFactories(ContainerBuilder builder)
+        private void RegisterFactoryMethods( ContainerBuilder builder )
+        {
+            builder.Register( s => new Func<Vector2, ICompositeControl, IRoadJunctionBlock>(
+                                      ( location, owner ) =>
+                                      new RoadJunctionBlock( s.Resolve<Factories.Factories>(), location, owner ) ) );
+
+            builder.Register( s => new Func<ICompositeControl, IRoadLaneBlock>(
+                                      cc => new RoadLaneBlock( s.Resolve<Factories.Factories>(), cc ) ) );
+            builder.Register( s => new Func<Vector2, ICompositeControl, RoadConnection>(
+                                      ( locatio, owner ) =>
+                                      new RoadConnection( s.Resolve<Factories.Factories>(), locatio, owner ) ) );
+        }
+
+        private void RegisterFactories( ContainerBuilder builder )
         {
             builder.RegisterType<Factories.Factories>();
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof (Factories.Factories)))
-                .Where(s => s.Namespace == typeof (Factories.Factories).Namespace && s.Name.EndsWith("Factory"))
+            builder.RegisterAssemblyTypes( Assembly.GetAssembly( typeof( Factories.Factories ) ) )
+                .Where( s => s.Namespace == typeof( Factories.Factories ).Namespace && s.Name.EndsWith( "Factory" ) )
                 .AsImplementedInterfaces();
         }
     }

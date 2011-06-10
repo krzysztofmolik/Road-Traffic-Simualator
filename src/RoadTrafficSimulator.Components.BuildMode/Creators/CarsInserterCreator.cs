@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Threading;
 using Common;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure.Messages;

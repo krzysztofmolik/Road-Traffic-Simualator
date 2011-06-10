@@ -110,6 +110,7 @@
     <Compile Include="ConnectObjectCommand.cs" />
     <Compile Include="Controls\RoadLaneBlock.cs" />
     <Compile Include="Controls\Style.cs" />
+    <Compile Include="Creators\LightCreator.cs" />
     <Compile Include="Creators\RoadLaneCreator.cs" />
     <Compile Include="Factories\Factories.cs" />
     <Compile Include="Factories\IMouseHandlerFactory.cs" />

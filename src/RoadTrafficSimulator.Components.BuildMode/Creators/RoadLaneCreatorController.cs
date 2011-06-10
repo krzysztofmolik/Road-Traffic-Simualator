@@ -3,29 +3,28 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure;
-using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Road;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Creators
 {
-    public class RoadLaneCreatorController
+    public class RoadLaneCommandController : Command
     {
         private readonly IMouseInformation _mouseInformation;
         private readonly VisitAllChildren _visitator;
         private readonly RoadLaneCreator _roadLaneCreator;
         private bool _isFirst;
+        private readonly IControl _owner;
 
-        public RoadLaneCreatorController(
-            IMouseInformation mouseInformation,
-            VisitAllChildren visitator,
-            RoadLaneCreator roadLaneCreator )
+        public RoadLaneCommandController( IMouseInformation mouseInformation, RoadLayer ownr, RoadLaneCreator roadLaneCreator )
         {
             this._mouseInformation = mouseInformation;
-            this._visitator = visitator;
             this._roadLaneCreator = roadLaneCreator;
             this._mouseInformation.LeftButtonPressed.Subscribe( this.MousePressed );
+            this._owner = ownr;
+
+            this._visitator = new VisitAllChildren( this._owner );
         }
 
         // This is stupid, should be changed
@@ -34,13 +33,18 @@ namespace RoadTrafficSimulator.Components.BuildMode.Creators
             this._roadLaneCreator.SetOwner( owner );
         }
 
-        public void Begin( IControl owner )
+        public Type CreatedType
+        {
+            get { return typeof( RoadLaneBlock ); }
+        }
+
+        public void Start()
         {
             this._isFirst = true;
             this._mouseInformation.StartRecord();
         }
 
-        public void End()
+        public void Stop()
         {
             this._mouseInformation.StopRecord();
 
@@ -50,7 +54,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Creators
         private void MousePressed( XnaMouseState mouseState )
         {
             var edge = this.GetRoadJuctionEdge( mouseState.Location );
-            if( this.IsAppropiate(edge) == false ) { return; }
+            if ( this.IsAppropiate( edge ) == false ) { return; }
 
             if ( this._isFirst )
             {
@@ -62,7 +66,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Creators
             }
         }
 
-        private bool IsAppropiate(IControl edge)
+        private bool IsAppropiate( IControl edge )
         {
             // TODO: Fix it, this should be resolved in more appropiate way
             return edge == null || edge is RoadJunctionEdge || edge is CarsInserter || edge is CarsRemover;

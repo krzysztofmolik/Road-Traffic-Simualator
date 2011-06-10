@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.BuildMode.VertexContainers;
 using RoadTrafficSimulator.Infrastructure;
-using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Draw;
 using RoadTrafficSimulator.Infrastructure.Extension;

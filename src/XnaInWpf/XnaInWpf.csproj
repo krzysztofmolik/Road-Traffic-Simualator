@@ -163,10 +163,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Presenters\BuildMode\Blocks\Lights\LightsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Presenters\BuildMode\Blocks\RoadLane\OneRoadLaneView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -202,7 +198,6 @@
     <Compile Include="Presenters\BuildMode\Blocks\BlockManager.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\IBlockViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\IBlockManager.cs" />
-    <Compile Include="Presenters\BuildMode\Blocks\Lights\LightsViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\Lights\StandardLightViewModel.cs" />
     <Compile Include="Presenters\IShellViewModel.cs" />
     <Compile Include="Presenters\ShellViewModel.cs" />
@@ -218,9 +213,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Presenters\BuildMode\Blocks\Lights\LightsView.xaml.cs">
-      <DependentUpon>LightsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presenters\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>

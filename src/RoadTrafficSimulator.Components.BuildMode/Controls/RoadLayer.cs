@@ -54,6 +54,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         {
             this._concretVertexContainer.Draw( this._graphics );
             this._graphics.VertexPositionalColorDrawer.Flush();
+            this._graphics.VertexPositionalTextureDrawer.Flush();
             this.RunQueueActions();
         }
 
