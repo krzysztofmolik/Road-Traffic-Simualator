@@ -2,14 +2,14 @@ using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using RoadTrafficSimulator.Components.BuildMode.Creators;
 using RoadTrafficSimulator.Infrastructure;
-using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode
 {
-    public class ConnectObjectCommand
+    public class ConnectObjectCommand : ICommand
     {
         private readonly IMouseInformation _mouseInformation;
         private readonly KeyboardInputNotify _keyboardInformation;
@@ -31,14 +31,14 @@ namespace RoadTrafficSimulator.Components.BuildMode
             this.SubscribeToMouseEvent();
         }
 
-        public void End()
+        public void Stop()
         {
             this._mouseInformation.StopRecord();
             this._lastClickedEdges = null;
 
         }
 
-        public void Begin()
+        public void Start()
         {
             this._mouseInformation.StartRecord();
         }
@@ -46,7 +46,6 @@ namespace RoadTrafficSimulator.Components.BuildMode
         private void SubscribeToMouseEvent()
         {
             this._mouseInformation.LeftButtonClicked.Subscribe( this.LeftButtonClicked );
-            this._keyboardInformation.KeyPressed.Where( s => s.Key == Keys.Escape ).Subscribe( u => this.End() );
         }
 
         private void LeftButtonClicked( XnaMouseState mouseState )
@@ -89,6 +88,10 @@ namespace RoadTrafficSimulator.Components.BuildMode
                                                           return false;
                                                       });
             return control;
+        }
+        public CommandType CommandType
+        {
+            get { return CommandType.ConnectObject; }
         }
     }
 }

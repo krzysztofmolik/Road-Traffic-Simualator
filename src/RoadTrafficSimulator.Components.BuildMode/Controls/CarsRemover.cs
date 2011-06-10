@@ -2,7 +2,6 @@ using Common.Xna;
 using Microsoft.FSharp.Core;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure;
-using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls

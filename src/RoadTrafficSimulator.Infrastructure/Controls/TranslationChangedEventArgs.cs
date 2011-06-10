@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using RoadTrafficSimulator.Infrastructure.Control;
+using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Infrastructure.Controls
 {

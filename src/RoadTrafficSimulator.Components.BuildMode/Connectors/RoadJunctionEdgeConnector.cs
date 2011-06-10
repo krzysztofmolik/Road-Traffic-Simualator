@@ -1,6 +1,5 @@
 ﻿using System;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
-using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Extension;
 
@@ -60,6 +59,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
         public bool AreConnected( RoadJunctionEdge edge )
         {
             return this.Edge == edge;
+        }
+
+        public bool CanPutLights()
+        {
+            return ( this.Edge as EndRoadLaneEdge ) != null;
         }
     }
 }

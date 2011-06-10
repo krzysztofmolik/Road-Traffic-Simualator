@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Infrastructure.Mouse

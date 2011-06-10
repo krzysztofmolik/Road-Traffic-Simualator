@@ -19,23 +19,26 @@ namespace RoadTrafficSimulator.Components.BuildMode
     // TODO Is IHandle<AddControlToRoadLayer> needed ??
     public class BuildModeMainComponent : DrawableGameComponent, IHandle<AddControlToRoadLayer>, IUnitializable
     {
-        private readonly RoadLaneCreatorController _roadLaneCreator;
+        private readonly RoadLaneCommandController _roadLaneCommand;
         private readonly RoadJunctionCreator _roadJunctionCreator;
         private readonly IMouseInformation _mouseInformation;
         private readonly ConnectObjectCommand _connectObjectCommand;
         private readonly Func<Vector2, ICompositeControl, IRoadJunctionBlock> _roadJunctionBlockFactory;
         private readonly RoadLayer _roadLayer;
+        private readonly IEnumerable<Command> _creators;
         private readonly List<IDisposable> _subscribtions = new List<IDisposable>();
         private IEventAggregator _eventAggreator;
 
         public BuildModeMainComponent(
-                    RoadLaneCreatorController roadLaneCreator,
+                    RoadLaneCommandController roadLaneCommand,
                     RoadJunctionCreator roadJunctionCreator,
                     IMouseInformation mouseInformation,
                     ConnectObjectCommand connectObjectCommand,
                     IEventAggregator eventAggreator,
                     Func<Vector2, ICompositeControl, IRoadJunctionBlock> roadJunctionBlockFactory,
-                    IGraphicsDeviceService graphicsDeviceService, RoadLayer roadLayer )
+                    IGraphicsDeviceService graphicsDeviceService, 
+                    RoadLayer roadLayer,
+                    IEnumerable<Command> creators )
             : base( graphicsDeviceService, eventAggreator )
         {
             this._eventAggreator = eventAggreator;
@@ -44,8 +47,9 @@ namespace RoadTrafficSimulator.Components.BuildMode
             this._connectObjectCommand = connectObjectCommand;
             this._roadJunctionBlockFactory = roadJunctionBlockFactory;
             this._mouseInformation = mouseInformation;
-            this._roadLaneCreator = roadLaneCreator;
+            this._roadLaneCommand = roadLaneCommand;
             this._roadLayer = roadLayer;
+            this._creators = creators;
 
             this.Subscribe();
 
@@ -129,7 +133,7 @@ namespace RoadTrafficSimulator.Components.BuildMode
         protected override void LoadContent()
         {
             base.LoadContent();
-            this._roadLaneCreator.SetOwner( this._roadLayer );
+            this._roadLaneCommand.SetOwner( this._roadLayer );
         }
 
         public override void Draw( GameTime time )
@@ -150,12 +154,12 @@ namespace RoadTrafficSimulator.Components.BuildMode
 
         public void AddingRoadLaneBegin()
         {
-            this._roadLaneCreator.Begin( this._roadLayer );
+            this._roadLaneCommand.Begin( this._roadLayer );
         }
 
         public void AddingRoadLaneEnd()
         {
-            this._roadLaneCreator.End();
+            this._roadLaneCommand.End();
         }
 
         public void Handle( AddControlToRoadLayer message )

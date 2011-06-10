@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using RoadTrafficSimulator.Components.BuildMode;
-using RoadTrafficSimulator.Road;
 
 namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.Lights
 {
     public class StandardLightViewModel : IBlockViewModel
     {
-        public Type Parent { get { return typeof( LightsViewModel ); } }
+        public Type Parent { get { return null; } }
 
         public string Name { get { return "Standard light"; } }
 
@@ -26,7 +25,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.Lights
 
         public void Execute( BuilderControl builderControl )
         {
-            throw new NotImplementedException();
+            builderControl.AddLights();
         }
     }
 }

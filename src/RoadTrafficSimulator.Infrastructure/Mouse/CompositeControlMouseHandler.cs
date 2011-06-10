@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Infrastructure.Control;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Road;
 
