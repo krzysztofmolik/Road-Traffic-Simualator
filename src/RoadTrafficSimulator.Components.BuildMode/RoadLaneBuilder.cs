@@ -5,9 +5,9 @@ using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Road;
 
-namespace RoadTrafficSimulator.Components.BuildMode.Creators
+namespace RoadTrafficSimulator.Components.BuildMode
 {
-    public class RoadLaneCreator
+    public class RoadLaneBuilder
     {
         private readonly Func<ICompositeControl, IRoadLaneBlock> _roadLaneBlockFactory;
         private readonly Func<Vector2, ICompositeControl, RoadConnection> _roadConnectionEdgeFactory;
@@ -15,7 +15,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Creators
         private IControl _lastConnectedControl;
         private ICompositeControl _owner;
 
-        public RoadLaneCreator(
+        public RoadLaneBuilder(
             Func<ICompositeControl, IRoadLaneBlock> roadLaneBlockFactory,
             Func<Vector2, ICompositeControl, RoadConnection> roadConnectionEdgeFactory,
             CompositeConnectionCommand connectionCommand )

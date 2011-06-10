@@ -3,10 +3,10 @@ using System.Reflection;
 using Autofac;
 using Common;
 using Microsoft.Xna.Framework;
+using RoadTrafficSimulator.Components.BuildMode.Commands;
 using RoadTrafficSimulator.Components.BuildMode.Connectors;
 using RoadTrafficSimulator.Components.BuildMode.Connectors.Commands;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
-using RoadTrafficSimulator.Components.BuildMode.Creators;
 using RoadTrafficSimulator.Components.BuildMode.Factories;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Mouse;
@@ -22,23 +22,11 @@ namespace RoadTrafficSimulator.Components.BuildMode
         {
             builder.RegisterType<RoadLayer>().InstancePerLifetimeScope();
             builder.Register( s => new VisitAllChildren( s.Resolve<RoadLayer>() ) );
-            builder.RegisterType<BuildModeMainComponent>()
-                .OnActivated( s =>
-                                 {
-                                     s.Context.Resolve<BuilderControl>().BuildModeMainComponent = s.Instance;
-                                     s.Context.Resolve<IEventAggregator>().Subscribe( s.Instance );
-                                 } )
-                .InstancePerLifetimeScope();
-            builder.RegisterType<BuilderControl>().InstancePerLifetimeScope();
-
-            builder.RegisterType<RoadLaneCreator>();
-            builder.RegisterType<RoadLaneCommandController>();
-            builder.RegisterType<RoadJunctionCreator>();
-            builder.RegisterType<CarsInserterCreator>();
-            builder.RegisterType<CarsRemoverCreator>();
-
-            builder.RegisterType<ConnectObjectCommand>();
+            builder.RegisterType<BuildModeMainComponent>().InstancePerLifetimeScope();
+            builder.RegisterType<BuilderCommandManager>().InstancePerLifetimeScope();
             builder.RegisterType<CompositeConnectionCommand>();
+
+            builder.RegisterType<RoadLaneBuilder>();
             builder.RegisterType<ConnectRoadJunctionEdge>().As<IConnectionCommand>();
             builder.RegisterType<ConnectEndRoadLaneEdgeWithRoadConnection>().As<IConnectionCommand>();
             builder.RegisterType<ConnectEndRoadLaneEdgeWithRoadJunctionEdge>().As<IConnectionCommand>();
@@ -70,8 +58,8 @@ namespace RoadTrafficSimulator.Components.BuildMode
 
         private void RegisterCreators( ContainerBuilder builder )
         {
-            builder.RegisterAssemblyTypes( Assembly.GetAssembly( typeof( Command ) ) )
-                .Where( s => s.IsImplementingInterface<Command>() ).As<Command>();
+            builder.RegisterAssemblyTypes( Assembly.GetAssembly( typeof( ICommand ) ) )
+                .Where( s => s.IsImplementingInterface<ICommand>() ).As<ICommand>();
         }
 
         private void RegisterFactoryMethods( ContainerBuilder builder )
