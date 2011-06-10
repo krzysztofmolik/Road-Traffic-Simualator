@@ -27,7 +27,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
                 this._car.Location = this._curentRoadElement.BuildControl.Location;
             }
 
-            if ( this._currentConductor.SholdChange( this._car.Location, this._car.Direction ) )
+            if ( this._currentConductor.SholdChange( this._car.Location, this._car ) )
             {
                 this.ChangeConductor( this._car.Route.Dequeue() );
                 this.Update( timeFrame );

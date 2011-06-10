@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,7 +13,7 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class LightVeretexContainer : VertexContainerBase<Light, VertexPositionTexture>
+    public class LightVeretexContainer : VertexContainerBase<LightBlock, VertexPositionTexture>
     {
         private readonly Texture2D _texture;
         private readonly TextureStyle _style;
@@ -21,7 +22,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private static readonly int[] Indexes = new[] { 0, 3, 1, 1, 3, 2 };
         private Quadrangle _shape;
 
-        public LightVeretexContainer( Light @object, Texture2D texture )
+        public LightVeretexContainer( LightBlock @object, Texture2D texture )
             : base( @object )
         {
             this._texture = texture;
@@ -55,24 +56,46 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         protected override void DrawControl( Graphic graphic )
         {
-            graphic.VertexPositionalTextureDrawer.DrawIndexedTraingeList( this._texture, this.Vertex, Indexes);
+            graphic.VertexPositionalTextureDrawer.DrawIndexedTraingeList( this._texture, this.Vertex, Indexes );
         }
     }
 
-    public class Light : SingleControl<VertexPositionTexture>
+
+    public class LightConnector
+    {
+        private LightBlock _owner;
+
+        public LightConnector( LightBlock owner )
+        {
+            Contract.Requires( owner != null );
+            this._owner = owner;
+        }
+
+        public Edge Owner { get; private set; }
+
+        public void ConnectWith( Edge edge )
+        {
+            this.Owner = edge;
+            edge.Translated.Subscribe( e => this._owner.SetLocation( e.Control.Location ) );
+        }
+    }
+
+    public class LightBlock : SingleControl<VertexPositionTexture>
     {
         private Vector2 _location;
         private IContentManager _contentManager;
         private LightVeretexContainer _vertexContainer;
         private NotMovableMouseHandler _mouseHandler;
+        private LightConnector _connector;
 
-        public Light( Vector2 location, IContentManager contentManager )
+        public LightBlock( Vector2 location, IContentManager contentManager )
         {
             this._location = location;
             this._contentManager = contentManager;
 
             this._vertexContainer = new LightVeretexContainer( this, this._contentManager.Load<Texture2D>( "Light" ) );
             this._mouseHandler = new NotMovableMouseHandler();
+            this._connector = new LightConnector( this );
         }
 
         public override Vector2 Location { get { return this._location; } }
@@ -87,14 +110,28 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             get { return this._mouseHandler; }
         }
 
+        public LightConnector Connector
+        {
+            get
+            {
+                return this._connector;
+            }
+        }
+
         public override void Translate( Matrix matrixTranslation )
         {
-            throw new NotImplementedException();
+            var location = this._location;
+            this._location = Vector2.Transform( location, matrixTranslation );
+            if ( location != this._location )
+            {
+                this.Invalidate();
+            }
         }
 
         public override void TranslateWithoutNotification( Matrix translationMatrix )
         {
-            throw new NotImplementedException();
+            var location = this._location;
+            this._location = Vector2.Transform( location, translationMatrix );
         }
 
         public override IControl Parent { get; set; }

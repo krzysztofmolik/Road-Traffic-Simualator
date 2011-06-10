@@ -31,6 +31,23 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             this._handlers.Register<RoadJunctionBlock>( this.OnLaneJuntion );
             this._handlers.Register<RoadConnection>( this.OnLaneCorner );
             this._handlers.Register<RoadLaneBlock>( this.OnRoadLaneBlock );
+            this._handlers.Register<LightBlock>( this.OnLight );
+        }
+
+        private void OnLight( LightBlock obj )
+        {
+            var light = new Light( obj );
+            this._elements.Add( obj, light );
+            this._connectElementsAction.Add( () => this.ConnectLight( light ) );
+        }
+
+        private void ConnectLight( Light light )
+        {
+            var owner = this.GetObject<LaneJunction>( light.LightBlock.Connector.Owner.Parent );
+            light.Owner = owner;
+            var edge = owner.JunctionBuilder.GetEdgeType( light.LightBlock.Connector.Owner );
+            if ( edge < 0 ) { throw new ArgumentException(); }
+            owner.AddLight( edge, light );
         }
 
         private void OnRoadLaneBlock( RoadLaneBlock obj )
@@ -57,7 +74,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         private void OnLaneCorner( RoadConnection roadConnection )
         {
-            var laneCorner = new LaneCorner( roadConnection, c => new LaneCornerConductor(c) );
+            var laneCorner = new LaneCorner( roadConnection, c => new LaneCornerConductor( c ) );
             this._elements.Add( roadConnection, laneCorner );
             this._connectElementsAction.Add( () => this.ConectLaneCorner( laneCorner ) );
         }
@@ -70,17 +87,29 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         private void OnLaneJuntion( RoadJunctionBlock roadJunctionBlock )
         {
-            var element = new LaneJunction( roadJunctionBlock );
+            var element = new LaneJunction( roadJunctionBlock, s => new LaneJuctionConductor( s ) );
             this._elements.Add( roadJunctionBlock, element );
             this._connectElementsAction.Add( () => this.ConnectLaneJucntion( element ) );
         }
 
         private void ConnectLaneJucntion( LaneJunction element )
         {
-            element.Bottom.Lane = this.GetObject<Lane>( element.JunctionBuilder.RoadJunctionEdges[ EdgeType.Bottom ].Connector.Edge );
-            element.Left.Lane = this.GetObject<Lane>( element.JunctionBuilder.RoadJunctionEdges[ EdgeType.Left ].Connector.Edge );
-            element.Top.Lane = this.GetObject<Lane>( element.JunctionBuilder.RoadJunctionEdges[ EdgeType.Top ].Connector.Edge );
-            element.Right.Lane = this.GetObject<Lane>( element.JunctionBuilder.RoadJunctionEdges[ EdgeType.Right ].Connector.Edge );
+            if ( element.JunctionBuilder.RoadJunctionEdges[ EdgeType.Bottom ].Connector.Edge != null )
+            {
+                element.Bottom.Lane = this.GetObject<Lane>( element.JunctionBuilder.RoadJunctionEdges[ EdgeType.Bottom ].Connector.Edge.Parent );
+            }
+            if ( element.JunctionBuilder.RoadJunctionEdges[ EdgeType.Left ].Connector.Edge != null )
+            {
+                element.Left.Lane = this.GetObject<Lane>( element.JunctionBuilder.RoadJunctionEdges[ EdgeType.Left ].Connector.Edge.Parent );
+            }
+            if ( element.JunctionBuilder.RoadJunctionEdges[ EdgeType.Top ].Connector.Edge != null )
+            {
+                element.Top.Lane = this.GetObject<Lane>( element.JunctionBuilder.RoadJunctionEdges[ EdgeType.Top ].Connector.Edge.Parent );
+            }
+            if ( element.JunctionBuilder.RoadJunctionEdges[ EdgeType.Right ].Connector.Edge != null )
+            {
+                element.Right.Lane = this.GetObject<Lane>( element.JunctionBuilder.RoadJunctionEdges[ EdgeType.Right ].Connector.Edge.Parent );
+            }
         }
 
         private void OnCarsRemover( BuildMode.Controls.CarsRemover carsRemover )

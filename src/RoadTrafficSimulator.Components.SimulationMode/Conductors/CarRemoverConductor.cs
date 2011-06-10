@@ -23,7 +23,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             this._eventAggregator = eventAggregator;
         }
 
-        public IRoadElement GetNextRandomElement()
+        public IRoadElement GetNextRandomElement(List<IRoadElement> route)
         {
             return null;
         }
@@ -39,7 +39,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             Debug.Assert( car == removedCar );
         }
 
-        public bool SholdChange( Vector2 acutalCarLocation, Vector2 direction )
+        public bool SholdChange(Vector2 acutalCarLocation, Car car)
         {
             return false;
         }

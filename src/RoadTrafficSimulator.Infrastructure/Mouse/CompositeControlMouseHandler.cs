@@ -34,7 +34,8 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
 
         private void Move( XnaMouseState state )
         {
-            if ( this._selectedControlBase != this._owner )
+            // TODO WTF
+            if ( this._selectedControlBase != this._owner && this._selectedControlBase.MouseHandler != null )
             {
                 this._selectedControlBase.MouseHandler.OnMove(state);
             }

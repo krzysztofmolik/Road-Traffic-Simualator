@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 
@@ -5,9 +6,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 {
     public interface IConductor
     {
-        IRoadElement GetNextRandomElement();
+        IRoadElement GetNextRandomElement(List<IRoadElement> route);
         void Take( Car car );
-        bool SholdChange( Vector2 acutalCarLocation, Vector2 direction );
+        bool SholdChange(Vector2 acutalCarLocation, Car car);
         float GetDistanceToStopLine();
         LightInfomration GetLightInformation();
         JunctionInformation GetNextJunctionInformation();

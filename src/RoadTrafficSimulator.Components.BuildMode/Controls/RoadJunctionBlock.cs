@@ -6,7 +6,7 @@ using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Draw;
 using RoadTrafficSimulator.Infrastructure.Mouse;
-using RoadTrafficSimulator.Road;
+using NLog;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
@@ -16,6 +16,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private readonly MovablePoint[] _points = new MovablePoint[ Corners.Count ];
         private readonly IVertexContainer<VertexPositionColor> _concretVertexContainer;
         private readonly IMouseHandler _mouseHandler;
+        private Logger _logger = LogManager.GetCurrentClassLogger();
 
         public RoadJunctionBlock( Factories.Factories factories, Vector2 location, IControl parent )
         {
@@ -154,7 +155,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.RoadJunctionEdges.ForEach( edge => edge.Invalidate() );
         }
 
-        public override void TranslateWithoutNotification(Matrix translationMatrix)
+        public override void TranslateWithoutNotification( Matrix translationMatrix )
         {
             this.LeftTop.TranslateWithoutEvent( translationMatrix );
             this.RightTop.TranslateWithoutEvent( translationMatrix );
@@ -171,5 +172,15 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             base.OnInvalidate();
         }
 
+        public int GetEdgeType( Edge owner )
+        {
+            var edge = this.RoadJunctionEdges.Select( ( o, i ) => new { Item = o, Edge = i } ).FirstOrDefault( s => s.Item == owner );
+            if ( edge == null )
+            {
+                _logger.Warn( "Edge not found" );
+            }
+
+            return -1;
+        }
     }
 }

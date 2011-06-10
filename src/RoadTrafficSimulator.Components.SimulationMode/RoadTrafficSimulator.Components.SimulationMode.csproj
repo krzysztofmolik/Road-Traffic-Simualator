@@ -107,6 +107,7 @@
     <Compile Include="Conductors\CarStateMachine.cs" />
     <Compile Include="Conductors\IConductor.cs" />
     <Compile Include="Conductors\LaneCornerConductor.cs" />
+    <Compile Include="Conductors\LaneJuctionConductor.cs" />
     <Compile Include="Conductors\SingleLaneConductor.cs" />
     <Compile Include="Controlers\CarsDrawerControler.cs" />
     <Compile Include="Controlers\CarsInserterControler.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Elements\LaneConnector.cs" />
     <Compile Include="Elements\LaneCorner.cs" />
     <Compile Include="Elements\LaneJunction.cs" />
+    <Compile Include="Elements\Light.cs" />
     <Compile Include="GenericFactory.cs" />
     <Compile Include="IRoadElement.cs" />
     <Compile Include="Messages\CarRemoved.cs" />

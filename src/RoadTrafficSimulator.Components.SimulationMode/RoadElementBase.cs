@@ -19,10 +19,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode
         {
             this._control.VertexContainer.Draw( graphic );
         }
-        public void Update( GameTime time )
-        {
-            // TODO Implement
-        }
 
         public IControl BuildControl
         {
