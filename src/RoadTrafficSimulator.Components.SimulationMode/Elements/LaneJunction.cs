@@ -10,7 +10,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
     public class LaneJunction : RoadElementBase
     {
         private readonly Func<LaneJunction, IConductor> _condutorFactory;
-        private readonly Light[] _lights = new Light[ EdgeType.Count ];
+        private readonly Light.Light[] _lights = new Light.Light[ EdgeType.Count ];
         private IConductor _conductor;
 
         public LaneJunction( RoadJunctionBlock control, Func<LaneJunction, IConductor> condutorFactory )
@@ -54,7 +54,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
             get { return this._conductor; }
         }
 
-        public void AddLight( int edge, Light light )
+        public void AddLight( int edge, Light.Light light )
         {
             Contract.Requires( edge > 0 && edge < EdgeType.Count );
             this._lights[ edge ] = light;

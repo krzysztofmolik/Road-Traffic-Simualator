@@ -5,6 +5,7 @@ using Common.Handler;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
+using RoadTrafficSimulator.Components.SimulationMode.Elements.Light;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using Common;

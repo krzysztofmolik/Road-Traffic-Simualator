@@ -1,23 +1,18 @@
 using System;
-using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Infrastructure.Controls;
-using RoadTrafficSimulator.Infrastructure.Draw;
 
 namespace RoadTrafficSimulator.Components.SimulationMode
 {
     public abstract class RoadElementBase : IRoadElement
     {
         private readonly IControl _control;
+        private readonly IDrawer _drawer;
 
         public RoadElementBase( IControl control )
         {
             this._control = control;
-        }
-
-        public void Draw( Graphic graphic, GameTime gameTime )
-        {
-            this._control.VertexContainer.Draw( graphic );
+            this._drawer = new StandardDrawer( this );
         }
 
         public IControl BuildControl
@@ -26,5 +21,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode
         }
 
         public abstract IConductor Condutor { get; }
+
+        public IDrawer Drawer
+        {
+            get { return this._drawer; }
+        }
     }
 }

@@ -19,7 +19,6 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private readonly TextureStyle _style;
         private static readonly float Width = Constans.ToVirtualUnit( 0.7f );
         private static readonly float Height = Constans.ToVirtualUnit( 1.5f );
-        private static readonly int[] Indexes = new[] { 0, 3, 1, 1, 3, 2 };
         private Quadrangle _shape;
 
         public LightVeretexContainer( LightBlock @object, Texture2D texture )
@@ -56,7 +55,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         protected override void DrawControl( Graphic graphic )
         {
-            graphic.VertexPositionalTextureDrawer.DrawIndexedTraingeList( this._texture, this.Vertex, Indexes );
+            graphic.VertexPositionalTextureDrawer.DrawIndexedTraingeList( this._texture, this.Vertex, this._shape.Indexes );
         }
     }
 
