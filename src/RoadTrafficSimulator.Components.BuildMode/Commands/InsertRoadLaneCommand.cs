@@ -60,22 +60,29 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
         private void MousePressed( XnaMouseState mouseState )
         {
             var edge = this.GetRoadJuctionEdge( mouseState.Location );
-            if ( this.IsAppropiate( edge ) == false ) { return; }
 
             if ( this._isFirst )
             {
+                if ( this.CanStartFrom( edge ) == false ) { return; }
                 this.ProcessFirstControl( edge );
             }
             else
             {
+                if( this.CanProcess( edge ) ==false ) { return; }
                 this.ProcessControl( edge, mouseState.Location );
             }
         }
 
-        private bool IsAppropiate( IControl edge )
+        private bool CanProcess(IControl edge)
         {
             // TODO: Fix it, this should be resolved in more appropiate way
-            return edge == null || edge is RoadJunctionEdge || edge is CarsInserter || edge is CarsRemover;
+            return edge == null || edge is RoadJunctionEdge || edge is CarsRemover;
+        }
+
+        private bool CanStartFrom( IControl edge )
+        {
+            // TODO: Fix it, this should be resolved in more appropiate way
+            return edge is RoadJunctionEdge || edge is CarsInserter;
         }
 
         private void ProcessControl( IControl edge, Vector2 location )

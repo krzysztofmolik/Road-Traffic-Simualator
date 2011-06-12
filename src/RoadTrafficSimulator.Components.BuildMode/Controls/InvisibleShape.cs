@@ -7,12 +7,17 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
     {
         public Vector2[] ShapePoints
         {
-            get { return new Vector2[0]; }
+            get { return new Vector2[ 0 ]; }
         }
 
         public Vector2[] DrawableShape
         {
-            get { return new Vector2[0]; }
+            get { return new Vector2[ 0 ]; }
+        }
+
+        public int[] Indexes
+        {
+            get { return new int[ 0 ]; }
         }
     }
 }

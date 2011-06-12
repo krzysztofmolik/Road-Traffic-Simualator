@@ -24,7 +24,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
 
         public void Draw( GameTime gameTime )
         {
-            this._elementsToDraw.ForEach( s => s.BuildControl.VertexContainer.Draw( this._graphic ) );
+            this._elementsToDraw.ForEach( s => s.Drawer.Draw( this._graphic, gameTime ) );
             this._graphic.VertexPositionalColorDrawer.Flush();
             this._graphic.VertexPositionalTextureDrawer.Flush();
         }
@@ -35,7 +35,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
 
         public int Order
         {
-            get { return (int) SimulationMode.Order.Normal; }
+            get { return ( int ) SimulationMode.Order.Normal; }
         }
     }
 }

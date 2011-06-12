@@ -178,9 +178,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             if ( edge == null )
             {
                 _logger.Warn( "Edge not found" );
+                return -1;
             }
 
-            return -1;
+            return edge.Edge;
         }
     }
 }

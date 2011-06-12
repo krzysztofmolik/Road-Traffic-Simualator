@@ -50,6 +50,11 @@ namespace RoadTrafficSimulator.Infrastructure.Draw
             this._actionBuffer.Enqueue( () => this._graphicsDeviceService.GraphicsDevice.DrawTriangleList( block ) );
         }
 
+        public void DrawIndexedTriangeList( VertexPositionColor[] block, int[] indexes )
+        {
+            this._actionBuffer.Enqueue( () => this._graphicsDeviceService.GraphicsDevice.DrawIndexedUserPrimitives( block, indexes ) );
+        }
+
         public void Flush()
         {
             this._basicEffect.Begin();

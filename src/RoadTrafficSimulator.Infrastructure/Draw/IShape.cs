@@ -6,5 +6,6 @@ namespace RoadTrafficSimulator.Infrastructure.Draw
     {
         Vector2[] ShapePoints { get; }
         Vector2[] DrawableShape { get; }
+        int[] Indexes { get; }
     }
 }

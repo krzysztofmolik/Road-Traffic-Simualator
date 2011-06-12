@@ -78,6 +78,7 @@
     <Reference Include="mscorlib">
       <Private>False</Private>
     </Reference>
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -115,6 +116,7 @@
     <Compile Include="Controlers\ControlersBase.cs" />
     <Compile Include="Controlers\DrawElementsControler.cs" />
     <Compile Include="Controlers\IControlers.cs" />
+    <Compile Include="Controlers\LightsUpdateControler.cs" />
     <Compile Include="Elements\CarsInserter.cs" />
     <Compile Include="Elements\CarsRemover.cs" />
     <Compile Include="Elements\Cars\Car.cs" />
@@ -124,8 +126,12 @@
     <Compile Include="Elements\LaneConnector.cs" />
     <Compile Include="Elements\LaneCorner.cs" />
     <Compile Include="Elements\LaneJunction.cs" />
-    <Compile Include="Elements\Light.cs" />
+    <Compile Include="Elements\Light\Light.cs" />
+    <Compile Include="Elements\Light\LightDrawer.cs" />
+    <Compile Include="Elements\Light\LightState.cs" />
+    <Compile Include="Elements\Light\LightStateMachine.cs" />
     <Compile Include="GenericFactory.cs" />
+    <Compile Include="IDrawer.cs" />
     <Compile Include="IRoadElement.cs" />
     <Compile Include="Messages\CarRemoved.cs" />
     <Compile Include="Messages\CarCreated.cs" />
@@ -134,6 +140,7 @@
     <Compile Include="RoadElementBase.cs" />
     <Compile Include="SimulationModeMainComponent.cs" />
     <Compile Include="SimulationModeModule.cs" />
+    <Compile Include="StandardDrawer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common.Xna.FSharp\Common.Xna.FSharp.fsproj">
