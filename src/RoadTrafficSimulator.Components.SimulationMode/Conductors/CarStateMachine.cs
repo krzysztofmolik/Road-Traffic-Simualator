@@ -22,14 +22,15 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
         {
             if ( this._currentConductor == null )
             {
-                this._currentConductor = this._car.Route.First().Condutor;
-                this._curentRoadElement = this._car.Route.First();
+                this._currentConductor = this._car.Route.Current.Condutor;
+                this._curentRoadElement = this._car.Route.Current;
                 this._car.Location = this._curentRoadElement.BuildControl.Location;
             }
 
             if ( this._currentConductor.SholdChange( this._car.Location, this._car ) )
             {
-                this.ChangeConductor( this._car.Route.Dequeue() );
+                this._car.Route.MoveNext();
+                this.ChangeConductor( this._car.Route.Current );
                 this.Update( timeFrame );
                 return;
             }

@@ -138,6 +138,9 @@
     <Compile Include="Order.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoadElementBase.cs" />
+    <Compile Include="Route\IRouteMark.cs" />
+    <Compile Include="Route\Route.cs" />
+    <Compile Include="Route\RouteMark.cs" />
     <Compile Include="SimulationModeMainComponent.cs" />
     <Compile Include="SimulationModeModule.cs" />
     <Compile Include="StandardDrawer.cs" />

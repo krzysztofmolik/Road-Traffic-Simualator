@@ -34,7 +34,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             var route = this.GetRandomRoute( startElement );
             foreach ( var roadElement in route )
             {
-                car.Route.Enqueue( roadElement );
+                car.Route.Add( roadElement );
             }
 
             startElement.Condutor.Take( car );

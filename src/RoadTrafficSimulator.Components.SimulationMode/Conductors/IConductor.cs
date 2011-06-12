@@ -6,9 +6,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 {
     public interface IConductor
     {
-        IRoadElement GetNextRandomElement(List<IRoadElement> route);
+        IRoadElement GetNextRandomElement( List<IRoadElement> route );
         void Take( Car car );
-        bool SholdChange(Vector2 acutalCarLocation, Car car);
+        bool SholdChange( Vector2 acutalCarLocation, Car car );
         float GetDistanceToStopLine();
         LightInfomration GetLightInformation();
         JunctionInformation GetNextJunctionInformation();

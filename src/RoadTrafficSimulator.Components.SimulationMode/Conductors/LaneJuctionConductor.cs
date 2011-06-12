@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using System.Linq;
-using XnaVs10.MathHelpers;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 {
@@ -39,7 +38,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 
         public bool SholdChange( Vector2 acutalCarLocation, Car car )
         {
-            var next = this._laneJunction.Edges.Where( s => s.Lane == car.Route.First() ).FirstOrDefault();
+            var next = this._laneJunction.Edges.Where( s => s.Lane == car.Route.GetNext() ).FirstOrDefault();
             var distance = next.BuildControl.Location - acutalCarLocation;
             // TODO Check value and extract some kind of property
             if ( distance.Length() <= 0.001f ) { return true; }
