@@ -13,7 +13,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
         protected override void Load( ContainerBuilder builder )
         {
             builder.RegisterType<SimulationModeMainComponent>().SingleInstance();
-            builder.RegisterType<Builder>().InstancePerLifetimeScope();
+            builder.RegisterType<Builder.Builder>().InstancePerLifetimeScope();
             builder.RegisterType<CarsFactory>().As<ICarsFactory>().InstancePerDependency();
             builder.RegisterAssemblyTypes( Assembly.GetExecutingAssembly() )
                        .InNamespaceOf<IControlers>()

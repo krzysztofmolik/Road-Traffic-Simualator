@@ -19,6 +19,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
         private readonly IEventAggregator _eventAggregator;
         private readonly ICarSpecifiaction[] _carsSpecifications;
         private readonly Random _rng = new Random();
+        private int _carId;
 
         public CarsFactory( IEventAggregator eventAggregator, IEnumerable<ICarSpecifiaction> carSpecifiactions )
         {
@@ -29,6 +30,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         public void CreateCar( CarsInserter startElement )
         {
+            if( this._carId > 1 )
+            {
+                return;
+            }
+
+            this._carId++;
             if ( startElement == null ) throw new ArgumentNullException( "startElement" );
             var car = this.GetRandomCarSpecifcation().Create();
             var route = this.GetRandomRoute( startElement );
@@ -36,6 +43,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             {
                 car.Route.Add( roadElement );
             }
+            car.CarId = this._carId;
 
             startElement.Condutor.Take( car );
             this._eventAggregator.Publish( new CarCreated( car ) );

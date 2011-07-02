@@ -98,17 +98,35 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builder.cs" />
+    <Compile Include="Builder\Builder.cs" />
+    <Compile Include="Builder\BuilderAction.cs" />
+    <Compile Include="Builder\BuilderContext.cs" />
+    <Compile Include="Builder\CarsRemoverBuilder.cs" />
+    <Compile Include="Builder\IBuilerItem.cs" />
+    <Compile Include="Builder\LaneCornerBuilder.cs" />
+    <Compile Include="Builder\LaneJunctionBuilder.cs" />
+    <Compile Include="Builder\LightBuilder.cs" />
+    <Compile Include="Builder\RoadLaneBuilder.cs" />
     <Compile Include="CarsFactory.cs" />
+    <Compile Include="CarsQueue.cs" />
     <Compile Include="CarsSpecification\ICarSpecifiaction.cs" />
     <Compile Include="CarsSpecification\PassengerCarFactory.cs" />
     <Compile Include="Conductors\CarInformation.cs" />
     <Compile Include="Conductors\CarInserterConductor.cs" />
     <Compile Include="Conductors\CarRemoverConductor.cs" />
     <Compile Include="Conductors\CarStateMachine.cs" />
+    <Compile Include="Conductors\Factories\CarInserterConductorFactory.cs" />
+    <Compile Include="Conductors\Factories\CarRemoverConductorFactory.cs" />
+    <Compile Include="Conductors\Factories\ConductorFactoryBase.cs" />
+    <Compile Include="Conductors\Factories\CondutctorFactory.cs" />
+    <Compile Include="Conductors\Factories\IConductorFactory.cs" />
+    <Compile Include="Conductors\Factories\LaneCornerConductorFactory.cs" />
+    <Compile Include="Conductors\Factories\LaneJunctionConductorFactory.cs" />
+    <Compile Include="Conductors\Factories\LightConductorFactory.cs" />
+    <Compile Include="Conductors\Factories\SingleLineConductorFactory.cs" />
     <Compile Include="Conductors\IConductor.cs" />
     <Compile Include="Conductors\LaneCornerConductor.cs" />
-    <Compile Include="Conductors\LaneJuctionConductor.cs" />
+    <Compile Include="Conductors\RightHandRuleLaneJuctionConductor.cs" />
     <Compile Include="Conductors\SingleLaneConductor.cs" />
     <Compile Include="Controlers\CarsDrawerControler.cs" />
     <Compile Include="Controlers\CarsInserterControler.cs" />
@@ -133,9 +151,10 @@
     <Compile Include="GenericFactory.cs" />
     <Compile Include="IDrawer.cs" />
     <Compile Include="IRoadElement.cs" />
+    <Compile Include="JunctionEdgeDrawer.cs" />
+    <Compile Include="LaneJunctionDrawer.cs" />
     <Compile Include="Messages\CarRemoved.cs" />
     <Compile Include="Messages\CarCreated.cs" />
-    <Compile Include="Order.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoadElementBase.cs" />
     <Compile Include="Route\IRouteMark.cs" />

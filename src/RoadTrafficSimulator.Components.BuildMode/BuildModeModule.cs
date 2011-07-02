@@ -8,6 +8,8 @@ using RoadTrafficSimulator.Components.BuildMode.Connectors;
 using RoadTrafficSimulator.Components.BuildMode.Connectors.Commands;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.BuildMode.Factories;
+using RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands;
+using RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 using RoadTrafficSimulator.Road;
@@ -54,6 +56,19 @@ namespace RoadTrafficSimulator.Components.BuildMode
 
             this.RegisterFactories( builder );
             this.RegisterCreators( builder );
+
+            builder.RegisterType<ControlSerializer>().InstancePerLifetimeScope();
+            this.RegisterConvtrolConverters( builder );
+
+            builder.RegisterType<DeserializationContext>();
+        }
+
+        private void RegisterConvtrolConverters( ContainerBuilder builder )
+        {
+            builder.RegisterAssemblyTypes( Assembly.GetAssembly( typeof( IControlConverter ) ) )
+                .Where( s => s.Namespace == typeof( IControlConverter ).Namespace )
+                .Where( s => s.IsImplementingInterface<IControlConverter>() )
+                .As<IControlConverter>();
         }
 
         private void RegisterCreators( ContainerBuilder builder )

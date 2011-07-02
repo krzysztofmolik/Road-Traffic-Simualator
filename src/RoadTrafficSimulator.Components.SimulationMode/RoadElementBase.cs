@@ -22,7 +22,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         public abstract IConductor Condutor { get; }
 
-        public IDrawer Drawer
+        public virtual IDrawer Drawer
         {
             get { return this._drawer; }
         }

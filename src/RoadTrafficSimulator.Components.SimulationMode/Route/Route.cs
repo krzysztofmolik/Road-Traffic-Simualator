@@ -49,9 +49,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
             return this._routeMark.GetNext();
         }
 
-        public void MoveNext()
+        public IRouteMark MoveNext()
         {
             this._routeMark.MoveNext();
+            return this._routeMark;
         }
 
         public IRouteMark Clone()

@@ -28,21 +28,22 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
         public IRoadElement GetPrevious()
         {
             var mark = this._mark - 1;
-            if ( this._route.IsValidIndex( mark ) ) { return null; }
+            if ( this._route.IsValidIndex( mark ) == false ) { return null; }
             return this._route.GetAt( mark );
         }
 
         public IRoadElement GetNext()
         {
             var mark = this._mark + 1;
-            if ( this._route.IsValidIndex( mark ) ) { return null; }
+            if ( this._route.IsValidIndex( mark ) == false ) { return null; }
             return this._route.GetAt( mark );
         }
 
-        public void MoveNext()
+        public IRouteMark MoveNext()
         {
             ++this._mark;
             if ( this._route.IsValidIndex( this._mark ) == false ) { throw new InvalidOperationException( "Can't move mark outside the route" ); }
+            return this;
         }
 
         public IRouteMark Clone()

@@ -97,7 +97,15 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this._connector = new LightConnector( this );
         }
 
-        public override Vector2 Location { get { return this._location; } }
+        public override Vector2 Location
+        {
+            get { return this._location; }
+            protected set
+            {
+                this._location = value;
+                this.Invalidate();
+            }
+        }
 
         public override IVertexContainer VertexContainer
         {

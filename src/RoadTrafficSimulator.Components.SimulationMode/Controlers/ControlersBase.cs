@@ -29,6 +29,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
         {
         }
 
-        public virtual int Order { get { return (int) SimulationMode.Order.Normal; } }
+        public virtual int Order { get { return (int) Infrastructure.Order.Normal; } }
     }
 }

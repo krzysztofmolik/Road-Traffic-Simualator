@@ -43,12 +43,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         {
             //            var calculator = new Calculation2( PointRotation.Start, Constans.RoadHeight );
             var calculator = new CalculateEdgeAngel( Constans.RoadHeight * 2 );
-            var prevLocation = this.Connector.PreviousEdge != null
-                                   ? FSharpOption<Vector2>.Some( this.Connector.PreviousEdge.StartLocation )
+            var prevLocation = this.Connector.OpositeToPreviousEdge != null
+                                   ? FSharpOption<Vector2>.Some( this.Connector.OpositeToPreviousEdge.StartLocation )
                                    : FSharpOption<Vector2>.None;
 
-            var nextLocation = this.Connector.NextEdge != null
-                                   ? FSharpOption<Vector2>.Some( this.Connector.NextEdge.StartLocation )
+            var nextLocation = this.Connector.OpositeToNextEdge != null
+                                   ? FSharpOption<Vector2>.Some( this.Connector.OpositeToNextEdge.StartLocation )
                                    : FSharpOption<Vector2>.None;
 
             var line = calculator.Calculate( prevLocation, this.StartLocation, nextLocation );
@@ -59,12 +59,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         {
             //            var calculator = new Calculation2( PointRotation.End, Constans.RoadHeight );
             var calculator = new CalculateEdgeAngel( Constans.RoadHeight * 2 );
-            var prevLocation = this.Connector.PreviousEdge != null
-                                   ? FSharpOption<Vector2>.Some( this.Connector.PreviousEdge.EndLocation )
+            var prevLocation = this.Connector.OpositeToPreviousEdge != null
+                                   ? FSharpOption<Vector2>.Some( this.Connector.OpositeToPreviousEdge.EndLocation )
                                    : FSharpOption<Vector2>.None;
 
-            var nextLocation = this.Connector.NextEdge != null
-                                   ? FSharpOption<Vector2>.Some( this.Connector.NextEdge.EndLocation )
+            var nextLocation = this.Connector.OpositeToNextEdge != null
+                                   ? FSharpOption<Vector2>.Some( this.Connector.OpositeToNextEdge.EndLocation )
                                    : FSharpOption<Vector2>.None;
 
             var line = calculator.Calculate( prevLocation, this.EndLocation, nextLocation );
@@ -74,12 +74,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public void RecalculatePosition()
         {
             var calculator = new CalculateEdgeAngel( Constans.RoadHeight );
-            var prevLocation = this.Connector.PreviousEdge != null
-                                   ? FSharpOption<Vector2>.Some( this.Connector.PreviousEdge.Location )
+            var prevLocation = this.Connector.OpositeToPreviousEdge != null
+                                   ? FSharpOption<Vector2>.Some( this.Connector.OpositeToPreviousEdge.Location )
                                    : FSharpOption<Vector2>.None;
 
-            var nextLocation = this.Connector.NextEdge != null
-                                   ? FSharpOption<Vector2>.Some( this.Connector.NextEdge.Location )
+            var nextLocation = this.Connector.OpositeToNextEdge != null
+                                   ? FSharpOption<Vector2>.Some( this.Connector.OpositeToNextEdge.Location )
                                    : FSharpOption<Vector2>.None;
 
             var line = calculator.Calculate( prevLocation, this.Location, nextLocation );

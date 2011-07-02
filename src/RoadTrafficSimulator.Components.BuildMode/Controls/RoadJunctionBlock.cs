@@ -124,12 +124,23 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             get { return this._mouseHandler; }
         }
 
+        // TODO fix it
         public override Vector2 Location
         {
             get { return this.LeftTopLocation; }
+            protected set
+            {
+                this.LeftTop.SetLocation( value );
+                this.Invalidate();
+            }
         }
 
         public override IControl Parent { get; set; }
+
+        public RoadJunctionEdge LeftEdge { get { return this.RoadJunctionEdges[ EdgeType.Left ]; } }
+        public RoadJunctionEdge TopEdge { get { return this.RoadJunctionEdges[ EdgeType.Top ]; } }
+        public RoadJunctionEdge RightEdge { get { return this.RoadJunctionEdges[ EdgeType.Right ]; } }
+        public RoadJunctionEdge BottomEdge { get { return this.RoadJunctionEdges[ EdgeType.Bottom ]; } }
 
         #endregion Properties
 

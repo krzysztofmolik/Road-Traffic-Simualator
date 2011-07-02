@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using NLog;
 using RoadTrafficSimulator.Components.BuildMode;
 using RoadTrafficSimulator.Components.SimulationMode;
+using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Messages;
 using RoadTrafficSimulator.Infrastructure.Mouse;

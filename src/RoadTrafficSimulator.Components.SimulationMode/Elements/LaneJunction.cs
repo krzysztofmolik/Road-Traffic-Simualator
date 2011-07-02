@@ -12,6 +12,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         private readonly Func<LaneJunction, IConductor> _condutorFactory;
         private readonly Light.Light[] _lights = new Light.Light[ EdgeType.Count ];
         private IConductor _conductor;
+        private LaneJunctionDrawer _drawer;
 
         public LaneJunction( RoadJunctionBlock control, Func<LaneJunction, IConductor> condutorFactory )
             : base( control )
@@ -20,6 +21,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
 
             this._condutorFactory = condutorFactory;
             this._conductor = this._condutorFactory( this );
+            this._drawer = new LaneJunctionDrawer( this );
 
             this.Left = new JunctionEdge( control.RoadJunctionEdges[ EdgeType.Left ] );
             this.Top = new JunctionEdge( control.RoadJunctionEdges[ EdgeType.Top ] );
@@ -32,11 +34,17 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
             this.Bottom.Junction = this;
         }
 
+        public Light.Light[] Lights { get { return this._lights; } }
         public RoadJunctionBlock JunctionBuilder { get; private set; }
         public JunctionEdge Left { get; set; }
         public JunctionEdge Top { get; set; }
         public JunctionEdge Right { get; set; }
         public JunctionEdge Bottom { get; set; }
+
+        public override IDrawer Drawer
+        {
+            get { return this._drawer; }
+        }
 
         public IEnumerable<JunctionEdge> Edges
         {

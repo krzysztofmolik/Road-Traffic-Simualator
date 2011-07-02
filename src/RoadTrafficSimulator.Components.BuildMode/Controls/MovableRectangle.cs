@@ -130,6 +130,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public override Vector2 Location
         {
             get { return this.LeftTop.Location; }
+            // TDOO Fix it
+            protected set
+            {
+                this.LeftBottom.SetLocation( value );
+                this.Invalidate();
+            }
         }
 
         public override IControl Parent { get; set; }

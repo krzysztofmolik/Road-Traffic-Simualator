@@ -2,7 +2,8 @@ using System;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
-using System.Linq;
+using RoadTrafficSimulator.Components.SimulationMode.Elements.Light;
+using RoadTrafficSimulator.Infrastructure;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 {
@@ -11,10 +12,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
         private IConductor _currentConductor;
         private IRoadElement _curentRoadElement;
         private readonly Car _car;
+        private ICarMachineState _currentState;
 
         public CarStateMachine( Car car )
         {
             Contract.Requires( car != null );
+            this._currentState = new StopPointCarMachineState();
             this._car = car;
         }
 
@@ -27,7 +30,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
                 this._car.Location = this._curentRoadElement.BuildControl.Location;
             }
 
-            if ( this._currentConductor.SholdChange( this._car.Location, this._car ) )
+            if ( this._currentConductor.ShouldChange( this._car.Location, this._car ) )
             {
                 this._car.Route.MoveNext();
                 this.ChangeConductor( this._car.Route.Current );
@@ -35,30 +38,58 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
                 return;
             }
 
+            this._currentState.SetStopPoint( float.MaxValue, this._car.MaxSpeed );
             this.StopLineDistance( this._currentConductor.GetDistanceToStopLine() );
-            this.LightDistance( this._currentConductor.GetLightInformation() );
-            this.YieldDistance( this._currentConductor.GetNextJunctionInformation() );
-            this.CarAheadDistance( this._currentConductor.GetCarAheadDistance() );
-            this.MoveCar( timeFrame.Milliseconds );
+            this.LightDistance( this.GetLightInformation() );
+            this.YieldDistance( this._currentConductor.GetNextJunctionInformation( TODO, TODO ) );
+            this.CarAheadDistance( this.GetCarAheadInformation() );
+            this._currentState.MoveCar( this._car, timeFrame.Milliseconds );
         }
 
-        private void MoveCar( int elesedMs )
+        private CarInformation GetCarAheadInformation()
         {
-            this._car.Location += this._car.Direction * ( this._car.Velocity * elesedMs );
+            var carInformation = new CarInformation();
+            carInformation.Car = this._car;
+            this._currentConductor.GetCarAheadDistance( this._car.Route.Clone(), carInformation );
+            return carInformation;
         }
 
-        private void CarAheadDistance( CarInformation carAhead )
+        private LightInfomration GetLightInformation()
         {
-            //            throw new NotImplementedException();
+            var lightInformation = new LightInfomration();
+            var routeMark = this._car.Route.Clone();
+            var next = routeMark.GetNext();
+            if ( next == null ) { return lightInformation; }
+            lightInformation.LightDistance = this._currentConductor.GetCarDistanceToEnd( this._car );
+            lightInformation.Car = this._car;
+            this._currentConductor.GetLightInformation( routeMark, lightInformation );
+            return lightInformation;
+        }
+
+        private void CarAheadDistance( CarInformation carAheadInformation )
+        {
+            if ( carAheadInformation.CarAhead != null )
+            {
+                var carAhead = carAheadInformation.CarAhead;
+                var distance = carAheadInformation.CarDistance - ( carAhead.Lenght / 2 ) - ( this._car.Lenght / 2 ) - UnitConverter.FromMeter( Math.Min( this._car.Velocity, carAhead.Velocity ) / UnitConverter.FromKmPerHour( 10.0f ) );
+                this._currentState.SetStopPoint( distance, carAhead.Velocity );
+            }
+            else
+            {
+                this._currentState.SetStopPoint( float.MaxValue, float.MaxValue );
+            }
         }
 
         private void YieldDistance( JunctionInformation nextJunction )
         {
-            //            throw new NotImplementedException();
         }
 
         private void LightDistance( LightInfomration nextLight )
         {
+            if ( nextLight.LightState != LightState.Green )
+            {
+                this._currentState.SetStopPoint( nextLight.LightDistance - UnitConverter.FromMeter( 1.0f ), 0.0f );
+            }
             //            throw new NotImplementedException();
         }
 
@@ -81,6 +112,90 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             {
                 this._car.Direction = Vector2.Normalize( this._currentConductor.GetCarDirection( this._car ) );
             }
+        }
+    }
+
+    public interface ICarMachineState
+    {
+        void SetStopPoint( float distance, float requriredSpeed );
+        void MoveCar( Car car, int elapsedMs );
+    }
+
+    public class StopPointCarMachineState : ICarMachineState
+    {
+        private float _stopPointDistance;
+        private float _saveStopPointDistance;
+        private float _requiredSpeed;
+
+        public void SetStopPoint( float distance, float requriredSpeed )
+        {
+            if ( this._stopPointDistance < distance ) { return; }
+            this._stopPointDistance = distance;
+            this._requiredSpeed = requriredSpeed;
+        }
+
+        public void MoveCar( Car car, int elapsedMs )
+        {
+            var distance = this.GetVelocity( car, this._stopPointDistance, this._requiredSpeed, elapsedMs );
+            var nextPoint = car.Direction * ( distance );
+            car.Location += nextPoint;
+
+            this.Clear();
+        }
+
+        private void Clear()
+        {
+            this._stopPointDistance = float.MaxValue;
+            this._requiredSpeed = float.MaxValue;
+        }
+
+        private float GetVelocity( Car car, float distance, float requiredSpeed, int elapsedMs )
+        {
+            if ( distance < 0 )
+            {
+                car.Velocity = 0.0f;
+                return 0.0f;
+            }
+
+            if ( requiredSpeed > car.Velocity )
+            {
+                return this.Accelerate( car, elapsedMs );
+            }
+
+            if ( distance < UnitConverter.FromMeter( 0.1f ) )
+            {
+                car.Velocity = requiredSpeed;
+                return distance;
+            }
+
+            return this.Break( car, elapsedMs );
+        }
+
+        private float Accelerate( Car car, int elapsedMs )
+        {
+            var accelerated = car.AccelerateForce * elapsedMs;
+            car.Velocity = car.Velocity + accelerated;
+            return Math.Min( car.Velocity * elapsedMs, this._stopPointDistance );
+        }
+
+        private float DontChangeSpeed( Car car, int elapsedMs )
+        {
+            return car.Velocity * elapsedMs;
+        }
+
+        private float Break( Car car, int elapsedMs )
+        {
+            var speedDifferenc = car.Velocity - this._requiredSpeed;
+            var breakingDistance = Math.Pow( speedDifferenc, 2 ) / ( 2 * car.BreakingForce );
+            if ( breakingDistance < this._stopPointDistance - UnitConverter.FromMeter( 1.0f ) )
+            {
+                var accelerated = car.AccelerateForce * elapsedMs;
+                car.Velocity = car.Velocity + accelerated;
+                return Math.Min( car.Velocity * elapsedMs, this._stopPointDistance );
+            }
+
+            car.Velocity -= car.BreakingForce * elapsedMs;
+            return Math.Min( car.Velocity * elapsedMs, this._stopPointDistance );
         }
     }
 }

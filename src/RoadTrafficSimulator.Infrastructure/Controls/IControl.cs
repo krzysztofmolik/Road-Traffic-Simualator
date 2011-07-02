@@ -35,7 +35,9 @@ namespace RoadTrafficSimulator.Infrastructure.Controls
 
         bool IsHitted( Vector2 location );
 
-        ILogicControl GetHittedControl(Vector2 point);
+        ILogicControl GetHittedControl( Vector2 point );
+
+        Guid Id { get; set; }
     }
 
     public interface ISingleControl : IControl

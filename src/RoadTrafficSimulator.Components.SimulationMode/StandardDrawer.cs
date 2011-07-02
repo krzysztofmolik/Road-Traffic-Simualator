@@ -6,7 +6,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 {
     public class StandardDrawer : IDrawer
     {
-        private IRoadElement _owner;
+        private readonly IRoadElement _owner;
 
         public StandardDrawer( IRoadElement owner )
         {
@@ -14,7 +14,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             this._owner = owner;
         }
 
-        public void Draw( Graphic graphic, GameTime gameTime )
+        public virtual void Draw( Graphic graphic, GameTime gameTime )
         {
             this._owner.BuildControl.VertexContainer.Draw( graphic );
         }

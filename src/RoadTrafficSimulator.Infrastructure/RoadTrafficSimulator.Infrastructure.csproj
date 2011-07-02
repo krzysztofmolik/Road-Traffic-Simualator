@@ -114,6 +114,7 @@
     <Compile Include="Controls\IControl.cs" />
     <Compile Include="Controls\Quadrangle.cs" />
     <Compile Include="Controls\TranslationChangedEventArgs.cs" />
+    <Compile Include="Converter.cs" />
     <Compile Include="DependencyInjection\ContentManager.cs" />
     <Compile Include="DependencyInjection\IContentManager.cs" />
     <Compile Include="DrawableGameComponent.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Mouse\PriorityMouseInfomrmation.cs" />
     <Compile Include="Mouse\SelectedControls.cs" />
     <Compile Include="Mouse\SelectedControlsCollection.cs" />
+    <Compile Include="Order.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UpdateableGameComponent.cs" />
     <Compile Include="Draw\VertexPositionTextureDrawer.cs" />

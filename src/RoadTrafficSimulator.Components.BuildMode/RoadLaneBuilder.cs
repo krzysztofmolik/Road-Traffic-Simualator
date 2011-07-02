@@ -25,6 +25,11 @@ namespace RoadTrafficSimulator.Components.BuildMode
             this._connectionCommand = connectionCommand;
         }
 
+        public void Clear()
+        {
+            this._lastConnectedControl = null;
+        }
+
         public void StartFrom( IControl control )
         {
             if ( this._lastConnectedControl != null ) { throw new InvalidOperationException(); }
