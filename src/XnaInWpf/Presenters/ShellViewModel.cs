@@ -1,9 +1,11 @@
 using System;
+using System.IO;
 using Autofac;
 using Caliburn.Micro;
 using Common;
 using RoadTrafficConstructor.Presenters.BuildMode;
 using RoadTrafficConstructor.Presenters.SimulationMode;
+using RoadTrafficSimulator.Components.BuildMode.Messages;
 using RoadTrafficSimulator.Infrastructure.Messages;
 using IEventAggregator = Common.IEventAggregator;
 
@@ -100,6 +102,21 @@ namespace RoadTrafficConstructor.Presenters
             this.IsBuildMode = true;
             this._eventAggreator.Publish( new ChangedToBuildMode() );
             this.ActivateItem( this._container.Resolve<BuildJunctionViewModel>() );
+        }
+
+        public void Save()
+        {
+            var fileName = System.Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ) + @"\1.traffic";
+            if ( File.Exists( fileName ) ) { File.Delete( fileName ); }
+            var stream = File.Create( fileName );
+            this._eventAggreator.Publish( new SaveMap( stream ) );
+        }
+
+        public void Load()
+        {
+            var fileName = System.Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ) + @"\1.traffic";
+            if ( !File.Exists( fileName ) ) { throw new ArgumentException( "fileName" ); }
+            this._eventAggreator.Publish( new LoadMap( File.Open( fileName, FileMode.Open ) ) );
         }
     }
 }

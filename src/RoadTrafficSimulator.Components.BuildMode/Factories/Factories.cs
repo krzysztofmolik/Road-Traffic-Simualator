@@ -1,7 +1,9 @@
-﻿using Common;
+﻿using System;
+using Common;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Factories
 {
+    [Serializable]
     public class Factories
     {
         public Factories( IVertexContainerFactory vertexContainerFactory, IMouseHandlerFactory mouseHandlerFactory)

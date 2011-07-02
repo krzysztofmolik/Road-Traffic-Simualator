@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using System;
+using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.BuildMode.VertexContainers;
 using RoadTrafficSimulator.Infrastructure.Draw;
@@ -10,6 +11,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Factories
         IVertexContainer<VertexPositionColor> Create(RoadJunctionBlock roadJunctionBlock);
     }
 
+    [Serializable]
     public class VertexContainerFactory : IVertexContainerFactory
     {
         public IVertexContainer<VertexPositionColor> Create( RoadJunctionBlock roadJunctionBlock )

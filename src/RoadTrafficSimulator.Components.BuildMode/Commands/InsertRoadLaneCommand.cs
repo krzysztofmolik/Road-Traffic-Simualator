@@ -53,6 +53,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
         public void Stop()
         {
             this._mouseInformation.StopRecord();
+            this._roadLaneBuilder.Clear();
 
             // TODO Finish road lane at some control
         }

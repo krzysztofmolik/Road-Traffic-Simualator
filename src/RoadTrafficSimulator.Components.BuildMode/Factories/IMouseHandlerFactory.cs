@@ -14,6 +14,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Factories
         IMouseHandler CreateEmpty();
     }
 
+    [Serializable]
     public class MouseHandlerFactory : IMouseHandlerFactory
     {
         private readonly Func<RoadLayer, IMouseHandler> _roadLayerMouseHandlerFactory;

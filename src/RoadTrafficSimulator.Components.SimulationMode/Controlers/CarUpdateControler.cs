@@ -34,7 +34,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
 
         public int Order
         {
-            get { return (int) SimulationMode.Order.Normal; }
+            get { return (int) Infrastructure.Order.Normal; }
         }
 
         public void Handle( CarCreated message )

@@ -45,7 +45,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
 
         public int Order
         {
-            get { return ( int ) SimulationMode.Order.High; }
+            get { return ( int ) Infrastructure.Order.High; }
         }
     }
 }

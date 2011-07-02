@@ -1,16 +1,17 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
+using RoadTrafficSimulator.Components.SimulationMode.Route;
+using RoadTrafficSimulator.Infrastructure;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 {
     public class CarInserterConductor : IConductor
     {
         private readonly CarsInserter _carInserter;
-        private readonly Queue<Car> _cars = new Queue<Car>();
+        private readonly CarsQueue _cars = new CarsQueue();
 
         public CarInserterConductor( CarsInserter carInserter )
         {
@@ -18,23 +19,32 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             this._carInserter = carInserter;
         }
 
-        public IRoadElement GetNextRandomElement(List<IRoadElement> route)
+        public IRoadElement GetNextRandomElement( List<IRoadElement> route )
         {
             return this._carInserter.Lane;
         }
 
         public void Take( Car car )
         {
-            this._cars.Enqueue( car );
+            this._cars.Add( car );
         }
 
         public void Remove( Car car )
         {
-            var removedCar = this._cars.Dequeue();
-            Debug.Assert( car == removedCar );
+            this._cars.Remove( car );
         }
 
-        public bool SholdChange(Vector2 acutalCarLocation, Car car)
+        public float GetCarDistanceToEnd( Car car )
+        {
+            if ( this._cars.Contains( car ) )
+            {
+                return Constans.PointSize;
+            }
+
+            return float.MaxValue;
+        }
+
+        public bool ShouldChange( Vector2 acutalCarLocation, Car car )
         {
             return true;
         }
@@ -44,19 +54,34 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return float.MaxValue;
         }
 
-        public LightInfomration GetLightInformation()
+        public void GetLightInformation( IRouteMark routeMark, LightInfomration lightInformation )
         {
-            return new LightInfomration { LightDistance = float.MaxValue };
+            // TODO Fix it
+            lightInformation.LightDistance = float.MaxValue;
         }
 
-        public JunctionInformation GetNextJunctionInformation()
+        public void GetNextJunctionInformation( RouteMark route, JunctionInformation junctionInformation )
         {
-            return new JunctionInformation { JunctionDistance = float.MaxValue };
+            junctionInformation.JunctionDistance += Constans.PointSize;
+            route.MoveNext();
+            route.Current.Condutor.GetNextJunctionInformation( route, junctionInformation );
         }
 
-        public CarInformation GetCarAheadDistance()
+        public void GetCarAheadDistance( IRouteMark routMark, CarInformation carInformation )
         {
-            return new CarInformation { CarDistance = float.MaxValue };
+            var carAhead = this._cars.GetCarAheadOf( carInformation.Car );
+            if ( carAhead == null )
+            {
+                carInformation.CarDistance += Constans.PointSize;
+                routMark.MoveNext();
+                routMark.Current.Condutor.GetCarAheadDistance( routMark, carInformation );
+            }
+            else
+            {
+                carInformation.Car = carAhead;
+            }
+
+            return;
         }
 
         public Vector2 GetCarDirection( Car car )

@@ -14,9 +14,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
             this._helper = new ConnectEdgesHelper( owner );
         }
 
-        public EndRoadLaneEdge PreviousEdge { get; private set; }
+        public EndRoadLaneEdge OpositeToPreviousEdge { get; private set; }
+        public EndRoadLaneEdge PreviousConnectedEdge { get; private set; }
 
-        public EndRoadLaneEdge NextEdge { get; private set; }
+        // TODO Change this stupid names
+        public EndRoadLaneEdge OpositeToNextEdge { get; private set; }
+        public EndRoadLaneEdge NextConnectedEdge { get; private set; }
 
         public IEdgeLine Top { get; private set; }
 
@@ -25,18 +28,20 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
         public void ConnectBeginWith( EndRoadLaneEdge roadLaneEdge )
         {
             // TODO Check it
-            this.PreviousEdge = this.GetLaneEdgeOpositeTo( roadLaneEdge );
-            this.PreviousEdge.Translated.Subscribe( x => this._owner.RecalculatePosition() );
+            this.PreviousConnectedEdge = roadLaneEdge;
+            this.OpositeToPreviousEdge = this.GetLaneEdgeOpositeTo( roadLaneEdge );
+            this.OpositeToPreviousEdge.Translated.Subscribe( x => this._owner.RecalculatePosition() );
 
             this._owner.RecalculatePosition();
         }
 
         public void ConnectEndWith( EndRoadLaneEdge roadLaneEdge )
         {
+            this.NextConnectedEdge = roadLaneEdge;
             var otherSideOfLane = this.GetLaneEdgeOpositeTo( roadLaneEdge );
-            this.NextEdge = otherSideOfLane;
+            this.OpositeToNextEdge = otherSideOfLane;
 
-            this.NextEdge.Translated.Subscribe( x => this._owner.RecalculatePosition() );
+            this.OpositeToNextEdge.Translated.Subscribe( x => this._owner.RecalculatePosition() );
             this._owner.RecalculatePosition();
         }
 

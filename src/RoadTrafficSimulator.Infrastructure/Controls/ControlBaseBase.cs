@@ -14,9 +14,14 @@ namespace RoadTrafficSimulator.Infrastructure.Controls
         private readonly ISubject<TranslationChangedEventArgs> _translatedSubject = new Subject<TranslationChangedEventArgs>();
         private bool _isSelected;
 
+        protected ControlBaseBase()
+        {
+            Id = Guid.NewGuid();
+        }
+
         public abstract IVertexContainer VertexContainer { get; } 
         public abstract IMouseHandler MouseHandler { get; }
-        public abstract Vector2 Location { get; }
+        public abstract Vector2 Location { get; protected set; }
         public abstract IControl Parent { get; set; }
 
         public bool IsSelected
@@ -67,6 +72,8 @@ namespace RoadTrafficSimulator.Infrastructure.Controls
             }
             return null;
         }
+
+        public Guid Id { get; set; }
 
         public virtual Vector2 ToControlPosition( Vector2 screenCordination )
         {

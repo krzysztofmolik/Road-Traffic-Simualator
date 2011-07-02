@@ -31,6 +31,8 @@
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="SwitchToBuildMode" Content="Build" Height="25" Width="100" IsEnabled="{Binding Path=IsBuildMode, Converter={StaticResource BoolNegation}}"/>
                         <Button x:Name="SwtichToSimulationMode" Content="Simulate" Height="25" Width="100" IsEnabled="{Binding Path=IsBuildMode}"/>
+                        <Button x:Name="Save" Content="Save" Height="25" Width="100"/>
+                        <Button x:Name="Load" Content="Load" Height="25" Width="100"/>
                     </StackPanel>
                 </TabItem>
                 <TabItem Header="Zoom control">

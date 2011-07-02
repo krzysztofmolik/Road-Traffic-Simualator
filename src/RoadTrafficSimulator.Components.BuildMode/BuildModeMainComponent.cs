@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Arcane.Xna.Presentation;
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
+using RoadTrafficSimulator.Components.BuildMode.Messages;
+using RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Messages;
 using RoadTrafficSimulator.Infrastructure.Mouse;
@@ -14,20 +17,22 @@ using System.Linq;
 namespace RoadTrafficSimulator.Components.BuildMode
 {
     // TODO Is IHandle<AddControlToRoadLayer> needed ??
-    public class BuildModeMainComponent : DrawableGameComponent, IHandle<AddControlToRoadLayer>, IUnitializable
+    public class BuildModeMainComponent : DrawableGameComponent, IHandle<AddControlToRoadLayer>, IHandle<SaveMap>, IHandle<LoadMap>, IUnitializable
     {
         private readonly IMouseInformation _mouseInformation;
         private readonly RoadLayer _roadLayer;
         private readonly List<IDisposable> _subscribtions = new List<IDisposable>();
         private readonly IEventAggregator _eventAggreator;
         private readonly BuilderCommandManager _commandManager;
+        private ControlSerializer _serializer;
 
         public BuildModeMainComponent(
                     IMouseInformation mouseInformation,
                     IEventAggregator eventAggreator,
-                    IGraphicsDeviceService graphicsDeviceService, 
+                    IGraphicsDeviceService graphicsDeviceService,
                     RoadLayer roadLayer,
-                    BuilderCommandManager commandManager)
+                    BuilderCommandManager commandManager,
+                    ControlSerializer serializer )
             : base( graphicsDeviceService, eventAggreator )
         {
             this._eventAggreator = eventAggreator;
@@ -35,6 +40,7 @@ namespace RoadTrafficSimulator.Components.BuildMode
             this._mouseInformation = mouseInformation;
             this._roadLayer = roadLayer;
             this._commandManager = commandManager;
+            this._serializer = serializer;
 
             this.Subscribe();
 
@@ -89,6 +95,18 @@ namespace RoadTrafficSimulator.Components.BuildMode
         {
             this.Unsubscribe();
             this._mouseInformation.StopRecord();
+        }
+
+        public void Handle( SaveMap message )
+        {
+            this._serializer.Save( message.Stream, this._roadLayer.Children );
+            message.Stream.Close();
+        }
+
+        public void Handle( LoadMap message )
+        {
+            var controls = this._serializer.Load( message.Stream );
+            controls.ForEach( this._roadLayer.AddChild );
         }
     }
 }

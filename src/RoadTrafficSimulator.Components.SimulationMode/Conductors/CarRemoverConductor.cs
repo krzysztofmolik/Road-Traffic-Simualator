@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.Messages;
+using RoadTrafficSimulator.Components.SimulationMode.Route;
+using RoadTrafficSimulator.Infrastructure;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 {
@@ -39,7 +41,17 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             Debug.Assert( car == removedCar );
         }
 
-        public bool SholdChange(Vector2 acutalCarLocation, Car car)
+        public float GetCarDistanceToEnd(Car car)
+        {
+            if( this._cars.Contains(car))
+            {
+                return Constans.PointSize;
+            }
+
+            return float.MaxValue;
+        }
+
+        public bool ShouldChange(Vector2 acutalCarLocation, Car car)
         {
             return false;
         }
@@ -49,19 +61,20 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return float.MaxValue;
         }
 
-        public LightInfomration GetLightInformation()
+        public void GetLightInformation(IRouteMark routeMark, LightInfomration lightInformation)
         {
-            return new LightInfomration { LightDistance = float.MaxValue };
+            lightInformation.LightDistance = float.MaxValue;
         }
 
-        public JunctionInformation GetNextJunctionInformation()
+        public void GetNextJunctionInformation( RouteMark route, JunctionInformation junctionInformation )
         {
-            return new JunctionInformation { JunctionDistance = float.MaxValue };
+            junctionInformation.JunctionDistance = float.MaxValue;
         }
 
-        public CarInformation GetCarAheadDistance()
+        public void GetCarAheadDistance(IRouteMark routMark, CarInformation carInformation)
         {
-            return new CarInformation() { CarDistance = float.MaxValue };
+            carInformation.CarDistance = float.MaxValue;
+            carInformation.CarAhead = null;
         }
 
         public Vector2 GetCarDirection(Car car)

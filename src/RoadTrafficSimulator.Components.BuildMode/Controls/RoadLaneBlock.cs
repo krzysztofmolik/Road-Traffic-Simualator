@@ -9,7 +9,6 @@ using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Draw;
 using RoadTrafficSimulator.Infrastructure.Mouse;
-using RoadTrafficSimulator.Road;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
@@ -185,9 +184,15 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             get { return this._mouseHandler; }
         }
 
+        // TODO Fix it
         public override Vector2 Location
         {
             get { return this.LeftTopLocation; }
+            protected set
+            {
+                this.LeftTopPoint.SetLocation( value );
+                this.Invalidate();
+            }
         }
 
         public override IControl Parent { get; set; }

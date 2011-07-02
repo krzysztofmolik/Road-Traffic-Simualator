@@ -1,4 +1,4 @@
-﻿namespace RoadTrafficSimulator.Components.SimulationMode
+﻿namespace RoadTrafficSimulator.Infrastructure
 {
     public enum Order
     {

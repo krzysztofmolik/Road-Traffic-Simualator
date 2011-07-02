@@ -14,8 +14,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private MovablePoint _startPoint;
         private MovablePoint _endPoint;
 
-        protected Edge( Factories.Factories factories, Style style)
+        protected Edge( Factories.Factories factories, Style style )
         {
+            this.Factories = factories;
             this._concretVertexContainer = new EdgeVertexContainer( this, style );
             this._mouseHandler = factories.MouseHandlerFactory.Create( this );
             this._startPoint = new MovablePoint( factories, Vector2.Zero, this );
@@ -24,7 +25,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.AddChild( this._endPoint );
         }
 
-        protected Edge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, Style style)
+        public Factories.Factories Factories { get; private set; }
+
+        protected Edge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, Style style )
             : this( factories, style )
         {
             this.StartPoint = startPoint;
@@ -78,6 +81,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public override Vector2 Location
         {
             get { return this.StartLocation + ( ( this.EndLocation - this.StartLocation ) / 2 ); }
+            protected set
+            {
+                var diff = value - this.Location;
+                this.StartPoint.SetLocation( this.StartPoint.Location + diff );
+                this.EndPoint.SetLocation( this.EndPoint.Location + diff );
+            }
         }
 
         public override void TranslateWithoutNotification( Matrix translationMatrix )
