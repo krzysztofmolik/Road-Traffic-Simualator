@@ -185,7 +185,6 @@
     <Compile Include="NormalPointEdgeAdapter.cs" />
     <Compile Include="RoadLaneBuilder.cs" />
     <Compile Include="RoadLayerMouseHandler.cs" />
-    <Compile Include="VertexContainers\DirectionVertexContainer.cs" />
     <Compile Include="VertexContainers\EdgeVertexContainer.cs" />
     <Compile Include="VertexContainers\MovablePointVertexContainer.cs" />
     <Compile Include="VertexContainers\MovableRectlangeVertexContainer.cs" />

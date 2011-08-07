@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Draw;
 using System.Linq;
 using RoadTrafficSimulator.Infrastructure.Extension;
+using Common;
 
 namespace RoadTrafficSimulator.Infrastructure.Controls
 {
@@ -46,7 +47,7 @@ namespace RoadTrafficSimulator.Infrastructure.Controls
 
     public class Quadrangle : IShape
     {
-        private static readonly int[] QuadrangleIndexes = new[] { 0, 3, 1, 1, 3, 2 };
+        private static readonly int[] QuadrangleIndexes = new[] { 0, 3, 1, 2, 1, 3 };
 
         public static Quadrangle Create( Vector2 location, float width, float height )
         {
@@ -120,6 +121,12 @@ namespace RoadTrafficSimulator.Infrastructure.Controls
                            this.RightBottom,
                            this.RightTop,
                        };
+        }
+
+        public void Transform( Matrix translationMatrix )
+        {
+            var newShapePoints = this.ShapePoints.Select( p => Vector2.Transform( p, translationMatrix ) ).ToArray();
+            this.ShapePoints = newShapePoints;
         }
     }
 }

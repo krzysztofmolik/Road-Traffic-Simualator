@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
@@ -9,12 +8,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 {
     public class LaneJunctionBuilder : IBuilerItem
     {
-        private LaneJunction _junction;
         public IEnumerable<BuilderAction> Create( IControl control )
         {
-            yield return new BuilderAction( Order.High, context => this.Build( context, control ) );
-            yield return new BuilderAction( Order.Normal, this.Connect );
-            yield return new BuilderAction( Order.Low, this.SetUp );
+            var builder = new Builder();
+            yield return new BuilderAction( Order.High, context => builder.Build( context, control ) );
+            yield return new BuilderAction( Order.Normal, builder.Connect );
+            yield return new BuilderAction( Order.Low, builder.SetUp );
         }
 
         public bool CanCreate( IControl control )
@@ -22,46 +21,52 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             return control != null && control.GetType() == typeof( RoadJunctionBlock );
         }
 
-        private void Build( BuilderContext context, IControl control )
+        private class Builder
         {
-            var roadJunctionBlock = ( RoadJunctionBlock ) control;
-            this._junction = new LaneJunction( roadJunctionBlock, c => context.ConductorFactory.Create( c ) );
-            context.AddElement( roadJunctionBlock, this._junction );
-        }
+            private LaneJunction _junction;
 
-        private void Connect( BuilderContext builderContext )
-        {
-            if ( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Bottom ].Connector.Edge != null )
+            public void Build( BuilderContext context, IControl control )
             {
-                this._junction.Bottom.Lane = builderContext.GetObject<Lane>( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Bottom ].Connector.Edge.Parent );
+                var roadJunctionBlock = (RoadJunctionBlock) control;
+                this._junction = new LaneJunction( roadJunctionBlock, c => context.ConductorFactory.Create( c ) );
+                context.AddElement( roadJunctionBlock, this._junction );
             }
-            if ( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Left ].Connector.Edge != null )
-            {
-                this._junction.Left.Lane = builderContext.GetObject<Lane>( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Left ].Connector.Edge.Parent );
-            }
-            if ( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Top ].Connector.Edge != null )
-            {
-                this._junction.Top.Lane = builderContext.GetObject<Lane>( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Top ].Connector.Edge.Parent );
-            }
-            if ( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Right ].Connector.Edge != null )
-            {
-                this._junction.Right.Lane = builderContext.GetObject<Lane>( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Right ].Connector.Edge.Parent );
-            }
-        }
 
-        private void SetUp( BuilderContext obj )
-        {
-            this.SetupEdge( this._junction.Bottom );
-            this.SetupEdge( this._junction.Left );
-            this.SetupEdge( this._junction.Top );
-            this.SetupEdge( this._junction.Right );
-        }
-
-        private void SetupEdge( JunctionEdge edge )
-        {
-            if ( edge.Lane != null )
+            public void Connect( BuilderContext builderContext )
             {
-                edge.IsOut = edge.Lane.Prev == this._junction;
+                if( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Bottom ].Connector.Edge != null )
+                {
+                    this._junction.Bottom.ConnectedEdge =
+                        builderContext.GetObject<IRoadElement>(
+                            this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Bottom ].Connector.Edge.Parent );
+                }
+                if( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Left ].Connector.Edge != null )
+                {
+                    this._junction.Left.ConnectedEdge =
+                        builderContext.GetObject<IRoadElement>(
+                            this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Left ].Connector.Edge.Parent );
+                }
+                if( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Top ].Connector.Edge != null )
+                {
+                    this._junction.Top.ConnectedEdge =
+                        builderContext.GetObject<IRoadElement>(
+                            this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Top ].Connector.Edge.Parent );
+                }
+                if( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Right ].Connector.Edge != null )
+                {
+                    this._junction.Right.ConnectedEdge =
+                        builderContext.GetObject<IRoadElement>(
+                            this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Right ].Connector.Edge.Parent );
+                }
+            }
+
+            public void SetUp( BuilderContext obj )
+            {
+                this._junction.Bottom.Situation.SetUp();
+                this._junction.Left.Situation.SetUp();
+                this._junction.Top.Situation.SetUp();
+                this._junction.Right.Situation.SetUp();
+                this._junction.BuildControl.VertexContainer.ReloadTextures();
             }
         }
     }

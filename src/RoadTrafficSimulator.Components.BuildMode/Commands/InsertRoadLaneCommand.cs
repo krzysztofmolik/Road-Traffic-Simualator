@@ -114,6 +114,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
 
         private IControl GetRoadJuctionEdge( Vector2 location )
         {
+            this._visitator.Reset();
             return this._visitator.Where( c => c.IsHitted( location ) ).FirstOrDefault();
         }
     }

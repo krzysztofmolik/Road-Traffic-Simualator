@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
-using RoadTrafficSimulator.Infrastructure;
 
 namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 {

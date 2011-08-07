@@ -5,9 +5,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.Factories
 {
     public class CarInserterConductorFactory : ConductorFactoryBase<CarsInserter>
     {
-        private readonly Func<CarsInserter, CarRemoverConductor> _conductorFactory;
+        private readonly Func<CarsInserter, CarInserterConductor> _conductorFactory;
 
-        public CarInserterConductorFactory( Func<CarsInserter, CarRemoverConductor> conductorFactory )
+        public CarInserterConductorFactory( Func<CarsInserter, CarInserterConductor> conductorFactory )
         {
             this._conductorFactory = conductorFactory;
         }

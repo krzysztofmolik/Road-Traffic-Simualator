@@ -23,7 +23,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
         private IEnumerable<IAction> Convert( CarsRemover control )
         {
             yield return CreateNewCommand( control );
-            yield return CallAction.Create<CarsRemover>( control.Id, () => control.Connector.ConnectBeginWith( null ), ControlProperties.Create( control.Connector.ConnectedEdge.Parent, control.Connector.ConnectedEdge ) );
+            if ( control.Connector.ConnectedEdge != null )
+            {
+                yield return CallAction.Create<CarsRemover>( control.Id, () => control.Connector.ConnectBeginWith( null ), ControlProperties.Create( control.Connector.ConnectedEdge.Parent, control.Connector.ConnectedEdge ) );
+            }
         }
 
         private static CreateControlCommand CreateNewCommand( CarsRemover control )

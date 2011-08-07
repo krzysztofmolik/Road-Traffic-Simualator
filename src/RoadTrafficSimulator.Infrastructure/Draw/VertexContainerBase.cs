@@ -18,6 +18,9 @@ namespace RoadTrafficSimulator.Infrastructure.Draw
         public TVertex[] Vertex { get; private set; }
 
         public abstract IShape Shape { get; }
+        public virtual void ReloadTextures()
+        {
+        }
 
         public void Draw( Graphic graphic )
         {

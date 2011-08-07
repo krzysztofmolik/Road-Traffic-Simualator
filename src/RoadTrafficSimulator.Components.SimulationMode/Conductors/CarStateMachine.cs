@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Light;
 using RoadTrafficSimulator.Infrastructure;
+using System.Linq;
+using RoadTrafficSimulator.Infrastructure.MathHelpers;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 {
@@ -41,15 +43,28 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             this._currentState.SetStopPoint( float.MaxValue, this._car.MaxSpeed );
             this.StopLineDistance( this._currentConductor.GetDistanceToStopLine() );
             this.LightDistance( this.GetLightInformation() );
-            this.YieldDistance( this._currentConductor.GetNextJunctionInformation( TODO, TODO ) );
+            this.YieldDistance( this.GetYieldInfomration() );
             this.CarAheadDistance( this.GetCarAheadInformation() );
             this._currentState.MoveCar( this._car, timeFrame.Milliseconds );
+        }
+
+        private JunctionInformation GetYieldInfomration()
+        {
+            var junctionInformation = new JunctionInformation();
+            junctionInformation.JunctionDistance = this._currentConductor.GetCarDistanceToEnd( this._car );
+            // TODO Rewrite it
+            if ( this._car.Route.IsLast ) { return junctionInformation; }
+            var route = this._car.Route.Clone();
+            route.MoveNext();
+            route.Current.Condutor.GetNextJunctionInformation( route, junctionInformation );
+
+            return junctionInformation;
         }
 
         private CarInformation GetCarAheadInformation()
         {
             var carInformation = new CarInformation();
-            carInformation.Car = this._car;
+            carInformation.QuestioningCar = this._car;
             this._currentConductor.GetCarAheadDistance( this._car.Route.Clone(), carInformation );
             return carInformation;
         }
@@ -82,6 +97,17 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 
         private void YieldDistance( JunctionInformation nextJunction )
         {
+            if ( nextJunction.AdditionalCars.Any() == false ) { return; }
+
+            var car = nextJunction.AdditionalCars.Aggregate( ( prev, current ) => prev.JunctionDistance > current.JunctionDistance ? current : prev );
+            if ( car == null ) { return; }
+
+            var time = MyMathHelper.GetTimeNeedToDriverDistanceInUniformlyAcceleratedMontion( car.Car.Velocity, car.Car.MaxSpeed, car.Car.AccelerateForce, car.CarDistance );
+            var distance = MyMathHelper.DistanceInUniformlyAcceleratedMotion( this._car.Velocity, this._car.MaxSpeed, time, this._car.AccelerateForce );
+            if ( distance < car.JunctionDistance + UnitConverter.FromMeter( 20 ) )
+            {
+                this._currentState.SetStopPoint( car.JunctionDistance, 0.0f );
+            }
         }
 
         private void LightDistance( LightInfomration nextLight )
@@ -124,7 +150,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
     public class StopPointCarMachineState : ICarMachineState
     {
         private float _stopPointDistance;
-        private float _saveStopPointDistance;
         private float _requiredSpeed;
 
         public void SetStopPoint( float distance, float requriredSpeed )

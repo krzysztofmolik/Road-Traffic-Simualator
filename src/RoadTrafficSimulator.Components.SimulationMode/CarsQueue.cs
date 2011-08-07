@@ -7,7 +7,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
     public class CarsQueue
     {
         // TODO Change to more appropiate collection
-        private List<Car> _cars = new List<Car>();
+        private readonly List<Car> _cars = new List<Car>();
 
         public void Add( Car car )
         {

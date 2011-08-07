@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
+using Common;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunctionConductor
 {
@@ -31,18 +32,18 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
             // TODO Refactory all methos GetCarAheadDistance
             var previousEdge = this.GetEdgeConnectedWith( routMark.GetPrevious() );
             var nextEdge = this.GetEdgeConnectedWith( routMark.GetNext() );
-            if ( this._cars.Contains( carInformation.Car ) )
+            if ( this._cars.Contains( carInformation.QuestioningCar ) )
             {
-                var carAhead = this._cars.GetCarAheadOf( carInformation.Car );
+                var carAhead = this._cars.GetCarAheadOf( carInformation.QuestioningCar );
                 if ( carAhead != null )
                 {
-                    carInformation.CarDistance += Vector2.Distance( carInformation.Car.Location, carAhead.Location );
+                    carInformation.CarDistance += Vector2.Distance( carInformation.QuestioningCar.Location, carAhead.Location );
                     carInformation.CarAhead = carAhead;
                 }
                 else
                 {
 
-                    carInformation.CarDistance += Vector2.Distance( carInformation.Car.Location, nextEdge.EdgeBuilder.Location );
+                    carInformation.CarDistance += Vector2.Distance( carInformation.QuestioningCar.Location, nextEdge.EdgeBuilder.Location );
                     routMark.MoveNext();
                     routMark.Current.Condutor.GetCarAheadDistance( routMark, carInformation );
                 }
@@ -74,8 +75,33 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
 
         private JunctionEdge GetEdgeConnectedWith( IRoadElement roadElement )
         {
-            var item = this._laneJunction.Edges.Where( s => s.Lane == roadElement ).FirstOrDefault();
+            var item = this._laneJunction.Edges.Where( s => s.ConnectedEdge == roadElement ).FirstOrDefault();
             return item;
+        }
+
+        public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )
+        {
+            var firstCar = this._cars.GetFirstCar();
+            if ( firstCar != null )
+            {
+                carInformation.Add( firstCar, carInformation.CurrentDistance );
+                return;
+            }
+
+            var outEdges = this._laneJunction.Edges.Where( s => s.ConnectedEdge != null )
+                                                   .Where( s => s.Situation.IsOut == false );
+            foreach ( var junctionEdgeConductor in outEdges )
+            {
+                if ( carInformation.VistedElements.Contains( junctionEdgeConductor.ConnectedEdge ) )
+                {
+                    continue;
+                }
+                var junctionInformation = new FirstCarToOutInformation( carInformation.VistedElements ) { CurrentDistance = carInformation.CurrentDistance };
+                junctionInformation.AddVistedControl( junctionEdgeConductor.ConnectedEdge );
+                junctionEdgeConductor.ConnectedEdge.Condutor.GetFirstCarToOutInformation( junctionInformation );
+
+                junctionInformation.Items.ForEach( s => carInformation.Add( s.Car, s.CarDistance ) );
+            }
         }
     }
 }

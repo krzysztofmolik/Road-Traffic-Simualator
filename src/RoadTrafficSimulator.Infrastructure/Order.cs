@@ -2,8 +2,8 @@
 {
     public enum Order
     {
-        Low = 0,
+        High = 0,
         Normal = 5,
-        High = 10,
+        Low = 10,
     }
 }

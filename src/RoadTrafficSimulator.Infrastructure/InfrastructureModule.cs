@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.DependencyInjection;
 using RoadTrafficSimulator.Infrastructure.Draw;
 using RoadTrafficSimulator.Infrastructure.Mouse;
+using RoadTrafficSimulator.Infrastructure.Textures;
 using Game = Arcane.Xna.Presentation.Game;
 using GraphicsDeviceManager = Arcane.Xna.Presentation.GraphicsDeviceManager;
 
@@ -15,7 +16,7 @@ namespace RoadTrafficSimulator.Infrastructure
         {
             builder.RegisterType<Camera3D>().SingleInstance();
 
-            builder.RegisterType<ContentManagerAdapter>().As<IContentManager>();
+            builder.RegisterType<ContentManagerAdapter>().AsSelf().As<IContentManagerAdapter>().SingleInstance();
             builder.RegisterType<KeyboardInputNotify>().As<KeyboardInputNotify>().SingleInstance();
             builder.RegisterType<MouseInformation>().As<MouseInformation>().Named<IMouseInformation>("MainMouseInformation").SingleInstance();
 
@@ -32,6 +33,7 @@ namespace RoadTrafficSimulator.Infrastructure
             builder.RegisterType<VertexPositionColorDrawer>();
             builder.RegisterType<VertexPositionTextureDrawer>();
             builder.RegisterType<GraphicsDeviceManager>().As<IGraphicsDeviceManager, IGraphicsDeviceService>().SingleInstance();
+            builder.RegisterType<TextureManager>().SingleInstance();
             builder.Register(s => s.Resolve<IGraphicsDeviceService>().GraphicsDevice).InstancePerDependency();
             builder.Register(s => s.Resolve<Game>().Content).SingleInstance();
         }

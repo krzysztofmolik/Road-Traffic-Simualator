@@ -674,6 +674,7 @@ namespace Arcane.Xna.Presentation
 
         protected virtual void Draw( GameTime gameTime )
         {
+            this.GraphicsDevice.BlendState = BlendState.AlphaBlend;
             for ( int i = 0; i < this._drawableComponents.Count; i++ )
             {
                 IDrawable drawable = this._drawableComponents[ i ];

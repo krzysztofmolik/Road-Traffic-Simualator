@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
@@ -25,7 +26,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             this._eventAggregator = eventAggregator;
         }
 
-        public IRoadElement GetNextRandomElement(List<IRoadElement> route)
+        public IRoadElement GetNextRandomElement( List<IRoadElement> route, Random rng )
         {
             return null;
         }
@@ -51,6 +52,16 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return float.MaxValue;
         }
 
+        public bool IsPosibleToDriveFrom( IRoadElement roadElement )
+        {
+            return this._carsRemover.Lane == roadElement;
+        }
+
+        public bool IsPosibleToDriveTo( IRoadElement roadElement )
+        {
+            return false;
+        }
+
         public bool ShouldChange(Vector2 acutalCarLocation, Car car)
         {
             return false;
@@ -66,7 +77,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             lightInformation.LightDistance = float.MaxValue;
         }
 
-        public void GetNextJunctionInformation( RouteMark route, JunctionInformation junctionInformation )
+        public void GetNextJunctionInformation( IRouteMark route, JunctionInformation junctionInformation )
         {
             junctionInformation.JunctionDistance = float.MaxValue;
         }
@@ -75,6 +86,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
         {
             carInformation.CarDistance = float.MaxValue;
             carInformation.CarAhead = null;
+        }
+
+        public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )
+        {
+            Debug.Assert( false );
         }
 
         public Vector2 GetCarDirection(Car car)

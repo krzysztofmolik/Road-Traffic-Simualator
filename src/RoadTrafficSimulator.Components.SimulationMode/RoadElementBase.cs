@@ -1,4 +1,3 @@
-using System;
 using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Infrastructure.Controls;
 

@@ -22,7 +22,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             this._laneCorner = laneCorner;
         }
 
-        public IRoadElement GetNextRandomElement( List<IRoadElement> route )
+        public IRoadElement GetNextRandomElement( List<IRoadElement> route, Random rng )
         {
             return this._laneCorner.Next;
         }
@@ -48,6 +48,16 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return float.MaxValue;
         }
 
+        public bool IsPosibleToDriveFrom( IRoadElement roadElement )
+        {
+            return this._laneCorner.Prev == roadElement;
+        }
+
+        public bool IsPosibleToDriveTo( IRoadElement roadElement )
+        {
+            return this._laneCorner.Next == roadElement;
+        }
+
         public bool ShouldChange( Vector2 acutalCarLocation, Car car )
         {
             var distance = this._laneCorner.BuildControl.Location - acutalCarLocation;
@@ -64,10 +74,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 
         public void GetLightInformation( IRouteMark routeMark, LightInfomration lightInformation )
         {
-            routeMark.GetNext().Condutor.GetLightInformation( routeMark.MoveNext(), lightInformation );
+            routeMark.MoveNext();
+            routeMark.Current.Condutor.GetLightInformation( routeMark, lightInformation );
         }
 
-        public void GetNextJunctionInformation( RouteMark route, JunctionInformation junctionInformation )
+        public void GetNextJunctionInformation( IRouteMark route, JunctionInformation junctionInformation )
         {
             junctionInformation.JunctionDistance += Constans.PointSize;
             route.MoveNext();
@@ -76,12 +87,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 
         public void GetCarAheadDistance( IRouteMark routMark, CarInformation carInformation )
         {
-            if ( this._cars.Contains( carInformation.Car ) )
+            if ( this._cars.Contains( carInformation.QuestioningCar ) )
             {
-                var carAhead = this._cars.GetCarAheadOf( carInformation.Car );
+                var carAhead = this._cars.GetCarAheadOf( carInformation.QuestioningCar );
                 if ( carAhead != null )
                 {
-                    carInformation.CarDistance += Vector2.Distance( carInformation.Car.Location, carAhead.Location );
+                    carInformation.CarDistance += Vector2.Distance( carInformation.QuestioningCar.Location, carAhead.Location );
                     carInformation.CarAhead = carAhead;
                     return;
                 }
@@ -100,6 +111,20 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             carInformation.CarDistance += Vector2.Distance( this._laneCorner.LaneCornerBuild.LeftEdge.Location, this._laneCorner.LaneCornerBuild.RightEdge.Location );
             routMark.MoveNext();
             routMark.Current.Condutor.GetCarAheadDistance( routMark, carInformation );
+        }
+
+        public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )
+        {
+            var firstCar = this._cars.GetFirstCar();
+            if ( firstCar != null )
+            {
+                carInformation.Add( firstCar, carInformation.CurrentDistance + Constans.PointSize );
+            }
+            else
+            {
+                carInformation.CurrentDistance += Constans.PointSize;
+                this._laneCorner.Prev.Condutor.GetFirstCarToOutInformation( carInformation );
+            }
         }
 
         public Vector2 GetCarDirection( Car car )

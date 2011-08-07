@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Controls;
+using System.Linq;
 
 namespace RoadTrafficSimulator.Infrastructure.MathHelpers
 {
@@ -33,17 +35,6 @@ namespace RoadTrafficSimulator.Infrastructure.MathHelpers
             var difrentDirection = papendicualrHalfLength * -1.0f;
 
             return Tuple.Create( papendicualrHalfLength + startPoint, difrentDirection + startPoint );
-        }
-
-        public static Vector2 LineIntersectionMethod( Line left, Line right )
-        {
-            return LineIntersectionMethod( Tuple.Create( left.Begin, left.End ),
-                                           Tuple.Create( right.Begin, right.End ) );
-        }
-
-        public static Vector2 LineIntersectionMethod( Tuple<Vector2, Vector2> left, Tuple<Vector2, Vector2> right )
-        {
-            return LineIntersectionMethod( left.Item1, left.Item2, right.Item1, right.Item2 );
         }
 
         public static Vector2 LineIntersectionMethod( Vector2 leftBegin, Vector2 leftEnd, Vector2 rightBegin, Vector2 rightEnd )
@@ -130,7 +121,41 @@ namespace RoadTrafficSimulator.Infrastructure.MathHelpers
         {
             var leftEdge = CreatePerpendicualrLine( new Line( first, second ), height );
             var rightEdge = CreatePerpendicualrLine( new Line( second, first ), height );
-            return new Quadrangle(leftEdge.Item2, rightEdge.Item1, rightEdge.Item2, leftEdge.Item1);
+            return new Quadrangle( leftEdge.Item2, rightEdge.Item1, rightEdge.Item2, leftEdge.Item1 );
         }
+
+        public static float DistanceInUniformlyAcceleratedMotion( float initialSpeed, float maxSpeed, float time, float acceleration )
+        {
+            var accelerationTime = ( maxSpeed - initialSpeed ) / acceleration;
+            if ( accelerationTime < time )
+            {
+                var accelecretaionDistance = ( ( initialSpeed + maxSpeed ) / 2 ) * accelerationTime;
+                var maxSpeedTime = time - accelerationTime;
+                return accelecretaionDistance + maxSpeed * maxSpeedTime;
+            }
+
+            var max = acceleration * time;
+            return ( initialSpeed + max ) / 2 * time;
+        }
+
+        public static float GetTimeNeedToDriverDistanceInUniformlyAcceleratedMontion( float velocity, float maxSpeed, float accelerateForce, float carDistance )
+        {
+            var accelerationTIme = ( maxSpeed - velocity ) / accelerateForce;
+            var accelerationDistance = ( ( maxSpeed + velocity ) / 2 ) * accelerationTIme;
+            if ( accelerationDistance < carDistance )
+            {
+                var maxSpeedTime = ( carDistance - accelerationDistance ) / maxSpeed;
+                return accelerationTIme + maxSpeedTime;
+            }
+
+            var a = accelerateForce / 2;
+            var b = velocity;
+            var c = -carDistance;
+            var delta = Math.Sqrt( Math.Pow( b, 2 ) - ( 4 * a * c ) );
+            var x1 = ( -b - delta ) / ( 2 * a );
+            var x2 = ( -b + delta ) / ( 2 * a );
+
+            return ( float ) Math.Max( x1, x2 );
+}
     }
 }

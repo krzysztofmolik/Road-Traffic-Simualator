@@ -18,6 +18,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
             get { return this._routeMark.Current; }
         }
 
+        public bool IsLast { get { return this._routeMark.IsLast; } }
+
         public bool IsValidIndex( int index )
         {
             return index >= 0 && index < this._route.Count;
@@ -49,9 +51,14 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
             return this._routeMark.GetNext();
         }
 
-        public IRouteMark MoveNext()
+        public bool MoveNext()
         {
-            this._routeMark.MoveNext();
+            return this._routeMark.MoveNext();
+        }
+
+        public IRouteMark MovePrevious()
+        {
+            this._routeMark.MovePrevious();
             return this._routeMark;
         }
 

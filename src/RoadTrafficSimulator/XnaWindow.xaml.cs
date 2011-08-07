@@ -8,8 +8,10 @@ using RoadTrafficSimulator.Components.BuildMode;
 using RoadTrafficSimulator.Components.SimulationMode;
 using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Infrastructure;
+using RoadTrafficSimulator.Infrastructure.DependencyInjection;
 using RoadTrafficSimulator.Infrastructure.Messages;
 using RoadTrafficSimulator.Infrastructure.Mouse;
+using RoadTrafficSimulator.Infrastructure.Textures;
 using Game = Arcane.Xna.Presentation.Game;
 using Keyboard = Microsoft.Xna.Framework.Input.Keyboard;
 using System.Linq;
@@ -22,9 +24,10 @@ namespace RoadTrafficSimulator
         private readonly Autofac.IContainer _container;
         private KeyboardInputNotify _keybordInput;
         private MouseInformation _mouseInput;
-        private Builder _builder;
+        private readonly Builder _builder;
+        private IContentManagerAdapter _contentManagerAdapter;
 
-        public XnaWindow( IServiceProvider service, Autofac.IContainer container, IEventAggregator eventAggregator, Builder builder)
+        public XnaWindow( IServiceProvider service, Autofac.IContainer container, IEventAggregator eventAggregator, Builder builder )
             : base( service )
         {
             eventAggregator.Subscribe( this );
@@ -35,6 +38,8 @@ namespace RoadTrafficSimulator
 
         protected override void Initialize()
         {
+            this._contentManagerAdapter = this._container.Resolve<ContentManagerAdapter>() ;
+            base.Initialize();
             this._keybordInput = this._container.Resolve<KeyboardInputNotify>();
             this._mouseInput = this._container.Resolve<MouseInformation>();
 
@@ -56,6 +61,18 @@ namespace RoadTrafficSimulator
             component.Initialize();
         }
 
+        protected override void UnloadContent()
+        {
+            this.Content.Unload();
+            base.UnloadContent();
+        }
+
+        protected override void LoadContent()
+        {
+            this._contentManagerAdapter.ReloadAllTextures();
+            base.LoadContent();
+        }
+
         protected override void Update( GameTime gameTime )
         {
             this._mouseInput.Update( gameTime );
@@ -74,14 +91,15 @@ namespace RoadTrafficSimulator
         public void Handle( ChangedToSimulationMode message )
         {
             var buildComponent = this.Components.OfType<BuildModeMainComponent>().FirstOrDefault();
+            var simulationMode = this._container.Resolve<SimulationModeMainComponent>();
+            this.Components.Remove( buildComponent );
+            this.Components.Add( simulationMode );
+
             if ( buildComponent == null ) { _logger.Warn( "Build component not present when switched to simulation mode" ); return; }
             var controls = buildComponent.GetAllBuildControls();
             var simulationControls = this._builder.ConvertToSimulationMode( controls );
-            var simulationMode = this._container.Resolve<SimulationModeMainComponent>();
             simulationControls.ForEach( simulationMode.AddRoadElement );
 
-            this.Components.Remove( buildComponent );
-            this.Components.Add( simulationMode );
         }
 
         public void Handle( ChangedToBuildMode message )

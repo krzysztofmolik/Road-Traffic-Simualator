@@ -10,10 +10,13 @@ namespace RoadTrafficSimulator.Components.BuildMode
         private readonly Stack<IEnumerator<IControl>> _compositeControlQueue = new Stack<IEnumerator<IControl>>();
         private readonly IControl _root;
         private IControl _next;
+        private bool _isFirst;
+        private bool _isEnd;
 
         public VisitAllChildren( IControl root )
         {
             this._root = root;
+            this._isFirst = true;
         }
 
         public IControl Current { get; private set; }
@@ -29,8 +32,13 @@ namespace RoadTrafficSimulator.Components.BuildMode
 
         public bool MoveNext()
         {
-            if ( this._next == null )
+            if( this._isEnd )
             {
+                return false;
+            }
+            if ( this._isFirst )
+            {
+                this._isFirst = false;
                 this.GetLastLeaft( this._root );
                 this._next = this.GetCurrentOnQueue();
             }
@@ -47,7 +55,8 @@ namespace RoadTrafficSimulator.Components.BuildMode
 
                 this._compositeControlQueue.Pop();
                 this._next = this.GetCurrentOnQueue();
-                return this._next != null;
+                this._isEnd = this._next == null;
+                return this.Current != null;
             }
 
             this.GetLastLeaft( next );
@@ -58,6 +67,10 @@ namespace RoadTrafficSimulator.Components.BuildMode
         public void Reset()
         {
             this.Current = null;
+            this._next = null;
+            this._isFirst = true;
+            this._isEnd = false;
+            this._compositeControlQueue.Clear();
         }
 
         public IEnumerator<IControl> GetEnumerator()

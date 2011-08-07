@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
@@ -13,7 +14,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
 
         private readonly LaneJunctionConductorCarsInformation _carsInformation;
         private readonly LaneJunctionConductorMoveInfomation _moveInformation;
-        private readonly LaneJucntionConductorJunctionInformation _junctionInformation;
+        private readonly LaneJucntionConductorRightHandJunctionInformation _junctionInformation;
         private readonly LaneJunctionConductorLightInformation _lightInformation;
 
         public RightHandRuleLaneJuctionConductor( LaneJunction laneJunction )
@@ -22,13 +23,13 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
             this._laneJunction = laneJunction;
             this._carsInformation = new LaneJunctionConductorCarsInformation( this._laneJunction );
             this._moveInformation = new LaneJunctionConductorMoveInfomation( this._laneJunction );
-            this._junctionInformation = new LaneJucntionConductorJunctionInformation( this._laneJunction );
+            this._junctionInformation = new LaneJucntionConductorRightHandJunctionInformation( this._laneJunction );
             this._lightInformation = new LaneJunctionConductorLightInformation( this._laneJunction );
         }
 
-        public IRoadElement GetNextRandomElement( List<IRoadElement> route )
+        public IRoadElement GetNextRandomElement( List<IRoadElement> route, Random rng )
         {
-            return this._moveInformation.GetNextRandomElement( route );
+            return this._moveInformation.GetNextRandomElement( route, rng );
         }
 
         public void Take( Car car )
@@ -51,7 +52,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
             this._lightInformation.GetLightInformation( routeMark, lightInformation );
         }
 
-        public void GetNextJunctionInformation( RouteMark route, JunctionInformation junctionInformation )
+        public void GetNextJunctionInformation( IRouteMark route, JunctionInformation junctionInformation )
         {
             this._junctionInformation.GetNextJunctionInformation( route, junctionInformation );
         }
@@ -59,6 +60,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
         public void GetCarAheadDistance( IRouteMark routMark, CarInformation carInformation )
         {
             this._carsInformation.GetCarAheadDistance( routMark, carInformation );
+        }
+
+        public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )
+        {
+            this._carsInformation.GetFirstCarToOutInformation( carInformation );
         }
 
         public Vector2 GetCarDirection( Car car )
@@ -74,6 +80,16 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
         public float GetCarDistanceToEnd( Car car )
         {
             return this._carsInformation.GetCarDistanceToEnd( car );
+        }
+
+        public bool IsPosibleToDriveFrom( IRoadElement roadElement )
+        {
+            return this._junctionInformation.IsPosibleToDriverFrom( roadElement );
+        }
+
+        public bool IsPosibleToDriveTo( IRoadElement roadElement )
+        {
+            return this._junctionInformation.IsPosibleToDriveTo( roadElement );
         }
     }
 }

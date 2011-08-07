@@ -10,18 +10,19 @@ using RoadTrafficSimulator.Infrastructure.DependencyInjection;
 using RoadTrafficSimulator.Infrastructure.Draw;
 using RoadTrafficSimulator.Infrastructure.Extension;
 using RoadTrafficSimulator.Infrastructure.Mouse;
+using RoadTrafficSimulator.Infrastructure.Textures;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
     public class LightVeretexContainer : VertexContainerBase<LightBlock, VertexPositionTexture>
     {
-        private readonly Texture2D _texture;
+        private readonly CachedTexture _texture;
         private readonly TextureStyle _style;
         private static readonly float Width = Constans.ToVirtualUnit( 0.7f );
         private static readonly float Height = Constans.ToVirtualUnit( 1.5f );
         private Quadrangle _shape;
 
-        public LightVeretexContainer( LightBlock @object, Texture2D texture )
+        public LightVeretexContainer( LightBlock @object, CachedTexture texture )
             : base( @object )
         {
             this._texture = texture;
@@ -55,7 +56,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         protected override void DrawControl( Graphic graphic )
         {
-            graphic.VertexPositionalTextureDrawer.DrawIndexedTraingeList( this._texture, this.Vertex, this._shape.Indexes );
+            graphic.VertexPositionalTextureDrawer.DrawIndexedTraingeList( this._texture.Textrue, this.Vertex, this._shape.Indexes );
         }
     }
 
@@ -82,17 +83,17 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
     public class LightBlock : SingleControl<VertexPositionTexture>
     {
         private Vector2 _location;
-        private IContentManager _contentManager;
         private LightVeretexContainer _vertexContainer;
         private NotMovableMouseHandler _mouseHandler;
         private LightConnector _connector;
+        private readonly CachedTexture _texture;
 
-        public LightBlock( Vector2 location, IContentManager contentManager )
+        public LightBlock( Vector2 location, CachedTexture texture )
         {
             this._location = location;
-            this._contentManager = contentManager;
+            this._texture = texture;
 
-            this._vertexContainer = new LightVeretexContainer( this, this._contentManager.Load<Texture2D>( "Light" ) );
+            this._vertexContainer = new LightVeretexContainer( this, this._texture );
             this._mouseHandler = new NotMovableMouseHandler();
             this._connector = new LightConnector( this );
         }
