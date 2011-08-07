@@ -4,6 +4,7 @@
     {
         void Draw( Graphic graphic );
         IShape Shape { get; }
+        void ReloadTextures();
     }
 
     public interface IVertexContainer<out TVertex> : IVertexContainer

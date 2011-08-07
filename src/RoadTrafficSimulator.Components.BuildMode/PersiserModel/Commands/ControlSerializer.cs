@@ -44,7 +44,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
             }
 
             var context = this._deserializationContextFactory();
-            var orderedActions = actions.OrderByDescending( s => s.Priority );
+            var orderedActions = actions.OrderBy( s => s.Priority );
             foreach ( var action in orderedActions )
             {
                 action.Execute( context );

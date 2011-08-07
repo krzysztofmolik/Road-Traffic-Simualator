@@ -17,13 +17,14 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public RoadJunctionEdge( Factories.Factories factories, RoadJunctionBlock parent )
             : base( factories, Styles.NormalStyle )
         {
+            this.IsOut = false;
             this._parent = parent;
             this._roadJunctionEndConnector = new RoadJunctionEdgeConnector( this );
             this._vertexContainer = new RoadJunctionEdgeVertexContainer( this );
         }
 
         public RoadJunctionEdge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, float width, RoadJunctionBlock parent )
-            : base( factories, startPoint, endPoint, Styles.NormalStyle)
+            : base( factories, startPoint, endPoint, Styles.NormalStyle )
         {
             this._parent = parent;
         }
@@ -51,6 +52,18 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public override IVertexContainer VertexContainer
         {
             get { return this._vertexContainer; }
+        }
+
+        private bool _isOut;
+        public bool IsOut
+        {
+            get { return this._isOut; }
+            set
+            {
+                if( this._isOut == value ) { return; }
+                this._isOut = value;
+                this.Redraw();
+            }
         }
     }
 }

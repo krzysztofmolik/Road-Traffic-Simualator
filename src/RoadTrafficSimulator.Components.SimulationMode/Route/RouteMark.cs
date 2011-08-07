@@ -18,6 +18,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
 
         public IRoadElement Current { get { return this._route.GetAt( this._mark ); } }
 
+        public bool IsLast
+        {
+            get { return !this._route.IsValidIndex( this._mark + 1 ); }
+        }
+
         public void SetLoctionOn( IRoadElement roadElement )
         {
             var index = this._route.GetIndexOf( roadElement );
@@ -42,6 +47,13 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
         public IRouteMark MoveNext()
         {
             ++this._mark;
+            if ( this._route.IsValidIndex( this._mark ) == false ) { throw new InvalidOperationException( "Can't move mark outside the route" ); }
+            return this;
+        }
+
+        public IRouteMark MovePrevious()
+        {
+            --this._mark;
             if ( this._route.IsValidIndex( this._mark ) == false ) { throw new InvalidOperationException( "Can't move mark outside the route" ); }
             return this;
         }

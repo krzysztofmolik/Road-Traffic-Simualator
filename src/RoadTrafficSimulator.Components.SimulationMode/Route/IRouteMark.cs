@@ -7,5 +7,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
         IRoadElement GetNext();
         IRouteMark MoveNext();
         IRoadElement Current { get; }
+        IRouteMark MovePrevious();
+        IRouteMark Clone();
     }
 }

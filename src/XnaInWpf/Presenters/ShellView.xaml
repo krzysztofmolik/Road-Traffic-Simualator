@@ -4,7 +4,7 @@
     xmlns:Converters="clr-namespace:RoadTrafficConstructor.Converters"
     x:Class="RoadTrafficConstructor.Presenters.ShellView" 
     Width="1280" Height="1024" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d">
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" WindowState="Maximized">
     <Window.Resources>
         <Color x:Key="BorderBackground">#FF225A72</Color>
         <Converters:BoolNegation x:Key="BoolNegation" />

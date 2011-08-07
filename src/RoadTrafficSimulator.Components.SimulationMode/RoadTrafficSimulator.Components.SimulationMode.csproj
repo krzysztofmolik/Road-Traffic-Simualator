@@ -101,6 +101,7 @@
     <Compile Include="Builder\Builder.cs" />
     <Compile Include="Builder\BuilderAction.cs" />
     <Compile Include="Builder\BuilderContext.cs" />
+    <Compile Include="Builder\CarInserterBuilder.cs" />
     <Compile Include="Builder\CarsRemoverBuilder.cs" />
     <Compile Include="Builder\IBuilerItem.cs" />
     <Compile Include="Builder\LaneCornerBuilder.cs" />
@@ -124,9 +125,14 @@
     <Compile Include="Conductors\Factories\LaneJunctionConductorFactory.cs" />
     <Compile Include="Conductors\Factories\LightConductorFactory.cs" />
     <Compile Include="Conductors\Factories\SingleLineConductorFactory.cs" />
+    <Compile Include="Conductors\FirstCarToOutInformation.cs" />
     <Compile Include="Conductors\IConductor.cs" />
     <Compile Include="Conductors\LaneCornerConductor.cs" />
-    <Compile Include="Conductors\RightHandRuleLaneJuctionConductor.cs" />
+    <Compile Include="Conductors\LaneJunctionConductor\LaneJucntionConductorRightHandJunctionInformation.cs" />
+    <Compile Include="Conductors\LaneJunctionConductor\LaneJunctionConductorCarsInformation.cs" />
+    <Compile Include="Conductors\LaneJunctionConductor\LaneJunctionConductorLightInformation.cs" />
+    <Compile Include="Conductors\LaneJunctionConductor\LaneJunctionConductorMoveInfomation.cs" />
+    <Compile Include="Conductors\LaneJunctionConductor\RightHandRuleLaneJuctionConductor.cs" />
     <Compile Include="Conductors\SingleLaneConductor.cs" />
     <Compile Include="Controlers\CarsDrawerControler.cs" />
     <Compile Include="Controlers\CarsInserterControler.cs" />

@@ -21,7 +21,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
             if ( lightInformation.LightDistance > Constans.ToVirtualUnit( 70.0f ) ) { return; }
 
             var previousEdge = this.GetEdgeConnectedWith( routeMark.GetPrevious() );
-            if ( this._laneJunction.Lights[ previousEdge.Item1 ] != null  == false )
+            if ( this._laneJunction.Lights[ previousEdge.Item1 ] != null )
             {
                 lightInformation.LightState = this._laneJunction.Lights[ previousEdge.Item1 ].LightState;
             }
@@ -36,7 +36,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
 
         private Tuple<int,JunctionEdge> GetEdgeConnectedWith( IRoadElement roadElement )
         {
-            var item = this._laneJunction.Edges.Select( (e,i ) => new { Index = i, Edge = e} ).Where( s => s.Edge.Lane == roadElement ).FirstOrDefault();
+            var item = this._laneJunction.Edges.Select( (e,i ) => new { Index = i, Edge = e} ).Where( s => s.Edge.ConnectedEdge == roadElement ).FirstOrDefault();
             if( item == null ) { return null; }
             return Tuple.Create( item.Index, item.Edge );
         }

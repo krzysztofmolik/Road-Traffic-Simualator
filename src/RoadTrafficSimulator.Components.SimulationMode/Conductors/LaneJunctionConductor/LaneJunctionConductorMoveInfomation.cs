@@ -18,20 +18,21 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
             this._laneJunction = laneJunction;
         }
 
-        public IRoadElement GetNextRandomElement( List<IRoadElement> route )
+        public IRoadElement GetNextRandomElement( List<IRoadElement> route, Random rng )
         {
-            var edge = this._laneJunction.Edges.Where( e => e != null )
-                .Where( e => e.Lane != null )
-                .Where( e => e.Lane.Next != this._laneJunction )
+            var edge = this._laneJunction.Edges
+                .Where( e => e != null )
+                .Where( e => e.Situation.IsOut )
+                .Where( e => e.ConnectedEdge != null )
                 .Where( e => e != route.Last() )
-                .FirstOrDefault();
-            Debug.Assert( edge != null );
-            return edge.Lane;
+                .ToArray();
+            Debug.Assert( edge.Length != 0 );
+            return edge[ rng.Next( 0, edge.Length ) ].ConnectedEdge;
         }
 
         public bool ShouldChange( Vector2 acutalCarLocation, Car car )
         {
-            var next = this._laneJunction.Edges.Where( s => s.Lane == car.Route.GetNext() ).FirstOrDefault();
+            var next = this._laneJunction.Edges.Where( s => s.ConnectedEdge == car.Route.GetNext() ).FirstOrDefault();
             var distance = next.EdgeBuilder.Location - acutalCarLocation;
             // TODO Check value and extract some kind of property
 
@@ -46,7 +47,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
 
         private JunctionEdge GetEdgeConnectedWith( IRoadElement roadElement )
         {
-            var item = this._laneJunction.Edges.Where( s => s.Lane == roadElement ).FirstOrDefault();
+            var item = this._laneJunction.Edges.Where( s => s.ConnectedEdge == roadElement ).FirstOrDefault();
             return item;
         }
     }

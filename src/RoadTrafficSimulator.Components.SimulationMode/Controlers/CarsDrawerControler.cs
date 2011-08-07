@@ -69,11 +69,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
         private readonly object _contentLock = new object();
         private readonly List<CarsDrawerControlerItem> _cars = new List<CarsDrawerControlerItem>();
         private readonly IEventAggregator _eventAggregator;
-        private readonly IContentManager _contentManager;
+        private readonly IContentManagerAdapter _contentManager;
         private readonly Graphic _graphic;
         private Texture2D _carTexture;
 
-        public CarsDrawerControler( IEventAggregator eventAggregator, IContentManager contentManager, Graphic graphic )
+        public CarsDrawerControler( IEventAggregator eventAggregator, IContentManagerAdapter contentManager, Graphic graphic )
         {
             Contract.Requires( eventAggregator != null ); Contract.Requires( contentManager != null ); Contract.Requires( graphic != null );
             this._eventAggregator = eventAggregator;
@@ -95,7 +95,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
 
         public int Order
         {
-            get { return ( int ) Infrastructure.Order.High; }
+            get { return ( int ) Infrastructure.Order.Low; }
         }
 
         public void Handle( CarCreated message )

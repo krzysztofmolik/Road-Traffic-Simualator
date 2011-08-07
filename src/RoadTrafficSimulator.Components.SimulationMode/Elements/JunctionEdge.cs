@@ -1,4 +1,5 @@
 using RoadTrafficSimulator.Components.BuildMode.Controls;
+using System.Linq;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Elements
 {
@@ -13,8 +14,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
 
         public RoadJunctionEdge EdgeBuilder { get; set; }
         public LaneJunction Junction { get; set; }
-        public Lane Lane { get; set; }
-        public bool IsOut { get; set; }
+        public IRoadElement ConnectedEdge { get; set; }
         public IDrawer Drawer { get; private set; }
 
         public JunctionEdgeConductor Situation { get; private set; }
@@ -27,22 +27,24 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         public JunctionEdgeConductor( JunctionEdge owner )
         {
             this._owner = owner;
-            TODO Fix
         }
 
+        public void SetUp()
+        {
+            var edges = this._owner.Junction.Edges.ToArray();
+            var ownerIndex = edges.Select( ( e, i ) => new { Index = i, Edge = e } ).Where( s => s.Edge == this._owner ).Select( s => s.Index ).First();
+            this.OnTheRight = edges[ ( ( ownerIndex + 1 ) % 4 ) ];
+            this.OnTheFront = edges[ ( ( ownerIndex + 2 ) % 4 ) ];
+            this.OnTheLeft = edges[ ( ( ownerIndex + 3 ) % 4 ) ];
+            if( this._owner.ConnectedEdge != null )
+            {
+                this.IsOut = this._owner.ConnectedEdge.Condutor.IsPosibleToDriveFrom( this._owner.Junction );
+            }
+        }
+
+        public bool IsOut { get; private set; }
         public JunctionEdge OnTheLeft { get; private set; }
         public JunctionEdge OnTheFront { get; private set; }
         public JunctionEdge OnTheRight { get; private set; }
-
-        public void GetCarInformation()
-        {
-            if ( this._owner.IsOut == false )
-            {
-                return;
-            }
-
-            var carToOut = this._owner.Lane.Condutor.GetFirstCarToOut();
-            if( carToOut == null ) { return; }
-        }
     }
 }

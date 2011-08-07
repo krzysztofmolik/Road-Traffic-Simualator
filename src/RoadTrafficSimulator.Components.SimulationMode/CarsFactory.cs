@@ -30,7 +30,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         public void CreateCar( CarsInserter startElement )
         {
-            if( this._carId > 1 )
+            if( this._carId > 100 )
             {
                 return;
             }
@@ -62,7 +62,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             var nextElement = startElement;
             while ( true )
             {
-                nextElement = nextElement.Condutor.GetNextRandomElement( route );
+                nextElement = nextElement.Condutor.GetNextRandomElement( route, this._rng );
                 if ( nextElement == null )
                 {
                     break;

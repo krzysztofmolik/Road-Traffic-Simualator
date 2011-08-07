@@ -134,6 +134,10 @@
       <DependentUpon>CarsRemoverView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presenters\BuildMode\Blocks\CarsRemover\CarsRemoverViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ConnectObjectView.xaml.cs">
+      <DependentUpon>ConnectObjectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ConnectObjectViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\RoadLane\OneRoadLaneViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\Junctions\RoadJunctionBlockViewModelModel.cs" />
     <Compile Include="Presenters\BuildMode\BuildJunctionViewModel.cs" />
@@ -141,7 +145,7 @@
       <DependentUpon>BuildJunctionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presenters\DebugMouseInformation.cs" />
-    <Compile Include="Presenters\BuildMode\Blocks\RoadLane\OneRoadLaneView.xaml.cs">
+    <Compile Include="Presenters\BuildMode\Blocks\RoadLane\ConnectObjectView.xaml.cs">
       <DependentUpon>OneRoadLaneView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presenters\BuildMode\Blocks\Junctions\RoadJunctionBlockView.xaml.cs">
@@ -160,6 +164,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Presenters\BuildMode\Blocks\CarsRemover\CarsRemoverView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presenters\BuildMode\Blocks\ConnectObject\ConnectObjectView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

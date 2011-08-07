@@ -12,7 +12,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         private readonly Func<LaneJunction, IConductor> _condutorFactory;
         private readonly Light.Light[] _lights = new Light.Light[ EdgeType.Count ];
         private IConductor _conductor;
-        private LaneJunctionDrawer _drawer;
+        private readonly LaneJunctionDrawer _drawer;
 
         public LaneJunction( RoadJunctionBlock control, Func<LaneJunction, IConductor> condutorFactory )
             : base( control )

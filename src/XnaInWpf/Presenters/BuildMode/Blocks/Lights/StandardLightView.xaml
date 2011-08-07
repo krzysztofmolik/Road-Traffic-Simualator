@@ -7,7 +7,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Border BorderThickness="2" BorderBrush="Black">
         <StackPanel>
-            <Image Source="..\..\..\Images\swiatla.png" />
+            <Image Source="Images\swiatla.png" />
             <Label Content="{Binding Name}"/>
         </StackPanel>
     </Border>

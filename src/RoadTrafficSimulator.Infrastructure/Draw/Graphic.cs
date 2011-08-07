@@ -7,15 +7,12 @@ namespace RoadTrafficSimulator.Infrastructure.Draw
         private readonly VertexPositionColorDrawer _vertexPositionColorDrawer;
         private readonly VertexPositionTextureDrawer _vertexPositionTextureDrawer;
 
-        private readonly IContentManager _contentManger;
 
         public Graphic( VertexPositionColorDrawer vertexPositionColorDrawer,
-                        VertexPositionTextureDrawer vertexPositionTextureDrawer,
-            IContentManager contentManger)
+                        VertexPositionTextureDrawer vertexPositionTextureDrawer )
         {
             this._vertexPositionColorDrawer = vertexPositionColorDrawer;
             this._vertexPositionTextureDrawer = vertexPositionTextureDrawer;
-            this._contentManger = contentManger;
         }
 
         public VertexPositionColorDrawer VertexPositionalColorDrawer
@@ -28,9 +25,5 @@ namespace RoadTrafficSimulator.Infrastructure.Draw
             get { return this._vertexPositionTextureDrawer; }
         }
 
-        public IContentManager ContentManager
-        {
-            get { return this._contentManger; }
-        }
     }
 }
