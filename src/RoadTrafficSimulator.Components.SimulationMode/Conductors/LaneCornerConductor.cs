@@ -74,7 +74,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 
         public void GetLightInformation( IRouteMark routeMark, LightInfomration lightInformation )
         {
-            routeMark.GetNext().Condutor.GetLightInformation( routeMark.MoveNext(), lightInformation );
+            routeMark.MoveNext();
+            routeMark.Current.Condutor.GetLightInformation( routeMark, lightInformation );
         }
 
         public void GetNextJunctionInformation( IRouteMark route, JunctionInformation junctionInformation )

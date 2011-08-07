@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Common;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.Messages;
@@ -69,11 +70,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
         private readonly object _contentLock = new object();
         private readonly List<CarsDrawerControlerItem> _cars = new List<CarsDrawerControlerItem>();
         private readonly IEventAggregator _eventAggregator;
-        private readonly IContentManagerAdapter _contentManager;
+        private readonly ContentManager _contentManager;
         private readonly Graphic _graphic;
         private Texture2D _carTexture;
 
-        public CarsDrawerControler( IEventAggregator eventAggregator, IContentManagerAdapter contentManager, Graphic graphic )
+        public CarsDrawerControler( IEventAggregator eventAggregator, ContentManager contentManager, Graphic graphic )
         {
             Contract.Requires( eventAggregator != null ); Contract.Requires( contentManager != null ); Contract.Requires( graphic != null );
             this._eventAggregator = eventAggregator;

@@ -44,11 +44,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
             return this._route.GetAt( mark );
         }
 
-        public IRouteMark MoveNext()
+        public bool MoveNext()
         {
             ++this._mark;
-            if ( this._route.IsValidIndex( this._mark ) == false ) { throw new InvalidOperationException( "Can't move mark outside the route" ); }
-            return this;
+            if ( this._route.IsValidIndex( this._mark ) == false ) { return false; }
+            return true;
         }
 
         public IRouteMark MovePrevious()

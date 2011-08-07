@@ -5,7 +5,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
         void SetLoctionOn( IRoadElement roadElement );
         IRoadElement GetPrevious();
         IRoadElement GetNext();
-        IRouteMark MoveNext();
+        bool MoveNext();
         IRoadElement Current { get; }
         IRouteMark MovePrevious();
         IRouteMark Clone();

@@ -51,10 +51,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
             return this._routeMark.GetNext();
         }
 
-        public IRouteMark MoveNext()
+        public bool MoveNext()
         {
-            this._routeMark.MoveNext();
-            return this._routeMark;
+            return this._routeMark.MoveNext();
         }
 
         public IRouteMark MovePrevious()

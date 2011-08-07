@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
@@ -55,7 +56,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
             var route = car.Route.Clone();
             while ( route.Current != null && route.Current != this._laneJunction )
             {
-                route.MoveNext();
+                if( !route.MoveNext() )
+                {
+                    return false;
+                }
             }
 
             if ( route.Current == null ) { return false; }
@@ -76,7 +80,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
 
         private FirstCarToOutInformation GetInformation( IRouteMark route, JunctionEdge junctionEdge )
         {
-            var information = new FirstCarToOutInformation();
+            var information = new FirstCarToOutInformation( Enumerable.Empty<IRoadElement>() );
             if ( junctionEdge == null || junctionEdge.ConnectedEdge == null || junctionEdge.Situation.IsOut )
             {
                 return information;

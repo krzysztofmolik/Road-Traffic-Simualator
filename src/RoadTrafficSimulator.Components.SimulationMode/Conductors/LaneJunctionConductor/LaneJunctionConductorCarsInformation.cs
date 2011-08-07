@@ -88,10 +88,16 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
                 return;
             }
 
-            var outEdges = this._laneJunction.Edges.Where( s => s.Situation.IsOut == false ).Select( s => s );
+            var outEdges = this._laneJunction.Edges.Where( s => s.ConnectedEdge != null )
+                                                   .Where( s => s.Situation.IsOut == false );
             foreach ( var junctionEdgeConductor in outEdges )
             {
-                var junctionInformation = new FirstCarToOutInformation { CurrentDistance = carInformation.CurrentDistance };
+                if ( carInformation.VistedElements.Contains( junctionEdgeConductor.ConnectedEdge ) )
+                {
+                    continue;
+                }
+                var junctionInformation = new FirstCarToOutInformation( carInformation.VistedElements ) { CurrentDistance = carInformation.CurrentDistance };
+                junctionInformation.AddVistedControl( junctionEdgeConductor.ConnectedEdge );
                 junctionEdgeConductor.ConnectedEdge.Condutor.GetFirstCarToOutInformation( junctionInformation );
 
                 junctionInformation.Items.ForEach( s => carInformation.Add( s.Car, s.CarDistance ) );

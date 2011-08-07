@@ -16,7 +16,7 @@ namespace RoadTrafficSimulator.Infrastructure
         {
             builder.RegisterType<Camera3D>().SingleInstance();
 
-            builder.RegisterType<ContentManagerAdapter>().As<IContentManagerAdapter>().SingleInstance();
+            builder.RegisterType<ContentManagerAdapter>().AsSelf().As<IContentManagerAdapter>().SingleInstance();
             builder.RegisterType<KeyboardInputNotify>().As<KeyboardInputNotify>().SingleInstance();
             builder.RegisterType<MouseInformation>().As<MouseInformation>().Named<IMouseInformation>("MainMouseInformation").SingleInstance();
 

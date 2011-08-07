@@ -37,25 +37,25 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
                 if( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Bottom ].Connector.Edge != null )
                 {
                     this._junction.Bottom.ConnectedEdge =
-                        builderContext.GetObject<Lane>(
+                        builderContext.GetObject<IRoadElement>(
                             this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Bottom ].Connector.Edge.Parent );
                 }
                 if( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Left ].Connector.Edge != null )
                 {
                     this._junction.Left.ConnectedEdge =
-                        builderContext.GetObject<Lane>(
+                        builderContext.GetObject<IRoadElement>(
                             this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Left ].Connector.Edge.Parent );
                 }
                 if( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Top ].Connector.Edge != null )
                 {
                     this._junction.Top.ConnectedEdge =
-                        builderContext.GetObject<Lane>(
+                        builderContext.GetObject<IRoadElement>(
                             this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Top ].Connector.Edge.Parent );
                 }
                 if( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Right ].Connector.Edge != null )
                 {
                     this._junction.Right.ConnectedEdge =
-                        builderContext.GetObject<Lane>(
+                        builderContext.GetObject<IRoadElement>(
                             this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Right ].Connector.Edge.Parent );
                 }
             }

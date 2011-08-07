@@ -32,7 +32,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
         {
             var createCommand = new CreateControlCommand( control.Id, typeof( LightBlock ) );
             createCommand.AddConstructParameters( Parameter.Create( control.Location ) );
-            createCommand.AddConstructParameters( new IocParameter( typeof( IContentManager ) ) );
+            createCommand.AddConstructParameters( new IocParameter( typeof( IContentManagerAdapter ) ) );
             return createCommand;
         }
     }

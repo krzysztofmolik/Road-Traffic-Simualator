@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
@@ -17,9 +18,16 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             public float CarDistance { get; private set; }
         }
 
+        public FirstCarToOutInformation( IEnumerable<IRoadElement> vistedControls )
+        {
+            this._vistedControls = new List<IRoadElement>( vistedControls );
+        }
+
         private readonly List<Item> _items = new List<Item>();
+        private readonly List<IRoadElement> _vistedControls;
 
         public IEnumerable<Item> Items { get { return this._items; } }
+        public IEnumerable<IRoadElement> VistedElements { get { return this._vistedControls; } }
 
         public float CurrentDistance { get; set; }
 
@@ -27,6 +35,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
         {
             var item = new Item( car, carDistance );
             this._items.Add( item );
+        }
+
+        public void AddVistedControl( IRoadElement junctionEdgeConductor )
+        {
+            this._vistedControls.Add( junctionEdgeConductor );
         }
     }
 }

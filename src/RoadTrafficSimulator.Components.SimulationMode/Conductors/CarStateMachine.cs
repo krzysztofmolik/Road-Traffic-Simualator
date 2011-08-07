@@ -54,7 +54,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             junctionInformation.JunctionDistance = this._currentConductor.GetCarDistanceToEnd( this._car );
             // TODO Rewrite it
             if ( this._car.Route.IsLast ) { return junctionInformation; }
-            var route = this._car.Route.Clone().MoveNext();
+            var route = this._car.Route.Clone();
+            route.MoveNext();
             route.Current.Condutor.GetNextJunctionInformation( route, junctionInformation );
 
             return junctionInformation;

@@ -23,6 +23,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
 
         public void ConnectBeginWith( RoadJunctionEdge roadJunctionEdge )
         {
+            this.Edge = roadJunctionEdge;
             roadJunctionEdge.StartPoint.Translated.Subscribe( s => this._owner.EndPoint.SetLocation( s.Control.Location ) );
             roadJunctionEdge.EndPoint.Translated.Subscribe( s => this._owner.StartPoint.SetLocation( s.Control.Location ) );
 
@@ -33,11 +34,13 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
         private RoadJunctionEdge GetEdgeOnOpositeSideTo( RoadJunctionEdge roadJunctionEdge )
         {
             var side = roadJunctionEdge.RoadJunctionParent.GetEdgeType( roadJunctionEdge );
-            return roadJunctionEdge.RoadJunctionParent.RoadJunctionEdges[ ( side + 2 ) % 3 ];
+            return roadJunctionEdge.RoadJunctionParent.RoadJunctionEdges[ ( side + 2 ) % 4 ];
         }
 
         public void ConnectEndWith( RoadJunctionEdge roadJunctionEdge )
         {
+            this.Edge = roadJunctionEdge;
+
             roadJunctionEdge.StartPoint.Translated.Subscribe( s => this._owner.EndPoint.SetLocation( s.Control.Location ) );
             roadJunctionEdge.EndPoint.Translated.Subscribe( s => this._owner.StartPoint.SetLocation( s.Control.Location ) );
 

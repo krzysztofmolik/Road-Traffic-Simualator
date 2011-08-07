@@ -69,6 +69,7 @@ namespace RoadTrafficSimulator
 
         protected override void LoadContent()
         {
+            this._contentManagerAdapter.ReloadAllTextures();
             base.LoadContent();
         }
 
