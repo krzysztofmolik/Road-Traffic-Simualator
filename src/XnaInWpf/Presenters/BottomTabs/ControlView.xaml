@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="RoadTrafficConstructor.Presenters.BottomTabs.ControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Converters="clr-namespace:RoadTrafficConstructor.Converters" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Color x:Key="BorderBackground">#FF225A72</Color>
+        <Converters:BoolNegation x:Key="BoolNegation" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Column="0">
+            <Button x:Name="SwitchToBuildMode" Content="Build" Height="25" Width="100" IsEnabled="{Binding Path=IsBuildMode, Converter={StaticResource BoolNegation}}"/>
+            <Button x:Name="SwtichToSimulationMode" Content="Simulate" Height="25" Width="100" IsEnabled="{Binding Path=IsBuildMode}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Column="1">
+            <Button x:Name="Save" Content="Save" Height="25" Width="100"/>
+            <Button x:Name="Load" Content="Load" Height="25" Width="100"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Column="2">
+            <Button Width="50" Height="50" Name="DecreaseZoom" Content="-"/>
+            <ProgressBar Minimum="0" Maximum="100" Width="200" Value="{Binding Path=ZoomValue}"/>
+            <Button Width="50" Height="50" Name="IncreaseZoom" Content="+"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

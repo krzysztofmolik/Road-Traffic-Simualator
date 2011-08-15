@@ -12,7 +12,6 @@ using RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands;
 using RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Mouse;
-using RoadTrafficSimulator.Road;
 using Module = Autofac.Module;
 using Common.Extensions;
 

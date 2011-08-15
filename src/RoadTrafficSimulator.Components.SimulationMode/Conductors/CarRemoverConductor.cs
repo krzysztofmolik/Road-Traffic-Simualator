@@ -62,6 +62,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return false;
         }
 
+        public void GetNextAvailablePointToStop( IRouteMark route, NextAvailablePointToStopInfo info )
+        {
+            // Note This intentionally leave empty
+        }
+
         public bool ShouldChange(Vector2 acutalCarLocation, Car car)
         {
             return false;

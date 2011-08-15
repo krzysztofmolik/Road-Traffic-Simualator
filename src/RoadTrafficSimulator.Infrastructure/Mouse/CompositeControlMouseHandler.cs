@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Controls;
-using RoadTrafficSimulator.Road;
 
 namespace RoadTrafficSimulator.Infrastructure.Mouse
 {

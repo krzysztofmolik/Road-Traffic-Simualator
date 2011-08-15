@@ -58,6 +58,13 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return this._laneCorner.Next == roadElement;
         }
 
+        public void GetNextAvailablePointToStop( IRouteMark route, NextAvailablePointToStopInfo info )
+        {
+            route.MoveNext();
+            info.Length += Constans.PointSize;
+            route.Current.Condutor.GetNextAvailablePointToStop( route, info );
+        }
+
         public bool ShouldChange( Vector2 acutalCarLocation, Car car )
         {
             var distance = this._laneCorner.BuildControl.Location - acutalCarLocation;

@@ -128,6 +128,8 @@
     <Compile Include="Extension\Vector3ExtensionMethod.cs" />
     <Compile Include="GameComponent.cs" />
     <Compile Include="InfrastructureModule.cs" />
+    <Compile Include="MetaBase.cs" />
+    <Compile Include="NumberMeta.cs" />
     <Compile Include="KeyboardInputNotify.cs" />
     <Compile Include="KeyboardKeysChangedArgs.cs" />
     <Compile Include="KeysState.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="Messages\ConfigureJunctionEdge.cs" />
     <Compile Include="Messages\IntializeContent.cs" />
     <Compile Include="Messages\JunetionEdgeConfigured.cs" />
+    <Compile Include="Messages\ShowSettings.cs" />
     <Compile Include="Messages\UnloadConntent.cs" />
     <Compile Include="MouseStateEventArgs.cs" />
     <Compile Include="Mouse\CompositeControlMouseHandler.cs" />

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Conductors

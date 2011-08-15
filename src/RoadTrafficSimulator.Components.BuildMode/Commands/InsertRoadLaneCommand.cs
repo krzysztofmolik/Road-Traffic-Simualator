@@ -5,7 +5,6 @@ using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Mouse;
-using RoadTrafficSimulator.Road;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Commands
 {

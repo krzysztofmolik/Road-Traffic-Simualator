@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using RoadTrafficSimulator.Infrastructure.Controls;
-using RoadTrafficSimulator.Infrastructure.Mouse;
 
-namespace RoadTrafficSimulator.Road
+namespace RoadTrafficSimulator.Infrastructure.Controls
 {
     public interface ICompositeControl : IControl
     {

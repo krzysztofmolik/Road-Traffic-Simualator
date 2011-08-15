@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using System.Linq;
-using RoadTrafficSimulator.Road;
 using XnaVs10.MathHelpers;
 
 namespace RoadTrafficSimulator.Infrastructure.Controls

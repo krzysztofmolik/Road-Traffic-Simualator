@@ -99,14 +99,19 @@ namespace RoadTrafficSimulator.Components.BuildMode
 
         public void Handle( SaveMap message )
         {
-            this._serializer.Save( message.Stream, this._roadLayer.Children );
-            message.Stream.Close();
+            using ( message.Stream )
+            {
+                this._serializer.Save( message.Stream, this._roadLayer.Children );
+            }
         }
 
         public void Handle( LoadMap message )
         {
-            var controls = this._serializer.Load( message.Stream );
-            controls.ForEach( this._roadLayer.AddChild );
+            using ( message.Stream )
+            {
+                var controls = this._serializer.Load( message.Stream );
+                controls.ForEach( this._roadLayer.AddChild );
+            }
         }
     }
 }

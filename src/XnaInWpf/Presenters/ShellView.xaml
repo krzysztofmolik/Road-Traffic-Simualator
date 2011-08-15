@@ -1,13 +1,11 @@
 ﻿<Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Converters="clr-namespace:RoadTrafficConstructor.Converters"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     x:Class="RoadTrafficConstructor.Presenters.ShellView" 
     Width="1280" Height="1024" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" WindowState="Maximized">
     <Window.Resources>
         <Color x:Key="BorderBackground">#FF225A72</Color>
-        <Converters:BoolNegation x:Key="BoolNegation" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -28,32 +26,10 @@
 
                 <!-- Debug information -->
                 <TabItem Header="Control">
-                    <StackPanel Orientation="Horizontal">
-                        <Button x:Name="SwitchToBuildMode" Content="Build" Height="25" Width="100" IsEnabled="{Binding Path=IsBuildMode, Converter={StaticResource BoolNegation}}"/>
-                        <Button x:Name="SwtichToSimulationMode" Content="Simulate" Height="25" Width="100" IsEnabled="{Binding Path=IsBuildMode}"/>
-                        <Button x:Name="Save" Content="Save" Height="25" Width="100"/>
-                        <Button x:Name="Load" Content="Load" Height="25" Width="100"/>
-                    </StackPanel>
+                    <ContentControl x:Name="Control" />
                 </TabItem>
-                <TabItem Header="Zoom control">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Width="50" Height="50" Name="DecreaseZoom" Content="-"/>
-                        <ProgressBar Minimum="0" Maximum="100" Width="200" Value="{Binding Path=ZoomValue}"/>
-                        <Button Width="50" Height="50" Name="IncreaseZoom" Content="+"/>
-                    </StackPanel>
-                </TabItem>
-
-                <!-- Draw options -->
-                <TabItem Header="Draw information">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <CheckBox Grid.Row="0" Content="Show stop line" IsChecked="{Binding ShouldShowStopLine}"/>
-                        <CheckBox Grid.Row="1" Content="Show road direction" IsChecked="{Binding ShowRoadDirection}"/>
-                    </Grid>
+                <TabItem Header="Settings">
+                    <ContentControl x:Name="Settings" />
                 </TabItem>
             </TabControl>
         </Border>

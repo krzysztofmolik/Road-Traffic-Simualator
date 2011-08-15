@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using RoadTrafficSimulator.Infrastructure.Controls;
-using RoadTrafficSimulator.Road;
 
 namespace RoadTrafficSimulator.Components.BuildMode
 {

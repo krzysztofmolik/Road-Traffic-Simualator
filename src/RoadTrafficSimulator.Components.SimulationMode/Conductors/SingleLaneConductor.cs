@@ -55,6 +55,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return this._lane.Next == roadElement || this._lane.Top == roadElement || this._lane.Bottom == roadElement;
         }
 
+        public void GetNextAvailablePointToStop( IRouteMark route, NextAvailablePointToStopInfo info )
+        {
+            return;
+        }
+
         public bool ShouldChange( Vector2 acutalCarLocation, Car car )
         {
             var distance = this._lane.RoadLaneBlock.RightEdge.Location - acutalCarLocation;

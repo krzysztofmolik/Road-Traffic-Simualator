@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure.Controls;
-using RoadTrafficSimulator.Road;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
 {

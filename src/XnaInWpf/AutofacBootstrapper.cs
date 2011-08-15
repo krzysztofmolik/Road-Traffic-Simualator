@@ -2,11 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Autofac;
+using Autofac.Core;
 using Caliburn.Micro;
 using NLog;
 using System.Linq;
 using RoadTrafficConstructor.Presenters;
+using RoadTrafficConstructor.Presenters.BottomTabs.Settings;
+using RoadTrafficSimulator.Infrastructure;
 using Module = Autofac.Module;
+using Common.Extensions;
+using IEventAggregator = Common.IEventAggregator;
+using IHandle = Common.IHandle;
 
 namespace RoadTrafficConstructor
 {
@@ -25,14 +31,14 @@ namespace RoadTrafficConstructor
             autofacBuilder.RegisterModule( new PresentersModule() );
             autofacBuilder.RegisterModule( new XnaInWpfModule() );
 
-            Logger.Trace("Test log");
+            Logger.Trace( "Test log" );
 
             return autofacBuilder.Build();
         }
 
         protected override void OnExit( object sender, EventArgs e )
         {
-            Console.WriteLine("sddf");
+            Console.WriteLine( "sddf" );
             base.OnExit( sender, e );
         }
 
@@ -86,7 +92,31 @@ namespace RoadTrafficConstructor
         protected override void Load( ContainerBuilder builder )
         {
             builder.RegisterAssemblyTypes( Assembly.GetExecutingAssembly() )
-                .Where( c => c.Name.EndsWith( "Model" ) ).As( c => this.GetDefaultInterface( c ) );
+                .Where( c => c.Name.EndsWith( "Model" ) )
+                .As( c => this.GetDefaultInterface( c ) )
+                .OnActivating( this.RegisterEventHandlers );
+
+            var settings = typeof( DefaultSettingViewModel );
+            builder.RegisterAssemblyTypes( Assembly.GetExecutingAssembly() )
+                .Where( c => c.Namespace == settings.Namespace )
+                .Where( c => c.IsImplementingInterface<ISettingViewMode>() )
+                .Where( c => c != settings )
+                .AsImplementedInterfaces()
+                .WithMetadata<NumberMeta>( s => s.For( m => m.Order, 0 ) )
+                .OnActivating( this.RegisterEventHandlers );
+            builder.RegisterType<DefaultSettingViewModel>()
+                .AsImplementedInterfaces()
+                .WithMetadata<NumberMeta>(
+                s => s.For( m => m.Order, 1 ) );
+        }
+
+        private void RegisterEventHandlers( IActivatingEventArgs<object> activatingEventArgs )
+        {
+            if ( activatingEventArgs.Instance.GetType().IsImplementingInterface<IHandle>() )
+            {
+                var eventAggregator = activatingEventArgs.Context.Resolve<IEventAggregator>();
+                eventAggregator.Subscribe( activatingEventArgs.Instance );
+            }
         }
 
         private Type GetDefaultInterface( Type type )

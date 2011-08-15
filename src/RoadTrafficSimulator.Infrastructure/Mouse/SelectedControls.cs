@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common;
 using Microsoft.Xna.Framework.Input;
 using RoadTrafficSimulator.Infrastructure.Controls;
+using RoadTrafficSimulator.Infrastructure.Messages;
 
 namespace RoadTrafficSimulator.Infrastructure.Mouse
 {
@@ -10,10 +12,12 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         private readonly object _lock = new object();
         private readonly List<IControl> _selectedControls = new List<IControl>();
         private readonly KeyboardInputNotify _keyboard;
+        private readonly IEventAggregator _eventAggregator;
 
-        public SelectedControls( KeyboardInputNotify keyboard )
+        public SelectedControls( KeyboardInputNotify keyboard, IEventAggregator eventAggregator )
         {
             this._keyboard = keyboard;
+            this._eventAggregator = eventAggregator;
         }
 
         public void ToggleSelection( IControl control )
@@ -32,12 +36,13 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
         {
             lock ( this._lock )
             {
-                if ( IsMultiSelect() )
+                control.IsSelected = true;
+
+                if ( !this.IsMultiSelect() )
                 {
                     this._selectedControls.ForEach( c => c.IsSelected = false );
+                    this._eventAggregator.Publish( new ShowSettings( control ) );
                 }
-
-                control.IsSelected = true;
                 this._selectedControls.Add( control );
             }
         }
@@ -53,7 +58,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
 
         public void Clear()
         {
-            if( this.IsMultiSelect() )
+            if ( this.IsMultiSelect() )
             {
                 return;
             }
@@ -65,11 +70,11 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
             }
         }
 
-        public bool Contains(IControl control)
+        public bool Contains( IControl control )
         {
-            lock (_lock)
+            lock ( _lock )
             {
-                return this._selectedControls.Contains(control);
+                return this._selectedControls.Contains( control );
             }
         }
 
@@ -83,7 +88,7 @@ namespace RoadTrafficSimulator.Infrastructure.Mouse
 
         private bool IsMultiSelect()
         {
-            return this._keyboard.IsKeyPressed( Keys.LeftControl ) == false && this._keyboard.IsKeyPressed( Keys.RightControl ) == false;
+            return this._keyboard.IsKeyPressed( Keys.LeftControl ) || this._keyboard.IsKeyPressed( Keys.RightControl );
         }
     }
 }

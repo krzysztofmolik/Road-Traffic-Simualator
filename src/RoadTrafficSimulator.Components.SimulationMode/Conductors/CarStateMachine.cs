@@ -45,7 +45,20 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             this.LightDistance( this.GetLightInformation() );
             this.YieldDistance( this.GetYieldInfomration() );
             this.CarAheadDistance( this.GetCarAheadInformation() );
+            this.NextAvaialibalePlaceToStop( this.GetNextAvailablePointToStop() );
             this._currentState.MoveCar( this._car, timeFrame.Milliseconds );
+        }
+
+        private void NextAvaialibalePlaceToStop( float nextAvailablePointToStop )
+        {
+        }
+
+        private float GetNextAvailablePointToStop()
+        {
+            var nextAvailablePointToStop = new NextAvailablePointToStopInfo( this._car );
+            var route = this._car.Route.Clone();
+            this._currentConductor.GetNextAvailablePointToStop( route, nextAvailablePointToStop );
+            return nextAvailablePointToStop.Length;
         }
 
         private JunctionInformation GetYieldInfomration()
@@ -139,6 +152,19 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
                 this._car.Direction = Vector2.Normalize( this._currentConductor.GetCarDirection( this._car ) );
             }
         }
+    }
+
+    public class NextAvailablePointToStopInfo
+    {
+        public NextAvailablePointToStopInfo( Car car )
+        {
+            this.Car = car;
+            this.Length = 0.0f;
+        }
+
+        public float Length { get; set; }
+
+        public Car Car { get; private set; }
     }
 
     public interface ICarMachineState

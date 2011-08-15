@@ -126,6 +126,23 @@
     </ApplicationDefinition>
     <Compile Include="AutofacBootstrapper.cs" />
     <Compile Include="Converters\BoolNegation.cs" />
+    <Compile Include="Presenters\BottomTabs\ControlView.xaml.cs">
+      <DependentUpon>ControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presenters\BottomTabs\ControlViewModel.cs" />
+    <Compile Include="Presenters\BottomTabs\Settings\DefaultSettingView.xaml.cs">
+      <DependentUpon>DefaultSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presenters\BottomTabs\Settings\DefaultSettingViewModel.cs" />
+    <Compile Include="Presenters\BottomTabs\Settings\ISettingViewMode.cs" />
+    <Compile Include="Presenters\BottomTabs\Settings\RoadJunctionSettingView.xaml.cs">
+      <DependentUpon>RoadJunctionSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presenters\BottomTabs\Settings\RoadJunctionSettingViewModel.cs" />
+    <Compile Include="Presenters\BottomTabs\SettingView.xaml.cs">
+      <DependentUpon>SettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presenters\BottomTabs\SettingViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\CarsInserter\CarsInserterView.xaml.cs">
       <DependentUpon>CarsInserterView.xaml</DependentUpon>
     </Compile>
@@ -159,6 +176,22 @@
     </Compile>
     <Compile Include="Presenters\SimulationMode\SimulationViewModel.cs" />
     <Compile Include="XnaInWpfModule.cs" />
+    <Page Include="Presenters\BottomTabs\ControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presenters\BottomTabs\Settings\DefaultSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presenters\BottomTabs\Settings\RoadJunctionSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presenters\BottomTabs\SettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Presenters\BuildMode\Blocks\CarsInserter\CarsInserterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

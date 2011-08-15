@@ -91,5 +91,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
         {
             return this._junctionInformation.IsPosibleToDriveTo( roadElement );
         }
+
+        public void GetNextAvailablePointToStop( IRouteMark route, NextAvailablePointToStopInfo info )
+        {
+            this._junctionInformation.GetNextAvailablePointToStop( route, info );
+        }
     }
 }

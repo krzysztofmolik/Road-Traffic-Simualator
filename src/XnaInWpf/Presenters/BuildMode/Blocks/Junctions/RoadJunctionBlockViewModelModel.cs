@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using RoadTrafficSimulator.Components.BuildMode;
 using RoadTrafficSimulator.Components.BuildMode.Commands;
-using RoadTrafficSimulator.Road;
 
 namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.Junctions
 {

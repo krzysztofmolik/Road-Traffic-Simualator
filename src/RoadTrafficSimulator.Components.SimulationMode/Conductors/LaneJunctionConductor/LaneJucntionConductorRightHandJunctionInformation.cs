@@ -117,5 +117,14 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
         {
             return this._laneJunction.Edges.Where( s => s.Situation.IsOut ).Any( s => s.ConnectedEdge == roadElement );
         }
+
+        public void GetNextAvailablePointToStop( IRouteMark route, NextAvailablePointToStopInfo info )
+        {
+            var previousEdges = this.GetEdgeConnectedWith( route.GetPrevious() );
+            var nextEdge = this.GetEdgeConnectedWith( route.GetNext() );
+            info.Length += Vector2.Distance( previousEdges.EdgeBuilder.Location, nextEdge.EdgeBuilder.Location );
+            route.MoveNext();
+            route.Current.Condutor.GetNextAvailablePointToStop( route, info );
+        }
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Light;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
@@ -23,6 +22,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
         float GetCarDistanceToEnd( Car car );
         bool IsPosibleToDriveFrom( IRoadElement roadElement );
         bool IsPosibleToDriveTo( IRoadElement roadElement );
+        void GetNextAvailablePointToStop( IRouteMark route, NextAvailablePointToStopInfo info );
     }
 
     public class LightInfomration

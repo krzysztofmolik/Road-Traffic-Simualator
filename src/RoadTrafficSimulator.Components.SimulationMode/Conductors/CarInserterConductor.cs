@@ -55,6 +55,13 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return this._carInserter.Lane == roadElement;
         }
 
+        public void GetNextAvailablePointToStop( IRouteMark route, NextAvailablePointToStopInfo info )
+        {
+            route.MoveNext();
+            info.Length += Constans.PointSize;
+            route.Current.Condutor.GetNextAvailablePointToStop( route, info );
+        }
+
         public bool ShouldChange( Vector2 acutalCarLocation, Car car )
         {
             return true;

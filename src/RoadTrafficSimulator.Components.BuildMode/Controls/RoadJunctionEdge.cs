@@ -60,10 +60,15 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             get { return this._isOut; }
             set
             {
-                if( this._isOut == value ) { return; }
+                if ( this._isOut == value ) { return; }
                 this._isOut = value;
                 this.Redraw();
             }
+        }
+
+        public bool CanChangeIsOut
+        {
+            get { return this._roadJunctionEndConnector.Edge != null && this._roadJunctionEndConnector.Edge is RoadJunctionEdge; }
         }
     }
 }

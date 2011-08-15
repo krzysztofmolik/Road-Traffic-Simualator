@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Road;
+using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
