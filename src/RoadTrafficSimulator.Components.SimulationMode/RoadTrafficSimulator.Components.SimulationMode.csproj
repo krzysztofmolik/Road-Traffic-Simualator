@@ -133,6 +133,8 @@
     <Compile Include="Conductors\LaneJunctionConductor\LaneJunctionConductorLightInformation.cs" />
     <Compile Include="Conductors\LaneJunctionConductor\LaneJunctionConductorMoveInfomation.cs" />
     <Compile Include="Conductors\LaneJunctionConductor\RightHandRuleLaneJuctionConductor.cs" />
+    <Compile Include="Conductors\NextAvailablePointToStopInfo.cs" />
+    <Compile Include="Conductors\NextAvailavlePointToStopInfoIterator.cs" />
     <Compile Include="Conductors\SingleLaneConductor.cs" />
     <Compile Include="Controlers\CarsDrawerControler.cs" />
     <Compile Include="Controlers\CarsInserterControler.cs" />

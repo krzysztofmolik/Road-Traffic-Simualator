@@ -22,7 +22,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
         float GetCarDistanceToEnd( Car car );
         bool IsPosibleToDriveFrom( IRoadElement roadElement );
         bool IsPosibleToDriveTo( IRoadElement roadElement );
-        void GetNextAvailablePointToStop( IRouteMark route, NextAvailablePointToStopInfo info );
+        float Lenght(IRoadElement previous, IRoadElement next);
+        bool CanStop(IRoadElement previous, IRoadElement next);
     }
 
     public class LightInfomration

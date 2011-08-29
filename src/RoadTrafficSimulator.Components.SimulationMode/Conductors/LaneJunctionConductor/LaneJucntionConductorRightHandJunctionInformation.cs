@@ -56,7 +56,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
             var route = car.Route.Clone();
             while ( route.Current != null && route.Current != this._laneJunction )
             {
-                if( !route.MoveNext() )
+                if ( !route.MoveNext() )
                 {
                     return false;
                 }
@@ -120,11 +120,15 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
 
         public void GetNextAvailablePointToStop( IRouteMark route, NextAvailablePointToStopInfo info )
         {
-            var previousEdges = this.GetEdgeConnectedWith( route.GetPrevious() );
-            var nextEdge = this.GetEdgeConnectedWith( route.GetNext() );
-            info.Length += Vector2.Distance( previousEdges.EdgeBuilder.Location, nextEdge.EdgeBuilder.Location );
-            route.MoveNext();
-            route.Current.Condutor.GetNextAvailablePointToStop( route, info );
+            return;
+        }
+
+        public float Length( IRoadElement previous, IRoadElement next )
+        {
+            var previousEdge = this.GetEdgeConnectedWith( previous );
+            var nextEdge = this.GetEdgeConnectedWith(next);
+
+            return Vector2.Distance(previousEdge.EdgeBuilder.Location, nextEdge.EdgeBuilder.Location);
         }
     }
 }

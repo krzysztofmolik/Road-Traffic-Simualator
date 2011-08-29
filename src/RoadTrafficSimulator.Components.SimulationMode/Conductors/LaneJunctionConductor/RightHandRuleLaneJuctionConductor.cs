@@ -92,9 +92,15 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
             return this._junctionInformation.IsPosibleToDriveTo( roadElement );
         }
 
-        public void GetNextAvailablePointToStop( IRouteMark route, NextAvailablePointToStopInfo info )
+        public float Lenght(IRoadElement previous, IRoadElement next)
         {
-            this._junctionInformation.GetNextAvailablePointToStop( route, info );
+            return this._junctionInformation.Length(previous, next);
+        }
+
+        public bool CanStop(IRoadElement previous, IRoadElement next)
+        {
+            // BUG When turn left it can stay on junction
+            return false;
         }
     }
 }

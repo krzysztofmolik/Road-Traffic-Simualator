@@ -5,7 +5,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
 {
     public class Route : IRouteMark
     {
-        private List<IRoadElement> _route = new List<IRoadElement>();
+        private readonly List<IRoadElement> _route = new List<IRoadElement>();
         private RouteMark _routeMark;
         public void Add( IRoadElement roadElement )
         {

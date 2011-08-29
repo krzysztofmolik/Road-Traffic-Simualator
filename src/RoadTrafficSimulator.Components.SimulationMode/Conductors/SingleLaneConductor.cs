@@ -55,9 +55,19 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return this._lane.Next == roadElement || this._lane.Top == roadElement || this._lane.Bottom == roadElement;
         }
 
-        public void GetNextAvailablePointToStop( IRouteMark route, NextAvailablePointToStopInfo info )
+        public float Lenght( IRoadElement previous, IRoadElement next )
         {
-            return;
+            if ( this._lane.Prev != previous || this._lane.Next != next )
+            {
+                throw new NotImplementedException();
+            }
+
+            return Vector2.Distance( this._lane.Prev.BuildControl.Location, this._lane.Next.BuildControl.Location );
+        }
+
+        public bool CanStop( IRoadElement previous, IRoadElement next )
+        {
+            return true;
         }
 
         public bool ShouldChange( Vector2 acutalCarLocation, Car car )

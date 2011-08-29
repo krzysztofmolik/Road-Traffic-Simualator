@@ -55,11 +55,19 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return this._carInserter.Lane == roadElement;
         }
 
-        public void GetNextAvailablePointToStop( IRouteMark route, NextAvailablePointToStopInfo info )
+        public float Lenght(IRoadElement previous, IRoadElement next)
         {
-            route.MoveNext();
-            info.Length += Constans.PointSize;
-            route.Current.Condutor.GetNextAvailablePointToStop( route, info );
+            return Constans.PointSize;
+        }
+
+        public bool CanStop(IRoadElement previous, IRoadElement next)
+        {
+            return true;
+        }
+
+        public bool IsCarPresent( Car car )
+        {
+            return this._cars.Contains( car );
         }
 
         public bool ShouldChange( Vector2 acutalCarLocation, Car car )
@@ -105,7 +113,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
         public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )
         {
             var firstCar = this._cars.GetFirstCar();
-            if( firstCar != null )
+            if ( firstCar != null )
             {
                 carInformation.Add( firstCar, carInformation.CurrentDistance + Constans.PointSize );
             }

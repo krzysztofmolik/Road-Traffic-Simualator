@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
 using RoadTrafficSimulator.Infrastructure;
-using System.Linq;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 {
@@ -58,11 +56,14 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return this._laneCorner.Next == roadElement;
         }
 
-        public void GetNextAvailablePointToStop( IRouteMark route, NextAvailablePointToStopInfo info )
+        public float Lenght(IRoadElement previous, IRoadElement next)
         {
-            route.MoveNext();
-            info.Length += Constans.PointSize;
-            route.Current.Condutor.GetNextAvailablePointToStop( route, info );
+            return Constans.PointSize;
+        }
+
+        public bool CanStop(IRoadElement previous, IRoadElement next)
+        {
+            return true;
         }
 
         public bool ShouldChange( Vector2 acutalCarLocation, Car car )

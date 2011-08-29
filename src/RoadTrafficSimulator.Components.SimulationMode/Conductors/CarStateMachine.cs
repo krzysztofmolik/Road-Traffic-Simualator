@@ -45,20 +45,19 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             this.LightDistance( this.GetLightInformation() );
             this.YieldDistance( this.GetYieldInfomration() );
             this.CarAheadDistance( this.GetCarAheadInformation() );
-            this.NextAvaialibalePlaceToStop( this.GetNextAvailablePointToStop() );
+            this.AvailablePointsToStop( this.GetAvailablePointsToStop() );
             this._currentState.MoveCar( this._car, timeFrame.Milliseconds );
         }
 
-        private void NextAvaialibalePlaceToStop( float nextAvailablePointToStop )
+        private NextAvailablePointToStopInfo GetAvailablePointsToStop()
         {
+            var iterator = new NextAvailavlePointToStopInfoIterator();
+            return iterator.Get( this._car.Route.Clone(), 100.0f, this._car );
         }
 
-        private float GetNextAvailablePointToStop()
+        private void AvailablePointsToStop( NextAvailablePointToStopInfo availablePointToStop )
         {
-            var nextAvailablePointToStop = new NextAvailablePointToStopInfo( this._car );
-            var route = this._car.Route.Clone();
-            this._currentConductor.GetNextAvailablePointToStop( route, nextAvailablePointToStop );
-            return nextAvailablePointToStop.Length;
+            this._currentState.SetAvailablePointsToStop( availablePointToStop );
         }
 
         private JunctionInformation GetYieldInfomration()
@@ -154,29 +153,18 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
         }
     }
 
-    public class NextAvailablePointToStopInfo
-    {
-        public NextAvailablePointToStopInfo( Car car )
-        {
-            this.Car = car;
-            this.Length = 0.0f;
-        }
-
-        public float Length { get; set; }
-
-        public Car Car { get; private set; }
-    }
-
     public interface ICarMachineState
     {
         void SetStopPoint( float distance, float requriredSpeed );
         void MoveCar( Car car, int elapsedMs );
+        void SetAvailablePointsToStop( NextAvailablePointToStopInfo availablePointToStop );
     }
 
     public class StopPointCarMachineState : ICarMachineState
     {
         private float _stopPointDistance;
         private float _requiredSpeed;
+        private NextAvailablePointToStopInfo _availablePointsToStop;
 
         public void SetStopPoint( float distance, float requriredSpeed )
         {
@@ -187,11 +175,45 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
 
         public void MoveCar( Car car, int elapsedMs )
         {
-            var distance = this.GetVelocity( car, this._stopPointDistance, this._requiredSpeed, elapsedMs );
+            var fixedStopPoint = this.GetStopPoint( this._stopPointDistance );
+            this._stopPointDistance = fixedStopPoint;
+            var distance = this.GetVelocity( car, elapsedMs );
             var nextPoint = car.Direction * ( distance );
             car.Location += nextPoint;
 
             this.Clear();
+        }
+
+        private float GetStopPoint( float stopPointDistance )
+        {
+            var stopPoint = this._availablePointsToStop.Items.Reverse().SkipWhile( s => s.Left < stopPointDistance ).SkipWhile( s => s.CanStop ).FirstOrDefault();
+            if ( stopPoint == null )
+            {
+                var stop = this._availablePointsToStop.Items.FirstOrDefault( s => s.CanStop );
+                return stop != null ? stop.Left : float.MaxValue;
+            }
+
+            if ( stopPointDistance >= stopPoint.Left && stopPointDistance <= stopPoint.Right )
+            {
+                return stopPointDistance;
+            }
+
+            if ( stopPointDistance > stopPoint.Right )
+            {
+                return stopPoint.Right;
+            }
+
+            if ( stopPointDistance < stopPoint.Left )
+            {
+                return stopPoint.Left;
+            }
+
+            throw new InvalidOperationException( "Something went wrong" );
+        }
+
+        public void SetAvailablePointsToStop( NextAvailablePointToStopInfo availablePointToStop )
+        {
+            this._availablePointsToStop = availablePointToStop;
         }
 
         private void Clear()
@@ -200,23 +222,23 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             this._requiredSpeed = float.MaxValue;
         }
 
-        private float GetVelocity( Car car, float distance, float requiredSpeed, int elapsedMs )
+        private float GetVelocity( Car car, int elapsedMs )
         {
-            if ( distance < 0 )
+            if ( this._stopPointDistance < 0 )
             {
                 car.Velocity = 0.0f;
                 return 0.0f;
             }
 
-            if ( requiredSpeed > car.Velocity )
+            if ( this._requiredSpeed > car.Velocity )
             {
                 return this.Accelerate( car, elapsedMs );
             }
 
-            if ( distance < UnitConverter.FromMeter( 0.1f ) )
+            if ( this._stopPointDistance < UnitConverter.FromMeter( 0.1f ) )
             {
-                car.Velocity = requiredSpeed;
-                return distance;
+                car.Velocity = this._requiredSpeed;
+                return this._stopPointDistance;
             }
 
             return this.Break( car, elapsedMs );
@@ -227,11 +249,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             var accelerated = car.AccelerateForce * elapsedMs;
             car.Velocity = car.Velocity + accelerated;
             return Math.Min( car.Velocity * elapsedMs, this._stopPointDistance );
-        }
-
-        private float DontChangeSpeed( Car car, int elapsedMs )
-        {
-            return car.Velocity * elapsedMs;
         }
 
         private float Break( Car car, int elapsedMs )
