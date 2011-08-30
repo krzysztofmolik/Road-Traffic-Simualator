@@ -27,7 +27,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             public void Build( BuilderContext context, IControl control )
             {
                 var roadJunctionBlock = (CarsRemoverBuildMode) control;
-                this._carsRemover = new CarsRemover( roadJunctionBlock, c => context.ConductorFactory.Create( c ) );
+                this._carsRemover = new CarsRemover( roadJunctionBlock, c => context.RoadInformationFactory.Create( c ) );
                 context.AddElement( roadJunctionBlock, this._carsRemover );
             }
 

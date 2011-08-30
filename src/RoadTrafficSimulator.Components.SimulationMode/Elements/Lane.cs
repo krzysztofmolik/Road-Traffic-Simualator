@@ -1,20 +1,20 @@
 using System;
 using System.Diagnostics.Contracts;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
+using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Elements
 {
     public class Lane : RoadElementBase
     {
-        private readonly IConductor _conductor;
+        private readonly IRoadInformation _roadInformation;
 
-        public Lane( RoadLaneBlock lane, Func<Lane, IConductor> conductorFactory )
+        public Lane( RoadLaneBlock lane, Func<Lane, IRoadInformation> conductorFactory )
             : base( lane )
         {
-            Contract.Requires( lane != null ); Contract.Requires( conductorFactory != null ); Contract.Ensures( this._conductor != null );
+            Contract.Requires( lane != null ); Contract.Requires( conductorFactory != null ); Contract.Ensures( this._roadInformation != null );
             this.RoadLaneBlock = lane;
-            this._conductor = conductorFactory( this );
+            this._roadInformation = conductorFactory( this );
         }
 
         public RoadLaneBlock RoadLaneBlock { get; set; }
@@ -24,9 +24,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         public Lane Top { get; set; }
         public Lane Bottom { get; set; }
 
-        public override IConductor Condutor
+        public override IRoadInformation RoadInformation
         {
-            get { return this._conductor; }
+            get { return this._roadInformation; }
         }
     }
 }

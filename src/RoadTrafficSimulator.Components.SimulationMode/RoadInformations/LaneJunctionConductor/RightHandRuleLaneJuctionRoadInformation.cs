@@ -2,29 +2,28 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
+using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
 
-namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunctionConductor
+namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJunctionConductor
 {
-    public class RightHandRuleLaneJuctionConductor : IConductor
+    public class RightHandRuleLaneJuctionRoadInformation : IRoadInformation
     {
         private readonly LaneJunction _laneJunction;
 
         private readonly LaneJunctionConductorCarsInformation _carsInformation;
         private readonly LaneJunctionConductorMoveInfomation _moveInformation;
         private readonly LaneJucntionConductorRightHandJunctionInformation _junctionInformation;
-        private readonly LaneJunctionConductorLightInformation _lightInformation;
 
-        public RightHandRuleLaneJuctionConductor( LaneJunction laneJunction )
+        public RightHandRuleLaneJuctionRoadInformation( LaneJunction laneJunction )
         {
             Contract.Requires( laneJunction != null );
             this._laneJunction = laneJunction;
             this._carsInformation = new LaneJunctionConductorCarsInformation( this._laneJunction );
             this._moveInformation = new LaneJunctionConductorMoveInfomation( this._laneJunction );
             this._junctionInformation = new LaneJucntionConductorRightHandJunctionInformation( this._laneJunction );
-            this._lightInformation = new LaneJunctionConductorLightInformation( this._laneJunction );
         }
 
         public IRoadElement GetNextRandomElement( List<IRoadElement> route, Random rng )
@@ -32,12 +31,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
             return this._moveInformation.GetNextRandomElement( route, rng );
         }
 
-        public void Take( Car car )
+        public void OnEnter( Car car )
         {
             this._carsInformation.Take( car );
         }
 
-        public bool ShouldChange( Vector2 acutalCarLocation, Car car )
+        public bool ShouldChange(Car car)
         {
             return this._moveInformation.ShouldChange( acutalCarLocation, car );
         }
@@ -47,17 +46,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
             return float.MaxValue;
         }
 
-        public void GetLightInformation( IRouteMark routeMark, LightInfomration lightInformation )
-        {
-            this._lightInformation.GetLightInformation( routeMark, lightInformation );
-        }
-
-        public void GetNextJunctionInformation( IRouteMark route, JunctionInformation junctionInformation )
-        {
-            this._junctionInformation.GetNextJunctionInformation( route, junctionInformation );
-        }
-
-        public void GetCarAheadDistance( IRouteMark routMark, CarInformation carInformation )
+        public void GetCarAheadDistance( IRouteMark<IRoadElement> routMark, CarInformation carInformation )
         {
             this._carsInformation.GetCarAheadDistance( routMark, carInformation );
         }
@@ -72,7 +61,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
             return this._moveInformation.GetCarDirection( car );
         }
 
-        public void Remove( Car car )
+        public void OnExit( Car car )
         {
             this._carsInformation.Remove( car );
         }

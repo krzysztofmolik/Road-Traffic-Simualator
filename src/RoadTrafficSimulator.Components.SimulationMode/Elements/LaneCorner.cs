@@ -1,19 +1,19 @@
 using System;
 using System.Diagnostics.Contracts;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
+using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Elements
 {
     public class LaneCorner : LaneConnector
     {
-        private readonly IConductor _conductor;
+        private readonly IRoadInformation _roadInformation;
 
-        public LaneCorner( RoadConnection control, Func<LaneCorner, IConductor> conductorFactory )
+        public LaneCorner( RoadConnection control, Func<LaneCorner, IRoadInformation> conductorFactory )
             : base( control )
         {
-            Contract.Requires( control != null ); Contract.Requires( conductorFactory != null ); Contract.Ensures( this._conductor != null ); this.LaneCornerBuild = control;
-            this._conductor = conductorFactory( this );
+            Contract.Requires( control != null ); Contract.Requires( conductorFactory != null ); Contract.Ensures( this._roadInformation != null ); this.LaneCornerBuild = control;
+            this._roadInformation = conductorFactory( this );
         }
 
         public RoadConnection LaneCornerBuild { get; private set; }
@@ -21,9 +21,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         public Lane Prev { get; set; }
         public Lane Next { get; set; }
 
-        public override IConductor Condutor
+        public override IRoadInformation RoadInformation
         {
-            get { return this._conductor; }
+            get { return this._roadInformation; }
         }
     }
 }

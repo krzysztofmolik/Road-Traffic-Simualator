@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using Autofac;
 using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Components.SimulationMode.CarsSpecification;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors.Factories;
 using RoadTrafficSimulator.Components.SimulationMode.Controlers;
 using Common.Extensions;
+using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
+using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Factories;
 using Module = Autofac.Module;
 
 namespace RoadTrafficSimulator.Components.SimulationMode
@@ -34,7 +33,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         private void RegisterConductors( ContainerBuilder builder )
         {
-            builder.RegisterAssemblyTypes( typeof( IConductor ).Assembly ).Where( s => s.IsImplementingInterface<IConductor>() ).AsSelf().As<IConductor>().InstancePerDependency();
+            builder.RegisterAssemblyTypes( typeof( IRoadInformation ).Assembly ).Where( s => s.IsImplementingInterface<IRoadInformation>() ).AsSelf().As<IRoadInformation>().InstancePerDependency();
         }
 
         private void RegisterRoadElementBuilders( ContainerBuilder builder )
@@ -45,8 +44,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode
         private void RegisterConductorFactories( ContainerBuilder builder )
         {
             var composite = typeof( CondutctorFactory );
-            builder.RegisterAssemblyTypes( composite.Assembly ).Where( s => s.IsImplementingInterface<IConductorFactory>() && s != composite ).Named<IConductorFactory>( "conductorFactoryImpl" );
-            builder.Register( s => new CondutctorFactory( s.ResolveNamed<IEnumerable<IConductorFactory>>( "conductorFactoryImpl" ) ) ) .As<IConductorFactory>();
+            builder.RegisterAssemblyTypes( composite.Assembly ).Where( s => s.IsImplementingInterface<IRoadInformationFactory>() && s != composite ).Named<IRoadInformationFactory>( "conductorFactoryImpl" );
+            builder.Register( s => new CondutctorFactory( s.ResolveNamed<IEnumerable<IRoadInformationFactory>>( "conductorFactoryImpl" ) ) ) .As<IRoadInformationFactory>();
         }
 
         private void RegisterCarsSpecifications( ContainerBuilder builder )

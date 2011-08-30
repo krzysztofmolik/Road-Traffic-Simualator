@@ -2,25 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
+using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
 using RoadTrafficSimulator.Infrastructure;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Elements
 {
     public class LaneJunction : RoadElementBase
     {
-        private readonly Func<LaneJunction, IConductor> _condutorFactory;
+        private readonly Func<LaneJunction, IRoadInformation> _condutorFactory;
         private readonly Light.Light[] _lights = new Light.Light[ EdgeType.Count ];
-        private IConductor _conductor;
+        private IRoadInformation _roadInformation;
         private readonly LaneJunctionDrawer _drawer;
 
-        public LaneJunction( RoadJunctionBlock control, Func<LaneJunction, IConductor> condutorFactory )
+        public LaneJunction( RoadJunctionBlock control, Func<LaneJunction, IRoadInformation> condutorFactory )
             : base( control )
         {
             this.JunctionBuilder = control;
 
             this._condutorFactory = condutorFactory;
-            this._conductor = this._condutorFactory( this );
+            this._roadInformation = this._condutorFactory( this );
             this._drawer = new LaneJunctionDrawer( this );
 
             this.Left = new JunctionEdge( control.RoadJunctionEdges[ EdgeType.Left ] );
@@ -57,16 +57,16 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
             }
         }
 
-        public override IConductor Condutor
+        public override IRoadInformation RoadInformation
         {
-            get { return this._conductor; }
+            get { return this._roadInformation; }
         }
 
         public void AddLight( int edge, Light.Light light )
         {
             Contract.Requires( edge > 0 && edge < EdgeType.Count );
             this._lights[ edge ] = light;
-            this._conductor = this._condutorFactory( this );
+            this._roadInformation = this._condutorFactory( this );
         }
     }
 }

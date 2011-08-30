@@ -1,4 +1,4 @@
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
+using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.SimulationMode
@@ -19,7 +19,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             get { return this._control; }
         }
 
-        public abstract IConductor Condutor { get; }
+        public abstract IRoadInformation RoadInformation { get; }
 
         public virtual IDrawer Drawer
         {

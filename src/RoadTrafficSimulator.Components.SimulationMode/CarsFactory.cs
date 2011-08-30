@@ -41,11 +41,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             var route = this.GetRandomRoute( startElement );
             foreach ( var roadElement in route )
             {
-                car.Route.Add( roadElement );
+                car.RoadElements.Add( roadElement );
             }
             car.CarId = this._carId;
 
-            startElement.Condutor.Take( car );
+            startElement.RoadInformation.OnEnter( car );
             this._eventAggregator.Publish( new CarCreated( car ) );
         }
 
@@ -62,7 +62,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             var nextElement = startElement;
             while ( true )
             {
-                nextElement = nextElement.Condutor.GetNextRandomElement( route, this._rng );
+                nextElement = nextElement.RoadInformation.GetNextRandomElement( route, this._rng );
                 if ( nextElement == null )
                 {
                     break;

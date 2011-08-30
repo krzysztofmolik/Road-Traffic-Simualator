@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors.Factories;
+using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Factories;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using System.Linq;
 
@@ -10,9 +10,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
     {
         private readonly Dictionary<IControl, IRoadElement> _elements = new Dictionary<IControl, IRoadElement>();
 
-        public BuilderContext( IConductorFactory conductorFactory )
+        public BuilderContext( IRoadInformationFactory roadInformationFactory )
         {
-            this.ConductorFactory = conductorFactory;
+            this.RoadInformationFactory = roadInformationFactory;
         }
 
         public IEnumerable<IRoadElement> Elements
@@ -20,7 +20,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             get { return _elements.Values.ToArray(); }
         }
 
-        public IConductorFactory ConductorFactory { get; private set; }
+        public IRoadInformationFactory RoadInformationFactory { get; private set; }
 
         public void AddElement( IControl key, IRoadElement roadElement )
         {

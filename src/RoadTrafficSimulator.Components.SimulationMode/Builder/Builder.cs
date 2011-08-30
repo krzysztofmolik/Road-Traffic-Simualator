@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors.Factories;
+using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Factories;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Builder
@@ -10,17 +10,17 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
     public class Builder
     {
         private readonly IEnumerable<IBuilerItem> _builders;
-        private readonly IConductorFactory _conductorFactory;
+        private readonly IRoadInformationFactory _roadInformationFactory;
 
-        public Builder( IEnumerable<IBuilerItem> builders, IConductorFactory conductorFactory )
+        public Builder( IEnumerable<IBuilerItem> builders, IRoadInformationFactory roadInformationFactory )
         {
             this._builders = builders;
-            this._conductorFactory = conductorFactory;
+            this._roadInformationFactory = roadInformationFactory;
         }
 
         public IEnumerable<IRoadElement> ConvertToSimulationMode( IEnumerable<IControl> controls )
         {
-            var context = new BuilderContext( this._conductorFactory );
+            var context = new BuilderContext( this._roadInformationFactory );
             controls.Where( c => c != null )
                 .SelectMany( this.GetAction )
                 .OrderBy( a => a.Order )

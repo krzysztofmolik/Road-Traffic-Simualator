@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.Factories
+namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Factories
 {
-    public class CondutctorFactory : IConductorFactory
+    public class CondutctorFactory : IRoadInformationFactory
     {
-        private IEnumerable<IConductorFactory> _conductorFactory;
+        private IEnumerable<IRoadInformationFactory> _conductorFactory;
 
-        public CondutctorFactory( IEnumerable<IConductorFactory> conductorFactory )
+        public CondutctorFactory( IEnumerable<IRoadInformationFactory> conductorFactory )
         {
             this._conductorFactory = conductorFactory;
         }
 
-        public IConductor Create( IRoadElement roadElement )
+        public IRoadInformation Create( IRoadElement roadElement )
         {
             var factory = this._conductorFactory.FirstOrDefault( f => f.CanCreate( roadElement ) );
             if ( factory == null ) { throw new ArgumentException( "Can't create conductor for given road element", "roadElement" ); }

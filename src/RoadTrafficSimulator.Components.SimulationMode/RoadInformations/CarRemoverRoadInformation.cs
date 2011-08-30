@@ -4,21 +4,22 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Common;
 using Microsoft.Xna.Framework;
+using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.Messages;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
 using RoadTrafficSimulator.Infrastructure;
 
-namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
+namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 {
-    public class CarRemoverConductor : IConductor
+    public class CarRemoverRoadInformation : IRoadInformation
     {
         private readonly CarsRemover _carsRemover;
         private readonly Queue<Car> _cars = new Queue<Car>();
         private readonly IEventAggregator _eventAggregator;
 
-        public CarRemoverConductor( CarsRemover carsRemover, IEventAggregator eventAggregator )
+        public CarRemoverRoadInformation( CarsRemover carsRemover, IEventAggregator eventAggregator )
         {
             Contract.Requires( carsRemover != null );
             Contract.Requires( eventAggregator != null );
@@ -31,12 +32,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return null;
         }
 
-        public void Take( Car car )
+        public void OnEnter( Car car )
         {
             this._eventAggregator.Publish( new CarRemoved( car ) );
         }
 
-        public void Remove(Car car)
+        public void OnExit(Car car)
         {
             var removedCar = this._cars.Dequeue();
             Debug.Assert( car == removedCar );
@@ -72,27 +73,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return true;
         }
 
-        public bool ShouldChange(Vector2 acutalCarLocation, Car car)
+        public bool ShouldChange(Car car)
         {
             return false;
         }
 
-        public float GetDistanceToStopLine()
-        {
-            return float.MaxValue;
-        }
-
-        public void GetLightInformation(IRouteMark routeMark, LightInfomration lightInformation)
-        {
-            lightInformation.LightDistance = float.MaxValue;
-        }
-
-        public void GetNextJunctionInformation( IRouteMark route, JunctionInformation junctionInformation )
-        {
-            junctionInformation.JunctionDistance = float.MaxValue;
-        }
-
-        public void GetCarAheadDistance(IRouteMark routMark, CarInformation carInformation)
+        public void GetCarAheadDistance(IRouteMark<IRoadElement> routMark, CarInformation carInformation)
         {
             carInformation.CarDistance = float.MaxValue;
             carInformation.CarAhead = null;

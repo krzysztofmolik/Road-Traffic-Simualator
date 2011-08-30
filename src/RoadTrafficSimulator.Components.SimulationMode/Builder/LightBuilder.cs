@@ -29,7 +29,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             public void Build( BuilderContext context, IControl control )
             {
                 var lightBlock = (LightBlock) control;
-                this._light = new Light( lightBlock, l => context.ConductorFactory.Create( l ) );
+                this._light = new Light( lightBlock, l => context.RoadInformationFactory.Create( l ) );
                 context.AddElement( lightBlock, this._light );
             }
 

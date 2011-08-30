@@ -28,7 +28,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             public void Build( BuilderContext context, IControl control )
             {
                 var roadJunctionBlock = (RoadJunctionBlock) control;
-                this._junction = new LaneJunction( roadJunctionBlock, c => context.ConductorFactory.Create( c ) );
+                this._junction = new LaneJunction( roadJunctionBlock, c => context.RoadInformationFactory.Create( c ) );
                 context.AddElement( roadJunctionBlock, this._junction );
             }
 

@@ -1,13 +1,15 @@
 using System;
 using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
+using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.New;
+using RoadTrafficSimulator.Components.SimulationMode.Route;
 using RoadTrafficSimulator.Infrastructure;
+using CarStateMachine = RoadTrafficSimulator.Components.SimulationMode.Conductors.CarStateMachine;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Cars
 {
     public class Car
     {
-        private readonly Route.Route _route = new Route.Route();
+        private readonly Route.Route<IRoadElement> _roadElements = new Route.Route<IRoadElement>();
         private readonly CarStateMachine _stateMachine;
 
         public Car()
@@ -37,8 +39,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Cars
         public float Width { get; set; }
         public float BreakingForce { get; set; }
         public float AccelerateForce { get; set; }
-        public Route.Route Route { get { return this._route; } }
+        public Route.Route<IRoadElement> RoadElements { get { return this._roadElements; } }
         public CarStateMachine StateMachine { get { return this._stateMachine; } }
-    }
 
+        public IRouteMark<IConductor> Conductors
+        {
+            get { throw new NotImplementedException(); }
+        }
+    }
 }

@@ -3,17 +3,18 @@ using System.Collections.Generic;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Route
 {
-    public class Route : IRouteMark
+    public class Route<T> : IRouteMark<T>
     {
-        private readonly List<IRoadElement> _route = new List<IRoadElement>();
-        private RouteMark _routeMark;
-        public void Add( IRoadElement roadElement )
+        private readonly List<T> _route = new List<T>();
+        private RouteMark<T> _routeMark;
+
+        public void Add( T roadElement )
         {
             this._route.Add( roadElement );
-            this._routeMark = new RouteMark( this );
+            this._routeMark = new RouteMark<T>( this );
         }
 
-        public IRoadElement Current
+        public T Current
         {
             get { return this._routeMark.Current; }
         }
@@ -25,28 +26,28 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
             return index >= 0 && index < this._route.Count;
         }
 
-        public IRoadElement GetAt( int index )
+        public T GetAt( int index )
         {
             if ( this.IsValidIndex( index ) == false ) { throw new ArgumentException( "Index is not valid", "index" ); }
             return this._route[ index ];
         }
 
-        public int GetIndexOf( IRoadElement roadElement )
+        public int GetIndexOf( T roadElement )
         {
-            return this._route.FindIndex( s => s == roadElement );
+            return this._route.FindIndex( s => Equals( s, roadElement ) );
         }
 
-        public void SetLoctionOn( IRoadElement roadElement )
+        public void SetLoctionOn( T roadElement )
         {
             this._routeMark.SetLoctionOn( roadElement );
         }
 
-        public IRoadElement GetPrevious()
+        public T GetPrevious()
         {
             return this._routeMark.GetPrevious();
         }
 
-        public IRoadElement GetNext()
+        public T GetNext()
         {
             return this._routeMark.GetNext();
         }
@@ -56,13 +57,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
             return this._routeMark.MoveNext();
         }
 
-        public IRouteMark MovePrevious()
-        {
-            this._routeMark.MovePrevious();
-            return this._routeMark;
-        }
-
-        public IRouteMark Clone()
+        public IRouteMark<T> Clone()
         {
             return this._routeMark.Clone();
         }

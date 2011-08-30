@@ -1,11 +1,12 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
+using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
 using Common;
 
-namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunctionConductor
+namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJunctionConductor
 {
     public class LaneJunctionConductorCarsInformation
     {
@@ -27,7 +28,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
             this._cars.Remove( car );
         }
 
-        public void GetCarAheadDistance( IRouteMark routMark, CarInformation carInformation )
+        public void GetCarAheadDistance( IRouteMark<IRoadElement> routMark, CarInformation carInformation )
         {
             // TODO Refactory all methos GetCarAheadDistance
             var previousEdge = this.GetEdgeConnectedWith( routMark.GetPrevious() );
@@ -45,7 +46,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
 
                     carInformation.CarDistance += Vector2.Distance( carInformation.QuestioningCar.Location, nextEdge.EdgeBuilder.Location );
                     routMark.MoveNext();
-                    routMark.Current.Condutor.GetCarAheadDistance( routMark, carInformation );
+                    routMark.Current.RoadInformation.GetCarAheadDistance( routMark, carInformation );
                 }
             }
             else
@@ -60,7 +61,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
                 {
                     carInformation.CarDistance += Vector2.Distance( previousEdge.EdgeBuilder.Location, nextEdge.EdgeBuilder.Location );
                     routMark.MoveNext();
-                    routMark.Current.Condutor.GetCarAheadDistance( routMark, carInformation );
+                    routMark.Current.RoadInformation.GetCarAheadDistance( routMark, carInformation );
                 }
             }
         }
@@ -69,7 +70,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
         {
             if ( this._cars.Contains( car ) == false ) { return float.MaxValue; }
 
-            var endEdge = this.GetEdgeConnectedWith( car.Route.GetNext() );
+            var endEdge = this.GetEdgeConnectedWith( car.RoadElements.GetNext() );
             return Vector2.Distance( car.Location, endEdge.EdgeBuilder.Location );
         }
 
@@ -98,7 +99,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
                 }
                 var junctionInformation = new FirstCarToOutInformation( carInformation.VistedElements ) { CurrentDistance = carInformation.CurrentDistance };
                 junctionInformation.AddVistedControl( junctionEdgeConductor.ConnectedEdge );
-                junctionEdgeConductor.ConnectedEdge.Condutor.GetFirstCarToOutInformation( junctionInformation );
+                junctionEdgeConductor.ConnectedEdge.RoadInformation.GetFirstCarToOutInformation( junctionInformation );
 
                 junctionInformation.Items.ForEach( s => carInformation.Add( s.Car, s.CarDistance ) );
             }

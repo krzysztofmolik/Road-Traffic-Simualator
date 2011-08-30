@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
+using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
@@ -28,7 +28,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             public void Build( BuilderContext context, IControl control )
             {
                 var laneBlock = ( RoadLaneBlock ) control;
-                this._lane = new Lane( laneBlock, l => new SingleLaneConductor( l ) );
+                this._lane = new Lane( laneBlock, l => new SingleLaneRoadInformation( l ) );
                 context.AddElement( laneBlock, this._lane );
             }
 

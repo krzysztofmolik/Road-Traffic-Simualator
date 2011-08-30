@@ -1,13 +1,12 @@
 namespace RoadTrafficSimulator.Components.SimulationMode.Route
 {
-    public interface IRouteMark
+    public interface IRouteMark<T>
     {
-        void SetLoctionOn( IRoadElement roadElement );
-        IRoadElement GetPrevious();
-        IRoadElement GetNext();
+        void SetLoctionOn( T roadElement );
+        T GetPrevious();
+        T GetNext();
         bool MoveNext();
-        IRoadElement Current { get; }
-        IRouteMark MovePrevious();
-        IRouteMark Clone();
+        T Current { get; }
+        IRouteMark<T> Clone();
     }
 }

@@ -6,12 +6,11 @@ using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 
-namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunctionConductor
+namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJunctionConductor
 {
     public class LaneJunctionConductorMoveInfomation
     {
         private readonly LaneJunction _laneJunction;
-        private readonly RightHandRuleLaneJuctionConductor _conductor;
 
         public LaneJunctionConductorMoveInfomation( LaneJunction laneJunction )
         {
@@ -32,7 +31,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
 
         public bool ShouldChange( Vector2 acutalCarLocation, Car car )
         {
-            var next = this._laneJunction.Edges.Where( s => s.ConnectedEdge == car.Route.GetNext() ).FirstOrDefault();
+            var next = this._laneJunction.Edges.Where( s => s.ConnectedEdge == car.RoadElements.GetNext() ).FirstOrDefault();
             var distance = next.EdgeBuilder.Location - acutalCarLocation;
             // TODO Check value and extract some kind of property
 
@@ -41,7 +40,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors.LaneJunction
 
         public Vector2 GetCarDirection( Car car )
         {
-            var edge = this.GetEdgeConnectedWith( car.Route.GetNext() );
+            var edge = this.GetEdgeConnectedWith( car.RoadElements.GetNext() );
             return edge.EdgeBuilder.Location - car.Location;
         }
 

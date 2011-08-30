@@ -27,7 +27,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             public void Build( BuilderContext context, IControl control )
             {
                 var roadConnection = (RoadConnection) control;
-                this._lane = new LaneCorner( roadConnection, l => context.ConductorFactory.Create( l ) );
+                this._lane = new LaneCorner( roadConnection, l => context.RoadInformationFactory.Create( l ) );
                 context.AddElement( roadConnection, this._lane );
             }
 
