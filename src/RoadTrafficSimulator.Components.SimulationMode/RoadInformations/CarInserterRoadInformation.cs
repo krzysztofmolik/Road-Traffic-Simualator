@@ -61,6 +61,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return Constans.PointSize;
         }
 
+        public bool CanStop(IRoadElement previous, IRoadElement next)
+        {
+            return true;
+        }
+
         public bool IsCarPresent( Car car )
         {
             return this._cars.Contains( car );
@@ -71,7 +76,25 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return true;
         }
 
-        public void GetCarAheadDistance( FirstCarToOutInformation carInformation )
+        public float GetDistanceToStopLine()
+        {
+            return float.MaxValue;
+        }
+
+        public void GetLightInformation( IRouteMark routeMark, LightInfomration lightInformation )
+        {
+            // TODO Fix it
+            lightInformation.LightDistance = float.MaxValue;
+        }
+
+        public void GetNextJunctionInformation( IRouteMark route, JunctionInformation junctionInformation )
+        {
+            junctionInformation.JunctionDistance += Constans.PointSize;
+            route.MoveNext();
+            route.Current.Condutor.GetNextJunctionInformation( route, junctionInformation );
+        }
+
+        public void GetCarAheadDistance( IRouteMark routMark, CarInformation carInformation )
         {
             var carAhead = this._cars.GetCarAheadOf( carInformation.QuestioningCar );
             if ( carAhead == null )
