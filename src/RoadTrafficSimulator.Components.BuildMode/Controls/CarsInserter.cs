@@ -19,9 +19,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public static Style NormalStyle { get { return _normalStyle; } }
     }
 
-    public class CarsInserter : Edge, IEdgeLine
+    public class CarsInserter : Edge, IEdgeLine, IRoadElement
     {
         private readonly CarsInsertedConnector _connector;
+        private readonly Routes _routes = new Routes();
         private IControl _parent;
 
         public CarsInserter( Factories.Factories factories, Vector2 location, IControl parent )
@@ -35,6 +36,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         }
 
         public InvertPointEdgeAdapter RightEdge { get; private set; }
+        public Routes Routes { get { return this._routes; } }
 
         public CarsInserter( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint )
             : base( factories, startPoint, endPoint, Styles.NormalStyle ) { }

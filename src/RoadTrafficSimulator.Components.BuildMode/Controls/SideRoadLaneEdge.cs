@@ -11,6 +11,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private RoadLaneBlock _parent;
         private readonly SideRoadLaneEdgeVertexContainer _vertexContainer;
         private readonly SideRoadLaneConnector _connector;
+        private readonly Routes _routes = new Routes();
         private LaneType _laneType;
 
         public SideRoadLaneEdge(Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, RoadLaneBlock parent)
@@ -21,6 +22,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this._laneType = LaneType.SolidLine;
             this._vertexContainer = new SideRoadLaneEdgeVertexContainer( this );
         }
+
+        public Routes Routes { get { return this._routes; } }
 
         public RoadLaneBlock RoadLaneBlockParent
         {

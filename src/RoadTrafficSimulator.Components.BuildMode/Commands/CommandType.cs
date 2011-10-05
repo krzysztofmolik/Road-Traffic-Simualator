@@ -7,6 +7,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
         ConnectObject,
         InserterLights,
         InserRoadLane,
-        InsertRoadJunction
+        InsertRoadJunction,
+        SelectToEdit
     }
 }

@@ -3,6 +3,7 @@ using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
+using Common;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 {
@@ -27,32 +28,32 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 
             public void Build( BuilderContext context, IControl control )
             {
-                var roadJunctionBlock = (RoadJunctionBlock) control;
+                var roadJunctionBlock = ( RoadJunctionBlock ) control;
                 this._junction = new LaneJunction( roadJunctionBlock, c => context.RoadInformationFactory.Create( c ) );
                 context.AddElement( roadJunctionBlock, this._junction );
             }
 
             public void Connect( BuilderContext builderContext )
             {
-                if( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Bottom ].Connector.Edge != null )
+                if ( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Bottom ].Connector.Edge != null )
                 {
                     this._junction.Bottom.ConnectedEdge =
                         builderContext.GetObject<IRoadElement>(
                             this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Bottom ].Connector.Edge.Parent );
                 }
-                if( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Left ].Connector.Edge != null )
+                if ( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Left ].Connector.Edge != null )
                 {
                     this._junction.Left.ConnectedEdge =
                         builderContext.GetObject<IRoadElement>(
                             this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Left ].Connector.Edge.Parent );
                 }
-                if( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Top ].Connector.Edge != null )
+                if ( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Top ].Connector.Edge != null )
                 {
                     this._junction.Top.ConnectedEdge =
                         builderContext.GetObject<IRoadElement>(
                             this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Top ].Connector.Edge.Parent );
                 }
-                if( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Right ].Connector.Edge != null )
+                if ( this._junction.JunctionBuilder.RoadJunctionEdges[ EdgeType.Right ].Connector.Edge != null )
                 {
                     this._junction.Right.ConnectedEdge =
                         builderContext.GetObject<IRoadElement>(
@@ -67,6 +68,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
                 this._junction.Top.Situation.SetUp();
                 this._junction.Right.Situation.SetUp();
                 this._junction.BuildControl.VertexContainer.ReloadTextures();
+
+//                this._junction.JunctionBuilder.RoadJunctionEdges.ForEach( e => e.Routes.CalculateProbabilities() );
             }
         }
     }

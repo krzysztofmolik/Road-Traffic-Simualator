@@ -10,6 +10,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
     public class RoadJunctionEdge : Edge
     {
         private readonly RoadJunctionEdgeConnector _roadJunctionEndConnector;
+        private readonly Routes _routes = new Routes();
 
         private RoadJunctionBlock _parent;
         private readonly IVertexContainer<VertexPositionColor> _vertexContainer;
@@ -17,8 +18,6 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public RoadJunctionEdge( Factories.Factories factories, RoadJunctionBlock parent )
             : base( factories, Styles.NormalStyle )
         {
-            this.IsOut = false;
-            this._parent = parent;
             this._roadJunctionEndConnector = new RoadJunctionEdgeConnector( this );
             this._vertexContainer = new RoadJunctionEdgeVertexContainer( this );
         }
@@ -33,6 +32,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         {
             get { return this._roadJunctionEndConnector; }
         }
+
+        public Routes Routes { get { return this._routes; } }
 
         public RoadJunctionBlock RoadJunctionParent
         {
@@ -52,23 +53,6 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public override IVertexContainer VertexContainer
         {
             get { return this._vertexContainer; }
-        }
-
-        private bool _isOut;
-        public bool IsOut
-        {
-            get { return this._isOut; }
-            set
-            {
-                if ( this._isOut == value ) { return; }
-                this._isOut = value;
-                this.Redraw();
-            }
-        }
-
-        public bool CanChangeIsOut
-        {
-            get { return this._roadJunctionEndConnector.Edge != null && this._roadJunctionEndConnector.Edge is RoadJunctionEdge; }
         }
     }
 }

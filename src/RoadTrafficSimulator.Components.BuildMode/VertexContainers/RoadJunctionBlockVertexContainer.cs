@@ -44,10 +44,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
             this._shape = this.CreateShape();
             this._textures.Clear();
 
-            if ( this.Object.RoadJunctionEdges[ EdgeType.Left ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.LeftArrow ) ); }
-            if ( this.Object.RoadJunctionEdges[ EdgeType.Right ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.RightArrow ) ); }
-            if ( this.Object.RoadJunctionEdges[ EdgeType.Top ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.UpArrow ) ); }
-            if ( this.Object.RoadJunctionEdges[ EdgeType.Bottom ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.DownArrow ) ); }
+            // TODO Draw something
+//            if ( this.Object.RoadJunctionEdges[ EdgeType.Left ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.LeftArrow ) ); }
+//            if ( this.Object.RoadJunctionEdges[ EdgeType.Right ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.RightArrow ) ); }
+//            if ( this.Object.RoadJunctionEdges[ EdgeType.Top ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.UpArrow ) ); }
+//            if ( this.Object.RoadJunctionEdges[ EdgeType.Bottom ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.DownArrow ) ); }
             var angel = Vector2.Zero.Angel();
             var location = MyMathHelper.LineIntersectionMethod( this._shape.LeftTop, this._shape.RightBottom, this._shape.RightTop, this._shape.LeftBottom );
             this._textures.ForEach( s =>
@@ -69,10 +70,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
         {
             this._textures.Clear();
 
-            if ( this.Object.RoadJunctionEdges[ EdgeType.Left ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.LeftArrow ) ); }
-            if ( this.Object.RoadJunctionEdges[ EdgeType.Right ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.RightArrow ) ); }
-            if ( this.Object.RoadJunctionEdges[ EdgeType.Top ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.UpArrow ) ); }
-            if ( this.Object.RoadJunctionEdges[ EdgeType.Bottom ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.DownArrow ) ); }
+            // Draw something
+//            if ( this.Object.RoadJunctionEdges[ EdgeType.Left ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.LeftArrow ) ); }
+//            if ( this.Object.RoadJunctionEdges[ EdgeType.Right ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.RightArrow ) ); }
+//            if ( this.Object.RoadJunctionEdges[ EdgeType.Top ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.UpArrow ) ); }
+//            if ( this.Object.RoadJunctionEdges[ EdgeType.Bottom ].IsOut ) { this._textures.Add( this._textureManager.GetTextureInPoint( TextureType.DownArrow ) ); }
             var angel = Vector2.Zero.Angel();
             var location = MyMathHelper.LineIntersectionMethod( this._shape.LeftTop, this._shape.RightBottom, this._shape.RightTop, this._shape.LeftBottom );
             this._textures.ForEach( s =>

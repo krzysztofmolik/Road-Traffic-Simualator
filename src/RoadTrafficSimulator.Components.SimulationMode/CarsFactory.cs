@@ -30,7 +30,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         public void CreateCar( CarsInserter startElement )
         {
-            if( this._carId > 11 )
+            if ( this._carId > 11 )
             {
                 return;
             }
@@ -38,40 +38,32 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             this._carId++;
             if ( startElement == null ) throw new ArgumentNullException( "startElement" );
             var car = this.GetRandomCarSpecifcation().Create();
-            var route = this.GetRandomRoute( startElement );
-            foreach ( var roadElement in route )
-            {
-                car.RoadElements.Add( roadElement );
-            }
-            car.CarId = this._carId;
+//            this.GetRandomRoute( startElement ).ForEach( car.RoadElements.Add );
+//            car.CarId = this._carId;
 
-            startElement.RoadInformation.OnEnter( car );
+//            startElement.RoadInformation.OnEnter( car );
             this._eventAggregator.Publish( new CarCreated( car ) );
         }
 
         private ICarSpecifiaction GetRandomCarSpecifcation()
         {
-            var index= this._rng.Next(0, this._carsSpecifications.Length);
-            return this._carsSpecifications[index];
+            var index = this._rng.Next( 0, this._carsSpecifications.Length );
+            return this._carsSpecifications[ index ];
         }
 
-        private IEnumerable<IRoadElement> GetRandomRoute( IRoadElement startElement )
+        private IEnumerable<IRoadElement> GetRandomRoute( CarsInserter startElement )
         {
-            var route = new List<IRoadElement>();
-            route.Add( startElement );
-            var nextElement = startElement;
+            var result = new List<IRoadElement>();
+            result.AddRange( startElement.Routes.GetRandomRoute( this._rng ) );
+
             while ( true )
             {
-                nextElement = nextElement.RoadInformation.GetNextRandomElement( route, this._rng );
-                if ( nextElement == null )
-                {
-                    break;
-                }
+                var nextRoute = result.Last().Routes.GetRandomRoute( this._rng ).ToArray();
+                if ( nextRoute.Length == 0 ) { break; }
 
-                route.Add( nextElement );
+                result.AddRange( nextRoute );
             }
-
-            return route;
+            return result;
         }
     }
 }

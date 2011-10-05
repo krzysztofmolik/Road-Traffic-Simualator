@@ -5,7 +5,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
 {
     public class ConnectRoadConnectionWithEndRoadLane : IConnectionCommand
     {
-        public virtual bool Connect(ILogicControl first, ILogicControl second)
+        public virtual bool Connect( ILogicControl first, ILogicControl second )
         {
             var roadConnectionEdge = first as RoadConnection;
             var roadLaneEdge = second as EndRoadLaneEdge;
@@ -16,7 +16,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
 
             // TODO Check it
             roadConnectionEdge.Connector.ConnectEndWith( roadLaneEdge );
-            roadLaneEdge.Connector.ConnectBeginWith( roadConnectionEdge );
+            roadLaneEdge.Connector.ConnectBegintWith( roadConnectionEdge );
 
             return true;
         }

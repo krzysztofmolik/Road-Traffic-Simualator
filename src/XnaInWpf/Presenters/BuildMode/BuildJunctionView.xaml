@@ -19,30 +19,7 @@
             </Border.Background>
             <StackPanel Orientation="Vertical">
                 <Button Content="Back" cal:Message.Attach="GoBack"/>
-                <ListBox 
-                    Background="Transparent"
-                    ItemsSource="{Binding Blocks}"
-                         SelectedItem="{Binding SelectedItem}"
-                         cal:Message.Attach="[Event MouseDoubleClick] = [Action ChooseBlock]">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" VerticalAlignment="Top"  HorizontalAlignment="Center"/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border CornerRadius="10"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center"
-                                    Background="AliceBlue"
-                                    BorderBrush="Black"
-                                    BorderThickness="1">
-                                <ContentControl cal:View.Model="{Binding}"
-                                                Foreground="White"/>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <ContentControl cal:View.Model="{Binding SelectedItem}"/>
             </StackPanel>
         </Border>
 

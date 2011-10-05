@@ -24,7 +24,6 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             : base( factories, startPoint, endPoint, Styles.CarRemoverStyle ) { }
 
         public override IControl Parent { get { return this._parent; } set { this._parent = value; } }
-
         public CarsRemoverConnector Connector { get { return this._connector; } }
 
         protected override void OnInvalidate()

@@ -17,6 +17,15 @@ namespace RoadTrafficSimulator.Infrastructure.Controls
         void Invalidate();
     }
 
+    public enum PriorityType
+    {
+        None,
+        Light,
+        FromLeft,
+        FromFront,
+        FromRight,
+    }
+
     public interface IControl : ILogicControl
     {
         IObservable<TranslationChangedEventArgs> Translated { get; }

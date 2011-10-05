@@ -26,15 +26,6 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
             this.Edge = roadJunctionEdge;
             roadJunctionEdge.StartPoint.Translated.Subscribe( s => this._owner.EndPoint.SetLocation( s.Control.Location ) );
             roadJunctionEdge.EndPoint.Translated.Subscribe( s => this._owner.StartPoint.SetLocation( s.Control.Location ) );
-
-            var opositeEdge = this.GetEdgeOnOpositeSideTo( roadJunctionEdge );
-            opositeEdge.Translated.Subscribe( s => this._owner.IsOut = opositeEdge.IsOut );
-        }
-
-        private RoadJunctionEdge GetEdgeOnOpositeSideTo( RoadJunctionEdge roadJunctionEdge )
-        {
-            var side = roadJunctionEdge.RoadJunctionParent.GetEdgeType( roadJunctionEdge );
-            return roadJunctionEdge.RoadJunctionParent.RoadJunctionEdges[ ( side + 2 ) % 4 ];
         }
 
         public void ConnectEndWith( RoadJunctionEdge roadJunctionEdge )
@@ -46,8 +37,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
 
             var tranlationVector = roadJunctionEdge.Location - this._owner.Location;
             this._owner.Parent.Translate( tranlationVector.ToTranslationMatrix() );
-            var opositeEdge = this.GetEdgeOnOpositeSideTo( roadJunctionEdge );
-            opositeEdge.Translated.Subscribe( s => this._owner.IsOut = opositeEdge.IsOut );
+            this._owner.Routes.AddRoute( new RouteElement( roadJunctionEdge.RoadJunctionParent, PriorityType.FromRight ) );
         }
 
         public void ConnectBeginWith( Edge roadLaneEdge )
@@ -65,10 +55,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
             this.Edge = roadLaneEdge;
         }
 
-        public void ConnectEndWith( Edge edge )
+        public void ConnectEndWith( EndRoadLaneEdge edge )
         {
             this.Edge = edge;
-            this._owner.IsOut = true;
+            this._owner.Routes.AddRoute( new RouteElement( edge.RoadLaneBlockParent, PriorityType.None ) );
         }
 
         public bool AreConnected( RoadJunctionEdge edge )
@@ -80,5 +70,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
         {
             return ( this.Edge as EndRoadLaneEdge ) != null;
         }
+
+        public void ConnectWithLight( LightBlock light )
+        {
+            this.Light = light;
+        }
+
+        public LightBlock Light { get; set; }
     }
 }

@@ -32,22 +32,18 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
             if ( control.LeftEdge.Connector.Edge != null )
             {
                 yield return CallAction.Create<RoadJunctionBlock>( control.Id, () => control.LeftEdge.Connector.ConnectBeginWith( control.BottomEdge.Connector.Edge ), ControlProperties.Create( control.LeftEdge.Connector.Edge.Parent, control.LeftEdge.Connector.Edge ) );
-                yield return SetProperties<bool>.Create<RoadJunctionBlock>( control.Id, () => control.LeftEdge.IsOut );
             }
             if ( control.RightEdge.Connector.Edge != null )
             {
                 yield return CallAction.Create<RoadJunctionBlock>( control.Id, () => control.RightEdge.Connector.ConnectBeginWith( control.BottomEdge.Connector.Edge ), ControlProperties.Create( control.RightEdge.Connector.Edge.Parent, control.RightEdge.Connector.Edge ) );
-                yield return SetProperties<bool>.Create<RoadJunctionBlock>( control.Id, () => control.RightEdge.IsOut );
             }
             if ( control.TopEdge.Connector.Edge != null )
             {
                 yield return CallAction.Create<RoadJunctionBlock>( control.Id, () => control.TopEdge.Connector.ConnectBeginWith( control.BottomEdge.Connector.Edge ), ControlProperties.Create( control.TopEdge.Connector.Edge.Parent, control.TopEdge.Connector.Edge ) );
-                yield return SetProperties<bool>.Create<RoadJunctionBlock>( control.Id, () => control.TopEdge.IsOut );
             }
             if ( control.BottomEdge.Connector.Edge != null )
             {
                 yield return CallAction.Create<RoadJunctionBlock>( control.Id, () => control.BottomEdge.Connector.ConnectBeginWith( control.BottomEdge.Connector.Edge ), ControlProperties.Create( control.BottomEdge.Connector.Edge.Parent, control.BottomEdge.Connector.Edge ) );
-                yield return SetProperties<bool>.Create<RoadJunctionBlock>( control.Id, () => control.BottomEdge.IsOut );
             }
         }
 

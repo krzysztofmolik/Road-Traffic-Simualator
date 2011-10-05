@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.BuildMode.Connectors;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
-using RoadTrafficSimulator.Infrastructure.DependencyInjection;
 using RoadTrafficSimulator.Infrastructure.Draw;
 using RoadTrafficSimulator.Infrastructure.Extension;
 using RoadTrafficSimulator.Infrastructure.Mouse;
@@ -149,6 +147,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
     {
         private RoadLaneBlock _parrent;
         private readonly IMouseHandler _notMovableMouseHandler;
+        private readonly Routes _routes = new Routes();
 
         public EndRoadLaneEdge( Factories.Factories factories, RoadLaneBlock parent )
             : base( factories, Styles.NormalStyle )
@@ -164,6 +163,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this._parrent = parent;
             this.Connector = new EndRoadLaneEdgeConnector( this );
         }
+
+        public Routes Routes { get { return this._routes; } }
 
         public RoadLaneBlock RoadLaneBlockParent
         {

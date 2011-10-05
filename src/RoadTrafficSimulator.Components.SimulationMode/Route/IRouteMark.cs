@@ -1,3 +1,5 @@
+using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
+
 namespace RoadTrafficSimulator.Components.SimulationMode.Route
 {
     public interface IRouteMark<T>

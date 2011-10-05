@@ -10,6 +10,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
     public class RoadConnection : Edge, IEdgeLine
     {
         private readonly RoadConnectionConnector _connector;
+        private readonly Routes _routes = new Routes();
 
         public RoadConnection( Factories.Factories factories, Vector2 location, IControl parent )
             : base( factories, Styles.NormalStyle )
@@ -28,7 +29,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         }
 
         public override IControl Parent { get; set; }
-
+        public Routes Routes { get { return this._routes; } }
         public NormalPointEdgeAdapter LeftEdge { get; private set; }
 
         public InvertPointEdgeAdapter RightEdge { get; private set; }

@@ -1,44 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.Contracts;
-using System.Linq;
 using Common;
 using Common.Wpf;
 using RoadTrafficConstructor.Presenters.BuildMode.Blocks;
-using RoadTrafficSimulator.Components.BuildMode.Messages;
-using XnaInWpf.Presenters.Blocks;
 
 namespace RoadTrafficConstructor.Presenters.BuildMode
 {
-    public class BuildJunctionViewModel : INotifyPropertyChanged
+    public class BuildJunctionViewModel : INotifyPropertyChanged, IHandle<ChangeBlock>
     {
         private IBlockViewModel _selectedItem;
         private IEnumerable<IBlockViewModel> _blocks;
-        private readonly IBlockManager _blockManager;
         private readonly IEventAggregator _eventAggregator;
 
-        public BuildJunctionViewModel( IBlockManager blockManager, IEventAggregator eventAggregator )
+        public BuildJunctionViewModel( IEventAggregator eventAggregator )
         {
-            Contract.Requires( blockManager != null );
-            Contract.Requires( eventAggregator != null );
-            Contract.Ensures( this.Blocks.Any() );
-
-            this._blockManager = blockManager;
             this._eventAggregator = eventAggregator;
-            this.Blocks = this._blockManager.GetRootParrents();
+            this.SelectedItem = new MainBlockViewModel( this._eventAggregator );
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public IEnumerable<IBlockViewModel> Blocks
-        {
-            get { return this._blocks; }
-            set
-            {
-                this._blocks = value;
-                this.PropertyChanged.Raise( this, x => x.Blocks );
-            }
-        }
 
         public IBlockViewModel SelectedItem
         {
@@ -50,26 +31,20 @@ namespace RoadTrafficConstructor.Presenters.BuildMode
             }
         }
 
-        public void ChooseBlock()
+        public void GoBack()
         {
-            if ( this.SelectedItem == null )
+            if ( this.SelectedItem != null )
             {
-                return;
-            }
-
-            if ( this.SelectedItem.IsTree )
-            {
-                this.Blocks = this.SelectedItem.AvailableBlocks;
-            }
-            else
-            {
-                this.SelectedItem.Execute( command => this._eventAggregator.Publish( new ExecuteCommand( command ) ) );
+                this.SelectedItem.GoBack();
             }
         }
 
-        public void GoBack()
+        public void Handle(ChangeBlock message)
         {
-            this.Blocks = this._blockManager.GetRootParrents();
+            if ( message.Block != null )
+            {
+                this.SelectedItem = message.Block;
+            }
         }
     }
 }

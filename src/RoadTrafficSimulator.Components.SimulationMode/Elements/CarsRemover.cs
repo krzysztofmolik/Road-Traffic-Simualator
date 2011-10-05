@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.Contracts;
+using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Elements

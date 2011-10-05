@@ -48,6 +48,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
             {
                 var light = new LightBlock( mouseState.Location, this._contentManager.Load( "lights" ) );
                 light.Connector.ConnectWith( hittedControl );
+                hittedControl.Connector.ConnectWithLight( light );
                 // TODO this smells
                 this._roadLayer.AddChild( light );
 

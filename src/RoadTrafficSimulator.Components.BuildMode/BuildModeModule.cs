@@ -22,7 +22,7 @@ namespace RoadTrafficSimulator.Components.BuildMode
         protected override void Load( ContainerBuilder builder )
         {
             builder.RegisterType<RoadLayer>().InstancePerLifetimeScope();
-            builder.Register( s => new VisitAllChildren( s.Resolve<RoadLayer>() ) );
+            builder.Register( s => new VisitAllChildren( s.Resolve<RoadLayer>() ) ).SingleInstance();
             builder.RegisterType<BuildModeMainComponent>().InstancePerLifetimeScope();
             builder.RegisterType<BuilderCommandManager>().InstancePerLifetimeScope();
             builder.RegisterType<CompositeConnectionCommand>();

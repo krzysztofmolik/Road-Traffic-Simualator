@@ -25,12 +25,14 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
             yield return CreateNewCommand( control );
             if ( control.LeftEdge.Connector.PreviousEdge != null )
             {
-                yield return CallAction.Create<RoadLaneBlock>( control.Id, () => control.LeftEdge.Connector.ConnectBeginWith( ( IEdge ) null ), ControlProperties.Create( control.LeftEdge.Connector.PreviousEdge.Parent, control.LeftEdge.Connector.PreviousEdge ) );
+                // BUG
+                yield return CallAction.Create<RoadLaneBlock>( control.Id, () => control.LeftEdge.Connector.ConnectBegintWith( null ), ControlProperties.Create( control.LeftEdge.Connector.PreviousEdge.Parent, control.LeftEdge.Connector.PreviousEdge ) );
             }
 
             if ( control.RightEdge.Connector.NextEdge != null )
             {
-                yield return CallAction.Create<RoadLaneBlock>( control.Id, () => control.RightEdge.Connector.ConnectEndWith( ( IEdge ) null ), ControlProperties.Create( control.RightEdge.Connector.NextEdge.Parent, control.RightEdge.Connector.NextEdge ) );
+                // BUG wrong method is taken
+                yield return CallAction.Create<RoadLaneBlock>( control.Id, () => control.RightEdge.Connector.ConnectEndWith( null ), ControlProperties.Create( control.RightEdge.Connector.NextEdge.Parent, control.RightEdge.Connector.NextEdge ) );
             }
         }
 

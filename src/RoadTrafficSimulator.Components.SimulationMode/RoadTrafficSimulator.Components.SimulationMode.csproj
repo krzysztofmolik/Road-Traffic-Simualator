@@ -108,6 +108,7 @@
     <Compile Include="Builder\LaneJunctionBuilder.cs" />
     <Compile Include="Builder\LightBuilder.cs" />
     <Compile Include="Builder\RoadLaneBuilder.cs" />
+    <Compile Include="Builder\RouteConveter.cs" />
     <Compile Include="CarsFactory.cs" />
     <Compile Include="CarsQueue.cs" />
     <Compile Include="CarsSpecification\ICarSpecifiaction.cs" />
@@ -127,15 +128,14 @@
     <Compile Include="RoadInformations\Factories\LightRoadInformationsFactory.cs" />
     <Compile Include="RoadInformations\Factories\SingleLineRoadInformationsFactory.cs" />
     <Compile Include="RoadInformations\FirstCarToOutInformation.cs" />
+    <Compile Include="RoadInformations\IConductor.cs" />
     <Compile Include="RoadInformations\IEngine.cs" />
     <Compile Include="RoadInformations\IRoadInformation.cs" />
     <Compile Include="RoadInformations\LaneCornerRoadInformation.cs" />
     <Compile Include="RoadInformations\LaneJunctionConductor\LaneJucntionConductorRightHandJunctionInformation.cs" />
     <Compile Include="RoadInformations\LaneJunctionConductor\LaneJunctionConductorCarsInformation.cs" />
-    <Compile Include="RoadInformations\LaneJunctionConductor\LaneJunctionConductorLightInformation.cs" />
     <Compile Include="RoadInformations\LaneJunctionConductor\LaneJunctionConductorMoveInfomation.cs" />
-    <Compile Include="RoadInformations\LaneJunctionConductor\RightHandRuleLaneJuctionRoadInformation.cs" />
-    <Compile Include="RoadInformations\New\CarStateMachine.cs" />
+    <Compile Include="RoadInformations\LaneJunctionConductor\RoadLaneJuctionRoadInformation.cs" />
     <Compile Include="RoadInformations\NextAvailablePointToStopInfo.cs" />
     <Compile Include="RoadInformations\SingleLaneRoadInformation.cs" />
     <Compile Include="Controlers\CarsDrawerControler.cs" />
@@ -195,6 +195,9 @@
       <Project>{A2F9A00C-F5BE-4B47-AAA5-BBEA921D4DB9}</Project>
       <Name>RoadTrafficSimulator.Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RoadInformations\New\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

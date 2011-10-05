@@ -1,9 +1,9 @@
 using System;
 using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.New;
+using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
 using RoadTrafficSimulator.Infrastructure;
-using CarStateMachine = RoadTrafficSimulator.Components.SimulationMode.Conductors.CarStateMachine;
+using CarStateMachine = RoadTrafficSimulator.Components.SimulationMode.RoadInformations.CarStateMachine;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Cars
 {
@@ -39,9 +39,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Cars
         public float Width { get; set; }
         public float BreakingForce { get; set; }
         public float AccelerateForce { get; set; }
-        public Route.Route<IRoadElement> RoadElements { get { return this._roadElements; } }
         public CarStateMachine StateMachine { get { return this._stateMachine; } }
-
         public IRouteMark<IConductor> Conductors
         {
             get { throw new NotImplementedException(); }

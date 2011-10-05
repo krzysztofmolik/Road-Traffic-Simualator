@@ -1,3 +1,4 @@
+using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
@@ -25,5 +26,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
         {
             get { return this._drawer; }
         }
+
+        public Routes Routes { get; protected set; }
     }
 }

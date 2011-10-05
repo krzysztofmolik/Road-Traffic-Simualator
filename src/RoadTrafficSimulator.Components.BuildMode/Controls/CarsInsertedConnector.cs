@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using RoadTrafficSimulator.Components.BuildMode.Connectors;
+using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
@@ -28,8 +29,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.ConnectedEdge = roadLaneEdge;
             this.OpositeEdge = roadLaneEdge.GetOppositeEdge();
             this.OpositeEdge.Translated.Subscribe( x => this._owner.RecalculatePosition() );
-
             this._owner.RecalculatePosition();
+            this._owner.Routes.AddRoute( new RouteElement( roadLaneEdge.RoadLaneBlockParent, PriorityType.None ) );
         }
 
         public void ConnectBeginBottomWith( CarsInserter roadConnection )

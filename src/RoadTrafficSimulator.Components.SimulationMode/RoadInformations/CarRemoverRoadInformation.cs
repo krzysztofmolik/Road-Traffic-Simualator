@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
@@ -27,11 +26,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             this._eventAggregator = eventAggregator;
         }
 
-        public IRoadElement GetNextRandomElement( List<IRoadElement> route, Random rng )
-        {
-            return null;
-        }
-
         public void OnEnter( Car car )
         {
             this._eventAggregator.Publish( new CarRemoved( car ) );
@@ -41,26 +35,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         {
             var removedCar = this._cars.Dequeue();
             Debug.Assert( car == removedCar );
-        }
-
-        public float GetCarDistanceToEnd(Car car)
-        {
-            if( this._cars.Contains(car))
-            {
-                return Constans.PointSize;
-            }
-
-            return float.MaxValue;
-        }
-
-        public bool IsPosibleToDriveFrom( IRoadElement roadElement )
-        {
-            return this._carsRemover.Lane == roadElement;
-        }
-
-        public bool IsPosibleToDriveTo( IRoadElement roadElement )
-        {
-            return false;
         }
 
         public float Lenght(IRoadElement previous, IRoadElement next)

@@ -38,7 +38,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
             this.OnTheLeft = edges[ ( ( ownerIndex + 1 ) % 4 ) ];
             if( this._owner.ConnectedEdge != null )
             {
-                this.IsOut = this._owner.EdgeBuilder.IsOut;
+//                this.IsOut = this._owner.EdgeBuilder.IsOut;
             }
         }
 

@@ -1,5 +1,5 @@
 ﻿<Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:XnaInWpf="clr-namespace:XnaInWpf"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:RoadTrafficConstructor="clr-namespace:RoadTrafficConstructor" x:Class="RoadTrafficConstructor.App" >
     <Application.Resources>
         <ResourceDictionary>

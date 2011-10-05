@@ -29,25 +29,25 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
             return edge[ rng.Next( 0, edge.Length ) ].ConnectedEdge;
         }
 
-        public bool ShouldChange( Vector2 acutalCarLocation, Car car )
-        {
-            var next = this._laneJunction.Edges.Where( s => s.ConnectedEdge == car.RoadElements.GetNext() ).FirstOrDefault();
-            var distance = next.EdgeBuilder.Location - acutalCarLocation;
+//        public bool ShouldChange( Vector2 acutalCarLocation, Car car )
+//        {
+//            var next = this._laneJunction.Edges.Where( s => s.ConnectedEdge == car.RoadElements.GetNext() ).FirstOrDefault();
+//            var distance = next.EdgeBuilder.Location - acutalCarLocation;
             // TODO Check value and extract some kind of property
-
-            return Math.Sign( distance.X ) != Math.Sign( car.Direction.X ) && Math.Sign( distance.Y ) != Math.Sign( car.Direction.Y );
-        }
-
-        public Vector2 GetCarDirection( Car car )
-        {
-            var edge = this.GetEdgeConnectedWith( car.RoadElements.GetNext() );
-            return edge.EdgeBuilder.Location - car.Location;
-        }
-
-        private JunctionEdge GetEdgeConnectedWith( IRoadElement roadElement )
-        {
-            var item = this._laneJunction.Edges.Where( s => s.ConnectedEdge == roadElement ).FirstOrDefault();
-            return item;
-        }
+//
+//            return Math.Sign( distance.X ) != Math.Sign( car.Direction.X ) && Math.Sign( distance.Y ) != Math.Sign( car.Direction.Y );
+//        }
+//
+//        public Vector2 GetCarDirection( Car car )
+//        {
+//            var edge = this.GetEdgeConnectedWith( car.RoadElements.GetNext() );
+//            return edge.EdgeBuilder.Location - car.Location;
+//        }
+//
+//        private JunctionEdge GetEdgeConnectedWith( IRoadElement roadElement )
+//        {
+//            var item = this._laneJunction.Edges.Where( s => s.ConnectedEdge == roadElement ).FirstOrDefault();
+//            return item;
+//        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
@@ -14,6 +15,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             var builder = new Builder();
             yield return new BuilderAction( Order.High, context => builder.Build( context, control ) );
             yield return new BuilderAction( Order.Normal, builder.Connect );
+            yield return new BuilderAction( Order.Low, builder.SetUp );
         }
 
         public bool CanCreate( IControl control )
@@ -36,6 +38,14 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             {
                 this._lane.Prev = builderContext.GetObject<IRoadElement>( this._lane.RoadLaneBlock.LeftEdge.Connector.PreviousEdge.Parent );
                 this._lane.Next = builderContext.GetObject<IRoadElement>( this._lane.RoadLaneBlock.RightEdge.Connector.NextEdge.Parent );
+            }
+
+            public void SetUp(BuilderContext obj)
+            {
+//                this._lane.RoadLaneBlock.LeftEdge.Routes.CalculateProbabilities();
+//                this._lane.RoadLaneBlock.RightEdge.Routes.CalculateProbabilities();
+//                this._lane.RoadLaneBlock.TopEdge.Routes.CalculateProbabilities();
+//                this._lane.RoadLaneBlock.BottomEdge.Routes.CalculateProbabilities();
             }
         }
     }

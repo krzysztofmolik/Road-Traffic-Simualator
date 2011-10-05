@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Conductors;
@@ -21,13 +19,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             this._lane = lane;
         }
 
-        public IRoadElement GetNextRandomElement( List<IRoadElement> route, Random rng )
-        {
-            Debug.Assert( this._lane.Top == null );
-            Debug.Assert( this._lane.Bottom == null );
-            return this._lane.Next;
-        }
-
         public void OnEnter( Car car )
         {
             Contract.Requires( car != null );
@@ -37,23 +28,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         public void OnExit( Car car )
         {
             this._cars.Remove( car );
-        }
-
-        public float GetCarDistanceToEnd( Car car )
-        {
-            if ( this._cars.Contains( car ) == false ) { return float.MaxValue; }
-
-            return Vector2.Distance( car.Location, this._lane.RoadLaneBlock.RightEdge.Location );
-        }
-
-        public bool IsPosibleToDriveFrom( IRoadElement roadElement )
-        {
-            return this._lane.Prev == roadElement || this._lane.Top == roadElement || this._lane.Bottom == roadElement;
-        }
-
-        public bool IsPosibleToDriveTo( IRoadElement roadElement )
-        {
-            return this._lane.Next == roadElement || this._lane.Top == roadElement || this._lane.Bottom == roadElement;
         }
 
         public float Lenght( IRoadElement previous, IRoadElement next )
@@ -73,7 +47,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 
         public bool ShouldChange(Car car)
         {
-            var distance = this._lane.RoadLaneBlock.RightEdge.Location - acutalCarLocation;
+            var distance = this._lane.RoadLaneBlock.RightEdge.Location - car.Location;
             // TODO Check value and extract some kind of property
             if ( distance.Length() <= 0.001f ) { return true; }
 
@@ -101,7 +75,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             else
             {
                 carInformation.CurrentDistance += Vector2.Distance( this._lane.RoadLaneBlock.LeftEdge.Location, this._lane.RoadLaneBlock.RightEdge.Location );
-                this._lane.Prev.RoadInformation.GetFirstCarToOutInformation( carInformation );
+//                this._lane.Prev.RoadInformation.GetFirstCarToOutInformation( carInformation );
             }
         }
 
