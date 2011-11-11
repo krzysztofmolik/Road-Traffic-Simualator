@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Common;
-using Common.Xna;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
@@ -16,16 +15,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 {
     public class RoadJunctionBlockVertexContainer : VertexContainerBase<IRoadJunctionBlock, VertexPositionColor>
     {
-        private readonly TextureManager _textureManager;
-        private readonly Style _style;
         private Quadrangle _shape;
-        private List<TextureInPoint> _textures;
+        private readonly List<TextureInPoint> _textures;
 
-        public RoadJunctionBlockVertexContainer( IRoadJunctionBlock block, TextureManager textureManager, Style style )
-            : base( block )
+        public RoadJunctionBlockVertexContainer( IRoadJunctionBlock block, Style style )
+            : base( block, style.NormalColor )
         {
-            this._textureManager = textureManager;
-            this._style = style;
             this._textures = new List<TextureInPoint>();
         }
 
@@ -62,7 +57,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 
 
             return this._shape.DrawableShape
-                                .Select( s => new VertexPositionColor( s.ToVector3(), this.GetColor() ) )
+                                .Select( s => new VertexPositionColor( s.ToVector3(), this.Color ) )
                                 .ToArray();
         }
 
@@ -87,11 +82,6 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 
         }
 
-
-        private Color GetColor()
-        {
-            return this.Object.IsSelected ? this._style.SelectionColor : this._style.NormalColor;
-        }
 
         public override IShape Shape
         {

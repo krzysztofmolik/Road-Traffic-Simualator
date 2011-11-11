@@ -15,13 +15,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
     public class LightVeretexContainer : VertexContainerBase<LightBlock, VertexPositionTexture>
     {
         private readonly CachedTexture _texture;
-        private readonly TextureStyle _style;
         private static readonly float Width = Constans.ToVirtualUnit( 0.7f );
         private static readonly float Height = Constans.ToVirtualUnit( 1.5f );
         private Quadrangle _shape;
 
         public LightVeretexContainer( LightBlock @object, CachedTexture texture )
-            : base( @object )
+            : base( @object, Color.Transparent )
         {
             this._texture = texture;
         }
@@ -61,7 +60,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
     public class LightConnector
     {
-        private LightBlock _owner;
+        private readonly LightBlock _owner;
 
         public LightConnector( LightBlock owner )
         {

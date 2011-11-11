@@ -112,11 +112,14 @@
     <Compile Include="Commands\CarsInserterCommand.cs" />
     <Compile Include="Commands\CarsRemoverCommand.cs" />
     <Compile Include="Commands\CommandType.cs" />
+    <Compile Include="Commands\DoNothing.cs" />
+    <Compile Include="Commands\GuiCommdnControlClicked.cs" />
     <Compile Include="Commands\GuiCommdnEdit.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\InsertRoadJunctionCommand.cs" />
     <Compile Include="Commands\InsertRoadLaneCommand.cs" />
     <Compile Include="Commands\LightInsertCommand.cs" />
+    <Compile Include="Commands\NotifiyAboutClickedControls.cs" />
     <Compile Include="Commands\SelectToEditCommand.cs" />
     <Compile Include="CompositeConnectionCommand.cs" />
     <Compile Include="ConnectObjectCommand.cs" />

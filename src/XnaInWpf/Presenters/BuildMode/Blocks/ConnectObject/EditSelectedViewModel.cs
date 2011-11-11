@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using Common;
 using RoadTrafficConstructor.Presenters.BuildMode.Blocks.Common;
 using RoadTrafficSimulator.Components.BuildMode.Commands;
@@ -7,16 +8,18 @@ using Common.Wpf;
 
 namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
 {
-    public class EditSelectedViewModel : IBlockViewModel, IHandle<GuiCommdnEdit>, INotifyPropertyChanged
+    public class EditSelectedViewModel : IBlockViewModel, IHandle<GuiCommdnEdit>, IHandle<GuiCommdnControlClicked>, INotifyPropertyChanged
     {
         private readonly MainBlockViewModel _mainBlockViewModel;
         private readonly IEventAggregator _eventAggreator;
         private readonly NameWithIconViewModel _preview;
         private readonly ControlToControlWithRouteViewModelConveter _conveter;
+        private readonly ControlToControlViewModelConveter _controlToControlWithoutRouteConveter;
 
-        public EditSelectedViewModel( MainBlockViewModel mainBlockViewModel, IEventAggregator eventAggreator )
+        public EditSelectedViewModel( MainBlockViewModel mainBlockViewModel, IEventAggregator eventAggreator, ControlToControlViewModelConveter controlToControlWithoutRouteConveter )
         {
             this._mainBlockViewModel = mainBlockViewModel;
+            this._controlToControlWithoutRouteConveter = controlToControlWithoutRouteConveter;
             this._eventAggreator = eventAggreator;
             this._preview = new NameWithIconViewModel( this.Name, "" );
             this._conveter = new ControlToControlWithRouteViewModelConveter();
@@ -25,14 +28,14 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private ControlWithRoutelViewModel _controlWithRoutel;
-        public ControlWithRoutelViewModel ControlWithRoutel
+        private ControlWithRoutelViewModel _controlWithRoute;
+        public ControlWithRoutelViewModel ControlWithRoute
         {
-            get { return this._controlWithRoutel; }
+            get { return this._controlWithRoute; }
             set
             {
-                this._controlWithRoutel = value;
-                this.PropertyChanged.Raise( this, () => this.ControlWithRoutel );
+                this._controlWithRoute = value;
+                this.PropertyChanged.Raise( this, () => this.ControlWithRoute );
             }
         }
 
@@ -48,7 +51,8 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
 
         public void GoBack()
         {
-            this._eventAggreator.Publish( this._mainBlockViewModel );
+            this._eventAggreator.Publish( ( new ExecuteCommand( CommandType.Clear ) ) );
+            this._eventAggreator.Publish( new ChangeBlock( this._mainBlockViewModel ) );
         }
 
         public void Execute()
@@ -59,7 +63,14 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
 
         public void Handle( GuiCommdnEdit message )
         {
-            this.ControlWithRoutel = this._conveter.Convert( message.Control );
+            this.ControlWithRoute = this._conveter.Convert( message.Control );
+            this._eventAggreator.Publish( new ExecuteCommand( CommandType.NotifyAboutClickedControls ) );
+        }
+
+        public void Handle( GuiCommdnControlClicked message )
+        {
+            Debug.Assert( this.ControlWithRoute != null );
+            this.ControlWithRoute.ControlClicked( this._controlToControlWithoutRouteConveter.Convert( message.Control ) );
         }
     }
 }

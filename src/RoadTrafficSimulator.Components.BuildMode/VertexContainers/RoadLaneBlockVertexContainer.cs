@@ -11,11 +11,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 {
     public class RoadLaneBlockVertexContainer : VertexContainerBase<IRoadLaneBlock, VertexPositionColor>
     {
-        private readonly Color _fillColor = Constans.RoadColor;
         private IShape _shape;
 
         public RoadLaneBlockVertexContainer( IRoadLaneBlock roadLaneBlock )
-            : base( roadLaneBlock )
+            : base( roadLaneBlock, Constans.RoadColor )
         {
         }
 
@@ -24,7 +23,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
             this._shape = this.CreateShape();
 
             return this._shape.DrawableShape
-                                    .Select( s => new VertexPositionColor( s.ToVector3(), this._fillColor ) )
+                                    .Select( s => new VertexPositionColor( s.ToVector3(), this.Color ) )
                                     .ToArray();
         }
 

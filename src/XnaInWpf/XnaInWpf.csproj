@@ -69,6 +69,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\libs\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.0.0.0\lib\NET40\NLog.dll</HintPath>
     </Reference>
@@ -126,6 +127,8 @@
     </ApplicationDefinition>
     <Compile Include="AutofacBootstrapper.cs" />
     <Compile Include="Converters\BoolNegation.cs" />
+    <Compile Include="Converters\ConveterBase.cs" />
+    <Compile Include="Converters\VectorToStringConveter.cs" />
     <Compile Include="Presenters\BottomTabs\ControlView.xaml.cs">
       <DependentUpon>ControlView.xaml</DependentUpon>
     </Compile>
@@ -157,11 +160,20 @@
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ControlToControlViewModelConveter.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ControlToControlWithRouteViewModelConveter.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ControlViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ControlWithRoutelView.xaml.cs">
+      <DependentUpon>ControlWithRoutelView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ControlWithRoutelViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\EditSelectedViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\RouteConveter.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\RouteItemViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\RouteView.xaml.cs">
+      <DependentUpon>RouteView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\RouteViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\EditSelectedView.xaml.cs">
+      <DependentUpon>EditSelectedView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presenters\BuildMode\Blocks\MainBlockViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\Common\NameWithIconView.xaml.cs">
       <DependentUpon>NameWithIconView.xaml</DependentUpon>
@@ -206,6 +218,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Presenters\BuildMode\Blocks\Common\NameWithIconView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presenters\BuildMode\Blocks\ConnectObject\ControlWithRoutelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presenters\BuildMode\Blocks\ConnectObject\EditSelectedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presenters\BuildMode\Blocks\ConnectObject\RouteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

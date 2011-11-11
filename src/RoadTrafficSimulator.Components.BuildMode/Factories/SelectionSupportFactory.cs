@@ -25,7 +25,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Factories
         public IVertexContainer<VertexPositionColor> Create( RoadJunctionBlock roadJunctionBlock )
         {
             var textureManager = this._container.Resolve<TextureManager>();
-            return new RoadJunctionBlockVertexContainer( roadJunctionBlock, textureManager, Styles.NormalStyle );
+            return new RoadJunctionBlockVertexContainer( roadJunctionBlock, Styles.NormalStyle );
         }
     }
 }

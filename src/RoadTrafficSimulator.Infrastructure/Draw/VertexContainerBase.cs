@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Diagnostics;
 using Common;
+using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Infrastructure.Draw
 {
     public abstract class VertexContainerBase<T, TVertex> : IVertexContainer<TVertex> where T : class, IControl
     {
-        protected VertexContainerBase( T @object )
+        private readonly Color _orignalColor;
+
+        protected VertexContainerBase( T @object, Color orignalColor )
         {
             this.Object = @object.NotNull();
             this.Object.Redrawed.Subscribe( s => this.Vertex = this.UpdateShapeAndCreateVertex() );
+            this._orignalColor = orignalColor;
+            this._color = _orignalColor;
         }
 
         public T Object { get; private set; }
@@ -18,8 +23,22 @@ namespace RoadTrafficSimulator.Infrastructure.Draw
         public TVertex[] Vertex { get; private set; }
 
         public abstract IShape Shape { get; }
+
         public virtual void ReloadTextures()
         {
+        }
+
+        private Color _color;
+
+        public virtual Color Color
+        {
+            get { return _color; }
+            set { _color = value; }
+        }
+
+        public virtual void ClearColor()
+        {
+            this.Color = this._orignalColor;
         }
 
         public void Draw( Graphic graphic )

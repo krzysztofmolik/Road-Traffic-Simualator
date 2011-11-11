@@ -12,13 +12,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 {
     public class EdgeVertexContainer : VertexContainerBase<Edge, VertexPositionColor>
     {
-        private readonly Style _style;
         private Quadrangle _quadrangle;
 
-        public EdgeVertexContainer( Edge edge, Style style)
-            : base( edge )
+        public EdgeVertexContainer( Edge edge, Color style )
+            : base( edge, style )
         {
-            this._style = style;
         }
 
         public override IShape Shape
@@ -38,14 +36,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
             this._quadrangle = this.CreateQuatrangle();
             var vertex = this.Shape.DrawableShape;
 
-            var color = this.GetColor();
-            return vertex.Select( v => new VertexPositionColor( v.ToVector3(), color ) )
+            return vertex.Select( v => new VertexPositionColor( v.ToVector3(), this.Color ) )
                 .ToArray();
-        }
-
-        protected virtual Color GetColor()
-        {
-            return this.Object.IsSelected ? this._style.SelectionColor : this._style.NormalColor;
         }
 
         private Quadrangle CreateQuatrangle()

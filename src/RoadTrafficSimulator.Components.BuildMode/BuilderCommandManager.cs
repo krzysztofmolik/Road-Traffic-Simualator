@@ -49,7 +49,7 @@ namespace RoadTrafficSimulator.Components.BuildMode
             if ( creator == null )
             {
                 _logger.Warn( "Can't find command. Type: {0}", message.CommandType );
-                return;
+                throw new ArgumentException( "Can't find command " + message.CommandType );
             }
 
             creator.Start();

@@ -10,19 +10,24 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
         private readonly Color _whenConnected = Color.White * 0;
 
         public RoadJunctionEdgeVertexContainer( RoadJunctionEdge edge )
-            : base( edge, Styles.NormalStyle )
+            : base( edge, Color.White )
         {
             this._edge = edge;
         }
 
-        protected override Color GetColor()
+        public override void ClearColor()
+        {
+            this.Color = this.GetColor();
+        }
+
+        private Color GetColor()
         {
             if ( this._edge.Connector.AreAllSlotOccupied )
             {
                 return this._whenConnected;
             }
 
-            return base.GetColor();
+            return Color.Black;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         protected Edge( Factories.Factories factories, Style style )
         {
             this.Factories = factories;
-            this._concretVertexContainer = new EdgeVertexContainer( this, style );
+            this._concretVertexContainer = new EdgeVertexContainer( this, style.NormalColor );
             this._mouseHandler = factories.MouseHandlerFactory.Create( this );
             this._startPoint = new MovablePoint( factories, Vector2.Zero, this );
             this._endPoint = new MovablePoint( factories, Vector2.Zero, this );

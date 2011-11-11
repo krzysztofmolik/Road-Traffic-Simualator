@@ -25,7 +25,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks
                                              new CarsRemoverViewModel( this, this._eventAggreator ),
                                              new StandardLightViewModel( this, this._eventAggreator ),
                                              new ConnectObjectViewModel( this, this._eventAggreator ),
-                                             new EditSelectedViewModel( this, this._eventAggreator ),
+                                             new EditSelectedViewModel( this, this._eventAggreator, new ControlToControlViewModelConveter() ),
                                          } );
         }
 

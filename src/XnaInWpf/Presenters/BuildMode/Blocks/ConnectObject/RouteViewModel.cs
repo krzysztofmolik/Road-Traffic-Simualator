@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Common.Wpf;
 
 namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
 {
@@ -13,6 +14,13 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private string _name;
+        public string Name
+        {
+            get { return this._name; }
+            set { this._name = value; this.PropertyChanged.Raise( this, () => this.Name ); }
+        }
 
         public void Add( RouteItemViewModel item )
         {

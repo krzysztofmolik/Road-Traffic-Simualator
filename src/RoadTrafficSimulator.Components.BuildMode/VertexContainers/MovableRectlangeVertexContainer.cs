@@ -11,11 +11,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 {
     public class MovableRectlangeVertexContainer : VertexContainerBase<MovableRectangle, VertexPositionColor>
     {
-        private readonly Color _normalColor = Color.IndianRed;
         private IShape _shape;
 
         public MovableRectlangeVertexContainer( MovableRectangle @object )
-            : base( @object )
+            : base( @object, Color.IndianRed )
         {
         }
 
@@ -23,7 +22,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
         {
             this._shape = this.CreateShape();
             return this._shape.DrawableShape
-                                .Select(s => new VertexPositionColor(s.ToVector3(), this._normalColor))
+                                .Select( s => new VertexPositionColor( s.ToVector3(), this.Color ) )
                                 .ToArray();
         }
 
@@ -40,7 +39,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 
         private IShape CreateShape()
         {
-            return new Quadrangle( 
+            return new Quadrangle(
                                    this.Object.LeftTop.Location,
                                    this.Object.RightTop.Location,
                                    this.Object.RightBottom.Location,

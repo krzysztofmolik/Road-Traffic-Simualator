@@ -14,12 +14,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
         private Quadrangle _quadrangle;
 
         public MovablePointVertexContainer( MovablePoint @object )
-            : base( @object )
-        {
-            this.NormalColor = Color.Red;
-        }
-
-        public Color NormalColor { get; private set; }
+            : base( @object, Color.Red )
+        { }
 
         private Quadrangle CreateQuadrangle()
         {
@@ -35,7 +31,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
             this._quadrangle = this.CreateQuadrangle();
             return
                 this._quadrangle.DrawableShape
-                                    .Select(s => new VertexPositionColor(s.ToVector3(), this.NormalColor))
+                                    .Select( s => new VertexPositionColor( s.ToVector3(), this.Color ) )
                                     .ToArray();
         }
 

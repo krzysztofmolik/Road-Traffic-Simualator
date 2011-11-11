@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure.Draw;
 
@@ -9,7 +10,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
         private readonly InvisibleShape _shape;
 
         public RoadLayerVertexContainer( RoadLayer @object )
-            : base( @object )
+            : base( @object, Color.Transparent )
         {
             this._shape = new InvisibleShape();
         }
