@@ -113,7 +113,7 @@
     <Compile Include="Commands\CarsRemoverCommand.cs" />
     <Compile Include="Commands\CommandType.cs" />
     <Compile Include="Commands\DoNothing.cs" />
-    <Compile Include="Commands\GuiCommdnControlClicked.cs" />
+    <Compile Include="Commands\GuiCommandControlClicked.cs" />
     <Compile Include="Commands\GuiCommdnEdit.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\InsertRoadJunctionCommand.cs" />

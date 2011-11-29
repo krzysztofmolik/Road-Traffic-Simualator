@@ -126,6 +126,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AutofacBootstrapper.cs" />
+    <Compile Include="Converters\BooleanToColorConverter.cs" />
     <Compile Include="Converters\BoolNegation.cs" />
     <Compile Include="Converters\ConveterBase.cs" />
     <Compile Include="Converters\VectorToStringConveter.cs" />

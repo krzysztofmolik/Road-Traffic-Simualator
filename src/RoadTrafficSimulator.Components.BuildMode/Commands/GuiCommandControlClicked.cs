@@ -2,9 +2,9 @@ using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Commands
 {
-    public class GuiCommdnControlClicked
+    public class GuiCommandControlClicked
     {
-        public GuiCommdnControlClicked(IControl control)
+        public GuiCommandControlClicked(IControl control)
         {
             this.Control = control;
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
@@ -20,6 +21,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private readonly List<RouteElement> _route;
 
         public Route()
+            : this( Enumerable.Empty<RouteElement>(), 0.0f )
         {
             this._route = new List<RouteElement>();
         }
@@ -28,9 +30,26 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         {
             this._route = new List<RouteElement>(routeElements);
             this.Probability = probability;
+            this.Name = "Unknown";
         }
 
+        public string Name { get; set; }
         public float Probability { get; set; }
         public IEnumerable<RouteElement> Items { get { return this._route; } }
+
+        public bool CanAdd(IControl control)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Add(IControl control)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<PriorityType> GetPrioritiesFor(IControl control)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

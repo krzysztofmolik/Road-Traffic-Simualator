@@ -260,7 +260,7 @@ namespace Arcane.Xna.Presentation
             try
             {
                 newInfo.PresentationParameters.DeviceWindowHandle = new System.Windows.Interop.WindowInteropHelper( this.game.Window ).Handle;
-                var graphicsDevice = new GraphicsDevice( newInfo.Adapter, GraphicsProfile.HiDef, newInfo.PresentationParameters );
+                var graphicsDevice = new GraphicsDevice( newInfo.Adapter, GraphicsProfile.Reach, newInfo.PresentationParameters );
                 this.device = graphicsDevice;
                 this.device.DeviceResetting += this.HandleDeviceResetting;
                 this.device.DeviceReset += this.HandleDeviceReset;
@@ -293,7 +293,7 @@ namespace Arcane.Xna.Presentation
                     {
 //                        this.game.Services.RemoveService( typeof( IGraphicsDeviceService ) );
                     }
-                    this.game.Window.SizeChanged -= new System.Windows.SizeChangedEventHandler( this.GameWindowClientSizeChanged );
+                    this.game.Window.SizeChanged -= this.GameWindowClientSizeChanged;
                     // this.game.Window.ScreenDeviceNameChanged -= new EventHandler(this.GameWindowScreenDeviceNameChanged);
                 }
                 if ( this.device != null )

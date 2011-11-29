@@ -14,9 +14,9 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public RouteItemViewModel( ControlViewModel control, IEnumerable<PriorityType> priorityTypes )
+        public RouteItemViewModel(ControlViewModel control, IEnumerable<PriorityType> priorityTypes)
         {
-            this._priorityTypes = new ObservableCollection<PriorityType>( priorityTypes );
+            this._priorityTypes = new ObservableCollection<PriorityType>(priorityTypes);
             this._control = control;
         }
 
@@ -32,7 +32,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
             set
             {
                 this._priority = value;
-                this.PropertyChanged.Raise( this, () => this.Priority );
+                this.PropertyChanged.Raise(this, () => this.Priority);
             }
         }
 
@@ -41,14 +41,15 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
             get { return this._control; }
         }
 
-        private bool _isSelected;
-        public bool IsSelected
+        private bool _isSelectedOnSimulator;
+        public bool IsSelectedOnSimulator
         {
-            get { return this._isSelected; }
+            get { return this._isSelectedOnSimulator; }
             set
             {
-                this._isSelected = value;
-                if ( this._isSelected )
+                if (this._isSelectedOnSimulator == value) { return; }
+                this._isSelectedOnSimulator = value;
+                if (this._isSelectedOnSimulator)
                 {
                     this._control.Control.VertexContainer.Color = Color.Red;
                 }
@@ -57,7 +58,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
                     this._control.Control.VertexContainer.ClearColor();
                 }
                 this._control.Control.Invalidate();
-                this.PropertyChanged.Raise( this, () => this.IsSelected );
+                this.PropertyChanged.Raise(this, () => this.IsSelectedOnSimulator);
             }
         }
     }

@@ -43,7 +43,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
             var clickedControl = this._allControls.FirstOrDefault( s => s.IsHitted( xnaMouseState.Location ) );
             if ( clickedControl != null )
             {
-                this._eventAggreagor.Publish( new GuiCommdnControlClicked( clickedControl ) );
+                this._eventAggreagor.Publish( new GuiCommandControlClicked( clickedControl ) );
             }
         }
     }
