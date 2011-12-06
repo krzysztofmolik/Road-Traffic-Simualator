@@ -14,6 +14,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
         private MemberInfo[] _propertiesPath;
         private T _value;
         private Guid _ownerId;
+        private readonly Guid _commandId = Guid.NewGuid();
 
         public static SetProperties<T> Create<TOWner>( Guid id, Expression<Func<T>> properties )
         {
@@ -47,7 +48,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
             return members.ToArray();
         }
 
-        public void Execute( DeserializationContext context )
+        public object Execute( DeserializationContext context )
         {
             object owner = context.GetById( this._ownerId );
             foreach ( var memberInfo in this._propertiesPath.Skip( 1 ).Reverse() )
@@ -69,11 +70,23 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
             var last = this._propertiesPath.First() as PropertyInfo;
             Debug.Assert( last != null );
             last.SetValue( owner, this._value, null );
+
+            return null;
         }
 
         public Order Priority
         {
             get { return Order.Normal; }
+        }
+
+        public Type Type
+        {
+            get { return typeof(T); }
+        }
+
+        public Guid CommandId
+        {
+            get { return this._commandId; }
         }
     }
 }

@@ -7,14 +7,14 @@ using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
 {
-    public class CarsRemoverControlConverter : IControlConverter
+    public class CarsRemoverControlConverter : ControlConverterBase
     {
-        public Type Type
+        public override Type Type
         {
             get { return typeof( CarsRemover ); }
         }
 
-        public IEnumerable<IAction> ConvertToAction( IControl control )
+        public override IEnumerable<IAction> ConvertToAction( IControl control )
         {
             Debug.Assert( control is CarsRemover );
             return this.Convert( ( CarsRemover ) control );
@@ -25,17 +25,16 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
             yield return CreateNewCommand( control );
             if ( control.Connector.ConnectedEdge != null )
             {
-                yield return CallAction.Create<CarsRemover>( control.Id, () => control.Connector.ConnectBeginWith( null ), ControlProperties.Create( control.Connector.ConnectedEdge.Parent, control.Connector.ConnectedEdge ) );
+                yield return
+                    Actions.Call<CarsRemover>(
+                        control.Id,
+                        () => control.Connector.ConnectBeginWith( Find.In( control.Connector.ConnectedEdge.Parent ).Property( control.Connector.ConnectedEdge ) ) );
             }
         }
 
-        private static CreateControlCommand CreateNewCommand( CarsRemover control )
+        private static IAction CreateNewCommand( IControl control )
         {
-            var createCommand = new CreateControlCommand( control.Id, typeof( CarsRemover ) );
-            createCommand.AddConstructParameters( new IocParameter( typeof( Factories.Factories ) ) );
-            createCommand.AddConstructParameters( Parameter.Create( control.Location ) );
-            createCommand.AddConstructParameters( Parameter.Create<IControl>( null ) );
-            return createCommand;
+            return Actions.CreateControl( control.Id, () => new CarsRemover( Is.Ioc<Factories.Factories>(), Is.Const( control.Location ), Is.Const<IControl>( null ) ) );
         }
     }
 }

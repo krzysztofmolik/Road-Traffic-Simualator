@@ -16,7 +16,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
 
             // TODO Check it
             roadConnectionEdge.Connector.ConnectEndWith( roadLaneEdge );
-            roadLaneEdge.Connector.ConnectBegintWith( roadConnectionEdge );
+            roadLaneEdge.Connector.ConnectBeginWith( roadConnectionEdge );
 
             return true;
         }

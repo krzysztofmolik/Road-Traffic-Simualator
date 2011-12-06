@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Common;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
     public class RouteElement
     {
-        public RouteElement(IControl control, PriorityType priorityType)
+        public RouteElement( IControl control, PriorityType priorityType )
         {
             this.Control = control;
             this.PriorityType = priorityType;
@@ -26,9 +28,16 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this._route = new List<RouteElement>();
         }
 
-        public Route( IEnumerable<RouteElement> routeElements, float probability)
+        public Route( string name, float probability )
         {
-            this._route = new List<RouteElement>(routeElements);
+            this.Name = name;
+            this.Probability = probability;
+            this._route = new List<RouteElement>();
+        }
+
+        public Route( IEnumerable<RouteElement> routeElements, float probability )
+        {
+            this._route = new List<RouteElement>( routeElements );
             this.Probability = probability;
             this.Name = "Unknown";
         }
@@ -37,19 +46,33 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public float Probability { get; set; }
         public IEnumerable<RouteElement> Items { get { return this._route; } }
 
-        public bool CanAdd(IControl control)
+        public bool CanAdd( IControl control )
         {
-            throw new System.NotImplementedException();
+            if ( this._route.IsEmpty() ) { return true; }
+
+            // NOTE This only fake
+            return true;
         }
 
-        public void Add(IControl control)
+        public void Add( IControl control, PriorityType priorityType )
         {
-            throw new System.NotImplementedException();
+            this._route.Add( new RouteElement( control, priorityType ) );
         }
 
-        public IEnumerable<PriorityType> GetPrioritiesFor(IControl control)
+        public IEnumerable<PriorityType> GetPrioritiesFor( IControl control )
         {
-            throw new System.NotImplementedException();
+            return new[]
+                       {
+                           PriorityType.Light,
+                           PriorityType.FromLeft,
+                           PriorityType.FromFront,
+                           PriorityType.FromRight,
+                       };
+        }
+
+        public void Add( RouteElement routeElement )
+        {
+            this._route.Add( routeElement );
         }
     }
 }

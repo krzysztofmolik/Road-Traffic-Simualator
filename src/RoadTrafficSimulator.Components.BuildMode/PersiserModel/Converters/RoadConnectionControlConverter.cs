@@ -7,14 +7,14 @@ using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
 {
-    public class RoadConnectionControlConverter : IControlConverter
+    public class RoadConnectionControlConverter : ControlConverterBase
     {
-        public Type Type
+        public override Type Type
         {
             get { return typeof( RoadConnection ); }
         }
 
-        public IEnumerable<IAction> ConvertToAction( IControl control )
+        public override IEnumerable<IAction> ConvertToAction( IControl control )
         {
             Debug.Assert( control is RoadConnection );
             return this.Convert( ( RoadConnection ) control );
@@ -23,17 +23,24 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
         private IEnumerable<IAction> Convert( RoadConnection control )
         {
             yield return CreateNewCommand( control );
-            yield return CallAction.Create<RoadConnection>( control.Id, () => control.Connector.ConnectBeginWith( null ), ControlProperties.Create( control.Connector.PreviousConnectedEdge.Parent, control.Connector.PreviousConnectedEdge ) );
-            yield return CallAction.Create<RoadConnection>( control.Id, () => control.Connector.ConnectEndWith( null ), ControlProperties.Create( control.Connector.NextConnectedEdge.Parent, control.Connector.NextConnectedEdge ) );
+            yield return Actions.Call<RoadConnection>(
+                control.Id,
+                () => control.Connector.ConnectBeginWith( Find.In( control.Connector.PreviousConnectedEdge.Parent ).Property( control.Connector.PreviousConnectedEdge ) ) );
+
+            yield return Actions.Call<RoadConnection>(
+                control.Id,
+                () => control.Connector.ConnectEndWith( Find.In( control.Connector.NextConnectedEdge.Parent ).Property( control.Connector.NextConnectedEdge ) ) );
+
+            yield return base.BuildRoutes( control );
         }
 
-        private static CreateControlCommand CreateNewCommand( RoadConnection control )
+        private static UseCtorToCreateControl<RoadConnection> CreateNewCommand( RoadConnection control )
         {
-            var createCommand = new CreateControlCommand( control.Id, typeof( RoadConnection ) );
-            createCommand.AddConstructParameters( new IocParameter( typeof( Factories.Factories ) ) );
-            createCommand.AddConstructParameters( Parameter.Create( control.Location ) );
-            createCommand.AddConstructParameters( Parameter.Create<IControl>( null ) );
-            return createCommand;
+            return Actions.CreateControl( control.Id,
+                                          () =>
+                                          new RoadConnection( Is.Ioc<Factories.Factories>(),
+                                                              Is.Const( control.Location ),
+                                                              Is.Const( default( IControl ) ) ) );
         }
     }
 }

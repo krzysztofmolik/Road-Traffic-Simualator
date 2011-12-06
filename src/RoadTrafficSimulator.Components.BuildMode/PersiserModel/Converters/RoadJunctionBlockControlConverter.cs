@@ -4,19 +4,18 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands;
-using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
 {
-    public class RoadJunctionBlockControlConverter : IControlConverter
+    public class RoadJunctionBlockControlConverter : ControlConverterBase
     {
-        public Type Type
+        public override Type Type
         {
             get { return typeof( RoadJunctionBlock ); }
         }
 
-        public IEnumerable<IAction> ConvertToAction( IControl control )
+        public override IEnumerable<IAction> ConvertToAction( IControl control )
         {
             Debug.Assert( control is RoadJunctionBlock );
             return this.Convert( ( RoadJunctionBlock ) control );
@@ -31,29 +30,39 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
             yield return SetProperties<Vector2>.Create<RoadJunctionBlock>( control.Id, () => control.LeftBottom.Location );
             if ( control.LeftEdge.Connector.Edge != null )
             {
-                yield return CallAction.Create<RoadJunctionBlock>( control.Id, () => control.LeftEdge.Connector.ConnectBeginWith( control.BottomEdge.Connector.Edge ), ControlProperties.Create( control.LeftEdge.Connector.Edge.Parent, control.LeftEdge.Connector.Edge ) );
+                yield return Actions.Call<RoadJunctionBlock>(
+                            control.Id,
+                            () => control.LeftEdge.Connector.ConnectBeginWith( Find.In( control.LeftEdge.Connector.Edge.Parent ).Property( control.LeftEdge.Connector.Edge ) ) );
             }
             if ( control.RightEdge.Connector.Edge != null )
             {
-                yield return CallAction.Create<RoadJunctionBlock>( control.Id, () => control.RightEdge.Connector.ConnectBeginWith( control.BottomEdge.Connector.Edge ), ControlProperties.Create( control.RightEdge.Connector.Edge.Parent, control.RightEdge.Connector.Edge ) );
+                yield return Actions.Call<RoadJunctionBlock>(
+                            control.Id,
+                            () => control.RightEdge.Connector.ConnectBeginWith( Find.In( control.RightEdge.Connector.Edge.Parent ).Property( control.RightEdge.Connector.Edge ) ) );
             }
             if ( control.TopEdge.Connector.Edge != null )
             {
-                yield return CallAction.Create<RoadJunctionBlock>( control.Id, () => control.TopEdge.Connector.ConnectBeginWith( control.BottomEdge.Connector.Edge ), ControlProperties.Create( control.TopEdge.Connector.Edge.Parent, control.TopEdge.Connector.Edge ) );
+                yield return Actions.Call<RoadJunctionBlock>(
+                            control.Id,
+                            () => control.TopEdge.Connector.ConnectBeginWith( Find.In( control.TopEdge.Connector.Edge.Parent ).Property( control.TopEdge.Connector.Edge ) ) );
             }
             if ( control.BottomEdge.Connector.Edge != null )
             {
-                yield return CallAction.Create<RoadJunctionBlock>( control.Id, () => control.BottomEdge.Connector.ConnectBeginWith( control.BottomEdge.Connector.Edge ), ControlProperties.Create( control.BottomEdge.Connector.Edge.Parent, control.BottomEdge.Connector.Edge ) );
+                yield return Actions.Call<RoadJunctionBlock>(
+                            control.Id,
+                            () => control.BottomEdge.Connector.ConnectBeginWith( Find.In( control.BottomEdge.Connector.Edge.Parent ).Property( control.BottomEdge.Connector.Edge ) ) );
             }
+
+            // BUG To nie zadziala
+            base.BuildRoutes( control.LeftEdge );
+            base.BuildRoutes( control.RightEdge );
+            base.BuildRoutes( control.TopEdge );
+            base.BuildRoutes( control.BottomEdge );
         }
 
-        private static CreateControlCommand CreateNewCommand( RoadJunctionBlock control )
+        private static UseCtorToCreateControl<RoadJunctionBlock> CreateNewCommand( RoadJunctionBlock control )
         {
-            var createCommand = new CreateControlCommand( control.Id, typeof( RoadJunctionBlock ) );
-            createCommand.AddConstructParameters( new IocParameter( typeof( Factories.Factories ) ) );
-            createCommand.AddConstructParameters( Parameter.Create( control.Location ) );
-            createCommand.AddConstructParameters( Parameter.Create<IControl>( null ) );
-            return createCommand;
+            return Actions.CreateControl( control.Id, () => new RoadJunctionBlock( Is.Ioc<Factories.Factories>(), Is.Const( control.Location ), Is.Const<IControl>( null ) ) );
         }
     }
 }

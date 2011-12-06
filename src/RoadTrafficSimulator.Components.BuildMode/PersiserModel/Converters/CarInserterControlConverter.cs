@@ -6,14 +6,14 @@ using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
 {
-    public class CarInserterControlConverter : IControlConverter
+    public class CarInserterControlConverter : ControlConverterBase
     {
-        public Type Type
+        public override Type Type
         {
             get { return typeof( CarsInserter ); }
         }
 
-        public IEnumerable<IAction> ConvertToAction( IControl control )
+        public override IEnumerable<IAction> ConvertToAction( IControl control )
         {
             return this.Convert( ( CarsInserter ) control );
         }
@@ -24,17 +24,17 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
 
             if ( control.Connector.OpositeEdge != null )
             {
-                yield return CallAction.Create<CarsInserter>( control.Id, () => control.Connector.ConnectEndWith( null ), ControlProperties.Create( control.Connector.ConnectedEdge.Parent, control.Connector.ConnectedEdge ) );
+                yield return Actions.Call<CarsInserter>(
+                            control.Id,
+                            () => control.Connector.ConnectEndWith( Find.In( control.Connector.ConnectedEdge.Parent ).Property( control.Connector.ConnectedEdge ) ) );
             }
+
+            yield return this.BuildRoutes( control );
         }
 
-        private static CreateControlCommand CreateNewCommand( CarsInserter control )
+        private static IAction CreateNewCommand( IControl control )
         {
-            var createCommand = new CreateControlCommand( control.Id, typeof( CarsInserter ) );
-            createCommand.AddConstructParameters( new IocParameter( typeof( Factories.Factories ) ) );
-            createCommand.AddConstructParameters( Parameter.Create( control.Location ) );
-            createCommand.AddConstructParameters( Parameter.Create<IControl>( null ) );
-            return createCommand;
+            return Actions.CreateControl( control.Id, () => new CarsInserter( Is.Ioc<Factories.Factories>(), Is.Const( control.Location ), Is.Const<IControl>( null ) ) );
         }
     }
 }

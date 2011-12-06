@@ -4,7 +4,7 @@ using System.Diagnostics;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands;
 using RoadTrafficSimulator.Infrastructure.Controls;
-using RoadTrafficSimulator.Infrastructure.DependencyInjection;
+using RoadTrafficSimulator.Infrastructure.Textures;
 
 namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
 {
@@ -22,18 +22,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
 
         private IEnumerable<IAction> Convert( LightBlock control )
         {
-            yield return CreateNewCommand( control );
+            yield return Actions.CreateControl( control.Id, () => new LightBlock( Is.Const( control.Location ), Is.Const( default( CachedTexture ) ) ) );
 
             Debug.Assert( control.Connector.Owner != null );
-            yield return CallAction.Create<LightBlock>( control.Id, () => control.Connector.ConnectWith( null ), ControlProperties.Create( control.Connector.Owner.Parent, control.Connector.Owner ) );
-        }
-
-        private static CreateControlCommand CreateNewCommand( LightBlock control )
-        {
-            var createCommand = new CreateControlCommand( control.Id, typeof( LightBlock ) );
-            createCommand.AddConstructParameters( Parameter.Create( control.Location ) );
-            createCommand.AddConstructParameters( new IocParameter( typeof( IContentManagerAdapter ) ) );
-            return createCommand;
+            yield return Actions.Call<LightBlock>( control.Id, () => control.Connector.ConnectWith( Find.In( control.Connector.Owner.Parent ).Property( control.Connector.Owner ) ) );
         }
     }
 }

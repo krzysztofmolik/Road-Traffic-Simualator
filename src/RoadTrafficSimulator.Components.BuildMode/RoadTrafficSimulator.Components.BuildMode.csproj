@@ -10,7 +10,8 @@
     <RootNamespace>RoadTrafficSimulator.Components.BuildMode</RootNamespace>
     <AssemblyName>RoadTrafficSimulator.Components.BuildMode</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
     <XnaProfile>HiDef</XnaProfile>
@@ -45,6 +46,9 @@
   <ItemGroup>
     <Reference Include="Autofac">
       <HintPath>..\..\libs\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.0.0.3001\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Common.Xna.FSharp">
       <HintPath>..\Common.Xna.FSharp\bin\Debug\Common.Xna.FSharp.dll</HintPath>
@@ -139,16 +143,24 @@
     <Compile Include="Messages\ExecuteCommand.cs" />
     <Compile Include="Messages\LoadMap.cs" />
     <Compile Include="Messages\SaveMap.cs" />
+    <Compile Include="PersiserModel\Commands\Actions.cs" />
     <Compile Include="PersiserModel\Commands\CallAction.cs" />
+    <Compile Include="PersiserModel\Commands\CallActionOnCreatedObject.cs" />
+    <Compile Include="PersiserModel\Commands\ControlProperties.cs" />
     <Compile Include="PersiserModel\Commands\ControlSerializer.cs" />
     <Compile Include="PersiserModel\Commands\CreateControlCommand.cs" />
     <Compile Include="PersiserModel\Commands\DeserializationContext.cs" />
     <Compile Include="PersiserModel\Commands\IAction.cs" />
     <Compile Include="PersiserModel\Commands\IocParameter.cs" />
+    <Compile Include="PersiserModel\Commands\IParameter.cs" />
     <Compile Include="PersiserModel\Commands\Parameter.cs" />
+    <Compile Include="PersiserModel\Commands\ResolveBaseOnId.cs" />
     <Compile Include="PersiserModel\Commands\SetProperties.cs" />
+    <Compile Include="PersiserModel\Commands\UseCtorToCreateControl.cs" />
+    <Compile Include="PersiserModel\Commands\UseCtorToCreateParamter.cs" />
     <Compile Include="PersiserModel\Converters\CarInserterControlConverter.cs" />
     <Compile Include="PersiserModel\Converters\CarsRemoverControlConverter.cs" />
+    <Compile Include="PersiserModel\Converters\ControlConverterBase.cs" />
     <Compile Include="PersiserModel\Converters\IControlConverter.cs" />
     <Compile Include="PersiserModel\Converters\LightControlConverter.cs" />
     <Compile Include="PersiserModel\Converters\RoadConnectionControlConverter.cs" />
@@ -223,6 +235,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Creators\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

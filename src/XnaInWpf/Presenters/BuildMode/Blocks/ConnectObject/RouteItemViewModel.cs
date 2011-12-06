@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Microsoft.Xna.Framework;
+using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using Common.Wpf;
 
@@ -11,13 +12,15 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
     {
         private readonly ObservableCollection<PriorityType> _priorityTypes;
         private readonly ControlViewModel _control;
+        private readonly RouteElement _orginalRouteElement;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public RouteItemViewModel(ControlViewModel control, IEnumerable<PriorityType> priorityTypes)
+        public RouteItemViewModel( ControlViewModel control, IEnumerable<PriorityType> priorityTypes, RouteElement orginalRouteElement )
         {
-            this._priorityTypes = new ObservableCollection<PriorityType>(priorityTypes);
+            this._priorityTypes = new ObservableCollection<PriorityType>( priorityTypes );
             this._control = control;
+            this._orginalRouteElement = orginalRouteElement;
         }
 
         public ObservableCollection<PriorityType> PriorityTypes
@@ -32,7 +35,8 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
             set
             {
                 this._priority = value;
-                this.PropertyChanged.Raise(this, () => this.Priority);
+                this._orginalRouteElement.PriorityType = value;
+                this.PropertyChanged.Raise( this, () => this.Priority );
             }
         }
 
@@ -47,9 +51,9 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
             get { return this._isSelectedOnSimulator; }
             set
             {
-                if (this._isSelectedOnSimulator == value) { return; }
+                if ( this._isSelectedOnSimulator == value ) { return; }
                 this._isSelectedOnSimulator = value;
-                if (this._isSelectedOnSimulator)
+                if ( this._isSelectedOnSimulator )
                 {
                     this._control.Control.VertexContainer.Color = Color.Red;
                 }
@@ -58,7 +62,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
                     this._control.Control.VertexContainer.ClearColor();
                 }
                 this._control.Control.Invalidate();
-                this.PropertyChanged.Raise(this, () => this.IsSelectedOnSimulator);
+                this.PropertyChanged.Raise( this, () => this.IsSelectedOnSimulator );
             }
         }
     }

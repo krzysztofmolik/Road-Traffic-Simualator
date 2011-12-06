@@ -9,7 +9,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
         private readonly IDictionary<Type, Action<IControl>> _beginWithHandlers = new Dictionary<Type, Action<IControl>>();
         private readonly IDictionary<Type, Action<IControl>> _endWithHandlers = new Dictionary<Type, Action<IControl>>();
 
-        public void ConnectBegintWith( IControl control )
+        public void ConnectBeginWith( IControl control )
         {
             var handler = this.GetBeginHandler( control );
             handler( control );

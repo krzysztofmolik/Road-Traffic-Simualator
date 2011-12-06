@@ -7,7 +7,7 @@ using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class RoadConnection : Edge, IEdgeLine
+    public class RoadConnection : Edge, IEdgeLine, IRoadElement
     {
         private readonly RoadConnectionConnector _connector;
         private readonly Routes _routes = new Routes();

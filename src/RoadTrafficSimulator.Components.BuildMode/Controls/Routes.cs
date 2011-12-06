@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
@@ -19,5 +20,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this._routes.Add( route );
         }
 
+        public void AddRoute( Route route )
+        {
+            if (route == null) throw new ArgumentNullException("route");
+            this._routes.Add( route );
+        }
     }
 }

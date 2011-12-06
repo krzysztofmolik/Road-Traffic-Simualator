@@ -142,7 +142,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public override IControl Parent { get; set; }
     }
 
-    public class EndRoadLaneEdge : Edge
+    public class EndRoadLaneEdge : Edge, IRoadElement
     {
         private RoadLaneBlock _parrent;
         private readonly IMouseHandler _notMovableMouseHandler;

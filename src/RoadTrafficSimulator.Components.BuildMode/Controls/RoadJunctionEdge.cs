@@ -7,7 +7,7 @@ using RoadTrafficSimulator.Infrastructure.Draw;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class RoadJunctionEdge : Edge
+    public class RoadJunctionEdge : Edge, IRoadElement
     {
         private readonly RoadJunctionEdgeConnector _roadJunctionEndConnector;
         private readonly Routes _routes = new Routes();

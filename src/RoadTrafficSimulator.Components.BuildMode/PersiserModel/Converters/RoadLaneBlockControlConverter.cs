@@ -7,14 +7,14 @@ using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
 {
-    public class RoadLaneBlockControlConverter : IControlConverter
+    public class RoadLaneBlockControlConverter : ControlConverterBase
     {
-        public Type Type
+        public override Type Type
         {
             get { return typeof( RoadLaneBlock ); }
         }
 
-        public IEnumerable<IAction> ConvertToAction( IControl control )
+        public override IEnumerable<IAction> ConvertToAction( IControl control )
         {
             Debug.Assert( control is RoadLaneBlock );
             return this.Convert( ( RoadLaneBlock ) control );
@@ -25,23 +25,27 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
             yield return CreateNewCommand( control );
             if ( control.LeftEdge.Connector.PreviousEdge != null )
             {
-                // BUG
-                yield return CallAction.Create<RoadLaneBlock>( control.Id, () => control.LeftEdge.Connector.ConnectBegintWith( null ), ControlProperties.Create( control.LeftEdge.Connector.PreviousEdge.Parent, control.LeftEdge.Connector.PreviousEdge ) );
+                yield return Actions.Call<RoadLaneBlock>(
+                            control.Id,
+                    // BUG To nie bedzie dzialac
+                            () => control.LeftEdge.Connector.ConnectBeginWith( ( IControl ) Find.In( control.LeftEdge.Connector.PreviousEdge.Parent ).Property( control.LeftEdge.Connector.PreviousEdge ) ) );
             }
 
-            if ( control.RightEdge.Connector.NextEdge != null )
+            if ( control.RightEdge.Connector.PreviousEdge != null )
             {
-                // BUG wrong method is taken
-                yield return CallAction.Create<RoadLaneBlock>( control.Id, () => control.RightEdge.Connector.ConnectEndWith( null ), ControlProperties.Create( control.RightEdge.Connector.NextEdge.Parent, control.RightEdge.Connector.NextEdge ) );
+                yield return Actions.Call<RoadLaneBlock>(
+                            control.Id,
+                    // BUG To nie bedzie dzialac
+                            () => control.LeftEdge.Connector.ConnectBeginWith( ( IControl ) Find.In( control.RightEdge.Connector.PreviousEdge.Parent ).Property( control.RightEdge.Connector.PreviousEdge ) ) );
             }
+
+            base.BuildRoutes( control.LeftEdge );
+            base.BuildRoutes( control.RightEdge );
         }
 
-        private static CreateControlCommand CreateNewCommand( RoadLaneBlock control )
+        private static UseCtorToCreateControl<RoadLaneBlock> CreateNewCommand( RoadLaneBlock control )
         {
-            var createCommand = new CreateControlCommand( control.Id, typeof( RoadLaneBlock ) );
-            createCommand.AddConstructParameters( new IocParameter( typeof( Factories.Factories ) ) );
-            createCommand.AddConstructParameters( Parameter.Create<IControl>( null ) );
-            return createCommand;
+            return Actions.CreateControl( control.Id, () => new RoadLaneBlock( Is.Ioc<Factories.Factories>(), Is.Const<IControl>( null ) ) );
         }
     }
 }

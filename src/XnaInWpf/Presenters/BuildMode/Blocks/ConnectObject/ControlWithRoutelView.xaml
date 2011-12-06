@@ -4,9 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:Converters="clr-namespace:RoadTrafficConstructor.Converters"
-             xmlns:cal="http://www.caliburnproject.org"
-             xmlns:ConnectObject="clr-namespace:RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject"
-             mc:Ignorable="d"
+             xmlns:cal="http://www.caliburnproject.org" mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=ConnectObject:ControlWithRoutelViewModel}">
@@ -21,7 +19,7 @@
         </Grid.RowDefinitions>
         <Label Grid.Row="0"
                FontSize="14"
-               Content="{Binding ControlType}"
+               Content="{Binding Path=ControlType}"
                HorizontalAlignment="Center" />
         <StackPanel Orientation="Horizontal"
                     Grid.Row="1">
@@ -29,7 +27,7 @@
             <Label Content="{Binding Path=Location, Converter={StaticResource ResourceKey=VectorToString}}" />
         </StackPanel>
         <ListBox Grid.Row="2"
-                 ItemsSource="{Binding Path=Routes }"
+                 ItemsSource="{Binding Path=Routes}"
                  SelectedItem="{Binding Path=SelectedRoad}"
                  HorizontalAlignment="Stretch">
             <ListBox.ItemContainerStyle>

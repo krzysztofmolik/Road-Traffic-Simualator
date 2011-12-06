@@ -4,26 +4,28 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Autofac;
 using System.Linq;
+using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
 {
     [Serializable]
-    public class IocParameter : IParameter
+    public class IocParameter<T> : IAction
     {
         private readonly Type _type;
+        private readonly Guid _id = Guid.NewGuid();
 
-        public static IocParameter Create<T>()
+        public IocParameter()
         {
-            return new IocParameter( typeof( T ) );
+            this._type = typeof( T );
         }
 
-        public IocParameter( Type type )
+        public Order Priority
         {
-            this._type = type;
+            get { return Order.Low; }
         }
 
-        public object GetValue( DeserializationContext context )
+        public object Execute( DeserializationContext context )
         {
             return context.IoC.Resolve( this._type );
         }
@@ -32,50 +34,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
         {
             get { return _type; }
         }
-    }
 
-    [Serializable]
-    public class ControlProperties : IParameter
-    {
-        private readonly Type _type;
-        private readonly Guid _ownerId;
-        private readonly MemberInfo _memberInfo;
-
-        public static ControlProperties Create<TOwner, TProperty>( TOwner owner, TProperty propertyValue ) where TOwner : IControl
+        public Guid CommandId
         {
-            var property = owner.GetType().GetProperties().Where( s => s.PropertyType.IsAssignableFrom( propertyValue.GetType() ) ).FirstOrDefault( s => s.GetValue( owner, null ) == ( object ) propertyValue );
-            return new ControlProperties( typeof( TProperty ), owner.Id, property );
-        }
-
-        public static ControlProperties Create<T>( Guid ownerId, Expression<Func<T>> expression )
-        {
-            var memeberExpression = expression.Body as MemberExpression;
-            if ( memeberExpression == null ) { throw new ArgumentException(); }
-            return new ControlProperties( typeof( T ), ownerId, memeberExpression.Member );
-        }
-
-        public ControlProperties( Type type, Guid ownerId, MemberInfo memberInfo )
-        {
-            Contract.Requires( type != null );
-            Contract.Requires( memberInfo != null );
-            this._type = type;
-            this._ownerId = ownerId;
-            this._memberInfo = memberInfo;
-        }
-
-        public object GetValue( DeserializationContext context )
-        {
-            var owner = context.GetById( this._ownerId );
-            if ( this._memberInfo is PropertyInfo )
-            {
-                return ( ( PropertyInfo ) this._memberInfo ).GetValue( owner, null );
-            }
-            return ( ( FieldInfo ) this._memberInfo ).GetValue( owner );
-        }
-
-        public Type Type
-        {
-            get { return this._type; }
+            get { return this._id; }
         }
     }
 }
