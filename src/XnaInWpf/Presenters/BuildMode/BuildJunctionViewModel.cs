@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using Common;
 using Common.Wpf;
@@ -10,7 +9,6 @@ namespace RoadTrafficConstructor.Presenters.BuildMode
     public class BuildJunctionViewModel : INotifyPropertyChanged, IHandle<ChangeBlock>
     {
         private IBlockViewModel _selectedItem;
-        private IEnumerable<IBlockViewModel> _blocks;
         private readonly IEventAggregator _eventAggregator;
 
         public BuildJunctionViewModel( IEventAggregator eventAggregator )

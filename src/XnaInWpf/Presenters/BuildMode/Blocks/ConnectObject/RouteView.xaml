@@ -28,8 +28,8 @@
                         <Setter Property="Visibility" Value="Collapsed" />
                     </Style>
                 </ListView.Resources>
-                <ListView.View>
-                    <GridView>
+                <ListView.View >
+                    <GridView d:DataContext="{d:DesignInstance Type=ConnectObject:RouteItemViewModel}">
                         <GridViewColumn>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -43,7 +43,7 @@
                                 <DataTemplate>
                                     <ComboBox MinWidth="50"
                                           ItemsSource="{Binding Path=PriorityTypes}"
-                                          SelectedValue="{Binding Path=ProrityType}" />
+                                          SelectedValue="{Binding Path=Priority}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
