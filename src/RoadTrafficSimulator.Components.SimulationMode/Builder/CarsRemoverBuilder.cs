@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
@@ -13,6 +14,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             var builder = new Builder();
             yield return new BuilderAction( Order.High, context => builder.Build( context, control ) );
             yield return new BuilderAction( Order.Normal, builder.Connect );
+            yield return new BuilderAction( Order.Low, builder.Setup );
         }
 
         public bool CanCreate( IControl control )
@@ -26,7 +28,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 
             public void Build( BuilderContext context, IControl control )
             {
-                var roadJunctionBlock = (CarsRemoverBuildMode) control;
+                var roadJunctionBlock = ( CarsRemoverBuildMode ) control;
                 this._carsRemover = new CarsRemover( roadJunctionBlock, c => context.RoadInformationFactory.Create( c ) );
                 context.AddElement( roadJunctionBlock, this._carsRemover );
             }
@@ -34,11 +36,16 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             public void Connect( BuilderContext builderContext )
             {
                 var connectedLane = this._carsRemover.CarsRemoverBuilder.Connector.OpositeEdge;
-                if( connectedLane == null )
+                if ( connectedLane == null )
                 {
                     return;
                 }
                 this._carsRemover.Lane = builderContext.GetObject<Lane>( connectedLane.Parent );
+            }
+
+            public void Setup( BuilderContext obj )
+            {
+                this._carsRemover.Routes = new Routes( Enumerable.Empty<BuildRoute>() );
             }
         }
     }

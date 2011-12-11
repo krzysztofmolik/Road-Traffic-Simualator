@@ -27,6 +27,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string _name;
+        private bool _isSelected;
 
         public string Name
         {
@@ -54,16 +55,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
             get { return this._items; }
         }
 
-        public void SwitchToAddMode()
-        {
-            this.IsAddMode = true;
-        }
-
-        public void SwitchToSelectionMode()
-        {
-        }
-
-        protected bool IsAddMode
+        public bool IsAddMode
         {
             get
             {
@@ -74,6 +66,21 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
                 this._isAddMode = value;
                 this.PropertyChanged.Raise( this, () => this.IsAddMode );
             }
+        }
+
+        public bool IsSelected
+        {
+            get { return this._isSelected; }
+            set
+            {
+                this._isSelected = value;
+                this.PropertyChanged.Raise( this, () => this.IsSelected );
+            }
+        }
+
+        public Route OrginalRoute
+        {
+            get { return this._orignalRoute; }
         }
 
         public void ControlClicked( ControlViewModel controlViewModel )

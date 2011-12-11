@@ -36,5 +36,29 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return Constans.PointSize;
         }
 
+        public bool ShouldChange( Car car )
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetCarAheadDistance( IRouteMark<IRoadElement> routMark, CarInformation carInformation )
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )
+        {
+            throw new NotImplementedException();
+        }
+
+        public Vector2 GetCarDirection( Car car, IRoadElement nextPoint )
+        {
+            throw new NotImplementedException();
+        }
+
+        public float GetCarDistanceTo( Car car, IRoadElement nextPoint )
+        {
+            throw new NotImplementedException();
+        }
     }
 }

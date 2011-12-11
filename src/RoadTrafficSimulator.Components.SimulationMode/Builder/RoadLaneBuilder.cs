@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
@@ -26,6 +27,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
         private class Builder
         {
             private Lane _lane;
+            private readonly BuildRoutesToSimulationRoutesConverter _converter = new BuildRoutesToSimulationRoutesConverter();
 
             public void Build( BuilderContext context, IControl control )
             {
@@ -42,6 +44,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 
             public void SetUp(BuilderContext obj)
             {
+                this._lane.Routes = new Routes( this._converter.Convert( this._lane.RoadLaneBlock.RightEdge.Routes.AvailableRoutes, obj ).ToArray() );
 //                this._lane.RoadLaneBlock.LeftEdge.Routes.CalculateProbabilities();
 //                this._lane.RoadLaneBlock.RightEdge.Routes.CalculateProbabilities();
 //                this._lane.RoadLaneBlock.TopEdge.Routes.CalculateProbabilities();

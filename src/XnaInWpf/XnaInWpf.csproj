@@ -35,7 +35,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
     <Utf8Output>true</Utf8Output>
-    <ExpressionBlendVersion>4.0.20310.0</ExpressionBlendVersion>
+    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,6 +76,7 @@
     <Reference Include="NLog.Extended">
       <HintPath>..\packages\NLog.2.0.0.0\lib\NET40\NLog.Extended.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -129,7 +130,11 @@
     <Compile Include="Converters\BooleanToColorConverter.cs" />
     <Compile Include="Converters\BoolNegation.cs" />
     <Compile Include="Converters\ConveterBase.cs" />
+    <Compile Include="Converters\TrueToCollapseConverter.cs" />
     <Compile Include="Converters\VectorToStringConveter.cs" />
+    <Compile Include="DataStore\DataStore\DataStore.xaml.cs">
+      <DependentUpon>DataStore.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presenters\BottomTabs\ControlView.xaml.cs">
       <DependentUpon>ControlView.xaml</DependentUpon>
     </Compile>
@@ -194,6 +199,10 @@
     </Compile>
     <Compile Include="Presenters\SimulationMode\SimulationViewModel.cs" />
     <Compile Include="XnaInWpfModule.cs" />
+    <Page Include="DataStore\DataStore\DataStore.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Presenters\BottomTabs\ControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -283,6 +292,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <DesignTimeOnly Include="DataStore\DataStore\DataStore.xsd" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -347,7 +357,7 @@
     <Resource Include="Images\RoadLane.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SampleData\" />
+    <DesignData Include="SampleData\RouteViewMod.xaml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

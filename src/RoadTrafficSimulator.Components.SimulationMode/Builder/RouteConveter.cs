@@ -22,7 +22,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             return routes;
         }
 
-        private Route Convert( BuildMode.Controls.Route route )
+        private BuildRoute Convert( BuildMode.Controls.Route route )
         {
 //            var controls = route.Select( s => this._roadElementsResolver( s ) );
 //            return new Route( controls ) { Probability = route.Probability };

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Infrastructure;
@@ -25,6 +26,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
         private class Builder
         {
             private LaneJunction _junction;
+            private readonly BuildRoutesToSimulationRoutesConverter _converter = new BuildRoutesToSimulationRoutesConverter();
 
             public void Build( BuilderContext context, IControl control )
             {
@@ -70,6 +72,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
                 this._junction.BuildControl.VertexContainer.ReloadTextures();
 
 //                this._junction.JunctionBuilder.RoadJunctionEdges.ForEach( e => e.Routes.CalculateProbabilities() );
+                this._junction.Bottom.Routes = new Routes( this._converter.Convert( this._junction.Bottom.EdgeBuilder.Routes.AvailableRoutes, obj ).ToArray() );
+                this._junction.Left.Routes = new Routes( this._converter.Convert( this._junction.Bottom.EdgeBuilder.Routes.AvailableRoutes, obj ).ToArray() );
+                this._junction.Top.Routes = new Routes( this._converter.Convert( this._junction.Bottom.EdgeBuilder.Routes.AvailableRoutes, obj ).ToArray() );
+                this._junction.Right.Routes = new Routes( this._converter.Convert( this._junction.Bottom.EdgeBuilder.Routes.AvailableRoutes, obj ).ToArray() );
             }
         }
     }

@@ -1,0 +1,124 @@
+﻿<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteViewModel xmlns:RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject="clr-namespace:RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject" xmlns:RoadTrafficSimulator_Infrastructure_Controls="clr-namespace:RoadTrafficSimulator.Infrastructure.Controls;assembly=RoadTrafficSimulator.Infrastructure" Name="Eleifend fusce">
+	<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteViewModel.Items>
+		<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel IsSelectedOnSimulator="False" Priority="None">
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+				<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:ControlViewModel ControlType="Maecenas aenean" IsSelected="True"/>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromRight</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromRight</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromFront</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>Light</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromFront</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+		</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel>
+		<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel IsSelectedOnSimulator="False" Priority="Light">
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+				<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:ControlViewModel ControlType="Mauris aliquam" IsSelected="True"/>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromRight</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>None</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromRight</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromLeft</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromFront</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+		</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel>
+		<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel IsSelectedOnSimulator="False" Priority="FromFront">
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+				<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:ControlViewModel ControlType="Integer praesent" IsSelected="True"/>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromFront</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>Light</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>None</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromLeft</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>None</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+		</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel>
+		<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel IsSelectedOnSimulator="False" Priority="FromLeft">
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+				<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:ControlViewModel ControlType="Nullam nam" IsSelected="True"/>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromRight</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>None</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>None</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>None</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromFront</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+		</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel>
+		<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel IsSelectedOnSimulator="False" Priority="FromLeft">
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+				<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:ControlViewModel ControlType="Quisque" IsSelected="True"/>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromRight</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>Light</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromFront</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromRight</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromFront</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+		</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel>
+		<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel IsSelectedOnSimulator="False" Priority="Light">
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+				<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:ControlViewModel ControlType="Sed" IsSelected="True"/>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromFront</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromFront</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromFront</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromLeft</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>None</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+		</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel>
+		<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel IsSelectedOnSimulator="False" Priority="FromLeft">
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+				<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:ControlViewModel ControlType="Accumsan cras" IsSelected="True"/>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>Light</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>None</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromLeft</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromLeft</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>Light</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+		</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel>
+		<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel IsSelectedOnSimulator="False" Priority="FromLeft">
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+				<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:ControlViewModel ControlType="Dis" IsSelected="True"/>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromLeft</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromFront</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromRight</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromLeft</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromLeft</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+		</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel>
+		<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel IsSelectedOnSimulator="False" Priority="None">
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+				<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:ControlViewModel ControlType="Bibendum duis" IsSelected="True"/>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>None</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromFront</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromFront</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromLeft</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromLeft</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+		</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel>
+		<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel IsSelectedOnSimulator="False" Priority="FromLeft">
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+				<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:ControlViewModel ControlType="Dictumst class" IsSelected="True"/>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.Control>
+			<RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromRight</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>FromFront</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>None</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>None</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+				<RoadTrafficSimulator_Infrastructure_Controls:PriorityType>Light</RoadTrafficSimulator_Infrastructure_Controls:PriorityType>
+			</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel.PriorityTypes>
+		</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteItemViewModel>
+	</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteViewModel.Items>
+</RoadTrafficConstructor_Presenters_BuildMode_Blocks_ConnectObject:RouteViewModel>

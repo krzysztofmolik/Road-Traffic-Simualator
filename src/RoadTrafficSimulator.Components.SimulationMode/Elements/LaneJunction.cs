@@ -57,11 +57,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
             }
         }
 
-        public override IRoadInformation RoadInformation
-        {
-            get { return this._roadInformation; }
-        }
-
         public void AddLight( int edge, Light.Light light )
         {
             Contract.Requires( edge > 0 && edge < EdgeType.Count );

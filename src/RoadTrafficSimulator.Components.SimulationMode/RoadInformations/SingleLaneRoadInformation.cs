@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Conductors;
@@ -45,16 +46,16 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return true;
         }
 
-        public bool ShouldChange(Car car)
+        public bool ShouldChange( Car car )
         {
             var distance = this._lane.RoadLaneBlock.RightEdge.Location - car.Location;
-            // TODO Check value and extract some kind of property
+            // TODO:
             if ( distance.Length() <= 0.001f ) { return true; }
 
             return Math.Sign( distance.X ) != Math.Sign( car.Direction.X ) && Math.Sign( distance.Y ) != Math.Sign( car.Direction.Y );
         }
 
-        public void GetCarAheadDistance(IRouteMark<IRoadElement> routMark, CarInformation carInformation)
+        public void GetCarAheadDistance( IRouteMark<IRoadElement> routMark, CarInformation carInformation )
         {
             throw new NotImplementedException();
         }
@@ -75,13 +76,20 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             else
             {
                 carInformation.CurrentDistance += Vector2.Distance( this._lane.RoadLaneBlock.LeftEdge.Location, this._lane.RoadLaneBlock.RightEdge.Location );
-//                this._lane.Prev.RoadInformation.GetFirstCarToOutInformation( carInformation );
+                //                this._lane.Prev.RoadInformation.GetFirstCarToOutInformation( carInformation );
             }
         }
 
-        public Vector2 GetCarDirection( Car car )
+        public Vector2 GetCarDirection( Car car, IRoadElement nextPoint )
         {
             return this._lane.RoadLaneBlock.RightEdge.Location - car.Location;
+        }
+
+        public float GetCarDistanceTo( Car car, IRoadElement nextPoint )
+        {
+            Debug.Assert( this._lane.Next == nextPoint );
+
+            return Vector2.Distance( car.Location, nextPoint.BuildControl.Location );
         }
     }
 }

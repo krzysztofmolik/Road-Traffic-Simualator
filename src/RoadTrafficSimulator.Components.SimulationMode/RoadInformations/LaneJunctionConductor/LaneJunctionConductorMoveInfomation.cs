@@ -49,5 +49,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
 //            var item = this._laneJunction.Edges.Where( s => s.ConnectedEdge == roadElement ).FirstOrDefault();
 //            return item;
 //        }
+        public void ShouldChange( Vector2 location )
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,5 +1,7 @@
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using System.Linq;
+using RoadTrafficSimulator.Components.SimulationMode.Route;
+using Routes = RoadTrafficSimulator.Components.SimulationMode.Builder.Routes;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Elements
 {
@@ -16,6 +18,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         public LaneJunction Junction { get; set; }
         public IRoadElement ConnectedEdge { get; set; }
         public IDrawer Drawer { get; private set; }
+        public Routes Routes { get; set; }
 
         public JunctionEdgeConductor Situation { get; private set; }
     }

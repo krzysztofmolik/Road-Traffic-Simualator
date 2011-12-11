@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Infrastructure;
 
@@ -17,15 +16,20 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         public void Process( Car car, IEngine engine )
         {
             var road = car.Conductors.Clone();
-            var endDistance = road.Current.GetDistanceToEnd( car );
-            var informatin = new RoadInformation();
-            informatin.Distance = endDistance;
+            var endDistance = road.Current.RoadInformation.GetCarDistanceTo( car, road.GetNext().RoadElement );
+            var informatin = new RoadInformation
+                                 {
+                                     Distance = endDistance
+                                 };
+
+            var end = car.Conductors.Current.Process( car, informatin );
+            if ( end ) { return; }
 
             while ( informatin.Distance < UnitConverter.FromMeter( 100.0f ) && road.MoveNext() )
             {
                 var endProcessing = road.Current.Process( car, informatin );
                 if ( endProcessing ) { break; }
-                informatin.Distance += road.Current.Length;
+                informatin.Distance += road.Current.RoadInformation.Lenght( road.GetPrevious().RoadElement, road.GetNext().RoadElement );
             }
         }
     }
@@ -35,7 +39,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         private readonly Car _car;
         private readonly IEngine _currentState;
         private readonly RoadIterator _roadIterator;
-        private IConductor _currentConductor;
 
         public CarStateMachine( Car car )
         {
@@ -47,32 +50,27 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 
         public void Update( TimeSpan timeFrame )
         {
-            if ( this._currentConductor == null )
+            if ( this._car.Conductors.Current.RoadInformation.ShouldChange( this._car ) )
             {
-                this._currentConductor = this._car.Conductors.Current;
-            }
-
-            if ( this._currentConductor.ShouldChange( this._car ) )
-            {
-                this._car.Conductors.MoveNext();
-                this.ChangeConductor( this._car.Conductors.Current );
+                this.ChangeConductor();
             }
 
             this._roadIterator.Process( this._car, this._currentState );
         }
 
-        private void ChangeConductor( IConductor roadElement )
+        private void ChangeConductor()
         {
-            this._currentConductor.OnExit( this._car );
-            this._currentConductor.OnEnter( this._car );
-            var direction = this._currentConductor.GetCarDirection( this._car );
+            this._car.Conductors.Current.RoadInformation.OnExit( this._car );
+            this._car.Conductors.MoveNext();
+            this._car.Conductors.Current.RoadInformation.OnEnter( this._car );
+            var direction = this._car.Conductors.Current.RoadInformation.GetCarDirection( this._car, this._car.Conductors.GetNext().RoadElement );
             if ( direction == Vector2.Zero )
             {
                 this._car.Direction = direction;
             }
             else
             {
-                this._car.Direction = Vector2.Normalize( this._currentConductor.GetCarDirection( this._car ) );
+                this._car.Direction = Vector2.Normalize( direction );
             }
         }
     }

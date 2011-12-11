@@ -16,7 +16,7 @@
 
         <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0">
             <Border.Background>
-                <SolidColorBrush Color="{StaticResource BorderBackground}"/>
+                <SolidColorBrush Color="{DynamicResource BorderBackground}"/>
             </Border.Background>
             <StackPanel Orientation="Vertical">
                 <Button Content="Back" cal:Message.Attach="GoBack"/>

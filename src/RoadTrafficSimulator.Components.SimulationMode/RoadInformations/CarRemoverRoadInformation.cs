@@ -47,7 +47,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return true;
         }
 
-        public bool ShouldChange(Car car)
+        public bool ShouldChange( Car car )
         {
             return false;
         }
@@ -63,10 +63,14 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             Debug.Assert( false );
         }
 
-        public Vector2 GetCarDirection(Car car)
+        public Vector2 GetCarDirection( Car car, IRoadElement nextPoint )
         {
             return new Vector2( 0, 0 );
         }
 
+        public float GetCarDistanceTo( Car car, IRoadElement nextPoint )
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

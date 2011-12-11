@@ -6,6 +6,17 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
     public class Route<T> : IRouteMark<T>
     {
         private readonly List<T> _route = new List<T>();
+
+        public Route()
+        {
+        }
+
+        public Route( IEnumerable<T> items )
+        {
+            this._route = new List<T>( items );
+            this._routeMark = new RouteMark<T>( this );
+        }
+
         private RouteMark<T> _routeMark;
 
         public void Add( T roadElement )

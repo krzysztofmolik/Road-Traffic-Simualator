@@ -25,5 +25,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             if (route == null) throw new ArgumentNullException("route");
             this._routes.Add( route );
         }
+
+        public void Remove( Route route )
+        {
+            if( route == null ) throw new ArgumentNullException( "route" );
+            this._routes.Remove( route );
+        }
     }
 }

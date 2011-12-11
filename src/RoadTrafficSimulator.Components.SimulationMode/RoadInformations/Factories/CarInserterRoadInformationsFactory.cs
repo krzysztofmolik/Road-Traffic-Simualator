@@ -1,5 +1,4 @@
 using System;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Factories

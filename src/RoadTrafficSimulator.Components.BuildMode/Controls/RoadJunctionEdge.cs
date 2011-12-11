@@ -10,8 +10,6 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
     public class RoadJunctionEdge : Edge, IRoadElement
     {
         private readonly RoadJunctionEdgeConnector _roadJunctionEndConnector;
-        private readonly Routes _routes = new Routes();
-
         private RoadJunctionBlock _parent;
         private readonly IVertexContainer<VertexPositionColor> _vertexContainer;
 
@@ -33,7 +31,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             get { return this._roadJunctionEndConnector; }
         }
 
-        public Routes Routes { get { return this._routes; } }
+        public Routes Routes { get; set; }
 
         public RoadJunctionBlock RoadJunctionParent
         {

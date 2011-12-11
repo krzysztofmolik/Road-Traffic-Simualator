@@ -48,6 +48,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\libs\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.0.0.3001\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
     </Reference>
@@ -117,6 +120,15 @@
     <Compile Include="RoadInformations\CarInserterRoadInformation.cs" />
     <Compile Include="RoadInformations\CarRemoverRoadInformation.cs" />
     <Compile Include="RoadInformations\CarStateMachine.cs" />
+    <Compile Include="RoadInformations\Conductors\Infrastructure\ConductorResolver.cs" />
+    <Compile Include="RoadInformations\Conductors\Infrastructure\ConductorSupportedRoadElementTypeAttribute.cs" />
+    <Compile Include="RoadInformations\Conductors\Infrastructure\PriorityConductorInformationAttribute.cs" />
+    <Compile Include="RoadInformations\Conductors\Infrastructure\RouteToConductorConverter.cs" />
+    <Compile Include="RoadInformations\Conductors\IConductor.cs" />
+    <Compile Include="RoadInformations\Conductors\SimpleCarInserterCondcutor.cs" />
+    <Compile Include="RoadInformations\Conductors\SimpleCarRemoverCondcutor.cs" />
+    <Compile Include="RoadInformations\Conductors\SimpleLanerCondcutor.cs" />
+    <Compile Include="RoadInformations\Conductors\SimpleLanerCornerCondcutor.cs" />
     <Compile Include="RoadInformations\Engine.cs" />
     <Compile Include="RoadInformations\Factories\CarInserterRoadInformationsFactory.cs" />
     <Compile Include="RoadInformations\Factories\CarRemoverRoadInformationsFactory.cs" />
@@ -128,7 +140,6 @@
     <Compile Include="RoadInformations\Factories\LightRoadInformationsFactory.cs" />
     <Compile Include="RoadInformations\Factories\SingleLineRoadInformationsFactory.cs" />
     <Compile Include="RoadInformations\FirstCarToOutInformation.cs" />
-    <Compile Include="RoadInformations\IConductor.cs" />
     <Compile Include="RoadInformations\IEngine.cs" />
     <Compile Include="RoadInformations\IRoadInformation.cs" />
     <Compile Include="RoadInformations\LaneCornerRoadInformation.cs" />

@@ -1,12 +1,12 @@
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
+using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
-using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
 using RoadTrafficSimulator.Infrastructure;
 
-namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
+namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 {
     public class CarInserterRoadInformation : IRoadInformation
     {
@@ -39,13 +39,14 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             return this._cars.Contains( car );
         }
 
-        public bool ShouldChange(Car car)
+        public bool ShouldChange( Car car )
         {
             return true;
         }
 
-        public void GetCarAheadDistance( FirstCarToOutInformation carInformation )
+        public void GetCarAheadDistance( IRouteMark<IRoadElement> routMark, CarInformation carInformation )
         {
+            throw new System.NotImplementedException();
 //            var carAhead = this._cars.GetCarAheadOf( carInformation.QuestioningCar );
 //            if ( carAhead == null )
 //            {
@@ -70,10 +71,15 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
             }
         }
 
-        public Vector2 GetCarDirection( Car car )
+        public Vector2 GetCarDirection( Car car, IRoadElement nextPoint )
         {
 //            return this._carInserter.Lane.RoadInformation.GetCarDirection( car );
             return Vector2.Zero;
+        }
+
+        public float GetCarDistanceTo( Car car, IRoadElement nextPoint )
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -37,11 +37,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
             this._carId++;
             if ( startElement == null ) throw new ArgumentNullException( "startElement" );
-            var car = this.GetRandomCarSpecifcation().Create();
-//            this.GetRandomRoute( startElement ).ForEach( car.RoadElements.Add );
-//            car.CarId = this._carId;
 
-//            startElement.RoadInformation.OnEnter( car );
+            var car = this.GetRandomCarSpecifcation().Create( startElement );
             this._eventAggregator.Publish( new CarCreated( car ) );
         }
 
@@ -51,19 +48,5 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             return this._carsSpecifications[ index ];
         }
 
-        private IEnumerable<IRoadElement> GetRandomRoute( CarsInserter startElement )
-        {
-            var result = new List<IRoadElement>();
-            result.AddRange( startElement.Routes.GetRandomRoute( this._rng ) );
-
-            while ( true )
-            {
-                var nextRoute = result.Last().Routes.GetRandomRoute( this._rng ).ToArray();
-                if ( nextRoute.Length == 0 ) { break; }
-
-                result.AddRange( nextRoute );
-            }
-            return result;
-        }
     }
 }
