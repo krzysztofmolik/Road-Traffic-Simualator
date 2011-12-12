@@ -1,6 +1,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
+using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJunctionConductor
 {
@@ -13,7 +14,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
         }
         private JunctionEdge GetEdgeConnectedWith( IRoadElement roadElement )
         {
-            var item = this._laneJunction.Edges.Where( s => s.ConnectedEdge == roadElement ).FirstOrDefault();
+            var item = this._laneJunction.Edges.FirstOrDefault(s => s.ConnectedEdge == roadElement);
             return item;
         }
 
@@ -33,6 +34,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
             var nextEdge = this.GetEdgeConnectedWith(next);
 
             return Vector2.Distance(previousEdge.EdgeBuilder.Location, nextEdge.EdgeBuilder.Location);
+        }
+
+        public Vector2 GetCarDirection( Car car, IRoadElement nextPoint )
+        {
+            var edge = this.GetEdgeConnectedWith( nextPoint );
+            return edge.EdgeBuilder.Location - car.Location;
         }
     }
 }

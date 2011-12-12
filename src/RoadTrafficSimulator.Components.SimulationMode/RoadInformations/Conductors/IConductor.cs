@@ -1,13 +1,14 @@
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
+using RoadTrafficSimulator.Components.SimulationMode.Route;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors
 {
     public interface IConductor
     {
-        bool Process( Car car, RoadInformation endDistance );
+        RoadInformation Process( Car car, IRouteMark<IConductor> route );
         void SetRouteElement( IRoadElement element );
         void SetCanStopOnIt( bool canStopOnIt );
-        IRoadInformation RoadInformation { get; }
+        IRoadInformation Information { get; }
         IRoadElement RoadElement { get; }
     }
 }

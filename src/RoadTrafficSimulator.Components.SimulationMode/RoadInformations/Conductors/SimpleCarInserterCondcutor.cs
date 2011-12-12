@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors.Infrastructure;
+using RoadTrafficSimulator.Components.SimulationMode.Route;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
@@ -15,9 +16,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
         private bool _canStopOnIt;
         private CarsInserter _carInserter;
 
-        public bool Process( Car car, RoadInformation endDistance )
+        public RoadInformation Process( Car car, IRouteMark<IConductor> route )
         {
-            throw new System.NotImplementedException();
+            return RoadInformation.Empty;
         }
 
         public void SetRouteElement( IRoadElement element )
@@ -32,7 +33,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
             this._canStopOnIt = canStopOnIt;
         }
 
-        public IRoadInformation RoadInformation
+        public IRoadInformation Information
         {
             get { return this._carInserter.RoadInformation; }
         }

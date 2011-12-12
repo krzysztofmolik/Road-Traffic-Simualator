@@ -148,6 +148,7 @@
     <Compile Include="RoadInformations\LaneJunctionConductor\LaneJunctionConductorMoveInfomation.cs" />
     <Compile Include="RoadInformations\LaneJunctionConductor\RoadLaneJuctionRoadInformation.cs" />
     <Compile Include="RoadInformations\NextAvailablePointToStopInfo.cs" />
+    <Compile Include="RoadInformations\RoadInformation.cs" />
     <Compile Include="RoadInformations\SingleLaneRoadInformation.cs" />
     <Compile Include="Controlers\CarsDrawerControler.cs" />
     <Compile Include="Controlers\CarsInserterControler.cs" />

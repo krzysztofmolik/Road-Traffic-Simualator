@@ -160,6 +160,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             : base( factories, startPoint, endPoint, Styles.NormalStyle )
         {
             this._parrent = parent;
+            this._notMovableMouseHandler = factories.MouseHandlerFactory.CreateEmpty();
             this.Connector = new EndRoadLaneEdgeConnector( this );
         }
 

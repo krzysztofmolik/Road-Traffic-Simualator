@@ -31,14 +31,17 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             this._cars.Remove( car );
         }
 
-        public float Lenght(IRoadElement previous, IRoadElement next)
+        public float Lenght( IRoadElement previous, IRoadElement next )
         {
             return Constans.PointSize;
         }
 
         public bool ShouldChange( Car car )
         {
-            throw new NotImplementedException();
+            var distance = this._laneCorner.BuildControl.Location - car.Location;
+            if ( distance.Length() <= 0.001f ) { return true; }
+
+            return Math.Sign( distance.X ) != Math.Sign( car.Direction.X ) && Math.Sign( distance.Y ) != Math.Sign( car.Direction.Y );
         }
 
         public void GetCarAheadDistance( IRouteMark<IRoadElement> routMark, CarInformation carInformation )
@@ -53,7 +56,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 
         public Vector2 GetCarDirection( Car car, IRoadElement nextPoint )
         {
-            throw new NotImplementedException();
+            return _laneCorner.Next.RoadInformation.GetCarDirection( car, nextPoint );
         }
 
         public float GetCarDistanceTo( Car car, IRoadElement nextPoint )

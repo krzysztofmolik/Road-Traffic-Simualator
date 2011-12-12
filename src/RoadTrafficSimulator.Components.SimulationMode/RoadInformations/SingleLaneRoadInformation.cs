@@ -49,7 +49,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         public bool ShouldChange( Car car )
         {
             var distance = this._lane.RoadLaneBlock.RightEdge.Location - car.Location;
-            // TODO:
             if ( distance.Length() <= 0.001f ) { return true; }
 
             return Math.Sign( distance.X ) != Math.Sign( car.Direction.X ) && Math.Sign( distance.Y ) != Math.Sign( car.Direction.Y );

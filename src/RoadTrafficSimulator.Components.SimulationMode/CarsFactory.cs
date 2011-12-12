@@ -30,7 +30,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         public void CreateCar( CarsInserter startElement )
         {
-            if ( this._carId > 11 )
+            if ( this._carId > 1 )
             {
                 return;
             }
@@ -39,6 +39,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             if ( startElement == null ) throw new ArgumentNullException( "startElement" );
 
             var car = this.GetRandomCarSpecifcation().Create( startElement );
+            car.Location = startElement.CarsInserterBuilder.Location;
             this._eventAggregator.Publish( new CarCreated( car ) );
         }
 

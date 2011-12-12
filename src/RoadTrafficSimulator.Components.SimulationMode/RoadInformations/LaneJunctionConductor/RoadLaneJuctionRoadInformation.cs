@@ -58,7 +58,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
 
         public Vector2 GetCarDirection( Car car, IRoadElement nextPoint )
         {
-            throw new System.NotImplementedException();
+            return this._junctionInformation.GetCarDirection( car, nextPoint );
         }
 
         public float GetCarDistanceTo( Car car, IRoadElement nextPoint )
