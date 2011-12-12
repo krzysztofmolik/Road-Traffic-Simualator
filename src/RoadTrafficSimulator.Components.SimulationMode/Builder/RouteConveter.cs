@@ -13,10 +13,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             this._roadElementsResolver = roadElementsResolver;
         }
 
-        public Routes Convert( BuildMode.Controls.Routes buildRoutes )
+        public StandardRoutes Convert( BuildMode.Controls.Routes buildRoutes )
         {
             var route = buildRoutes.AvailableRoutes.Select( this.Convert );
-            var routes = new Routes( route );
+            var routes = new StandardRoutes( route );
             routes.CalculateProbabilities();
 
             return routes;

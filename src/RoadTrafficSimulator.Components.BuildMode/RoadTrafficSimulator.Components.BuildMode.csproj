@@ -136,6 +136,7 @@
     <Compile Include="Controls\Route.cs" />
     <Compile Include="Controls\Routes.cs" />
     <Compile Include="Controls\Style.cs" />
+    <Compile Include="Extensions\RoadJunctionBlockExtension.cs" />
     <Compile Include="Factories\Factories.cs" />
     <Compile Include="Factories\IMouseHandlerFactory.cs" />
     <Compile Include="Factories\SelectionSupportFactory.cs" />

@@ -104,14 +104,18 @@
     <Compile Include="Builder\Builder.cs" />
     <Compile Include="Builder\BuilderAction.cs" />
     <Compile Include="Builder\BuilderContext.cs" />
+    <Compile Include="Builder\BuildRoutesToSimulationRoutesConverter.cs" />
     <Compile Include="Builder\CarInserterBuilder.cs" />
     <Compile Include="Builder\CarsRemoverBuilder.cs" />
     <Compile Include="Builder\IBuilerItem.cs" />
+    <Compile Include="Builder\IRoutes.cs" />
+    <Compile Include="Builder\JunctionRoutes.cs" />
     <Compile Include="Builder\LaneCornerBuilder.cs" />
     <Compile Include="Builder\LaneJunctionBuilder.cs" />
     <Compile Include="Builder\LightBuilder.cs" />
     <Compile Include="Builder\RoadLaneBuilder.cs" />
     <Compile Include="Builder\RouteConveter.cs" />
+    <Compile Include="Builder\StandardRoutes.cs" />
     <Compile Include="CarsFactory.cs" />
     <Compile Include="CarsQueue.cs" />
     <Compile Include="CarsSpecification\ICarSpecifiaction.cs" />
@@ -127,6 +131,8 @@
     <Compile Include="RoadInformations\Conductors\IConductor.cs" />
     <Compile Include="RoadInformations\Conductors\SimpleCarInserterCondcutor.cs" />
     <Compile Include="RoadInformations\Conductors\SimpleCarRemoverCondcutor.cs" />
+    <Compile Include="RoadInformations\Conductors\SimpleJunctionConductor.cs" />
+    <Compile Include="RoadInformations\Conductors\SimpleJunctionEdgeConductor.cs" />
     <Compile Include="RoadInformations\Conductors\SimpleLanerCondcutor.cs" />
     <Compile Include="RoadInformations\Conductors\SimpleLanerCornerCondcutor.cs" />
     <Compile Include="RoadInformations\Engine.cs" />

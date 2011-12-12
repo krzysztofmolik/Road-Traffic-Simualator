@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
-using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
+using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
 using RoadTrafficSimulator.Infrastructure;
 
@@ -22,8 +21,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
             this.JunctionBuilder = control;
 
             this._condutorFactory = condutorFactory;
-            this._roadInformation = this._condutorFactory( this );
+            this.RoadInformation = this._condutorFactory( this );
             this._drawer = new LaneJunctionDrawer( this );
+            this.Routes = new JunctionRoutes( this );
 
             this.Left = new JunctionEdge( control.RoadJunctionEdges[ EdgeType.Left ] );
             this.Top = new JunctionEdge( control.RoadJunctionEdges[ EdgeType.Top ] );
@@ -36,6 +36,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
             this.Bottom.Junction = this;
         }
 
+        public IRoadInformation RoadInformation { get; private set; }
         public Light.Light[] Lights { get { return this._lights; } }
         public RoadJunctionBlock JunctionBuilder { get; private set; }
         public JunctionEdge Left { get; set; }

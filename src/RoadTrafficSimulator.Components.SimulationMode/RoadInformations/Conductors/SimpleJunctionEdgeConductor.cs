@@ -7,11 +7,14 @@ using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors
 {
-    [ConductorSupportedRoadElementType( typeof( Lane ) )]
+    [ConductorSupportedRoadElementType( typeof( JunctionEdge ) )]
+    [PriorityConductorInformation( PriorityType.FromRight )]
     [PriorityConductorInformation( PriorityType.None )]
-    public class SimpleLanerCondcutor : IConductor
+    [PriorityConductorInformation( PriorityType.FromLeft )]
+    [PriorityConductorInformation( PriorityType.FromFront )]
+    public class SimpleJunctionEdgeConductor : IConductor
     {
-        private Lane _lane;
+        private JunctionEdge _junctionEdge;
         private bool _canStopOnIt;
 
         public RoadInformation Process( Car car, IRouteMark<IConductor> route )
@@ -21,9 +24,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
 
         public void SetRouteElement( IRoadElement element )
         {
-            var lane = element as Lane;
-            if ( lane == null ) { throw new ArgumentException( "Wrong road element" ); }
-            this._lane = lane;
+            var junctionEdge = element as JunctionEdge;
+            if ( junctionEdge == null ) { throw new ArgumentException( "Wrong road element" ); }
+            this._junctionEdge = junctionEdge;
         }
 
         public void SetCanStopOnIt( bool canStopOnIt )
@@ -33,12 +36,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
 
         public IRoadInformation Information
         {
-            get { return this._lane.RoadInformation; }
+            get { return this._junctionEdge.Junction.RoadInformation; }
         }
 
         public IRoadElement RoadElement
         {
-            get { return this._lane; }
+            get { return this._junctionEdge; }
         }
     }
 }

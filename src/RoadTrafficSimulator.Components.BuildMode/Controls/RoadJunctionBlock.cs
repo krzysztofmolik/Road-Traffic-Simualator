@@ -2,6 +2,7 @@
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RoadTrafficSimulator.Components.BuildMode.Extensions;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Draw;
@@ -22,7 +23,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         {
             this.Parent = parent;
             const float halfRoadWidth = Constans.RoadHeight / 2;
-            this._roadJunctionEdges = Enumerable.Range( 0, EdgeType.Count ).Select( s => new RoadJunctionEdge( factories, this ) ).ToArray();
+            this._roadJunctionEdges = Enumerable.Range( 0, EdgeType.Count ).Select( index => new RoadJunctionEdge( factories, this, index ) ).ToArray();
             this._points = new MovablePoint[ Corners.Count ];
 
             var leftTop = new Vector2( location.X - halfRoadWidth, location.Y + halfRoadWidth );
@@ -33,9 +34,17 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
             this._points.ForEach( this.AddChild );
             this._roadJunctionEdges.ForEach( this.AddChild );
+            this._roadJunctionEdges.ForEach( this.AddDefaultRoute );
 
             this._concretVertexContainer = factories.VertexContainerFactory.Create( this );
             this._mouseHandler = factories.MouseHandlerFactory.Create( this );
+        }
+
+        private void AddDefaultRoute( RoadJunctionEdge edge )
+        {
+            var opositeEdge = this.GetOpositeEdge( edge );
+            var routeElements = new[] { new RouteElement( opositeEdge, PriorityType.None ) };
+            edge.Routes.AddRoute( new Route( routeElements, 100.0f ) );
         }
 
         #region Poperties

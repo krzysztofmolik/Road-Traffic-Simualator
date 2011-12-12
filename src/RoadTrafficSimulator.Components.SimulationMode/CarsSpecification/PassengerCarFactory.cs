@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
 using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors;
@@ -52,11 +53,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.CarsSpecification
                                      }
                              };
 
-            result.AddRange( startElement.Routes.GetRandomRoute( this._rng ) );
+            // TODO ;( this is so bad, inconsistent
+            result.AddRange( startElement.Routes.GetRandomRoute( this._rng, null ) );
 
             while ( true )
             {
-                var nextRoute = result.Last().RoadElement.Routes.GetRandomRoute( this._rng ).ToArray();
+                var nextRoute = result.Last().RoadElement.Routes.GetRandomRoute( this._rng, result.OneBeforeLast() ).ToArray();
                 if ( nextRoute.Length == 0 ) { break; }
 
                 result.AddRange( nextRoute );

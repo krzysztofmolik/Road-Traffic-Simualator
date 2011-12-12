@@ -41,7 +41,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
 
         public bool ShouldChange( Car car )
         {
-            this._moveInformation.ShouldChange( car.Location );
+            this._moveInformation.ShouldChange( car, car.Location );
             //            return this._moveInformation.ShouldChange( car.Location, car );
             return false;
         }

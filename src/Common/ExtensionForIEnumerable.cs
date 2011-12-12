@@ -24,7 +24,7 @@ namespace Common
             }
         }
 
-        public static void ForEachUntil<T>( this IEnumerable<T> list, Action<T> action, Func<T,bool > predicate)
+        public static void ForEachUntil<T>( this IEnumerable<T> list, Action<T> action, Func<T, bool> predicate )
         {
             list.NotNull();
             action.NotNull();
@@ -32,7 +32,7 @@ namespace Common
 
             foreach ( var item in list )
             {
-                if( ! predicate( item ) )
+                if ( !predicate( item ) )
                 {
                     break;
                 }
@@ -43,7 +43,38 @@ namespace Common
 
         public static bool IsEmpty<T>( this IEnumerable<T> collection )
         {
-            return collection.Count() == 0;
+            return !collection.Any();
+        }
+
+        public static T OneBeforeLast<T>( this IEnumerable<T> collection )
+        {
+            // Base on implementation of Enumerable.Last()
+            var list = collection as IList<T>;
+            if ( list != null )
+            {
+                int count = list.Count;
+                if ( count > 0 ) return list[ count - 2 ];
+            }
+            else
+            {
+                using ( var e = collection.GetEnumerator() )
+                {
+                    if ( !e.MoveNext() ) { throw new ArgumentException( "Collection contains less than 2 elements" ); }
+
+                    if ( e.MoveNext() )
+                    {
+                        T result = default( T );
+                        T oneBeforeLast;
+                        do
+                        {
+                            oneBeforeLast = result;
+                            result = e.Current;
+                        } while ( e.MoveNext() );
+                        return oneBeforeLast;
+                    }
+                }
+            }
+            return default( T );
         }
 
     }

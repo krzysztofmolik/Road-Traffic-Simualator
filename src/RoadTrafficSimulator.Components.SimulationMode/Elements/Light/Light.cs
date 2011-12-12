@@ -1,8 +1,8 @@
 using System;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
+using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
 using RoadTrafficSimulator.Infrastructure.Controls;
-using Routes = RoadTrafficSimulator.Components.SimulationMode.Builder.Routes;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Light
 {
@@ -28,9 +28,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Light
         public LightStateMachine StateMachine { get { return this._stateMachine; } }
         public IDrawer Drawer { get { return this._drawer; } }
 
-        public Routes Routes
+        public IRoutes Routes
         {
-            get { return Routes.Empty; }
+            get { return StandardRoutes.Empty; }
         }
     }
 }

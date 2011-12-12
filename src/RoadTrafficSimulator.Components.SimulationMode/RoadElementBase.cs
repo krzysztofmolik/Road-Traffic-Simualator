@@ -24,6 +24,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode
             get { return this._drawer; }
         }
 
-        public Routes Routes { get;  set; }
+        public IRoutes Routes { get;  set; }
     }
 }

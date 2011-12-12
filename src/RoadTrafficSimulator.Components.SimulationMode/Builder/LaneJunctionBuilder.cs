@@ -72,10 +72,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
                 this._junction.BuildControl.VertexContainer.ReloadTextures();
 
 //                this._junction.JunctionBuilder.RoadJunctionEdges.ForEach( e => e.Routes.CalculateProbabilities() );
-                this._junction.Bottom.Routes = new Routes( this._converter.Convert( this._junction.Bottom.EdgeBuilder.Routes.AvailableRoutes, obj ).ToArray() );
-                this._junction.Left.Routes = new Routes( this._converter.Convert( this._junction.Bottom.EdgeBuilder.Routes.AvailableRoutes, obj ).ToArray() );
-                this._junction.Top.Routes = new Routes( this._converter.Convert( this._junction.Bottom.EdgeBuilder.Routes.AvailableRoutes, obj ).ToArray() );
-                this._junction.Right.Routes = new Routes( this._converter.Convert( this._junction.Bottom.EdgeBuilder.Routes.AvailableRoutes, obj ).ToArray() );
+                this._junction.Bottom.Routes = new StandardRoutes( this._converter.Convert( this._junction.Bottom.EdgeBuilder.Routes.AvailableRoutes, obj ).ToArray() );
+                this._junction.Left.Routes = new StandardRoutes( this._converter.Convert( this._junction.Bottom.EdgeBuilder.Routes.AvailableRoutes, obj ).ToArray() );
+                this._junction.Top.Routes = new StandardRoutes( this._converter.Convert( this._junction.Bottom.EdgeBuilder.Routes.AvailableRoutes, obj ).ToArray() );
+                this._junction.Right.Routes = new StandardRoutes( this._converter.Convert( this._junction.Bottom.EdgeBuilder.Routes.AvailableRoutes, obj ).ToArray() );
             }
         }
     }

@@ -45,7 +45,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             {
 //                this._lane.LaneCornerBuild.Routes.CalculateProbabilities();
                 var routes = this._lane.LaneCornerBuild.Routes;
-                this._lane.Routes = new Routes( this._converter.Convert( routes.AvailableRoutes, obj ).ToArray() );
+                this._lane.Routes = new StandardRoutes( this._converter.Convert( routes.AvailableRoutes, obj ).ToArray() );
             }
         }
     }

@@ -37,7 +37,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
 
             var tranlationVector = roadJunctionEdge.Location - this._owner.Location;
             this._owner.Parent.Translate( tranlationVector.ToTranslationMatrix() );
-            this._owner.Routes.AddRoute( new RouteElement( roadJunctionEdge.RoadJunctionParent, PriorityType.FromRight ) );
+            this._owner.Routes.AddRoute( new RouteElement( roadJunctionEdge.RoadJunctionParent, PriorityType.None ) );
         }
 
         public void ConnectBeginWith( Edge roadLaneEdge )

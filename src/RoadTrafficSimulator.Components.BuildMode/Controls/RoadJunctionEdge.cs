@@ -13,17 +13,20 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private RoadJunctionBlock _parent;
         private readonly IVertexContainer<VertexPositionColor> _vertexContainer;
 
-        public RoadJunctionEdge( Factories.Factories factories, RoadJunctionBlock parent )
+        public RoadJunctionEdge( Factories.Factories factories, RoadJunctionBlock parent, int index )
             : base( factories, Styles.NormalStyle )
         {
+            this._parent = parent;
             this._roadJunctionEndConnector = new RoadJunctionEdgeConnector( this );
             this._vertexContainer = new RoadJunctionEdgeVertexContainer( this );
+            this.Routes = new Routes();
         }
 
-        public RoadJunctionEdge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, float width, RoadJunctionBlock parent )
+        public RoadJunctionEdge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, RoadJunctionBlock parent, int index )
             : base( factories, startPoint, endPoint, Styles.NormalStyle )
         {
             this._parent = parent;
+            this.Routes = new Routes();
         }
 
         public RoadJunctionEdgeConnector Connector
@@ -52,5 +55,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         {
             get { return this._vertexContainer; }
         }
+
+        public int EdgeIndex { get; private set; }
     }
 }

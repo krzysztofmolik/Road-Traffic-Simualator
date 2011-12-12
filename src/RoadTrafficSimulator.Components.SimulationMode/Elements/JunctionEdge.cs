@@ -1,11 +1,11 @@
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using System.Linq;
-using RoadTrafficSimulator.Components.SimulationMode.Route;
-using Routes = RoadTrafficSimulator.Components.SimulationMode.Builder.Routes;
+using RoadTrafficSimulator.Components.SimulationMode.Builder;
+using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Elements
 {
-    public class JunctionEdge
+    public class JunctionEdge : IRoadElement
     {
         public JunctionEdge( RoadJunctionEdge edge )
         {
@@ -17,9 +17,14 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         public RoadJunctionEdge EdgeBuilder { get; set; }
         public LaneJunction Junction { get; set; }
         public IRoadElement ConnectedEdge { get; set; }
-        public IDrawer Drawer { get; private set; }
-        public Routes Routes { get; set; }
 
+        public IControl BuildControl
+        {
+            get { return this.EdgeBuilder; }
+        }
+
+        public IDrawer Drawer { get; private set; }
+        public IRoutes Routes { get; set; }
         public JunctionEdgeConductor Situation { get; private set; }
     }
 

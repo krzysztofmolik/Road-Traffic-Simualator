@@ -19,7 +19,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
             this.AddConnectEndWithHandler<RoadJunctionEdge>( roadJunctionEdge =>
                                                                  {
                                                                      this.CommonConnectEndWith( roadJunctionEdge );
-                                                                     this._endRoadLaneEdge.Routes.AddRoute( new RouteElement( roadJunctionEdge.RoadJunctionParent, PriorityType.FromRight ) );
+                                                                     this._endRoadLaneEdge.Routes.AddRoute( new RouteElement( roadJunctionEdge.RoadJunctionParent, PriorityType.None ) );
                                                                  } );
             this.AddConnectEndWithHandler<CarsRemover>( carsRemover =>
                                                             {

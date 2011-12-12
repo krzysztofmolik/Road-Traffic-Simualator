@@ -45,7 +45,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 
             public void Setup( BuilderContext obj )
             {
-                this._carsRemover.Routes = new Routes( Enumerable.Empty<BuildRoute>() );
+                this._carsRemover.Routes = new StandardRoutes( Enumerable.Empty<BuildRoute>() );
             }
         }
     }
