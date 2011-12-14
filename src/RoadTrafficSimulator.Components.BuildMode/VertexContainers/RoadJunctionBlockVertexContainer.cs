@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
@@ -10,15 +9,16 @@ using RoadTrafficSimulator.Infrastructure.Draw;
 using RoadTrafficSimulator.Infrastructure.Extension;
 using RoadTrafficSimulator.Infrastructure.MathHelpers;
 using RoadTrafficSimulator.Infrastructure.Textures;
+using Common;
 
 namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 {
-    public class RoadJunctionBlockVertexContainer : VertexContainerBase<IRoadJunctionBlock, VertexPositionColor>
+    public class RoadJunctionBlockVertexContainer : VertexContainerBase<RoadJunctionBlock, VertexPositionColor>
     {
         private Quadrangle _shape;
         private readonly List<TextureInPoint> _textures;
 
-        public RoadJunctionBlockVertexContainer( IRoadJunctionBlock block, Style style )
+        public RoadJunctionBlockVertexContainer( RoadJunctionBlock block, Style style )
             : base( block, style.NormalColor )
         {
             this._textures = new List<TextureInPoint>();
@@ -92,7 +92,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
         {
             graphic.VertexPositionalColorDrawer.DrawTriangeList( this.Vertex );
             this._textures.ForEach( t => graphic.VertexPositionalTextureDrawer.DrawIndexedTraingeList( t.Texture, t.Blocks, t.Indexes ) );
-            this.Object.RoadJunctionEdges.ForEach( s => s.VertexContainer.Draw( graphic ) );
+            this.Object.JunctionEdges.ForEach( s => s.VertexContainer.Draw( graphic ) );
             this.Object.Points.ForEach( s => s.VertexContainer.Draw( graphic ) );
         }
     }

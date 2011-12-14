@@ -16,7 +16,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         public void AddRoute( params RouteElement[] controls )
         {
-            var route = new Route( controls, 100.0f );
+            var route = new Route( controls, 100 );
             this._routes.Add( route );
         }
 

@@ -26,7 +26,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
             {
                 yield return Actions.Call<CarsInserter>(
                             control.Id,
-                            () => control.Connector.ConnectEndWith( Find.In( control.Connector.ConnectedEdge.Parent ).Property( control.Connector.ConnectedEdge ) ) );
+                            () => control.Connector.ConnectStartFrom( ( RoadLaneBlock ) Is.Control( control.Connector.ConnectedEdge.Parent ) ) );
             }
 
             yield return this.BuildRoutes( control );
@@ -34,7 +34,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
 
         private static IAction CreateNewCommand( IControl control )
         {
-            return Actions.CreateControl( control.Id, () => new CarsInserter( Is.Ioc<Factories.Factories>(), Is.Const( control.Location ), Is.Const<IControl>( null ) ) );
+            return Actions.CreateControl( control.Id, () => new CarsInserter( Is.Ioc<Factories.Factories>(), Is.Const( control.Location ) ) );
         }
     }
 }

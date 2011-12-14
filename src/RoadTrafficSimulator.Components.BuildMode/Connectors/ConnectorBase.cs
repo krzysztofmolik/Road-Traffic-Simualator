@@ -6,29 +6,29 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
 {
     public abstract class ConnectorBase
     {
-        private readonly IDictionary<Type, Action<IControl>> _beginWithHandlers = new Dictionary<Type, Action<IControl>>();
-        private readonly IDictionary<Type, Action<IControl>> _endWithHandlers = new Dictionary<Type, Action<IControl>>();
+        private readonly IDictionary<Type, Action<IControl>> _endOnHandlers = new Dictionary<Type, Action<IControl>>();
+        private readonly IDictionary<Type, Action<IControl>> _startFromHandlers = new Dictionary<Type, Action<IControl>>();
 
-        public void ConnectBeginWith( IControl control )
+        public void ConnectEndOn( IControl control )
         {
-            var handler = this.GetBeginHandler( control );
+            var handler = this.GetEndOnHandler( control );
             handler( control );
         }
 
-        public void ConnectEndWith( IControl control )
+        public void ConnectStartFrom( IControl control )
         {
             var handler = this.GetEndHandler( control );
             handler( control );
         }
 
-        private Action<IControl> GetBeginHandler( IControl control )
+        private Action<IControl> GetEndOnHandler( IControl control )
         {
-            return this.GetHandlerFrom( this._beginWithHandlers, control );
+            return this.GetHandlerFrom( this._endOnHandlers, control );
         }
         
         private Action<IControl> GetEndHandler( IControl control )
         {
-            return this.GetHandlerFrom( this._endWithHandlers, control );
+            return this.GetHandlerFrom( this._startFromHandlers, control );
         }
 
         private Action<IControl> GetHandlerFrom( IDictionary<Type, Action<IControl>> from, IControl control )
@@ -42,14 +42,14 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
             return handler;
         }
 
-        protected void AddConnectBeginWithHandler<TControl>( Action<TControl> handler ) where TControl : class,IControl
+        protected void AddEndOnHandler<TControl>( Action<TControl> handler ) where TControl : class,IControl
         {
-            this._beginWithHandlers.Add( typeof( TControl ), control => this.ExecuteHandler( handler, control ) );
+            this._endOnHandlers.Add( typeof( TControl ), control => this.ExecuteHandler( handler, control ) );
         }
 
-        protected void AddConnectEndWithHandler<TControl>( Action<TControl> handler ) where TControl : class,IControl
+        protected void AddStartFromHandler<TControl>( Action<TControl> handler ) where TControl : class,IControl
         {
-            this._endWithHandlers.Add( typeof( TControl ), control => this.ExecuteHandler( handler, control ) );
+            this._startFromHandlers.Add( typeof( TControl ), control => this.ExecuteHandler( handler, control ) );
         }
 
         private void ExecuteHandler<TControl>( Action<TControl> handler, IControl control ) where TControl : class, IControl

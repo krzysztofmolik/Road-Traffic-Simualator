@@ -2,7 +2,7 @@
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using RoadTrafficSimulator.Components.BuildMode.Extensions;
+using RoadTrafficSimulator.Components.BuildMode.Connectors;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Draw;
@@ -11,20 +11,21 @@ using NLog;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class RoadJunctionBlock : CompositControl<VertexPositionColor>, IRoadJunctionBlock
+    public class RoadJunctionBlock : CompositControl<VertexPositionColor>
     {
-        private readonly RoadJunctionEdge[] _roadJunctionEdges = new RoadJunctionEdge[ EdgeType.Count ];
+        private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly InternalRoadJunctionEdge[] _junctionEdges;
         private readonly MovablePoint[] _points = new MovablePoint[ Corners.Count ];
         private readonly IVertexContainer<VertexPositionColor> _concretVertexContainer;
         private readonly IMouseHandler _mouseHandler;
-        private Logger _logger = LogManager.GetCurrentClassLogger();
+        private readonly RoadJunctionBlockConnector _connector;
 
-        public RoadJunctionBlock( Factories.Factories factories, Vector2 location, IControl parent )
+        public RoadJunctionBlock( Factories.Factories factories, Vector2 location )
         {
-            this.Parent = parent;
             const float halfRoadWidth = Constans.RoadHeight / 2;
-            this._roadJunctionEdges = Enumerable.Range( 0, EdgeType.Count ).Select( index => new RoadJunctionEdge( factories, this, index ) ).ToArray();
+            this._junctionEdges = Enumerable.Range( 0, EdgeType.Count ).Select( index => new InternalRoadJunctionEdge( factories, this, index ) ).ToArray();
             this._points = new MovablePoint[ Corners.Count ];
+            this._connector = new RoadJunctionBlockConnector( this );
 
             var leftTop = new Vector2( location.X - halfRoadWidth, location.Y + halfRoadWidth );
             this.LeftTop = new MovablePoint( factories, leftTop, this );
@@ -33,21 +34,15 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.LeftBottom = new MovablePoint( factories, this.RightBottom.Location - new Vector2( Constans.RoadHeight, 0 ), this );
 
             this._points.ForEach( this.AddChild );
-            this._roadJunctionEdges.ForEach( this.AddChild );
-            this._roadJunctionEdges.ForEach( this.AddDefaultRoute );
+            this._junctionEdges.ForEach( this.AddChild );
 
             this._concretVertexContainer = factories.VertexContainerFactory.Create( this );
             this._mouseHandler = factories.MouseHandlerFactory.Create( this );
         }
 
-        private void AddDefaultRoute( RoadJunctionEdge edge )
-        {
-            var opositeEdge = this.GetOpositeEdge( edge );
-            var routeElements = new[] { new RouteElement( opositeEdge, PriorityType.None ) };
-            edge.Routes.AddRoute( new Route( routeElements, 100.0f ) );
-        }
-
         #region Poperties
+
+        public RoadJunctionBlockConnector Connector { get { return this._connector; } }
 
         public Vector2 LeftTopLocation
         {
@@ -80,8 +75,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             set
             {
                 this._points[ Corners.LeftBottom ] = value;
-                this._roadJunctionEdges[ EdgeType.Left ].StartPoint = value;
-                this._roadJunctionEdges[ EdgeType.Bottom ].EndPoint = value;
+                this._junctionEdges[ EdgeType.Left ].StartPoint = value;
+                this._junctionEdges[ EdgeType.Bottom ].EndPoint = value;
             }
         }
 
@@ -91,8 +86,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             set
             {
                 this._points[ Corners.RightBottom ] = value;
-                this._roadJunctionEdges[ EdgeType.Right ].EndPoint = value;
-                this._roadJunctionEdges[ EdgeType.Bottom ].StartPoint = value;
+                this._junctionEdges[ EdgeType.Right ].EndPoint = value;
+                this._junctionEdges[ EdgeType.Bottom ].StartPoint = value;
             }
         }
 
@@ -102,8 +97,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             set
             {
                 this._points[ Corners.RightTop ] = value;
-                this._roadJunctionEdges[ EdgeType.Right ].StartPoint = value;
-                this._roadJunctionEdges[ EdgeType.Top ].EndPoint = value;
+                this._junctionEdges[ EdgeType.Right ].StartPoint = value;
+                this._junctionEdges[ EdgeType.Top ].EndPoint = value;
             }
         }
 
@@ -113,14 +108,14 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             set
             {
                 this._points[ Corners.LeftTop ] = value;
-                this._roadJunctionEdges[ EdgeType.Top ].StartPoint = value;
-                this._roadJunctionEdges[ EdgeType.Left ].EndPoint = value;
+                this._junctionEdges[ EdgeType.Top ].StartPoint = value;
+                this._junctionEdges[ EdgeType.Left ].EndPoint = value;
             }
         }
 
-        public RoadJunctionEdge[] RoadJunctionEdges
+        public InternalRoadJunctionEdge[] JunctionEdges
         {
-            get { return _roadJunctionEdges; }
+            get { return _junctionEdges; }
         }
 
         public override IVertexContainer VertexContainer
@@ -137,19 +132,17 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public override Vector2 Location
         {
             get { return this.LeftTopLocation; }
-            protected set
+            set
             {
                 this.LeftTop.SetLocation( value );
                 this.Invalidate();
             }
         }
 
-        public override IControl Parent { get; set; }
-
-        public RoadJunctionEdge LeftEdge { get { return this.RoadJunctionEdges[ EdgeType.Left ]; } }
-        public RoadJunctionEdge TopEdge { get { return this.RoadJunctionEdges[ EdgeType.Top ]; } }
-        public RoadJunctionEdge RightEdge { get { return this.RoadJunctionEdges[ EdgeType.Right ]; } }
-        public RoadJunctionEdge BottomEdge { get { return this.RoadJunctionEdges[ EdgeType.Bottom ]; } }
+        public InternalRoadJunctionEdge LeftEdge { get { return this.JunctionEdges[ EdgeType.Left ]; } }
+        public InternalRoadJunctionEdge TopEdge { get { return this.JunctionEdges[ EdgeType.Top ]; } }
+        public InternalRoadJunctionEdge RightEdge { get { return this.JunctionEdges[ EdgeType.Right ]; } }
+        public InternalRoadJunctionEdge BottomEdge { get { return this.JunctionEdges[ EdgeType.Bottom ]; } }
 
         #endregion Properties
 
@@ -172,7 +165,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.RightBottom.Translate( matrixTranslation );
             this.LeftBottom.Translate( matrixTranslation );
 
-            this.RoadJunctionEdges.ForEach( edge => edge.Invalidate() );
+            this.JunctionEdges.ForEach( edge => edge.Invalidate() );
         }
 
         public override void TranslateWithoutNotification( Matrix translationMatrix )
@@ -194,10 +187,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         public int GetEdgeType( Edge owner )
         {
-            var edge = this.RoadJunctionEdges.Select( ( o, i ) => new { Item = o, Edge = i } ).FirstOrDefault( s => s.Item == owner );
+            var edge = this.JunctionEdges.Select( ( o, i ) => new { Item = o, Edge = i } ).FirstOrDefault( s => s.Item == owner );
             if ( edge == null )
             {
-                _logger.Warn( "Edge not found" );
+                Logger.Warn( "Edge not found" );
                 return -1;
             }
 

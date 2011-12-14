@@ -8,12 +8,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
         public bool Connect( ILogicControl first, ILogicControl second )
         {
             var carsInseerter = first as CarsInserter;
-            var endRoadLaneEdge = second as EndRoadLaneEdge;
+            var endRoadLaneEdge = second as RoadLaneBlock;
 
             if ( carsInseerter == null || endRoadLaneEdge == null ) { return false; }
 
-            carsInseerter.Connector.ConnectEndWith( endRoadLaneEdge );
-            endRoadLaneEdge.Connector.ConnectBeginWith( carsInseerter );
+            carsInseerter.Connector.ConnectStartFrom( endRoadLaneEdge );
+            endRoadLaneEdge.LeftEdge.Connector.ConnectEndOn( carsInseerter );
 
             return true;
         }

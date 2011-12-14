@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
-using RoadTrafficSimulator.Components.SimulationMode.Route;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJunctionConductor
 {
@@ -36,19 +35,17 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
 
         public float Lenght( IRoadElement previous, IRoadElement next )
         {
-            throw new System.NotImplementedException();
+            return Vector2.Distance( previous.BuildControl.Location, next.BuildControl.Location );
         }
 
         public bool ShouldChange( Car car )
         {
-            this._moveInformation.ShouldChange( car, car.Location );
-            //            return this._moveInformation.ShouldChange( car.Location, car );
-            return false;
+            return this._moveInformation.ShouldChange( car, car.Location );
         }
 
-        public void GetCarAheadDistance( IRouteMark<IRoadElement> routMark, CarInformation carInformation )
+        public CarAhedInformation GetCarAheadDistance( Car car )
         {
-            throw new System.NotImplementedException();
+            return this._carsInformation.GetCarAheadDistance( car ) ;
         }
 
         public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )

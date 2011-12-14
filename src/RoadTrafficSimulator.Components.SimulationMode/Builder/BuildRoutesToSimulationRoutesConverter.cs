@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using RoadTrafficSimulator.Components.BuildMode.Controls;
-using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Builder
@@ -29,13 +27,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 
         private IRoadElement GetRoadElement( BuilderContext context, IControl control )
         {
-            if ( control is RoadJunctionEdge )
-            {
-                var edge = ( RoadJunctionEdge ) control;
-                var laneJunction = context.GetObject<LaneJunction>( edge.Parent );
-                return laneJunction.Edges.ElementAt( edge.EdgeIndex );
-            }
-
             return context.GetObject<IRoadElement>( control );
         }
     }

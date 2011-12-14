@@ -28,14 +28,14 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public override Vector2 Location
         {
             get { return this._location; }
-            protected set
+            set
             {
                 this._location = value;
                 this.Invalidate();
             }
         }
 
-        public override IControl Parent { get; set; }
+        public IControl Parent { get; set; }
 
         public override IVertexContainer VertexContainer
         {

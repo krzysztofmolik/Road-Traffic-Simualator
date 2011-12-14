@@ -5,9 +5,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Factor
 {
     public class SingleLineRoadInformationsFactory : RoadInformationsFactoryBase<Lane>
     {
-        private readonly Func<Lane, SingleLaneRoadInformation> _conductorFactory;
+        private readonly Func<Lane, LaneRoadInforamtion> _conductorFactory;
 
-        public SingleLineRoadInformationsFactory( Func<Lane, SingleLaneRoadInformation> conductorFactory )
+        public SingleLineRoadInformationsFactory( Func<Lane, LaneRoadInforamtion> conductorFactory )
         {
             this._conductorFactory = conductorFactory;
         }

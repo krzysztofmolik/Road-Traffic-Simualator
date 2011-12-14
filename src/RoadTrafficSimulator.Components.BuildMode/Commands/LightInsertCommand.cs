@@ -42,7 +42,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
 
         private void MouseClicked( XnaMouseState mouseState )
         {
-            var hittedControl = this._visistator.Where( s => s.IsHitted( mouseState.Location ) ).OfType<RoadJunctionEdge>().FirstOrDefault();
+            var hittedControl = this._visistator.Where( s => s.IsHitted( mouseState.Location ) ).OfType<JunctionEdge>().FirstOrDefault();
             if ( hittedControl == null ) { return; }
             if ( hittedControl.Connector.CanPutLights() )
             {

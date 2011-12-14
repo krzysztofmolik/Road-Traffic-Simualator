@@ -1,4 +1,4 @@
-using System.Linq;
+using System;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
@@ -12,34 +12,26 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
         {
             this._laneJunction = laneJunction;
         }
-        private JunctionEdge GetEdgeConnectedWith( IRoadElement roadElement )
+        private IRoadElement GetLocationOfEdgeConnectedWith( IRoadElement roadElement )
         {
-            var item = this._laneJunction.Edges.FirstOrDefault(s => s.ConnectedEdge == roadElement);
-            return item;
-        }
-
-        public bool IsPosibleToDriverFrom( IRoadElement roadElement )
-        {
-            return this._laneJunction.Edges.Where( s => s.Situation.IsOut == false ).Any( s => s.ConnectedEdge == roadElement );
-        }
-
-        public bool IsPosibleToDriveTo( IRoadElement roadElement )
-        {
-            return this._laneJunction.Edges.Where( s => s.Situation.IsOut ).Any( s => s.ConnectedEdge == roadElement );
+            if ( this._laneJunction.Bottom == roadElement ) { return this._laneJunction.Top; }
+            if ( this._laneJunction.Top == roadElement ) { return this._laneJunction.Bottom; }
+            if ( this._laneJunction.Right == roadElement ) { return this._laneJunction.Left; }
+            if ( this._laneJunction.Left == roadElement ) { return this._laneJunction.Right; }
+            throw new ArgumentException();
         }
 
         public float Length( IRoadElement previous, IRoadElement next )
         {
-            var previousEdge = this.GetEdgeConnectedWith( previous );
-            var nextEdge = this.GetEdgeConnectedWith(next);
+            var previousEdge = this.GetLocationOfEdgeConnectedWith( previous );
+            var nextEdge = this.GetLocationOfEdgeConnectedWith( next );
 
-            return Vector2.Distance(previousEdge.EdgeBuilder.Location, nextEdge.EdgeBuilder.Location);
+            return Vector2.Distance( previousEdge.BuildControl.Location, nextEdge.BuildControl.Location );
         }
 
         public Vector2 GetCarDirection( Car car, IRoadElement nextPoint )
         {
-            var edge = this.GetEdgeConnectedWith( nextPoint );
-            return edge.EdgeBuilder.Location - car.Location;
+            return nextPoint.BuildControl.Location - car.Location;
         }
     }
 }

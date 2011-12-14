@@ -10,7 +10,7 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class MovableRectangle : CompositControl<VertexPositionColor>
+    public class MovableRectangle : CompositControl<VertexPositionColor>, IComponent
     {
         private readonly MovablePoint[] _points;
         private readonly IVertexContainer<VertexPositionColor> _concretVertexContainer;
@@ -130,14 +130,14 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         {
             get { return this.LeftTop.Location; }
             // TDOO Fix it
-            protected set
+            set
             {
                 this.LeftBottom.SetLocation( value );
                 this.Invalidate();
             }
         }
 
-        public override IControl Parent { get; set; }
+        public IControl Parent { get; set; }
 
         public override void Translate( Matrix matrixTranslation )
         {

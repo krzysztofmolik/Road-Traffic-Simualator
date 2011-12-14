@@ -5,37 +5,24 @@ using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
-using RoadTrafficSimulator.Components.SimulationMode.Route;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 {
-    public class SingleLaneRoadInformation : IRoadInformation
+    public class LaneRoadInforamtion : RoadInformationBase, IRoadInformation
     {
         private readonly Lane _lane;
-        private readonly CarsQueue _cars = new CarsQueue();
 
-        public SingleLaneRoadInformation( Lane lane )
+        public LaneRoadInforamtion( Lane lane )
         {
             Contract.Requires( lane != null );
             this._lane = lane;
-        }
-
-        public void OnEnter( Car car )
-        {
-            Contract.Requires( car != null );
-            this._cars.Add( car );
-        }
-
-        public void OnExit( Car car )
-        {
-            this._cars.Remove( car );
         }
 
         public float Lenght( IRoadElement previous, IRoadElement next )
         {
             if ( this._lane.Prev != previous || this._lane.Next != next )
             {
-                throw new NotImplementedException();
+                throw new ArgumentNullException();
             }
 
             return Vector2.Distance( this._lane.Prev.BuildControl.Location, this._lane.Next.BuildControl.Location );
@@ -54,11 +41,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return Math.Sign( distance.X ) != Math.Sign( car.Direction.X ) && Math.Sign( distance.Y ) != Math.Sign( car.Direction.Y );
         }
 
-        public void GetCarAheadDistance( IRouteMark<IRoadElement> routMark, CarInformation carInformation )
-        {
-            throw new NotImplementedException();
-        }
-
         public float GetDistanceToStopLine()
         {
             return float.MaxValue;
@@ -66,7 +48,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 
         public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )
         {
-            var firstCar = this._cars.GetFirstCar();
+            var firstCar = this.Cars.GetFirstCar();
             if ( firstCar != null )
             {
                 var carDistance = carInformation.CurrentDistance + Vector2.Distance( firstCar.Location, this._lane.RoadLaneBlock.RightEdge.Location );
@@ -89,6 +71,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             Debug.Assert( this._lane.Next == nextPoint );
 
             return Vector2.Distance( car.Location, nextPoint.BuildControl.Location );
+        }
+
+        protected override Vector2 GetEndLocation()
+        {
+            return this._lane.RoadLaneBlock.RightEdge.Location;
         }
     }
 }

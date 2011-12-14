@@ -25,7 +25,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
             yield return Actions.CreateControl( control.Id, () => new LightBlock( Is.Const( control.Location ), Is.Const( default( CachedTexture ) ) ) );
 
             Debug.Assert( control.Connector.Owner != null );
-            yield return Actions.Call<LightBlock>( control.Id, () => control.Connector.ConnectWith( Find.In( control.Connector.Owner.Parent ).Property( control.Connector.Owner ) ) );
+            yield return Actions.Call<LightBlock>( control.Id, () => control.Connector.ConnectWith( Is.Control( control.Connector.Owner ) ) );
         }
     }
 }

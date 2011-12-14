@@ -5,16 +5,16 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Factor
 {
     public class CarInserterRoadInformationsFactory : RoadInformationsFactoryBase<CarsInserter>
     {
-        private readonly Func<CarsInserter, CarInserterRoadInformation> _conductorFactory;
+        private readonly Func<CarsInserter, CarInserterRoadInformation> _roadInformationFactory;
 
-        public CarInserterRoadInformationsFactory( Func<CarsInserter, CarInserterRoadInformation> conductorFactory )
+        public CarInserterRoadInformationsFactory( Func<CarsInserter, CarInserterRoadInformation> roadInformationFactory )
         {
-            this._conductorFactory = conductorFactory;
+            this._roadInformationFactory = roadInformationFactory;
         }
 
         protected override IRoadInformation Create( CarsInserter roadElemnet )
         {
-            return this._conductorFactory( roadElemnet );
+            return this._roadInformationFactory( roadElemnet );
         }
     }
 }

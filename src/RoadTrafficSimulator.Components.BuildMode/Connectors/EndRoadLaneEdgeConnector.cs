@@ -11,31 +11,31 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
         public EndRoadLaneEdgeConnector( EndRoadLaneEdge endRoadLaneEdge )
         {
             this._endRoadLaneEdge = endRoadLaneEdge;
-            this.AddConnectEndWithHandler<RoadConnection>( edge =>
+            this.AddStartFromHandler<RoadConnection>( edge =>
                                                                {
-                                                                   this.CommonConnectEndWith( edge.LeftEdge );
-                                                                   this._endRoadLaneEdge.Routes.AddRoute( new RouteElement( edge.Parent, PriorityType.None ) );
+                                                                   this.CommonConnectEndWith( edge.Edge );
+                                                                   this._endRoadLaneEdge.Routes.AddRoute( new RouteElement( edge, PriorityType.None ) );
                                                                } );
-            this.AddConnectEndWithHandler<RoadJunctionEdge>( roadJunctionEdge =>
+            this.AddStartFromHandler<JunctionEdge>( roadJunctionEdge =>
                                                                  {
-                                                                     this.CommonConnectEndWith( roadJunctionEdge );
-                                                                     this._endRoadLaneEdge.Routes.AddRoute( new RouteElement( roadJunctionEdge.RoadJunctionParent, PriorityType.None ) );
+                                                                     this.CommonConnectEndWith( roadJunctionEdge.InvertedEdge );
+                                                                     this._endRoadLaneEdge.Routes.AddRoute( new RouteElement( roadJunctionEdge, PriorityType.None ) );
                                                                  } );
-            this.AddConnectEndWithHandler<CarsRemover>( carsRemover =>
+            this.AddStartFromHandler<CarsRemover>( carsRemover =>
                                                             {
-                                                                this.CommonConnectEndWith( carsRemover );
+                                                                this.CommonConnectEndWith( carsRemover.Edge );
                                                                 this._endRoadLaneEdge.Routes.AddRoute( new RouteElement( carsRemover, PriorityType.None ) );
                                                             } );
 
-            this.AddConnectBeginWithHandler<CarsInserter>( carInserter => this.CommonConnectBeginWith( carInserter.RightEdge ) );
-            this.AddConnectBeginWithHandler<RoadJunctionEdge>( this.CommonConnectBeginWith );
-            this.AddConnectBeginWithHandler<RoadConnection>( edge => this.CommonConnectBeginWith( edge.RightEdge ) );
+            this.AddEndOnHandler<CarsInserter>( carInserter => this.CommonEndOnHandler( carInserter.RightEdge ) );
+            this.AddEndOnHandler<JunctionEdge>( e => this.CommonEndOnHandler( e.InvertedEdge ) );
+            this.AddEndOnHandler<RoadConnection>( edge => this.CommonEndOnHandler( edge.RightEdge ) );
 
 
         }
 
-        public ILogicControl PreviousEdge { get; private set; }
-        public ILogicControl NextEdge { get; private set; }
+        public IEdge PreviousEdge { get; private set; }
+        public IEdge NextEdge { get; private set; }
 
         private void UpdateEndPointLocation( IControl control )
         {
@@ -49,7 +49,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
             this._endRoadLaneEdge.StartPoint.Redraw();
         }
 
-        private void CommonConnectBeginWith( IEdge edge )
+        private void CommonEndOnHandler( IEdge edge )
         {
             if ( this.PreviousEdge != null )
             {

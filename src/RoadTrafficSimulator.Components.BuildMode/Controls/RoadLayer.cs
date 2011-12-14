@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.BuildMode.VertexContainers;
@@ -9,19 +10,20 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class RoadLayer : CompositControl<VertexPositionColor>
+    public class RoadLayer : CompositControl<VertexPositionColor>, IHandle<NewControlCreated>
     {
         private readonly RoadLayerVertexContainer _concretVertexContainer;
         private readonly Graphic _graphics;
         private readonly IMouseHandler _mouseHandler;
         private Vector2 _location = Vector2.Zero;
-        private Queue<Action> _actions = new Queue<Action>();
+        private readonly Queue<Action> _actions = new Queue<Action>();
 
-        public RoadLayer( Factories.Factories factories, Graphic graphics )
+        public RoadLayer( Factories.Factories factories, Graphic graphics, IEventAggregator eventAggregator )
         {
             this._concretVertexContainer = new RoadLayerVertexContainer( this );
             this._graphics = graphics;
             this._mouseHandler = factories.MouseHandlerFactory.Create( this );
+            eventAggregator.Subscribe( this );
         }
 
         public override IVertexContainer VertexContainer
@@ -37,17 +39,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public override Vector2 Location
         {
             get { return this._location; }
-            protected set
+            set
             {
                 this._location = value;
                 this.Invalidate();
             }
-        }
-
-        public override IControl Parent
-        {
-            get { return null; }
-            set { throw new InvalidOperationException( "RoadLayer can't have " + "parent" ); }
         }
 
         public override void AddChild( IControl control )
@@ -85,5 +81,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             return false;
         }
 
+        public void Handle( NewControlCreated message )
+        {
+            this.AddChild( message.Control );
+        }
     }
 }

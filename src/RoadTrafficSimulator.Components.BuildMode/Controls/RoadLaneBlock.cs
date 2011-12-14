@@ -5,14 +5,13 @@ using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.BuildMode.VertexContainers;
-using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Draw;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class RoadLaneBlock : CompositControl<VertexPositionColor>, IRoadLaneBlock
+    public class RoadLaneBlock : CompositControl<VertexPositionColor>, ICompositeControl
     {
         private readonly IList<IControl> _roadBlocks;
         private readonly RoadLaneBlockVertexContainer _roadLaneBlockVertexContainer;
@@ -23,17 +22,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private MovablePoint _leftBottom;
         private MovablePoint _rightBottom;
 
-        private RoadLaneBlock( Factories.Factories factories )
+        public RoadLaneBlock( Factories.Factories factories )
         {
             this._roadLaneBlockVertexContainer = new RoadLaneBlockVertexContainer( this );
             this._mouseHandler = factories.MouseHandlerFactory.Create( this );
             this._roadBlocks = new List<IControl>();
-        }
-
-        public RoadLaneBlock( Factories.Factories factories, IControl parent )
-            : this( factories )
-        {
-            this.Parent = parent;
             this._factories = factories;
             this._leftTopPoint = new MovablePoint( factories, new Vector2( 1, 0 ), this );
             this._rightTop = new MovablePoint( factories, new Vector2( 1, 1 ), this );
@@ -188,14 +181,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public override Vector2 Location
         {
             get { return this.LeftTopLocation; }
-            protected set
+            set
             {
                 this.LeftTopPoint.SetLocation( value );
                 this.Invalidate();
             }
         }
-
-        public override IControl Parent { get; set; }
 
         public IEnumerable<IControl> HitRoadBlock( Vector2 point )
         {
@@ -243,9 +234,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         private void CreateEdges()
         {
-            this.LeftEdge = new EndRoadLaneEdge( this._factories, this.LeftBottomPoint, this.LeftTopPoint, Constans.PointSize, this );
+            this.LeftEdge = new EndRoadLaneEdge( this._factories, this.LeftBottomPoint, this.LeftTopPoint, this );
             this.TopEdge = new SideRoadLaneEdge( this._factories, this.LeftTopPoint, this.RightTopPoint, this );
-            this.RightEdge = new EndRoadLaneEdge( this._factories, this.RightTopPoint, this.RightBottomPoint, Constans.PointSize, this );
+            this.RightEdge = new EndRoadLaneEdge( this._factories, this.RightTopPoint, this.RightBottomPoint, this );
             this.BottomEdge = new SideRoadLaneEdge( this._factories, this.RightBottomPoint, this.LeftBottomPoint, this );
         }
 

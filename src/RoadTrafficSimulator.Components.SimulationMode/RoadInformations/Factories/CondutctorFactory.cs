@@ -6,7 +6,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Factor
 {
     public class CondutctorFactory : IRoadInformationFactory
     {
-        private IEnumerable<IRoadInformationFactory> _conductorFactory;
+        private readonly IEnumerable<IRoadInformationFactory> _conductorFactory;
 
         public CondutctorFactory( IEnumerable<IRoadInformationFactory> conductorFactory )
         {

@@ -91,9 +91,9 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
             }
 
             // NOTE Yeaaa do everything in GUI ;)
-            var route = new Route( "Unknow", 0.0f );
+            var route = new Route( "Unknow", 100 );
             routeElement.Routes.AddRoute( route );
-            var routeViewModel = new RouteViewModel( route.Name, route );
+            var routeViewModel = new RouteViewModel( route );
             this._routes.Add( routeViewModel );
             this.SelectedRoad = routeViewModel;
         }

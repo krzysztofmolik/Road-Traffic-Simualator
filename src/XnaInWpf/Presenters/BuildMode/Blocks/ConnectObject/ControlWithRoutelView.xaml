@@ -47,9 +47,12 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Orientation="Horizontal">
-            <Button x:Name="AddNewRoute" Content="Add new route"/>
-            <Button x:Name="RemoveSelected" Content="Remove selected"/>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="3">
+            <Button x:Name="AddNewRoute"
+                    Content="Add new route" />
+            <Button x:Name="RemoveSelected"
+                    Content="Remove selected" />
         </StackPanel>
     </Grid>
 </UserControl>

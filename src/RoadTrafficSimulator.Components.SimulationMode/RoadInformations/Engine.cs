@@ -8,8 +8,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 {
     public class Engine : IEngine
     {
-        private float _stopPointDistance;
-        private float _requiredSpeed;
+        private float _stopPointDistance = float.MaxValue;
+        private float _requiredSpeed = float.MaxValue;
 
         public void SetStopPoint( float distance, float requriredSpeed )
         {
@@ -35,7 +35,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 
         private float GetVelocity( Car car, int elapsedMs )
         {
-            if ( this._stopPointDistance < 0 )
+            if ( this._stopPointDistance <= 0 )
             {
                 car.Velocity = 0.0f;
                 return 0.0f;

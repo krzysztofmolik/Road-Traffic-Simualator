@@ -17,22 +17,34 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
         private readonly Route _orignalRoute;
         private bool _isAddMode;
 
-        public RouteViewModel( string name, Route orignalRoute )
+        public RouteViewModel( Route orignalRoute )
         {
             this._items = new ObservableCollection<RouteItemViewModel>();
-            this.Name = name;
             this._orignalRoute = orignalRoute;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private string _name;
         private bool _isSelected;
 
         public string Name
         {
-            get { return this._name; }
-            set { this._name = value; this.PropertyChanged.Raise( this, () => this.Name ); }
+            get { return this._orignalRoute.Name; }
+            set
+            {
+                this._orignalRoute.Name = value;
+                this.PropertyChanged.Raise( this, () => this.Name );
+            }
+        }
+
+        public int Probability
+        {
+            get { return this._orignalRoute.Probability; }
+            set
+            {
+                this._orignalRoute.Probability = value;
+                this.PropertyChanged.Raise( this, () => this.Probability );
+            }
         }
 
         public void Add( RouteItemViewModel item )

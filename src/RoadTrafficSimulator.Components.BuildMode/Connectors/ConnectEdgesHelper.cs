@@ -1,4 +1,3 @@
-using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using System;
@@ -8,54 +7,55 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
 {
     public class ConnectEdgesHelper
     {
-        private readonly IEdgeLine _owner;
+        private readonly IEdge _edgeOwner;
+        private readonly IEdgeLine _edgeLineOwner;
 
-        public ConnectEdgesHelper( IEdgeLine owner )
+        public ConnectEdgesHelper( IEdge edgeOwner, IEdgeLine edgeLineOwner )
         {
-            Contract.Requires( owner != null );
-            this._owner = owner;
+            this._edgeOwner = edgeOwner;
+            this._edgeLineOwner = edgeLineOwner;
         }
 
-        public void ConnectBeginBottomWith( IEdgeLine roadConnection )
+        public void ConnectBeginBottomWith( Edge roadConnection )
         {
             roadConnection.EndPoint.Translated.Subscribe( _ =>
                                                               {
-                                                                  var changed = this._owner.StartPoint.SetLocation( roadConnection.EndPoint.Location );
-                                                                  if ( changed ) { this._owner.RecalculatePostitionAroundStartPoint(); }
+                                                                  var changed = this._edgeOwner.StartPoint.SetLocation( roadConnection.EndPoint.Location );
+                                                                  if ( changed ) { this._edgeLineOwner.RecalculatePostitionAroundStartPoint(); }
                                                               } );
-            var delta = roadConnection.EndPoint.Location - this._owner.StartPoint.Location;
-            this._owner.StartPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
-            this._owner.EndPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
+            var delta = roadConnection.EndPoint.Location - this._edgeOwner.StartPoint.Location;
+            this._edgeOwner.StartPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
+            this._edgeOwner.EndPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
         }
 
-        public void ConnectEndTopWith( IEdgeLine roadConnection )
+        public void ConnectEndTopWith( Edge roadConnection )
         {
             roadConnection.StartPoint.Translated.Subscribe( _ =>
                                                                 {
-                                                                    var changed = this._owner.EndPoint.SetLocation( roadConnection.StartPoint.Location );
-                                                                    if ( changed ) { this._owner.RecalculatePostitionAroundEndPoint(); }
+                                                                    var changed = this._edgeOwner.EndPoint.SetLocation( roadConnection.StartPoint.Location );
+                                                                    if ( changed ) { this._edgeLineOwner.RecalculatePostitionAroundEndPoint(); }
                                                                 } );
         }
 
-        public void ConnectBeginTopWith( IEdgeLine roadConnection )
+        public void ConnectBeginTopWith( Edge roadConnection )
         {
             roadConnection.StartPoint.Translated.Subscribe( _ =>
                                                                 {
-                                                                    var changed = this._owner.EndPoint.SetLocation( roadConnection.StartPoint.Location );
-                                                                    if ( changed ) { this._owner.RecalculatePostitionAroundEndPoint(); }
+                                                                    var changed = this._edgeOwner.EndPoint.SetLocation( roadConnection.StartPoint.Location );
+                                                                    if ( changed ) { this._edgeLineOwner.RecalculatePostitionAroundEndPoint(); }
                                                                 } );
 
-            var delta = roadConnection.StartPoint.Location - this._owner.EndPoint.Location;
-            this._owner.StartPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
-            this._owner.EndPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
+            var delta = roadConnection.StartPoint.Location - this._edgeOwner.EndPoint.Location;
+            this._edgeOwner.StartPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
+            this._edgeOwner.EndPoint.Translate( Matrix.CreateTranslation( delta.ToVector3() ) );
         }
 
-        public void ConnectEndBottomWith( IEdgeLine roadConnection )
+        public void ConnectEndBottomWith( Edge roadConnection )
         {
             roadConnection.EndPoint.Translated.Subscribe( _ =>
                                                               {
-                                                                  var changed = this._owner.StartPoint.SetLocation( roadConnection.EndPoint.Location );
-                                                                  if ( changed ) { this._owner.RecalculatePostitionAroundStartPoint(); }
+                                                                  var changed = this._edgeOwner.StartPoint.SetLocation( roadConnection.EndPoint.Location );
+                                                                  if ( changed ) { this._edgeLineOwner.RecalculatePostitionAroundStartPoint(); }
                                                               } );
         }
     }

@@ -35,14 +35,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 
             public void Connect( BuilderContext builderContext )
             {
-                var owner = builderContext.GetObject<LaneJunction>( this._light.LightBlock.Connector.Owner.Parent );
+                var owner = builderContext.GetObject<LaneJunction>( this._light.LightBlock.Connector.Owner);
                 this._light.Owner = owner;
-                var edge = owner.JunctionBuilder.GetEdgeType( this._light.LightBlock.Connector.Owner );
-                if( edge < 0 )
-                {
-                    throw new ArgumentException();
-                }
-                owner.AddLight( edge, this._light );
+                owner.AddLight( this._light );
             }
         }
     }

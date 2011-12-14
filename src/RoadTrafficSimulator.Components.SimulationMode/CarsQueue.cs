@@ -9,6 +9,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode
         // TODO Change to more appropiate collection
         private readonly List<Car> _cars = new List<Car>();
 
+        public int Count { get { return this._cars.Count; } }
+
         public void Add( Car car )
         {
             this._cars.Add( car );

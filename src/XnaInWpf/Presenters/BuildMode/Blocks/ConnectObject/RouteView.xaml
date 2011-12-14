@@ -189,6 +189,7 @@
         <Grid DataContext="{Binding Mode=OneWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -201,7 +202,16 @@
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center" />
             </StackPanel>
-            <ListView Grid.Row="1"
+            <StackPanel Grid.Row="1"
+                        Orientation="Horizontal">
+                <Label Content="Probability" />
+                <TextBox MinWidth="50"
+                         Text="{Binding Path=Probability, Mode=TwoWay}"
+                         Width="224.85"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center" />
+            </StackPanel>
+            <ListView Grid.Row="2"
                       ItemsSource="{Binding Items}"
                       Height="Auto"
                       Width="Auto"
@@ -243,7 +253,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <CheckBox Grid.Row="2"
+            <CheckBox Grid.Row="3"
                       Content="CheckBox"
                       Style="{DynamicResource CheckBoxStyle1}"
                       IsChecked="{Binding Path=IsAddMode}"

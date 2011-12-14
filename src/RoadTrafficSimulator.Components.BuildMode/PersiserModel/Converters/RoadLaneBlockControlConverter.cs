@@ -25,44 +25,20 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
             yield return CreateNewCommand( control );
             if ( control.LeftEdge.Connector.PreviousEdge != null )
             {
-                if ( control.LeftEdge.Connector.PreviousEdge is RoadJunctionEdge )
-                {
-                    yield return Actions.Call<RoadLaneBlock>(
-                        control.Id,
-                        // BUG To nie bedzie dzialac
-                        () =>
-                        control.LeftEdge.Connector.ConnectBeginWith( ( IControl ) Find.In( control.LeftEdge.Connector.PreviousEdge.Parent ).Property( control.LeftEdge.Connector.PreviousEdge ) ) );
-                }
-                else
-                {
-                    yield return Actions.Call<RoadLaneBlock>(
-                        control.Id,
-                        // BUG To nie bedzie dzialac
-                        () =>
-                        control.LeftEdge.Connector.ConnectBeginWith( Is.Control( control.LeftEdge.Connector.PreviousEdge.Parent ) ) );
-
-                }
+                yield return Actions.Call<RoadLaneBlock>(
+                    control.Id,
+                    // BUG To nie bedzie dzialac
+                    () =>
+                    control.LeftEdge.Connector.ConnectEndOn( Is.Control( control.LeftEdge.Connector.PreviousEdge.Parent ) ) );
             }
 
             if ( control.RightEdge.Connector.NextEdge != null )
             {
-                if ( control.RightEdge.Connector.NextEdge is RoadJunctionEdge )
-                {
-                    yield return Actions.Call<RoadLaneBlock>(
-                        control.Id,
-                        // BUG To nie bedzie dzialac
-                        () =>
-                        control.RightEdge.Connector.ConnectEndWith( ( IControl ) Find.In( control.RightEdge.Connector.NextEdge.Parent ).Property( control.RightEdge.Connector.NextEdge ) ) );
-                }
-                else
-                {
-                    yield return Actions.Call<RoadLaneBlock>(
-                        control.Id,
-                        // BUG To nie bedzie dzialac
-                        () =>
-                        control.RightEdge.Connector.ConnectEndWith( Is.Control( control.RightEdge.Connector.NextEdge.Parent ) ) );
-
-                }
+                yield return Actions.Call<RoadLaneBlock>(
+                    control.Id,
+                    // BUG To nie bedzie dzialac
+                    () =>
+                    control.RightEdge.Connector.ConnectStartFrom( Is.Control( control.RightEdge.Connector.NextEdge.Parent ) ) );
             }
 
             base.BuildRoutes( control.LeftEdge );
@@ -71,7 +47,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
 
         private static UseCtorToCreateControl<RoadLaneBlock> CreateNewCommand( RoadLaneBlock control )
         {
-            return Actions.CreateControl( control.Id, () => new RoadLaneBlock( Is.Ioc<Factories.Factories>(), Is.Const<IControl>( null ) ) );
+            return Actions.CreateControl( control.Id, () => new RoadLaneBlock( Is.Ioc<Factories.Factories>() ) );
         }
     }
 }

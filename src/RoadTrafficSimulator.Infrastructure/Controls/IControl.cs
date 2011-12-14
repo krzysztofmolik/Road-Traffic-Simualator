@@ -5,10 +5,14 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Infrastructure.Controls
 {
+    public interface IComponent
+    {
+        IControl Parent { get; }
+    }
+
     public interface ILogicControl
     {
         Vector2 Location { get; }
-        IControl Parent { get; set; }
         IObservable<bool> SelectionChanged { get; }
         bool IsSelected { get; set; }
         void Redraw();

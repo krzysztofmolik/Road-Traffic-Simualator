@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Common;
@@ -7,15 +6,13 @@ using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.Messages;
-using RoadTrafficSimulator.Components.SimulationMode.Route;
 using RoadTrafficSimulator.Infrastructure;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 {
-    public class CarRemoverRoadInformation : IRoadInformation
+    public class CarRemoverRoadInformation : RoadInformationBase, IRoadInformation
     {
         private readonly CarsRemover _carsRemover;
-        private readonly Queue<Car> _cars = new Queue<Car>();
         private readonly IEventAggregator _eventAggregator;
 
         public CarRemoverRoadInformation( CarsRemover carsRemover, IEventAggregator eventAggregator )
@@ -26,15 +23,14 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             this._eventAggregator = eventAggregator;
         }
 
-        public void OnEnter( Car car )
+        public override void OnEnter( Car car )
         {
             this._eventAggregator.Publish( new CarRemoved( car ) );
         }
 
-        public void OnExit(Car car)
+        protected override Vector2 GetEndLocation()
         {
-            var removedCar = this._cars.Dequeue();
-            Debug.Assert( car == removedCar );
+            return this._carsRemover.BuildControl.Location;
         }
 
         public float Lenght(IRoadElement previous, IRoadElement next)
@@ -50,12 +46,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         public bool ShouldChange( Car car )
         {
             return false;
-        }
-
-        public void GetCarAheadDistance(IRouteMark<IRoadElement> routMark, CarInformation carInformation)
-        {
-            carInformation.CarDistance = float.MaxValue;
-            carInformation.CarAhead = null;
         }
 
         public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )

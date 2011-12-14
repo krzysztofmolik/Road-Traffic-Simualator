@@ -23,19 +23,19 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private readonly List<RouteElement> _route;
 
         public Route()
-            : this( Enumerable.Empty<RouteElement>(), 0.0f )
+            : this( Enumerable.Empty<RouteElement>(), 0 )
         {
             this._route = new List<RouteElement>();
         }
 
-        public Route( string name, float probability )
+        public Route( string name, int probability )
         {
             this.Name = name;
             this.Probability = probability;
             this._route = new List<RouteElement>();
         }
 
-        public Route( IEnumerable<RouteElement> routeElements, float probability )
+        public Route( IEnumerable<RouteElement> routeElements, int probability )
         {
             this._route = new List<RouteElement>( routeElements );
             this.Probability = probability;
@@ -43,7 +43,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         }
 
         public string Name { get; set; }
-        public float Probability { get; set; }
+        public int Probability { get; set; }
         public IEnumerable<RouteElement> Items { get { return this._route; } }
 
         public bool CanAdd( IControl control )

@@ -1,15 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 {
-    public class RoadJunctionEdgeVertexContainer : EdgeVertexContainer
+    public class InternalRoadJunctionEdgeVertexContainer : EdgeVertexContainer
     {
-        private readonly RoadJunctionEdge _edge;
+        private readonly InternalRoadJunctionEdge _edge;
 
-        private readonly Color _whenConnected = Color.White * 0;
-
-        public RoadJunctionEdgeVertexContainer( RoadJunctionEdge edge )
+        public InternalRoadJunctionEdgeVertexContainer( InternalRoadJunctionEdge edge )
             : base( edge, Color.White )
         {
             this._edge = edge;
@@ -22,11 +20,6 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 
         private Color GetColor()
         {
-            if ( this._edge.Connector.AreAllSlotOccupied )
-            {
-                return this._whenConnected;
-            }
-
             return Color.Black;
         }
     }

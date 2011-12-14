@@ -9,11 +9,11 @@ using RoadTrafficSimulator.Infrastructure.Extension;
 
 namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
 {
-    public class RoadLaneBlockVertexContainer : VertexContainerBase<IRoadLaneBlock, VertexPositionColor>
+    public class RoadLaneBlockVertexContainer : VertexContainerBase<RoadLaneBlock, VertexPositionColor>
     {
         private IShape _shape;
 
-        public RoadLaneBlockVertexContainer( IRoadLaneBlock roadLaneBlock )
+        public RoadLaneBlockVertexContainer( RoadLaneBlock roadLaneBlock )
             : base( roadLaneBlock, Constans.RoadColor )
         {
         }

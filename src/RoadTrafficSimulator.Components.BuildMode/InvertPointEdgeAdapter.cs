@@ -1,51 +1,27 @@
 using System;
-using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode
 {
-    public class InvertPointEdgeAdapter : IEdgeLine
+    public class InvertPointEdgeAdapter : IEdgeLine,  IEdge
     {
-        private readonly IEdgeLine _edge;
+        private readonly IEdgeLine _edgeLine;
+        private readonly IEdge _edge;
+        private readonly IControl _parent;
 
-        public InvertPointEdgeAdapter( IEdgeLine edge, IControl parent )
+        public InvertPointEdgeAdapter( IEdgeLine edgeLine, IEdge edge, IControl parent )
         {
+            this._edgeLine = edgeLine;
             this._edge = edge;
-            this.Parent = parent;
+            this._parent = parent;
         }
 
-        public Vector2 Location
-        {
-            get { return this._edge.Location; }
-        }
-
-        public IControl Parent { get; set; }
-
-        public IObservable<bool> SelectionChanged
-        {
-            get { return this._edge.SelectionChanged; }
-        }
-
-        public bool IsSelected
-        {
-            get { return this._edge.IsSelected; }
-            set { this._edge.IsSelected = value; }
-        }
-
-        public void Redraw()
-        {
-            this._edge.Redraw();
-        }
-
-        public void Invalidate()
-        {
-            this._edge.Invalidate();
-        }
+        public IControl Parent { get { return this._parent; } }
 
         public MovablePoint StartPoint
         {
-            get { return this._edge.EndPoint ; }
+            get { return this._edge.EndPoint; }
         }
 
         public MovablePoint EndPoint
@@ -60,17 +36,17 @@ namespace RoadTrafficSimulator.Components.BuildMode
 
         public void RecalculatePostitionAroundStartPoint()
         {
-            this._edge.RecalculatePostitionAroundEndPoint();
+            this._edgeLine.RecalculatePostitionAroundEndPoint();
         }
 
         public void RecalculatePostitionAroundEndPoint()
         {
-            this._edge.RecalculatePostitionAroundStartPoint();
+            this._edgeLine.RecalculatePostitionAroundStartPoint();
         }
 
         public void RecalculatePosition()
         {
-            this._edge.RecalculatePosition();
+            this._edgeLine.RecalculatePosition();
         }
     }
 }

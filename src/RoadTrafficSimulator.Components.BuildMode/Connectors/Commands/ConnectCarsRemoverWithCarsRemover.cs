@@ -32,8 +32,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
 
         private bool IsHigher( CarsRemover firstConnction, CarsRemover secondConnection )
         {
-            var fromStartPointDistance = Vector2.Distance( firstConnction.StartLocation, secondConnection.Location );
-            var fromEndPointDistance = Vector2.Distance( firstConnction.EndLocation, secondConnection.Location );
+            var fromStartPointDistance = Vector2.Distance( firstConnction.Edge.StartLocation, secondConnection.Location );
+            var fromEndPointDistance = Vector2.Distance( firstConnction.Edge.EndLocation, secondConnection.Location );
 
             return fromStartPointDistance <= fromEndPointDistance;
         }

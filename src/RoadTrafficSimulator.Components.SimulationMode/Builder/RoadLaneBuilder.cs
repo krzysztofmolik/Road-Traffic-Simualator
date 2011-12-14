@@ -32,7 +32,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             public void Build( BuilderContext context, IControl control )
             {
                 var laneBlock = ( RoadLaneBlock ) control;
-                this._lane = new Lane( laneBlock, l => new SingleLaneRoadInformation( l ) );
+                this._lane = new Lane( laneBlock, l => new LaneRoadInforamtion( l ) );
                 context.AddElement( laneBlock, this._lane );
             }
 

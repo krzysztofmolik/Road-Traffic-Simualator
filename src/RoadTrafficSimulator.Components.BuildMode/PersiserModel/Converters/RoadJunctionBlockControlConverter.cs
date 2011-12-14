@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands;
@@ -25,47 +24,36 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
 
         private IEnumerable<IAction> Convert( RoadJunctionBlock control )
         {
-            yield return Actions.CreateControl( control.Id, () => new RoadJunctionBlock( Is.Ioc<Factories.Factories>(), Is.Const( control.Location ), Is.Const<IControl>( null ) ) );
+            yield return Actions.CreateControl( control.Id, () => new RoadJunctionBlock( Is.Ioc<Factories.Factories>(), Is.Const( control.Location ) ) );
             yield return SetProperties<Vector2>.Create<RoadJunctionBlock>( control.Id, () => control.LeftTop.Location );
             yield return SetProperties<Vector2>.Create<RoadJunctionBlock>( control.Id, () => control.RightTop.Location );
             yield return SetProperties<Vector2>.Create<RoadJunctionBlock>( control.Id, () => control.RightBottom.Location );
             yield return SetProperties<Vector2>.Create<RoadJunctionBlock>( control.Id, () => control.LeftBottom.Location );
-            if ( control.LeftEdge.Connector.Edge != null )
+            if ( control.Connector.LeftEdge != null )
             {
                 yield return Actions.Call<RoadJunctionBlock>(
                             control.Id,
-                            () => control.LeftEdge.Connector.ConnectBeginWith( Find.In( control.LeftEdge.Connector.Edge.Parent ).Property( control.LeftEdge.Connector.Edge ) ) );
+                            () => control.Connector.ConnectStartOn( Is.Control( control.Connector.LeftEdge ), Is.Const( EdgeType.Left ) ) );
             }
-            if ( control.RightEdge.Connector.Edge != null )
+            if ( control.Connector.RightEdge != null )
             {
                 yield return Actions.Call<RoadJunctionBlock>(
                             control.Id,
-                            () => control.RightEdge.Connector.ConnectBeginWith( Find.In( control.RightEdge.Connector.Edge.Parent ).Property( control.RightEdge.Connector.Edge ) ) );
+                            () => control.Connector.ConnectStartOn( Is.Control( control.Connector.RightEdge ), Is.Const( EdgeType.Right ) ) );
             }
-            if ( control.TopEdge.Connector.Edge != null )
+
+            if ( control.Connector.TopEdge != null )
             {
                 yield return Actions.Call<RoadJunctionBlock>(
                             control.Id,
-                            () => control.TopEdge.Connector.ConnectBeginWith( Find.In( control.TopEdge.Connector.Edge.Parent ).Property( control.TopEdge.Connector.Edge ) ) );
+                            () => control.Connector.ConnectStartOn( Is.Control( control.Connector.TopEdge ), Is.Const( EdgeType.Top ) ) );
             }
-            if ( control.BottomEdge.Connector.Edge != null )
+            if ( control.Connector.BottomEdge != null )
             {
                 yield return Actions.Call<RoadJunctionBlock>(
                             control.Id,
-                            () => control.BottomEdge.Connector.ConnectBeginWith( Find.In( control.BottomEdge.Connector.Edge.Parent ).Property( control.BottomEdge.Connector.Edge ) ) );
+                            () => control.Connector.ConnectStartOn( Is.Control( control.Connector.BottomEdge ), Is.Const( EdgeType.Bottom ) ) );
             }
-
-            var routesLeftEdge = control.LeftEdge.Routes.AvailableRoutes .Select( route => { var routesActions = this.BuildSingleRoute( route ); return Actions.Call<RoadJunctionBlock>( control.Id, () => control.LeftEdge.Routes.AddRoute( Is.Action<Route>( routesActions ) ) ); } ) .ToArray();
-            yield return new ActionCollection( Order.Low ).AddRange( routesLeftEdge );
-
-            var routesRightEdge = control.RightEdge.Routes.AvailableRoutes .Select( route => { var routesActions = this.BuildSingleRoute( route ); return Actions.Call<RoadJunctionBlock>( control.Id, () => control.RightEdge.Routes.AddRoute( Is.Action<Route>( routesActions ) ) ); } ) .ToArray();
-            yield return new ActionCollection( Order.Low ).AddRange( routesRightEdge );
-
-            var routesTopEdge = control.TopEdge.Routes.AvailableRoutes .Select( route => { var routesActions = this.BuildSingleRoute( route ); return Actions.Call<RoadJunctionBlock>( control.Id, () => control.TopEdge.Routes.AddRoute( Is.Action<Route>( routesActions ) ) ); } ) .ToArray();
-            yield return new ActionCollection( Order.Low ).AddRange( routesTopEdge );
-
-            var routesBottomEdge = control.BottomEdge.Routes.AvailableRoutes .Select( route => { var routesActions = this.BuildSingleRoute( route ); return Actions.Call<RoadJunctionBlock>( control.Id, () => control.BottomEdge.Routes.AddRoute( Is.Action<Route>( routesActions ) ) ); } ) .ToArray();
-            yield return new ActionCollection( Order.Low ).AddRange( routesBottomEdge );
         }
     }
 }

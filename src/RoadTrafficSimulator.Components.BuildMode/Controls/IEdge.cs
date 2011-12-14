@@ -3,7 +3,7 @@ using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public interface IEdge : ILogicControl
+    public interface IEdge : IComponent
     {
         MovablePoint StartPoint { get; }
         MovablePoint EndPoint { get; }

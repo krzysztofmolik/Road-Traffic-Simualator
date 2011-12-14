@@ -3,12 +3,11 @@ using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
-using RoadTrafficSimulator.Components.SimulationMode.Route;
 using RoadTrafficSimulator.Infrastructure;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 {
-    public class CarInserterRoadInformation : IRoadInformation
+    public class CarInserterRoadInformation :RoadInformationBase, IRoadInformation
     {
         private readonly CarsInserter _carInserter;
         private readonly CarsQueue _cars = new CarsQueue();
@@ -19,17 +18,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             this._carInserter = carInserter;
         }
 
-        public void OnEnter( Car car )
+        protected override Vector2 GetEndLocation()
         {
-            this._cars.Add( car );
+            return this._carInserter.BuildControl.Location;
         }
 
-        public void OnExit( Car car )
-        {
-            this._cars.Remove( car );
-        }
-
-        public float Lenght(IRoadElement previous, IRoadElement next)
+        public float Lenght( IRoadElement previous, IRoadElement next )
         {
             return Constans.PointSize;
         }
@@ -44,24 +38,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return true;
         }
 
-        public void GetCarAheadDistance( IRouteMark<IRoadElement> routMark, CarInformation carInformation )
-        {
-            throw new System.NotImplementedException();
-//            var carAhead = this._cars.GetCarAheadOf( carInformation.QuestioningCar );
-//            if ( carAhead == null )
-//            {
-//                carInformation.CarDistance += Constans.PointSize;
-//                routMark.MoveNext();
-//                routMark.Current.Condutor.GetCarAheadDistance( routMark, carInformation );
-//            }
-//            else
-//            {
-//                carInformation.QuestioningCar = carAhead;
-//            }
-//
-//            return;
-        }
-
         public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )
         {
             var firstCar = this._cars.GetFirstCar();
@@ -73,7 +49,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 
         public Vector2 GetCarDirection( Car car, IRoadElement nextPoint )
         {
-//            return this._carInserter.Lane.RoadInformation.GetCarDirection( car );
+            //            return this._carInserter.Lane.RoadInformation.GetCarDirection( car );
             return Vector2.Zero;
         }
 

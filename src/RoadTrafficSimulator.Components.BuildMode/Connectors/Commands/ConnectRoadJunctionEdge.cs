@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using RoadTrafficSimulator.Components.BuildMode.Controls;
+﻿using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
@@ -8,14 +7,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
     {
         public bool Connect( ILogicControl first, ILogicControl second )
         {
-            var firstEdge = first as RoadJunctionEdge;
-            var secondEdge = second as RoadJunctionEdge;
+            var firstEdge = first as JunctionEdge;
+            var secondEdge = second as JunctionEdge;
             if ( firstEdge == null || secondEdge == null )
-            {
-                return false;
-            }
-
-            if ( this.HaveTheSameParent( firstEdge, secondEdge ) )
             {
                 return false;
             }
@@ -25,27 +19,16 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
                 return false;
             }
 
-            firstEdge.Connector.ConnectEndWith( secondEdge );
-            secondEdge.Connector.ConnectBeginWith( firstEdge );
+            firstEdge.Connector.ConnectBeginFrom( secondEdge );
+            secondEdge.Connector.ConnectEndsOn( firstEdge );
 
             return true;
         }
 
-        private bool HaveTheSameParent( RoadJunctionEdge first, RoadJunctionEdge second )
-        {
-            var firstParent = first.Parent as ICompositeControl;
-            if ( firstParent == null )
-            {
-                return false;
-            }
 
-            var theSameParent = firstParent.Children.Any( c => c == second );
-            return theSameParent;
-        }
-
-        private bool AreConnected( RoadJunctionEdge firstEdge, RoadJunctionEdge secondEdge )
+        private bool AreConnected( JunctionEdge first, JunctionEdge second )
         {
-            return firstEdge.Connector.AreConnected( secondEdge );
+            return first.Connector.Edge.Parent == second.Edge || first.Connector.JunctionEdge.Parent == second || second.Connector.Edge.Parent == first || second.Connector.JunctionEdge.Parent == first;
         }
     }
 }

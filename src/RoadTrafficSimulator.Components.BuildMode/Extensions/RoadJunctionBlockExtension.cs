@@ -1,19 +1,19 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Diagnostics;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
-using System.Linq;
 using RoadTrafficSimulator.Infrastructure;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Extensions
 {
     public static class RoadJunctionBlockExtension
     {
-        public static RoadJunctionEdge GetOpositeEdge( this RoadJunctionBlock junction, RoadJunctionEdge edge )
+        public static InternalRoadJunctionEdge GetOpositeEdge( this RoadJunctionBlock junction, InternalRoadJunctionEdge edge )
         {
-            Debug.Assert( junction.RoadJunctionEdges.Length == EdgeType.Count );
-            var idex = Array.IndexOf( junction.RoadJunctionEdges, edge );
+            Debug.Assert( junction.JunctionEdges.Length == EdgeType.Count );
+            var idex = Array.IndexOf( junction.JunctionEdges, edge );
             if ( idex < 0 ) { throw new ArgumentException(); }
-            return junction.RoadJunctionEdges[ ( idex + 2 ) % 4 ];
+            return junction.JunctionEdges[ ( idex + 2 ) % 4 ];
         }
     }
 }

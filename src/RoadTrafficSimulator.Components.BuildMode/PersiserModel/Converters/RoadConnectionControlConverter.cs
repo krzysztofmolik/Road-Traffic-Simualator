@@ -39,8 +39,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
             return Actions.CreateControl( control.Id,
                                           () =>
                                           new RoadConnection( Is.Ioc<Factories.Factories>(),
-                                                              Is.Const( control.Location ),
-                                                              Is.Const( default( IControl ) ) ) );
+                                                              Is.Const( control.Location ) ) );
         }
     }
 }

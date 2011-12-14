@@ -19,7 +19,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
 
         public RoadInformation Process( Car car, IRouteMark<IConductor> route )
         {
-            return RoadInformation.Empty;
+            var carAheadInformation = this.Information.GetCarAheadDistance( car );
+            return new RoadInformation
+                       {
+                           CarAhead = carAheadInformation.CarAhead,
+                           CarAheadDistance = carAheadInformation.CarDistance,
+                       };
         }
 
         public void SetRouteElement( IRoadElement element )
@@ -36,7 +41,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
 
         public IRoadInformation Information
         {
-            get { return this._junctionEdge.Junction.RoadInformation; }
+            get
+            {
+                return this._junctionEdge.RoadInformation;
+            }
         }
 
         public IRoadElement RoadElement

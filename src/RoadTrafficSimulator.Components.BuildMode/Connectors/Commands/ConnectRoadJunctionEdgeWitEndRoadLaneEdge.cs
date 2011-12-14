@@ -7,16 +7,16 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
     {
         public virtual bool Connect( ILogicControl first, ILogicControl second )
         {
-            var roadJunctionEdge = first as RoadJunctionEdge;
-            var roadLaneEdge = second as EndRoadLaneEdge;
+            var roadJunctionEdge = first as JunctionEdge;
+            var roadLaneEdge = second as RoadLaneBlock;
 
             if ( roadLaneEdge == null || roadJunctionEdge == null )
             {
                 return false;
             }
 
-            roadJunctionEdge.Connector.ConnectEndWith( roadLaneEdge );
-            roadLaneEdge.Connector.ConnectBeginWith( roadJunctionEdge );
+            roadJunctionEdge.Connector.ConnectBeginFrom( roadLaneEdge );
+            roadLaneEdge.LeftEdge.Connector.ConnectEndOn( roadJunctionEdge );
             return true;
         }
     }

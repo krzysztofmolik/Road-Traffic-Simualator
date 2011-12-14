@@ -1,6 +1,6 @@
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public interface IEdgeLine : IEdge
+    public interface IEdgeLine
     {
         void RecalculatePostitionAroundStartPoint();
         void RecalculatePostitionAroundEndPoint();

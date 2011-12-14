@@ -24,13 +24,15 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
             var isFirstHigherThanSecond = this.IsHigher( firstConnction, secondConnection );
             if ( isFirstHigherThanSecond )
             {
-                firstConnction.Connector.ConnectBeginBottomWith( secondConnection );
-                secondConnection.Connector.ConnectEndTopWith( firstConnction );
+                // Bug ??
+                firstConnction.Connector.ConnectBeginBottomWith( secondConnection.Edge );
+                secondConnection.Connector.ConnectEndTopWith( firstConnction.Edge );
             }
             else
             {
-                firstConnction.Connector.ConnectBeginTopWith( secondConnection );
-                secondConnection.Connector.ConnectEndBottomWith( firstConnction );
+                // BUG ??
+                firstConnction.Connector.ConnectBeginTopWith( secondConnection.Edge );
+                secondConnection.Connector.ConnectEndBottomWith( firstConnction.Edge );
             }
 
             return true;
@@ -38,8 +40,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
 
         private bool IsHigher( RoadConnection firstConnction, RoadConnection secondConnection )
         {
-            var fromStartPointDistance = Vector2.Distance( firstConnction.StartLocation, secondConnection.Location );
-            var fromEndPointDistance = Vector2.Distance( firstConnction.EndLocation, secondConnection.Location );
+            var fromStartPointDistance = Vector2.Distance( firstConnction.Edge.StartLocation, secondConnection.Location );
+            var fromEndPointDistance = Vector2.Distance( firstConnction.Edge.EndLocation, secondConnection.Location );
 
             return fromStartPointDistance <= fromEndPointDistance;
         }
@@ -48,7 +50,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
         {
             var firstConnector = firstConnction.Connector;
 
-            return firstConnector.Top == secondConnection || firstConnector.Bottom == secondConnection;
+            // BUG
+            return firstConnector.Top == secondConnection.Edge || firstConnector.Bottom == secondConnection.Edge;
         }
     }
 }

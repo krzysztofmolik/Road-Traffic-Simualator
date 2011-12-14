@@ -2,6 +2,9 @@ using System;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
+using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors;
+using RoadTrafficSimulator.Components.SimulationMode.Route;
+using RoadTrafficSimulator.Infrastructure;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 {
@@ -9,9 +12,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
     {
         private readonly Car _car;
         private readonly IEngine _engine;
-        private bool _canDriver;
         private float _destinationSpeed;
         private float _destinationPosition;
+        private bool _canDriver;
 
         public DriverBrain( Car car, IEngine engine )
         {
@@ -21,24 +24,50 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 
         public void Process( TimeSpan timeFrame )
         {
+            this._canDriver = true;
             var road = this._car.Conductors.Clone();
             var end = this._car.Conductors.Current.Process( this._car, road );
-            this.ProcessAnser( end );
+
+            var distance = 0.0f;
+            this.ProcessAnser( end, distance );
+
+            distance += this.GetLenght( road );
 
             while ( this._canDriver && road.MoveNext() )
             {
-                road.Current.Process( this._car, road );
+                var processInformation = road.Current.Process( this._car, road );
+                this.ProcessAnser( processInformation, distance );
+
+                distance += this.GetLenght( road );
             }
 
             this._engine.SetStopPoint( this._destinationPosition, this._destinationSpeed );
             this._engine.MoveCar( this._car, timeFrame.Milliseconds );
         }
 
-        private void ProcessAnser( RoadInformation end )
+        private float GetLenght( IRouteMark<IConductor> road )
         {
-            this._canDriver = true;
+            var previous = road.GetPrevious();
+            var next = road.GetNext();
+            return road.Current.Information.Lenght(
+                                                        previous != null ? previous.RoadElement : null,
+                                                        next != null ? next.RoadElement : null );
+
+        }
+
+        private void ProcessAnser( RoadInformation end, float distance )
+        {
+            if ( end.CarAhead != null )
+            {
+                this._destinationPosition = Math.Max( 0, distance + end.CarAheadDistance - UnitConverter.FromMeter( 1 ) - end.CarAhead.Lenght );
+                this._destinationSpeed = end.CarAhead.Velocity;
+                this._canDriver = false;
+                return;
+            }
+
             this._destinationPosition = float.MaxValue;
             this._destinationSpeed = this._car.MaxSpeed;
+            this._canDriver = true;
         }
     }
 
@@ -69,12 +98,13 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         private void ChangeConductor()
         {
             this._car.Conductors.Current.Information.OnExit( this._car );
-            if( !this._car.Conductors.MoveNext() ) { return; }
+            if ( !this._car.Conductors.MoveNext() ) { return; }
             this._car.Conductors.Current.Information.OnEnter( this._car );
 
-            if( this._car.Conductors.GetNext()== null ) { return; }
+            if ( this._car.Conductors.GetNext() == null ) { return; }
 
             var direction = this._car.Conductors.Current.Information.GetCarDirection( this._car, this._car.Conductors.GetNext().RoadElement );
+            Console.WriteLine( "{0} direction {1}", this._car.Conductors.Current.RoadElement.GetType().Name, direction );
             if ( direction == Vector2.Zero )
             {
                 this._car.Direction = direction;

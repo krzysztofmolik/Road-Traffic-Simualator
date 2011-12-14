@@ -6,7 +6,7 @@ using RoadTrafficSimulator.Infrastructure.Draw;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class SideRoadLaneEdge : Edge
+    public class SideRoadLaneEdge : Edge, IComponent
     {
         private RoadLaneBlock _parent;
         private readonly SideRoadLaneEdgeVertexContainer _vertexContainer;
@@ -15,7 +15,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private LaneType _laneType;
 
         public SideRoadLaneEdge(Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, RoadLaneBlock parent)
-            : base( factories, startPoint, endPoint, Styles.NormalStyle )
+            : base( factories, startPoint, endPoint, Styles.NormalStyle, parent )
         {
             this._connector = new SideRoadLaneConnector( this );
             this._parent = parent;
@@ -52,7 +52,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             get { return this._vertexContainer; }
         }
 
-        public override IControl Parent
+        public IControl Parent
         {
             get { return this._parent; }
             set

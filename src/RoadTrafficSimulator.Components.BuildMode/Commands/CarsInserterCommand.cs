@@ -19,7 +19,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
             this._mouseInformation = mouseInformation;
             this._mouseInformation.LeftButtonClicked.Subscribe( s =>
                                                                 {
-                                                                    var carInserter = new CarsInserter( factories, s.Location, null );
+                                                                    var carInserter = new CarsInserter( factories, s.Location );
                                                                     eventAggregator.Publish( new AddControlToRoadLayer( carInserter ) );
                                                                 } );
         }

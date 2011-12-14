@@ -1,26 +1,28 @@
 using Common.Xna;
 using Microsoft.FSharp.Core;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.BuildMode.Connectors;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
+using RoadTrafficSimulator.Infrastructure.Draw;
+using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class RoadConnection : Edge, IEdgeLine, IRoadElement
+    public class RoadConnection : CompositControl<VertexPositionColor>, IEdgeLine, IRoadElement
     {
         private readonly RoadConnectionConnector _connector;
         private readonly Routes _routes = new Routes();
 
-        public RoadConnection( Factories.Factories factories, Vector2 location, IControl parent )
-            : base( factories, Styles.NormalStyle )
+        public RoadConnection( Factories.Factories factories, Vector2 location )
         {
-            this.Parent = this;
             this._connector = new RoadConnectionConnector( this );
-            this.StartPoint.SetLocation( location - new Vector2( 0, Constans.RoadHeight / 2 ) );
-            this.EndPoint.SetLocation( location + new Vector2( 0, Constans.RoadHeight / 2 ) );
-            this.LeftEdge = new NormalPointEdgeAdapter( this, this );
-            this.RightEdge = new InvertPointEdgeAdapter( this, this );
+            this.Edge = new NormalEdge( factories, this, location );
+            this.RightEdge = new InvertPointEdgeAdapter( this, this.Edge, this );
+
+            this.Edge.StartPoint.SetLocation( location - new Vector2( 0, Constans.RoadHeight / 2 ) );
+            this.Edge.EndPoint.SetLocation( location + new Vector2( 0, Constans.RoadHeight / 2 ) );
         }
 
         public RoadConnectionConnector Connector
@@ -28,11 +30,41 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             get { return this._connector; }
         }
 
-        public override IControl Parent { get; set; }
         public Routes Routes { get { return this._routes; } }
-        public NormalPointEdgeAdapter LeftEdge { get; private set; }
+        public NormalEdge Edge { get; private set; }
 
         public InvertPointEdgeAdapter RightEdge { get; private set; }
+
+        public override IVertexContainer VertexContainer
+        {
+            get { return this.Edge.VertexContainer; }
+        }
+
+        public override IMouseHandler MouseHandler
+        {
+            get { return this.Edge.MouseHandler; }
+        }
+
+        public override void Translate( Matrix matrixTranslation )
+        {
+            this.Edge.Translate( matrixTranslation );
+            this.OnInvalidate();
+        }
+
+        public override void TranslateWithoutNotification( Matrix translationMatrix )
+        {
+            this.Edge.TranslateWithoutNotification( translationMatrix );
+        }
+
+        public override Vector2 Location
+        {
+            get { return this.Edge.Location; }
+            set
+            {
+                this.Edge.Location = value;
+                this.OnInvalidate();
+            }
+        }
 
         protected override void OnInvalidate()
         {
@@ -52,8 +84,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
                                    ? FSharpOption<Vector2>.Some( this.Connector.OpositeToNextEdge.StartLocation )
                                    : FSharpOption<Vector2>.None;
 
-            var line = calculator.Calculate( prevLocation, this.StartLocation, nextLocation );
-            this.EndPoint.SetLocation( line.End );
+            var line = calculator.Calculate( prevLocation, this.Edge.StartLocation, nextLocation );
+            this.Edge.EndPoint.SetLocation( line.End );
         }
 
         public void RecalculatePostitionAroundEndPoint()
@@ -68,8 +100,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
                                    ? FSharpOption<Vector2>.Some( this.Connector.OpositeToNextEdge.EndLocation )
                                    : FSharpOption<Vector2>.None;
 
-            var line = calculator.Calculate( prevLocation, this.EndLocation, nextLocation );
-            this.StartPoint.SetLocation( line.Start );
+            var line = calculator.Calculate( prevLocation, this.Edge.EndLocation, nextLocation );
+            this.Edge.StartPoint.SetLocation( line.Start );
         }
 
         public void RecalculatePosition()
@@ -84,8 +116,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
                                    : FSharpOption<Vector2>.None;
 
             var line = calculator.Calculate( prevLocation, this.Location, nextLocation );
-            this.StartPoint.SetLocation( line.Start );
-            this.EndPoint.SetLocation( line.End );
+            this.Edge.StartPoint.SetLocation( line.Start );
+            this.Edge.EndPoint.SetLocation( line.End );
         }
     }
 }

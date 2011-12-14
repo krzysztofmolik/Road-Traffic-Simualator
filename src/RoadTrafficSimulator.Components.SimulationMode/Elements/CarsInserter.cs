@@ -13,7 +13,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
             this.RoadInformation = conductorFactory( this );
             this.CarsInserterBuilder = control;
             this.LastTimeCarWasInseter = DateTime.Now;
-            this.CarsInsertionInterval = TimeSpan.FromMilliseconds( 500 );
+            this.CarsInsertionInterval = TimeSpan.FromMilliseconds( 1500 );
         }
 
         public Lane Lane { get; set; }

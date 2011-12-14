@@ -8,15 +8,15 @@ namespace RoadTrafficSimulator.Components.BuildMode
 {
     public class RoadLaneBuilder
     {
-        private readonly Func<ICompositeControl, IRoadLaneBlock> _roadLaneBlockFactory;
-        private readonly Func<Vector2, ICompositeControl, RoadConnection> _roadConnectionEdgeFactory;
+        private readonly Func<RoadLaneBlock> _roadLaneBlockFactory;
+        private readonly Func<Vector2, RoadConnection> _roadConnectionEdgeFactory;
         private readonly CompositeConnectionCommand _connectionCommand;
         private IControl _lastConnectedControl;
         private ICompositeControl _owner;
 
         public RoadLaneBuilder(
-            Func<ICompositeControl, IRoadLaneBlock> roadLaneBlockFactory,
-            Func<Vector2, ICompositeControl, RoadConnection> roadConnectionEdgeFactory,
+            Func<RoadLaneBlock> roadLaneBlockFactory,
+            Func<Vector2, RoadConnection> roadConnectionEdgeFactory,
             CompositeConnectionCommand connectionCommand )
         {
             this._roadLaneBlockFactory = roadLaneBlockFactory;
@@ -39,10 +39,10 @@ namespace RoadTrafficSimulator.Components.BuildMode
         public void CreateBlockTo( Vector2 location )
         {
             var roadLane = this.CreateRoadLane();
-            this._connectionCommand.Connect( this._lastConnectedControl, roadLane.LeftEdge );
+            this._connectionCommand.Connect( this._lastConnectedControl, roadLane );
 
             var roadLaneConnection = this.CreateRoadLaneConnection( location );
-            this._connectionCommand.Connect( roadLane.RightEdge, roadLaneConnection );
+            this._connectionCommand.Connect( roadLane, roadLaneConnection );
 
             this._owner.AddChild( roadLane );
 
@@ -52,8 +52,8 @@ namespace RoadTrafficSimulator.Components.BuildMode
         public void EndIn( IControl lastControl )
         {
             var roadLane = this.CreateRoadLane();
-            this._connectionCommand.Connect( this._lastConnectedControl, roadLane.LeftEdge );
-            this._connectionCommand.Connect( roadLane.RightEdge, lastControl );
+            this._connectionCommand.Connect( this._lastConnectedControl, roadLane );
+            this._connectionCommand.Connect( roadLane, lastControl );
 
             this._owner.AddChild( roadLane );
             this._lastConnectedControl = null;
@@ -64,14 +64,14 @@ namespace RoadTrafficSimulator.Components.BuildMode
             this._owner = owner.NotNull();
         }
 
-        private IRoadLaneBlock CreateRoadLane()
+        private RoadLaneBlock CreateRoadLane()
         {
-            return this._roadLaneBlockFactory( this._owner );
+            return this._roadLaneBlockFactory();
         }
 
         private RoadConnection CreateRoadLaneConnection( Vector2 location )
         {
-            var roadLaneConnection = this._roadConnectionEdgeFactory( location, this._owner );
+            var roadLaneConnection = this._roadConnectionEdgeFactory( location );
             this._owner.AddChild( roadLaneConnection );
             return roadLaneConnection;
         }

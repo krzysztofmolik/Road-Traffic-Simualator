@@ -109,7 +109,7 @@
     <Compile Include="Builder\CarsRemoverBuilder.cs" />
     <Compile Include="Builder\IBuilerItem.cs" />
     <Compile Include="Builder\IRoutes.cs" />
-    <Compile Include="Builder\JunctionRoutes.cs" />
+    <Compile Include="Builder\JunctionEdgeBuilder.cs" />
     <Compile Include="Builder\LaneCornerBuilder.cs" />
     <Compile Include="Builder\LaneJunctionBuilder.cs" />
     <Compile Include="Builder\LightBuilder.cs" />
@@ -120,7 +120,7 @@
     <Compile Include="CarsQueue.cs" />
     <Compile Include="CarsSpecification\ICarSpecifiaction.cs" />
     <Compile Include="CarsSpecification\PassengerCarFactory.cs" />
-    <Compile Include="RoadInformations\CarInformation.cs" />
+    <Compile Include="RoadInformations\CarAhedInformation.cs" />
     <Compile Include="RoadInformations\CarInserterRoadInformation.cs" />
     <Compile Include="RoadInformations\CarRemoverRoadInformation.cs" />
     <Compile Include="RoadInformations\CarStateMachine.cs" />
@@ -138,6 +138,7 @@
     <Compile Include="RoadInformations\Engine.cs" />
     <Compile Include="RoadInformations\Factories\CarInserterRoadInformationsFactory.cs" />
     <Compile Include="RoadInformations\Factories\CarRemoverRoadInformationsFactory.cs" />
+    <Compile Include="RoadInformations\Factories\JunctionEdgeRoadInformationsFactory.cs" />
     <Compile Include="RoadInformations\Factories\RoadInformationsFactoryBase.cs" />
     <Compile Include="RoadInformations\Factories\CondutctorFactory.cs" />
     <Compile Include="RoadInformations\Factories\IRoadInformationFactory.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="RoadInformations\FirstCarToOutInformation.cs" />
     <Compile Include="RoadInformations\IEngine.cs" />
     <Compile Include="RoadInformations\IRoadInformation.cs" />
+    <Compile Include="RoadInformations\JunctionEdgeRoadInformation.cs" />
     <Compile Include="RoadInformations\LaneCornerRoadInformation.cs" />
     <Compile Include="RoadInformations\LaneJunctionConductor\LaneJucntionConductorRightHandJunctionInformation.cs" />
     <Compile Include="RoadInformations\LaneJunctionConductor\LaneJunctionConductorCarsInformation.cs" />
@@ -155,6 +157,7 @@
     <Compile Include="RoadInformations\LaneJunctionConductor\RoadLaneJuctionRoadInformation.cs" />
     <Compile Include="RoadInformations\NextAvailablePointToStopInfo.cs" />
     <Compile Include="RoadInformations\RoadInformation.cs" />
+    <Compile Include="RoadInformations\RoadInformationBase.cs" />
     <Compile Include="RoadInformations\SingleLaneRoadInformation.cs" />
     <Compile Include="Controlers\CarsDrawerControler.cs" />
     <Compile Include="Controlers\CarsInserterControler.cs" />

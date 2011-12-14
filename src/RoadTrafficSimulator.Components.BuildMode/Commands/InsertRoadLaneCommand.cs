@@ -68,21 +68,21 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
             }
             else
             {
-                if( this.CanProcess( edge ) ==false ) { return; }
+                if ( this.CanProcess( edge ) == false ) { return; }
                 this.ProcessControl( edge, mouseState.Location );
             }
         }
 
-        private bool CanProcess(IControl edge)
+        private bool CanProcess( IControl edge )
         {
             // TODO: Fix it, this should be resolved in more appropiate way
-            return edge == null || edge is RoadJunctionEdge || edge is CarsRemover;
+            return edge == null || edge is JunctionEdge || edge is CarsRemover;
         }
 
         private bool CanStartFrom( IControl edge )
         {
             // TODO: Fix it, this should be resolved in more appropiate way
-            return edge is RoadJunctionEdge || edge is CarsInserter;
+            return edge is JunctionEdge || edge is CarsInserter;
         }
 
         private void ProcessControl( IControl edge, Vector2 location )
@@ -114,7 +114,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
         private IControl GetRoadJuctionEdge( Vector2 location )
         {
             this._visitator.Reset();
-            return this._visitator.Where( c => c.IsHitted( location ) ).FirstOrDefault();
+            return this._visitator.FirstOrDefault( c => c.IsHitted( location ) && ( this.CanProcess( c ) || this.CanStartFrom( c ) ) );
         }
     }
 }

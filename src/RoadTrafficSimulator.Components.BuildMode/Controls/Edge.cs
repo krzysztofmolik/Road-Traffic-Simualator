@@ -7,15 +7,17 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public abstract class Edge : CompositControl<VertexPositionColor>, IEdge
+    public abstract class Edge : CompositControl<VertexPositionColor>, IEdge, IComponent
     {
+        private readonly IControl _parent;
         private readonly EdgeVertexContainer _concretVertexContainer;
         private readonly IMouseHandler _mouseHandler;
         private MovablePoint _startPoint;
         private MovablePoint _endPoint;
 
-        protected Edge( Factories.Factories factories, Style style )
+        protected Edge( Factories.Factories factories, Style style, IControl parent )
         {
+            this._parent = parent;
             this.Factories = factories;
             this._concretVertexContainer = new EdgeVertexContainer( this, style.NormalColor );
             this._mouseHandler = factories.MouseHandlerFactory.Create( this );
@@ -27,8 +29,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         public Factories.Factories Factories { get; private set; }
 
-        protected Edge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, Style style )
-            : this( factories, style )
+        protected Edge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, Style style, IControl parent )
+            : this( factories, style, parent )
         {
             this.StartPoint = startPoint;
             this.EndPoint = endPoint;
@@ -81,7 +83,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public override Vector2 Location
         {
             get { return this.StartLocation + ( ( this.EndLocation - this.StartLocation ) / 2 ); }
-            protected set
+            set
             {
                 var diff = value - this.Location;
                 this.StartPoint.SetLocation( this.StartPoint.Location + diff );
@@ -116,6 +118,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             {
                 this.Invalidate();
             }
+        }
+
+        public IControl Parent
+        {
+            get { return this._parent; }
         }
     }
 }

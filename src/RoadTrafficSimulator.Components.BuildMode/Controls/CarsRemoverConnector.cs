@@ -13,7 +13,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         {
             Contract.Requires( owner != null );
             this._owner = owner;
-            this._connectEdgesHelper = new ConnectEdgesHelper( owner );
+            this._connectEdgesHelper = new ConnectEdgesHelper( this._owner.Edge, this._owner );
         }
 
         public EndRoadLaneEdge OpositeEdge { get; private set; }
@@ -23,10 +23,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         public CarsRemover Bottom { get; private set; }
 
-        public void ConnectBeginWith( EndRoadLaneEdge roadLaneEdge )
+        public void ConnectEndOn( RoadLaneBlock roadLaneEdge )
         {
-            this.ConnectedEdge = roadLaneEdge;
-            this.OpositeEdge = roadLaneEdge.GetOppositeEdge();
+            this.ConnectedEdge = roadLaneEdge.RightEdge;
+            this.OpositeEdge = roadLaneEdge.RightEdge.GetOppositeEdge();
             this.OpositeEdge.Translated.Subscribe( x => this._owner.RecalculatePosition() );
 
             this._owner.RecalculatePosition();
@@ -35,25 +35,25 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public void ConnectBeginBottomWith( CarsRemover roadConnection )
         {
             this.Bottom = roadConnection;
-            this._connectEdgesHelper.ConnectBeginBottomWith( roadConnection );
+            this._connectEdgesHelper.ConnectBeginBottomWith( roadConnection.Edge );
         }
 
         public void ConnectEndTopWith( CarsRemover roadConnection )
         {
             this.Top = roadConnection;
-            this._connectEdgesHelper.ConnectEndTopWith( roadConnection );
+            this._connectEdgesHelper.ConnectEndTopWith( roadConnection.Edge );
         }
 
         public void ConnectBeginTopWith( CarsRemover roadConnection )
         {
             this.Top = roadConnection;
-            this._connectEdgesHelper.ConnectBeginTopWith( roadConnection );
+            this._connectEdgesHelper.ConnectBeginTopWith( roadConnection.Edge );
         }
 
         public void ConnectEndBottomWith( CarsRemover roadConnection )
         {
             this.Bottom = roadConnection;
-            this._connectEdgesHelper.ConnectEndBottomWith( roadConnection );
+            this._connectEdgesHelper.ConnectEndBottomWith( roadConnection.Edge );
         }
 
     }

@@ -5,10 +5,6 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
     public class PriorityTypeFactory
     {
-        private IEnumerable<IPriorityPossible> _posibilityChecker = new IPriorityPossible[]
-                                                                        {
-                                                                            new LigthPriorityPosible()
-                                                                        };
         public IEnumerable<PriorityType> PossiblePriorityTypes( IControl baseControl, IControl connectedControl )
         {
             return new []

@@ -3,20 +3,20 @@ using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
 {
-    public class ConnectEndRoadLaneEdgeWithRoadJunctionEdge : IConnectionCommand
+    public class ConnectRoadLaneWithJunctionEdge : IConnectionCommand
     {
         public virtual bool Connect(ILogicControl first, ILogicControl second)
         {
-            var roadLaneEdge = first as EndRoadLaneEdge;
-            var roadJunctionEdge = second as RoadJunctionEdge;
+            var roadLaneEdge = first as RoadLaneBlock;
+            var roadJunctionEdge = second as JunctionEdge;
 
             if ( roadLaneEdge == null || roadJunctionEdge == null )
             {
                 return false;
             }
 
-            roadLaneEdge.Connector.ConnectEndWith(roadJunctionEdge);
-            roadJunctionEdge.Connector.ConnectBeginWith( roadLaneEdge );
+            roadLaneEdge.RightEdge.Connector.ConnectStartFrom(roadJunctionEdge);
+            roadJunctionEdge.Connector.ConnectEndsOn( roadLaneEdge );
 
             return true;
         }

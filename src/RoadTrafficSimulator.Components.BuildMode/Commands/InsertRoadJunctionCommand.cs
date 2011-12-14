@@ -10,14 +10,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
 {
     public class InsertRoadJunctionCommand : ICommand
     {
-        private readonly ICompositeControl _owner;
         private readonly IMouseInformation _mouseInformation;
-        private readonly Func<Vector2, ICompositeControl, IRoadJunctionBlock> _roadJunctionBlockFactory;
+        private readonly Factories.Factories _factories;
 
-        public InsertRoadJunctionCommand( IMouseInformation mouseInformation, RoadLayer owner, Func<Vector2, ICompositeControl, IRoadJunctionBlock> roadJunctionBlockFactory)
+        public InsertRoadJunctionCommand( IMouseInformation mouseInformation, Factories.Factories factories, IEventAggregator eventAggregator )
         {
-            this._owner = owner;
-            this._roadJunctionBlockFactory = roadJunctionBlockFactory;
+            this._factories = factories;
             this._mouseInformation = mouseInformation.NotNull();
 
             this._mouseInformation.LeftButtonPressed.Subscribe( this.AddJunction );
@@ -25,8 +23,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
 
         private void AddJunction( XnaMouseState mouseState )
         {
-            var children = this._roadJunctionBlockFactory( mouseState.Location, this._owner );
-            this._owner.AddChild( children );
+            this._factories.ControlFactory.CreateRoadJunctioBlockWithEdges( mouseState.Location );
         }
 
         public CommandType CommandType

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using Autofac;
-using Common;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.BuildMode.Commands;
 using RoadTrafficSimulator.Components.BuildMode.Connectors;
@@ -29,17 +28,21 @@ namespace RoadTrafficSimulator.Components.BuildMode
 
             builder.RegisterType<RoadLaneBuilder>();
             builder.RegisterType<ConnectRoadJunctionEdge>().As<IConnectionCommand>();
-            builder.RegisterType<ConnectEndRoadLaneEdgeWithRoadConnection>().As<IConnectionCommand>();
-            builder.RegisterType<ConnectEndRoadLaneEdgeWithRoadJunctionEdge>().As<IConnectionCommand>();
-            builder.RegisterType<ConnectRoadConnectionWithEndRoadLane>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectRoadLaneWithRoadConnection>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectRoadLaneWithJunctionEdge>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectRoadConnectionWithRoadLane>().As<IConnectionCommand>();
             builder.RegisterType<ConnectRoadJunctionEdgeWitEndRoadLaneEdge>().As<IConnectionCommand>();
             builder.RegisterType<ConnectSideRoadLaneEdges>().As<IConnectionCommand>();
             builder.RegisterType<ConnectCarInserterWithEndRoadLane>().As<IConnectionCommand>();
             builder.RegisterType<ConnectCarsInserterWithCarsInserter>().As<IConnectionCommand>();
             builder.RegisterType<ConnectCarsRemoverWithCarsRemover>().As<IConnectionCommand>();
-            builder.RegisterType<ConnectEndRoadLaneWithCarsRemover>().As<IConnectionCommand>();
+            builder.RegisterType<ConnectRoadLaneWithCarsRemover>().As<IConnectionCommand>();
             builder.RegisterType<ConnectRoadConnectionWithRoadConnection>().As<IConnectionCommand>();
             builder.RegisterType<MouseHandlerFactory>().SingleInstance();
+            builder.RegisterType<ControlFactories>().SingleInstance().AsSelf().AsImplementedInterfaces();
+            builder.Register( c => new Func<Vector2, JunctionEdge>( location => new JunctionEdge( c.Resolve<Factories.Factories>(), location ) ) );
+            builder.Register( c => new Func<Vector2, RoadJunctionBlock>( location => new RoadJunctionBlock( c.Resolve<Factories.Factories>(), location ) ) );
+
             builder.Register(
                 s =>
                 new Func<RoadLayer, IMouseHandler>( r => new RoadLayerMouseHandler( r, s.Resolve<SelectedControls>() ) ) );
@@ -78,15 +81,10 @@ namespace RoadTrafficSimulator.Components.BuildMode
 
         private void RegisterFactoryMethods( ContainerBuilder builder )
         {
-            builder.Register( s => new Func<Vector2, ICompositeControl, IRoadJunctionBlock>(
-                                      ( location, owner ) =>
-                                      new RoadJunctionBlock( s.Resolve<Factories.Factories>(), location, owner ) ) );
+            builder.Register( s => new Func<Vector2, ICompositeControl>( location => new RoadJunctionBlock( s.Resolve<Factories.Factories>(), location ) ) );
 
-            builder.Register( s => new Func<ICompositeControl, IRoadLaneBlock>(
-                                      cc => new RoadLaneBlock( s.Resolve<Factories.Factories>(), cc ) ) );
-            builder.Register( s => new Func<Vector2, ICompositeControl, RoadConnection>(
-                                      ( locatio, owner ) =>
-                                      new RoadConnection( s.Resolve<Factories.Factories>(), locatio, owner ) ) );
+            builder.Register( s => new Func<RoadLaneBlock>( () => new RoadLaneBlock( s.Resolve<Factories.Factories>()) ) );
+            builder.Register( s => new Func<Vector2,  RoadConnection>( locatio => new RoadConnection( s.Resolve<Factories.Factories>(), locatio ) ) );
         }
 
         private void RegisterFactories( ContainerBuilder builder )

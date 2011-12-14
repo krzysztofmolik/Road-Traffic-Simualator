@@ -4,15 +4,13 @@ using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
-using RoadTrafficSimulator.Components.SimulationMode.Route;
 using RoadTrafficSimulator.Infrastructure;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 {
-    public class LaneCornerRoadInformation : IRoadInformation
+    public class LaneCornerRoadInformation : RoadInformationBase, IRoadInformation
     {
         private readonly LaneCorner _laneCorner;
-        private readonly CarsQueue _cars = new CarsQueue();
 
         public LaneCornerRoadInformation( LaneCorner laneCorner )
         {
@@ -20,15 +18,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             this._laneCorner = laneCorner;
         }
 
-        public void OnEnter( Car car )
+        protected override Vector2 GetEndLocation()
         {
-            Contract.Requires( car != null );
-            this._cars.Add( car );
-        }
-
-        public void OnExit( Car car )
-        {
-            this._cars.Remove( car );
+            return this._laneCorner.LaneCornerBuild.Location;
         }
 
         public float Lenght( IRoadElement previous, IRoadElement next )
@@ -42,11 +34,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             if ( distance.Length() <= 0.001f ) { return true; }
 
             return Math.Sign( distance.X ) != Math.Sign( car.Direction.X ) && Math.Sign( distance.Y ) != Math.Sign( car.Direction.Y );
-        }
-
-        public void GetCarAheadDistance( IRouteMark<IRoadElement> routMark, CarInformation carInformation )
-        {
-            throw new NotImplementedException();
         }
 
         public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )

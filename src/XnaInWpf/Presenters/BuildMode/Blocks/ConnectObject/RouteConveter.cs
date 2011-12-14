@@ -28,7 +28,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
 
         private RouteViewModel Conveter( IControl control, Route route )
         {
-            var resutl = new RouteViewModel( route.Name, route );
+            var resutl = new RouteViewModel( route );
             var previousControl = this._controlToControlViewModelConveter.Convert( control );
             foreach ( var routeElement in route.Items )
             {

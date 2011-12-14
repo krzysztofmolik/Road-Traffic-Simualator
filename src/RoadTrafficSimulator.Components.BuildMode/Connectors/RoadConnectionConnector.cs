@@ -12,7 +12,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
         public RoadConnectionConnector( RoadConnection owner )
         {
             this._owner = owner;
-            this._helper = new ConnectEdgesHelper( owner );
+            this._helper = new ConnectEdgesHelper( owner.Edge, owner );
         }
 
         public EndRoadLaneEdge OpositeToPreviousEdge { get; private set; }
@@ -22,9 +22,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
         public EndRoadLaneEdge OpositeToNextEdge { get; private set; }
         public EndRoadLaneEdge NextConnectedEdge { get; private set; }
 
-        public IEdgeLine Top { get; private set; }
+        public Edge Top { get; private set; }
 
-        public IEdgeLine Bottom { get; private set; }
+        public Edge Bottom { get; private set; }
 
         public void ConnectBeginWith( EndRoadLaneEdge roadLaneEdge )
         {
@@ -53,25 +53,25 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
             return owner.LeftEdge == roadLaneEdge ? owner.RightEdge : owner.LeftEdge;
         }
 
-        public void ConnectBeginBottomWith( IEdgeLine roadConnection )
+        public void ConnectBeginBottomWith( Edge roadConnection )
         {
             this.Bottom = roadConnection;
             this._helper.ConnectBeginBottomWith( roadConnection );
         }
 
-        public void ConnectEndTopWith( IEdgeLine roadConnection )
+        public void ConnectEndTopWith( Edge roadConnection )
         {
             this.Top = roadConnection;
             this._helper.ConnectEndTopWith( roadConnection );
         }
 
-        public void ConnectBeginTopWith( IEdgeLine roadConnection )
+        public void ConnectBeginTopWith( Edge roadConnection )
         {
             this.Top = roadConnection;
             this._helper.ConnectBeginTopWith( roadConnection );
         }
 
-        public void ConnectEndBottomWith( IEdgeLine roadConnection )
+        public void ConnectEndBottomWith( Edge roadConnection )
         {
             this.Bottom = roadConnection;
             this._helper.ConnectEndBottomWith( roadConnection );

@@ -11,7 +11,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         void OnExit(Car car);
         float Lenght(IRoadElement previous, IRoadElement next);
         bool ShouldChange( Car car );
-        void GetCarAheadDistance(IRouteMark<IRoadElement> routMark, CarInformation carInformation);
+        CarAhedInformation GetCarAheadDistance( Car car );
         void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation );
         Vector2 GetCarDirection( Car car, IRoadElement nextPoint );
         float GetCarDistanceTo( Car car, IRoadElement nextPoint );
