@@ -10,5 +10,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode
         IControl BuildControl { get; }
         IDrawer Drawer { get; }
         IRoutes Routes { get; }
+        IRoadInformation RoadInformation { get; }
     }
 }

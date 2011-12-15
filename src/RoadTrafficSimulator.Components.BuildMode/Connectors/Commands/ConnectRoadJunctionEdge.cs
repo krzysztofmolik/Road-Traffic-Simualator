@@ -28,7 +28,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
 
         private bool AreConnected( JunctionEdge first, JunctionEdge second )
         {
-            return first.Connector.Edge.Parent == second.Edge || first.Connector.JunctionEdge.Parent == second || second.Connector.Edge.Parent == first || second.Connector.JunctionEdge.Parent == first;
+            if ( first.Connector.Edge != null && first.Connector.Edge.Parent == second ) { return true; }
+            if ( second.Connector.Edge != null && second.Connector.Edge == first ) { return true; }
+            return false;
         }
     }
 }

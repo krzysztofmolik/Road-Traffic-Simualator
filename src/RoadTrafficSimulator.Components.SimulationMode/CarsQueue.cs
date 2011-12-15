@@ -34,6 +34,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         public Car GetFirstCar()
         {
+            return this._cars.LastOrDefault();
+        }
+
+        public Car GetLastCar()
+        {
             return this._cars.FirstOrDefault();
         }
     }

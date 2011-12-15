@@ -1,8 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 
@@ -46,21 +46,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return float.MaxValue;
         }
 
-        public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )
-        {
-            var firstCar = this.Cars.GetFirstCar();
-            if ( firstCar != null )
-            {
-                var carDistance = carInformation.CurrentDistance + Vector2.Distance( firstCar.Location, this._lane.RoadLaneBlock.RightEdge.Location );
-                carInformation.Add( firstCar, carDistance );
-            }
-            else
-            {
-                carInformation.CurrentDistance += Vector2.Distance( this._lane.RoadLaneBlock.LeftEdge.Location, this._lane.RoadLaneBlock.RightEdge.Location );
-                //                this._lane.Prev.RoadInformation.GetFirstCarToOutInformation( carInformation );
-            }
-        }
-
         public Vector2 GetCarDirection( Car car, IRoadElement nextPoint )
         {
             return this._lane.RoadLaneBlock.RightEdge.Location - car.Location;
@@ -73,9 +58,19 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return Vector2.Distance( car.Location, nextPoint.BuildControl.Location );
         }
 
+        public IEnumerable<IRoadElement> ReversConnection
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         protected override Vector2 GetEndLocation()
         {
             return this._lane.RoadLaneBlock.RightEdge.Location;
+        }
+
+        protected override Vector2 GetBeginLocation()
+        {
+            return this._lane.RoadLaneBlock.LeftEdge.Location;
         }
     }
 }

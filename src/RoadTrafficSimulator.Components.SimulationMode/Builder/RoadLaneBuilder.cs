@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
@@ -24,10 +23,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             return control != null && control.GetType() == typeof( RoadLaneBlock );
         }
 
-        private class Builder
+        private class Builder : BuilderBase
         {
             private Lane _lane;
-            private readonly BuildRoutesToSimulationRoutesConverter _converter = new BuildRoutesToSimulationRoutesConverter();
 
             public void Build( BuilderContext context, IControl control )
             {
@@ -44,11 +42,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 
             public void SetUp(BuilderContext obj)
             {
-                this._lane.Routes = new StandardRoutes( this._converter.Convert( this._lane.RoadLaneBlock.RightEdge.Routes.AvailableRoutes, obj ).ToArray() );
-//                this._lane.RoadLaneBlock.LeftEdge.Routes.CalculateProbabilities();
-//                this._lane.RoadLaneBlock.RightEdge.Routes.CalculateProbabilities();
-//                this._lane.RoadLaneBlock.TopEdge.Routes.CalculateProbabilities();
-//                this._lane.RoadLaneBlock.BottomEdge.Routes.CalculateProbabilities();
+                var routes = this._lane.RoadLaneBlock.RightEdge.Routes;
+                var convertedRoutes = this.ConvertRoutes( routes, obj ).ToArray();
+                this.SetConnections( convertedRoutes, this._lane );
+                this._lane.Routes = new StandardRoutes( convertedRoutes );
             }
         }
     }

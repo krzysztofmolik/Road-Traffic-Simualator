@@ -20,7 +20,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             this._juctionEdge = juctionEdge;
         }
 
-        protected override Vector2 GetEndLocation()
+        protected override Vector2 GetBeginLocation()
         {
             return this._juctionEdge.EdgeBuilder.Location;
         }
@@ -41,7 +41,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return true;
         }
 
-        public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )
+        public FirstCarToOutInformation GetFirstCarToOutInformation()
         {
             Debug.Assert( false );
         }

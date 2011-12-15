@@ -18,7 +18,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             this._carInserter = carInserter;
         }
 
-        protected override Vector2 GetEndLocation()
+        protected override Vector2 GetBeginLocation()
         {
             return this._carInserter.BuildControl.Location;
         }
@@ -38,7 +38,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return true;
         }
 
-        public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )
+        public FirstCarToOutInformation GetFirstCarToOutInformation()
         {
             var firstCar = this._cars.GetFirstCar();
             if ( firstCar != null )

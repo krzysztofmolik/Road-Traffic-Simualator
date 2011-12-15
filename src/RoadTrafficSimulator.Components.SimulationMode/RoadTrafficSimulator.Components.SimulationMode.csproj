@@ -17,6 +17,7 @@
     <XnaProfile>HiDef</XnaProfile>
     <XnaCrossPlatformGroupID>4273bf23-cecb-4446-b68f-d447dcbfdcfe</XnaCrossPlatformGroupID>
     <XnaOutputType>Library</XnaOutputType>
+    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,29 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
     <XnaCompressContent>false</XnaCompressContent>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>True</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsContainerAnalysis>False</CodeContractsContainerAnalysis>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -103,7 +127,9 @@
   <ItemGroup>
     <Compile Include="Builder\Builder.cs" />
     <Compile Include="Builder\BuilderAction.cs" />
+    <Compile Include="Builder\BuilderBase.cs" />
     <Compile Include="Builder\BuilderContext.cs" />
+    <Compile Include="Builder\BuildRoute.cs" />
     <Compile Include="Builder\BuildRoutesToSimulationRoutesConverter.cs" />
     <Compile Include="Builder\CarInserterBuilder.cs" />
     <Compile Include="Builder\CarsRemoverBuilder.cs" />
@@ -115,6 +141,7 @@
     <Compile Include="Builder\LightBuilder.cs" />
     <Compile Include="Builder\RoadLaneBuilder.cs" />
     <Compile Include="Builder\RouteConveter.cs" />
+    <Compile Include="Builder\RouteElement.cs" />
     <Compile Include="Builder\StandardRoutes.cs" />
     <Compile Include="CarsFactory.cs" />
     <Compile Include="CarsQueue.cs" />
@@ -124,17 +151,21 @@
     <Compile Include="RoadInformations\CarInserterRoadInformation.cs" />
     <Compile Include="RoadInformations\CarRemoverRoadInformation.cs" />
     <Compile Include="RoadInformations\CarStateMachine.cs" />
+    <Compile Include="RoadInformations\Conductors\FromRightJunctionConductor.cs" />
     <Compile Include="RoadInformations\Conductors\Infrastructure\ConductorResolver.cs" />
     <Compile Include="RoadInformations\Conductors\Infrastructure\ConductorSupportedRoadElementTypeAttribute.cs" />
     <Compile Include="RoadInformations\Conductors\Infrastructure\PriorityConductorInformationAttribute.cs" />
     <Compile Include="RoadInformations\Conductors\Infrastructure\RouteToConductorConverter.cs" />
     <Compile Include="RoadInformations\Conductors\IConductor.cs" />
+    <Compile Include="RoadInformations\Conductors\NonPriorityJunctionCondcutor.cs" />
+    <Compile Include="RoadInformations\Conductors\PriorityInformation.cs" />
     <Compile Include="RoadInformations\Conductors\SimpleCarInserterCondcutor.cs" />
     <Compile Include="RoadInformations\Conductors\SimpleCarRemoverCondcutor.cs" />
-    <Compile Include="RoadInformations\Conductors\SimpleJunctionConductor.cs" />
+    <Compile Include="RoadInformations\Conductors\JunctionConductorBase.cs" />
     <Compile Include="RoadInformations\Conductors\SimpleJunctionEdgeConductor.cs" />
     <Compile Include="RoadInformations\Conductors\SimpleLanerCondcutor.cs" />
     <Compile Include="RoadInformations\Conductors\SimpleLanerCornerCondcutor.cs" />
+    <Compile Include="RoadInformations\DriverBrain.cs" />
     <Compile Include="RoadInformations\Engine.cs" />
     <Compile Include="RoadInformations\Factories\CarInserterRoadInformationsFactory.cs" />
     <Compile Include="RoadInformations\Factories\CarRemoverRoadInformationsFactory.cs" />

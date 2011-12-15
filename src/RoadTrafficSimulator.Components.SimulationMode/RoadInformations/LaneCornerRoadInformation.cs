@@ -18,7 +18,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             this._laneCorner = laneCorner;
         }
 
-        protected override Vector2 GetEndLocation()
+        protected override Vector2 GetBeginLocation()
         {
             return this._laneCorner.LaneCornerBuild.Location;
         }
@@ -36,7 +36,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return Math.Sign( distance.X ) != Math.Sign( car.Direction.X ) && Math.Sign( distance.Y ) != Math.Sign( car.Direction.Y );
         }
 
-        public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )
+        public FirstCarToOutInformation GetFirstCarToOutInformation()
         {
             throw new NotImplementedException();
         }

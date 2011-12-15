@@ -1,18 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
-using RoadTrafficSimulator.Infrastructure;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Elements
 {
     // BUG
-    public class LaneJunction : RoadElementBase
+    public sealed class LaneJunction : RoadElementBase
     {
         private readonly Func<LaneJunction, IRoadInformation> _condutorFactory;
         private Light.Light _lights;
         private readonly LaneJunctionDrawer _drawer;
+        private IRoadInformation _roadInformation;
 
         public LaneJunction( RoadJunctionBlock control, Func<LaneJunction, IRoadInformation> condutorFactory )
             : base( control )
@@ -20,11 +18,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
             this.JunctionBuilder = control;
 
             this._condutorFactory = condutorFactory;
-            this.RoadInformation = this._condutorFactory( this );
+            this._roadInformation = this._condutorFactory( this );
             this._drawer = new LaneJunctionDrawer( this );
         }
 
-        public IRoadInformation RoadInformation { get; private set; }
+        public override IRoadInformation RoadInformation { get { return this._roadInformation; } }
         public Light.Light Lights { get { return this._lights; } }
         public RoadJunctionBlock JunctionBuilder { get; private set; }
 
@@ -42,7 +40,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         {
             this._lights = light;
             // BUG
-            this.RoadInformation = this._condutorFactory( this );
+            this._roadInformation = this._condutorFactory( this );
         }
     }
 }

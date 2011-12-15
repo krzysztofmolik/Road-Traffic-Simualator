@@ -23,10 +23,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             return control != null && control.GetType() == typeof( RoadConnection );
         }
 
-        private class Builder
+        private class Builder : BuilderBase
         {
             private LaneCorner _lane;
-            private readonly BuildRoutesToSimulationRoutesConverter _converter = new BuildRoutesToSimulationRoutesConverter();
 
             public void Build( BuilderContext context, IControl control )
             {
@@ -45,7 +44,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             {
 //                this._lane.LaneCornerBuild.Routes.CalculateProbabilities();
                 var routes = this._lane.LaneCornerBuild.Routes;
-                this._lane.Routes = new StandardRoutes( this._converter.Convert( routes.AvailableRoutes, obj ).ToArray() );
+                var convertedRoutes = this.ConvertRoutes( routes, obj ).ToArray();
+                this.SetConnections( convertedRoutes, this._lane );
+                this._lane.Routes = new StandardRoutes( convertedRoutes );
             }
         }
     }

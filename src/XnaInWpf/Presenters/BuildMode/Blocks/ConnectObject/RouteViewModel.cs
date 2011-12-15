@@ -59,7 +59,10 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
             {
                 return;
             }
-            this._items.Remove( ( RouteItemViewModel ) element.DataContext );
+            var routeItem = ( RouteItemViewModel )element.DataContext;
+            this._items.Remove( routeItem );
+
+            this._orignalRoute.Remove( routeItem.Control.Control );
         }
 
         public ObservableCollection<RouteItemViewModel> Items

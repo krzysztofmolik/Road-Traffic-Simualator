@@ -28,7 +28,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             this._eventAggregator.Publish( new CarRemoved( car ) );
         }
 
-        protected override Vector2 GetEndLocation()
+        protected override Vector2 GetBeginLocation()
         {
             return this._carsRemover.BuildControl.Location;
         }
@@ -48,7 +48,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return false;
         }
 
-        public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )
+        public FirstCarToOutInformation GetFirstCarToOutInformation()
         {
             Debug.Assert( false );
         }

@@ -74,5 +74,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         {
             this._route.Add( routeElement );
         }
+
+        public void Remove( IControl control )
+        {
+            this._route.RemoveAll( r => r.Control == control );
+        }
     }
 }

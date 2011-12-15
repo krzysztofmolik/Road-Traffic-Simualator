@@ -33,7 +33,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.CarsSpecification
                               Width = UnitConverter.FromMeter( Widht ),
                               Lenght = UnitConverter.FromMeter( Length ),
                               BreakingForce = UnitConverter.FromKmPerHour( 5.0f ) / UnitConverter.FromSecond( 1.0f ),
-                              AccelerateForce = UnitConverter.FromKmPerHour( 5.0f ) / UnitConverter.FromSecond( 1.0f ),
+                              AccelerateForce = UnitConverter.FromKmPerHour( 10.0f ) / UnitConverter.FromSecond( 1.0f ),
                               MaxSpeed = this.ToVirtualUnitSpeed( 60.0f ),
                               Velocity = this.ToVirtualUnitSpeed( 40.0f ),
                           };

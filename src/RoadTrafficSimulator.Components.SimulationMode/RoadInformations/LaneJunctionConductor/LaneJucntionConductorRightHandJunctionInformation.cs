@@ -28,10 +28,5 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
 
             return Vector2.Distance( previousEdge.BuildControl.Location, nextEdge.BuildControl.Location );
         }
-
-        public Vector2 GetCarDirection( Car car, IRoadElement nextPoint )
-        {
-            return nextPoint.BuildControl.Location - car.Location;
-        }
     }
 }

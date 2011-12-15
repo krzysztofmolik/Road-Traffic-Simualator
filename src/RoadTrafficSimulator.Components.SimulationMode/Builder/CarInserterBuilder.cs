@@ -3,6 +3,7 @@ using System.Linq;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
+using CarsInserter = RoadTrafficSimulator.Components.SimulationMode.Elements.CarsInserter;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 {
@@ -21,10 +22,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             return control != null && control.GetType() == typeof( BuildMode.Controls.CarsInserter );
         }
 
-        private class Builder
+        private class Builder : BuilderBase
         {
             private CarsInserter _carsInserter;
-            private readonly BuildRoutesToSimulationRoutesConverter _converter = new BuildRoutesToSimulationRoutesConverter();
 
             public void Build( BuilderContext context, IControl control )
             {
@@ -43,31 +43,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             public void SetUp( BuilderContext obj )
             {
                 var routes = this._carsInserter.CarsInserterBuilder.Routes;
-                this._carsInserter.Routes = new StandardRoutes( this._converter.Convert( routes.AvailableRoutes, obj ).ToArray() );
+                var convertedRoutes = this.ConvertRoutes( routes, obj ).ToArray();
+                this.SetConnections( convertedRoutes, this._carsInserter );
+                this._carsInserter.Routes = new StandardRoutes( convertedRoutes );
             }
+
         }
-    }
-
-    public class RouteElement
-    {
-        public IRoadElement RoadElement { get; set; }
-        public PriorityType PriorityType { get; set; }
-        public bool CanStopOnIt { get; set; }
-    }
-
-    public class BuildRoute
-    {
-        private readonly List<RouteElement> _elements;
-
-        public BuildRoute( IEnumerable<RouteElement> elements )
-        {
-            this._elements = new List<RouteElement>( elements );
-        }
-
-        public IEnumerable<RouteElement> Elements { get { return this._elements; } }
-
-        public float Probability { get; set; }
-
-        public string Name { get; set; }
     }
 }

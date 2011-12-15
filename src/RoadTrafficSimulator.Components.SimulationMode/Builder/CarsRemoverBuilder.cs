@@ -22,7 +22,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             return control != null && control.GetType() == typeof( CarsRemoverBuildMode );
         }
 
-        public class Builder
+        public class Builder : BuilderBase
         {
             private CarsRemover _carsRemover;
 

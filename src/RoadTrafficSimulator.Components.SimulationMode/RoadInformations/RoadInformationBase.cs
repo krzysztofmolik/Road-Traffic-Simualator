@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
@@ -7,6 +8,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
     public abstract class RoadInformationBase
     {
         protected CarsQueue Cars = new CarsQueue();
+        private readonly List<IRoadElement> _reversConnection = new List<IRoadElement>();
+        private readonly List<IRoadElement> _connections = new List<IRoadElement>();
 
         public CarAhedInformation GetCarAheadDistance( Car car )
         {
@@ -31,11 +34,36 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
                 return new CarAhedInformation
                            {
                                CarAhead = firstCar,
-                               CarDistance = Vector2.Distance( this.GetEndLocation(), firstCar.Location ),
+                               CarDistance = Vector2.Distance( this.GetBeginLocation(), firstCar.Location ),
                            };
             }
 
             return CarAhedInformation.Empty;
+        }
+
+
+        public FirstCarToOutInformation GetFirstCarToOutInformation()
+        {
+            var firstCar = this.Cars.GetFirstCar();
+            if ( firstCar != null )
+            {
+                return new FirstCarToOutInformation( firstCar, Vector2.Distance( firstCar.Location, this.GetEndLocation() ) );
+            }
+            return FirstCarToOutInformation.Empty;
+        }
+
+        protected abstract Vector2 GetEndLocation();
+
+        public void SetConnection( IRoadElement roadElement )
+        {
+            if ( roadElement == null ) { return; }
+            this._connections.Add( roadElement );
+        }
+
+        public void SetReversConnection( IRoadElement roadElement )
+        {
+            if ( roadElement == null ) { return; }
+            this._reversConnection.Add( roadElement );
         }
 
         public virtual void OnEnter( Car car )
@@ -49,6 +77,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             this.Cars.Remove( car );
         }
 
-        protected abstract Vector2 GetEndLocation();
+        protected abstract Vector2 GetBeginLocation();
     }
 }

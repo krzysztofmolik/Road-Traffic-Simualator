@@ -5,14 +5,16 @@ using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Elements
 {
-    public class Lane : RoadElementBase
+    public sealed class Lane : RoadElementBase
     {
+        private readonly IRoadInformation _roadInformation;
+
         public Lane( RoadLaneBlock lane, Func<Lane, IRoadInformation> conductorFactory )
             : base( lane )
         {
             Contract.Requires( lane != null ); Contract.Requires( conductorFactory != null ); Contract.Ensures( this.RoadInformation != null );
             this.RoadLaneBlock = lane;
-            this.RoadInformation = conductorFactory( this );
+            this._roadInformation = conductorFactory( this );
         }
 
         public RoadLaneBlock RoadLaneBlock { get; set; }
@@ -22,6 +24,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         public Lane Top { get; set; }
         public Lane Bottom { get; set; }
 
-        public IRoadInformation RoadInformation { get; private set; }
+        public override IRoadInformation RoadInformation { get { return this._roadInformation; } }
     }
 }

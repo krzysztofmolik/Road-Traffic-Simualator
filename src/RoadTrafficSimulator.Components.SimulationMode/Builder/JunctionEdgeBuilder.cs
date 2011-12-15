@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
@@ -24,10 +23,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             return control != null && control.GetType() == typeof( BuildJunctionEdge );
         }
 
-        private class Builder
+        private class Builder : BuilderBase
         {
             private JunctionEdge _junctionEdge;
-            private readonly BuildRoutesToSimulationRoutesConverter _converter = new BuildRoutesToSimulationRoutesConverter();
 
             public void Build( BuilderContext context, IControl control )
             {
@@ -48,9 +46,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 
             public void SetUp( BuilderContext obj )
             {
-                //                this._lane.LaneCornerBuild.Routes.CalculateProbabilities();
                 var routes = this._junctionEdge.EdgeBuilder.Routes;
-                this._junctionEdge.Routes = new StandardRoutes( this._converter.Convert( routes.AvailableRoutes, obj ).ToArray() );
+                var convertedRoutes = this.ConvertRoutes( routes, obj ).ToArray();
+                this.SetConnections( convertedRoutes, this._junctionEdge );
+                this._junctionEdge.Routes = new StandardRoutes( convertedRoutes );
             }
         }
     }

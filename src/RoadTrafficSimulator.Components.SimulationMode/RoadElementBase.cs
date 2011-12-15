@@ -26,5 +26,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
         }
 
         public IRoutes Routes { get;  set; }
+
+        public abstract IRoadInformation RoadInformation { get; }
     }
 }

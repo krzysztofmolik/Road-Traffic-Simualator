@@ -25,13 +25,23 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
             yield return CreateNewCommand( control );
             yield return Actions.Call<JunctionEdge>(
                 control.Id,
-                () => control.Connector.ConnectWithJunction( (RoadJunctionBlock)Is.Control( control.Connector.JunctionEdge.Parent ), Is.Const( control.Connector.JunctionEdge.EdgeIndex ) ) ); 
+                () => control.Connector.ConnectWithJunction( ( RoadJunctionBlock ) Is.Control( control.Connector.JunctionEdge.Parent ), Is.Const( control.Connector.JunctionEdge.EdgeIndex ) ) );
 
-            if( control.Connector.Edge != null )
+            // TODO Rewrite this
+            if ( control.Connector.Edge != null )
             {
-                yield return Actions.Call<JunctionEdge>(
-                    control.Id,
-                    () => control.Connector.ConnectBeginFrom( (RoadLaneBlock) Is.Control( control.Connector.Edge.Parent ) ) );
+                if ( control.Connector.Edge.Parent is RoadLaneBlock )
+                {
+                    yield return Actions.Call<JunctionEdge>(
+                        control.Id,
+                        () => control.Connector.ConnectBeginFrom( ( RoadLaneBlock ) Is.Control( control.Connector.Edge.Parent ) ) );
+                }
+                else if ( control.Connector.Edge.Parent is JunctionEdge )
+                {
+                    yield return Actions.Call<JunctionEdge>(
+                        control.Id,
+                        () => control.Connector.ConnectBeginFrom( ( JunctionEdge ) Is.Control( control.Connector.Edge.Parent ) ) );
+                }
             }
 
             yield return base.BuildRoutes( control );

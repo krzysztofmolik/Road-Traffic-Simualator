@@ -30,7 +30,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         public IDrawer Drawer { get; private set; }
         public IRoutes Routes { get; set; }
         public JunctionEdgeConductor Situation { get; private set; }
-
         public IRoadInformation RoadInformation { get; private set; }
     }
 

@@ -82,6 +82,7 @@
     <Compile Include="ExtesnionsForEnumType.cs" />
     <Compile Include="Handler\CompositeHandler.cs" />
     <Compile Include="ICollectionExtensionAssert.cs" />
+    <Compile Include="ObjectExtension.cs" />
     <Compile Include="ObjectExtensionAssert.cs" />
     <Compile Include="ExtensionForIEnumerable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

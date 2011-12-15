@@ -1,11 +1,5 @@
-using System;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
-using RoadTrafficSimulator.Components.SimulationMode.Route;
-using Common;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJunctionConductor
 {
@@ -47,38 +41,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
             return null;
         }
 
-        public void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation )
-        {
-            var firstCar = this._cars.GetFirstCar();
-            if ( firstCar != null )
-            {
-                carInformation.Add( firstCar, carInformation.CurrentDistance );
-                return;
-            }
-            // BUG
-
-            //            var outEdges = this._laneJunction.Edges.Where( s => s.Next != null )
-            //                                                   .Where( s => s.Situation.IsOut == false );
-            //            foreach ( var junctionEdgeConductor in outEdges )
-            //            {
-            //                if ( carInformation.VistedElements.Contains( junctionEdgeConductor.Next ) )
-            //                {
-            //                    continue;
-            //                }
-            //                var junctionInformation = new FirstCarToOutInformation( carInformation.VistedElements ) { CurrentDistance = carInformation.CurrentDistance };
-            //                junctionInformation.AddVistedControl( junctionEdgeConductor.Next );
-            //                //                junctionEdgeConductor.ConnectedEdge.RoadInformation.GetFirstCarToOutInformation( junctionInformation );
-            //
-            //                junctionInformation.Items.ForEach( s => carInformation.Add( s.Car, s.CarDistance ) );
-            //            }
-        }
-
         public CarAhedInformation GetCarAheadDistance( Car car )
         {
             var firstCar = this._cars.GetFirstCar();
             if( firstCar != null && firstCar != car)
             {
-                return new CarAhedInformation()
+                return new CarAhedInformation
                            {
                                CarAhead = firstCar,
                                CarDistance = 0.0f,

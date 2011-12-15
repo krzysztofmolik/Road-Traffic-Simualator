@@ -1,44 +1,25 @@
 using System.Collections.Generic;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 
-namespace RoadTrafficSimulator.Components.SimulationMode.Conductors
+namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 {
     public class FirstCarToOutInformation
     {
-        public class Item
+        private static readonly FirstCarToOutInformation _empty = new FirstCarToOutInformation( null, float.MaxValue );
+        public static FirstCarToOutInformation Empty
         {
-            public Item( Car car, float carDistance )
-            {
-                this.Car = car;
-                this.CarDistance = carDistance;
-            }
-
-            public Car Car { get; private set; }
-            public float CarDistance { get; private set; }
+            get { return _empty; }
         }
 
-        public FirstCarToOutInformation( IEnumerable<IRoadElement> vistedControls )
+        public FirstCarToOutInformation( Car car, float carDistance )
         {
-            this._vistedControls = new List<IRoadElement>( vistedControls );
+            this.Car = car;
+            this.CarDistance = carDistance;
         }
 
-        private readonly List<Item> _items = new List<Item>();
-        private readonly List<IRoadElement> _vistedControls;
+        public Car Car { get; private set; }
+        public float CarDistance { get; private set; }
 
-        public IEnumerable<Item> Items { get { return this._items; } }
-        public IEnumerable<IRoadElement> VistedElements { get { return this._vistedControls; } }
-
-        public float CurrentDistance { get; set; }
-
-        public void Add( Car car, float carDistance )
-        {
-            var item = new Item( car, carDistance );
-            this._items.Add( item );
-        }
-
-        public void AddVistedControl( IRoadElement junctionEdgeConductor )
-        {
-            this._vistedControls.Add( junctionEdgeConductor );
-        }
+        public float Distance { get; set; }
     }
 }

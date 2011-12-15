@@ -1,18 +1,11 @@
 using System;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
-using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors.Infrastructure;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
-using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors
 {
-    [ConductorSupportedRoadElementType( typeof( LaneJunction ) )]
-    [PriorityConductorInformation( PriorityType.FromRight )]
-    [PriorityConductorInformation( PriorityType.None )]
-    [PriorityConductorInformation( PriorityType.FromLeft )]
-    [PriorityConductorInformation( PriorityType.FromFront )]
-    public class SimpleJunctionConductor : IConductor
+    public abstract class JunctionConductorBase : IConductor
     {
         private LaneJunction _junction;
         private bool _canStopOnIt;
@@ -24,8 +17,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
                        {
                            CarAhead = carAheadInformation.CarAhead,
                            CarAheadDistance = carAheadInformation.CarDistance,
+                           PrivilagesCarInformation = this.GetPriorityCarInfromation( car, route ),
                        };
         }
+
+        protected abstract PriorityInformation[] GetPriorityCarInfromation( Car car, IRouteMark<IConductor> route );
 
         public void SetRouteElement( IRoadElement element )
         {

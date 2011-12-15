@@ -1,4 +1,5 @@
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
+using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 {
@@ -9,8 +10,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
                                                         CanDriver = true,
                                                         CarAhead = null,
                                                         CarAheadDistance = float.MaxValue,
-                                                        PrivilagesCar = null,
-                                                        PrivilagesCarDistance = float.MaxValue,
+                                                        PrivilagesCarInformation = new PriorityInformation[ 0 ],
                                                         StopPoint = float.MaxValue
                                                     };
         public static RoadInformation Empty { get { return _empty; } }
@@ -20,7 +20,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         public bool CanDriver { get; set; }
         public float StopPoint { get; set; }
 
-        public Car PrivilagesCar { get; set; }
-        public float PrivilagesCarDistance { get; set; }
+        public PriorityInformation[] PrivilagesCarInformation { get; set; }
     }
 }

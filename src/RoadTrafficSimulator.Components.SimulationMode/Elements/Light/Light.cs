@@ -32,5 +32,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Light
         {
             get { return StandardRoutes.Empty; }
         }
+
+        public IRoadInformation RoadInformation
+        {
+// BUG?
+            get { return null; }
+        }
     }
 }

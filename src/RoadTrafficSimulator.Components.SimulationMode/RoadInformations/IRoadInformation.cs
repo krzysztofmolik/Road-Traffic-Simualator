@@ -1,7 +1,7 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
-using RoadTrafficSimulator.Components.SimulationMode.Route;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 {
@@ -12,8 +12,13 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         float Lenght(IRoadElement previous, IRoadElement next);
         bool ShouldChange( Car car );
         CarAhedInformation GetCarAheadDistance( Car car );
-        void GetFirstCarToOutInformation( FirstCarToOutInformation carInformation );
+        FirstCarToOutInformation GetFirstCarToOutInformation();
         Vector2 GetCarDirection( Car car, IRoadElement nextPoint );
         float GetCarDistanceTo( Car car, IRoadElement nextPoint );
+
+        // Create builder?
+        void SetConnection( IRoadElement roadElement );
+        void SetReversConnection( IRoadElement roadElement );
+        IEnumerable<IRoadElement> ReversConnection { get; }
     }
 }
