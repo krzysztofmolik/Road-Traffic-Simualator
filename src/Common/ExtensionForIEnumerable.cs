@@ -6,6 +6,34 @@ namespace Common
 {
     public static class ExtensionForIEnumerable
     {
+        public static IEnumerable<TResult> Select<T, TResult>( this IEnumerable<T> list, Func<T, T, T, TResult> selector )
+        {
+            // TODO Optymalization
+            var array = list.ToArray();
+            if ( array.Length == 0 ) { yield break; }
+            for ( var i = 0; i < array.Length; i++ )
+            {
+                var previous = i - 1 > 0 ? array[ i - 1 ] : default( T );
+                var next = i + 1 < array.Length ? array[ i + 1 ] : default( T );
+
+                yield return selector( previous, array[ i ], next );
+            }
+        }
+
+        public static IEnumerable<TResult> Select<T, TResult>( this IEnumerable<T> list, Func<int, T, T, T, TResult> selector )
+        {
+            // TODO Optymalization
+            var array = list.ToArray();
+            if ( array.Length == 0 ) { yield break; }
+            for ( var i = 0; i < array.Length; i++ )
+            {
+                var previous = i - 1 > 0 ? array[ i - 1 ] : default( T );
+                var next = i + 1 < array.Length ? array[ i + 1 ] : default( T );
+
+                yield return selector( i, previous, array[ i ], next );
+            }
+        }
+
         public static void ForEach<T>( this IEnumerable<T> list, Action<T> action )
         {
             if ( list == null )

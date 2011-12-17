@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
+using RoadTrafficSimulator.Components.SimulationMode.Route;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 {
@@ -8,32 +9,27 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
     {
         private readonly BuildRoutesToSimulationRoutesConverter _converter = new BuildRoutesToSimulationRoutesConverter();
 
-        public virtual BuildRoute[] ConvertRoutes( Routes routes, BuilderContext obj )
+        protected virtual BuildRoute[] ConvertRoutes( Routes routes, BuilderContext obj, IRoadElement owner )
         {
-            return this._converter.Convert( routes.AvailableRoutes, obj ).ToArray();
+            return this._converter.Convert( routes.AvailableRoutes, obj, owner ).ToArray();
         }
 
-        public virtual void SetConnections( IEnumerable<BuildRoute> convertedRoutes, IRoadElement routeOwner )
+        protected virtual void SetConnections( IEnumerable<BuildRoute> convertedRoutes )
         {
             foreach ( var convertedRoute in convertedRoutes )
             {
-                this.SetConnections( convertedRoute, routeOwner );
+                this.SetConnections( convertedRoute );
             }
         }
 
-        private void SetConnections( BuildRoute convertedRoutes, IRoadElement routeOwner )
+        private void SetConnections( BuildRoute convertedRoutes )
         {
-            var routes = convertedRoutes.Elements.ToArray();
-            IRoadElement previous = routeOwner;
-            var next = routes.Length >= 2 ? routes[ 1 ].RoadElement : null;
+            var mark = new Route<RouteElement>( convertedRoutes.Elements );
 
-            for ( var i = 0; i < routes.Length; i++ )
+//            if ( !mark.MoveNext() ) { return; }
+            while ( mark.MoveNext() )
             {
-                routes[ i ].RoadElement.RoadInformation.SetConnection( next );
-                routes[ i ].RoadElement.RoadInformation.SetReversConnection( previous );
-
-                previous = routes[ i ].RoadElement;
-                next = routes.Length > i + 1 ? routes[ i + 1 ].RoadElement : null;
+                mark.Current.RoadElement.Routes.AddRoadThatBelongToIt(convertedRoutes, mark.Clone() );
             }
         }
     }

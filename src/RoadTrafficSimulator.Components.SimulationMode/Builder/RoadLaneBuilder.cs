@@ -16,6 +16,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             yield return new BuilderAction( Order.High, context => builder.Build( context, control ) );
             yield return new BuilderAction( Order.Normal, builder.Connect );
             yield return new BuilderAction( Order.Low, builder.SetUp );
+            yield return new BuilderAction( Order.VeryLow, builder.SetConnection );
         }
 
         public bool CanCreate( IControl control )
@@ -43,9 +44,13 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             public void SetUp(BuilderContext obj)
             {
                 var routes = this._lane.RoadLaneBlock.RightEdge.Routes;
-                var convertedRoutes = this.ConvertRoutes( routes, obj ).ToArray();
-                this.SetConnections( convertedRoutes, this._lane );
+                var convertedRoutes = this.ConvertRoutes( routes, obj, this._lane ).ToArray();
                 this._lane.Routes = new StandardRoutes( convertedRoutes );
+            }
+
+            public void SetConnection( BuilderContext context )
+            {
+                this.SetConnections( this._lane.Routes.AvailableRoutes );
             }
         }
     }

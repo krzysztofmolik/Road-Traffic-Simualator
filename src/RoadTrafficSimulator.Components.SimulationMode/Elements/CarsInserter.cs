@@ -11,7 +11,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         public CarsInserter( BuildMode.Controls.CarsInserter control, Func<CarsInserter, IRoadInformation> conductorFactory )
             : base( control )
         {
-            Contract.Requires( control != null ); Contract.Requires( conductorFactory != null ); Contract.Ensures( this.RoadInformation != null );
+            Contract.Requires( control != null ); Contract.Requires( conductorFactory != null ); Contract.Ensures( this.Information != null );
             this._roadInformation = conductorFactory( this );
             this.CarsInserterBuilder = control;
             this.LastTimeCarWasInseter = DateTime.Now;
@@ -21,8 +21,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         public Lane Lane { get; set; }
         public TimeSpan CarsInsertionInterval { get; set; }
         public DateTime LastTimeCarWasInseter { get; set; }
-        public override IRoadInformation RoadInformation { get { return this._roadInformation; } }
-
         public BuildMode.Controls.CarsInserter CarsInserterBuilder { get; set; }
+
+        public override IRoadInformation Information { get { return this._roadInformation; } }
     }
 }

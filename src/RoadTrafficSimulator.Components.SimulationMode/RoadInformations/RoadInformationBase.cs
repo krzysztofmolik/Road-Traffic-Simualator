@@ -41,6 +41,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return CarAhedInformation.Empty;
         }
 
+        public bool ContainsCar( Car car )
+        {
+            return this.Cars.Contains( car );
+        }
+
 
         public FirstCarToOutInformation GetFirstCarToOutInformation()
         {

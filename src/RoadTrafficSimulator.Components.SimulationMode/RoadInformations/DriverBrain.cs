@@ -1,5 +1,7 @@
 using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
@@ -23,6 +25,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 
         public void Process( TimeSpan timeFrame )
         {
+            this._destinationPosition = float.MaxValue;
+            this._destinationSpeed = this._car.MaxSpeed;
+            this._canDriver = true;
+
             this._canDriver = true;
             var road = this._car.Conductors.Clone();
             var end = this._car.Conductors.Current.Process( this._car, road );
@@ -30,7 +36,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             var distance = 0.0f;
             this.ProcessAnser( end, distance );
 
-            distance += this.GetLenght( road );
+
+            distance += this._car.Conductors.Current.GetCarDistanceToEnd( this._car );
 
             while ( this._canDriver && road.MoveNext() )
             {
@@ -46,27 +53,46 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 
         private float GetLenght( IRouteMark<IConductor> road )
         {
-            Contract.Ensures( Contract.Result<float>() > 0 );
-            var previous = road.GetPrevious();
-            var next = road.GetNext();
-            return road.Current.Information.Lenght(
-                previous != null ? previous.RoadElement : null,
-                next != null ? next.RoadElement : null );
+            return road.Current.RouteElement.Length;
         }
 
         private void ProcessAnser( RoadInformation end, float distance )
         {
             if ( end.CarAhead != null )
             {
-                this._destinationPosition = Math.Max( 0, distance + end.CarAheadDistance - UnitConverter.FromMeter( 1 ) - end.CarAhead.Lenght );
-                this._destinationSpeed = end.CarAhead.Velocity;
-                this._canDriver = false;
-                return;
+                this.ProcessCarAheadInformation( end.CarAhead, end.CarAheadDistance, distance );
             }
 
-            this._destinationPosition = float.MaxValue;
-            this._destinationSpeed = this._car.MaxSpeed;
-            this._canDriver = true;
+            if ( end.PrivilagesCarInformation != null )
+            {
+                this.ProcesPrivilagesCarInformation( end.PrivilagesCarInformation, distance );
+            }
+        }
+
+        private void ProcesPrivilagesCarInformation( PriorityInformation[] privilagesCarInformation, float distance )
+        {
+            if ( privilagesCarInformation.Length != 0 )
+            {
+                this.SetDestinationPositionAndSpeed( distance, 0.0f );
+                this._canDriver = false;
+            }
+        }
+
+        private void ProcessCarAheadInformation( Car carAhead, float carAheadDistance, float distance )
+        {
+            if ( distance + carAheadDistance - carAhead.Lenght < UnitConverter.FromMeter( .9f ) )
+            {
+//                Debugger.Break();
+            }
+            this.SetDestinationPositionAndSpeed( distance + carAheadDistance - carAhead.Lenght, carAhead.Velocity );
+            this._canDriver = false;
+        }
+
+        private void SetDestinationPositionAndSpeed( float distance, float speed )
+        {
+            var newdestinationPosition = Math.Max( 0, distance - UnitConverter.FromMeter( 1 ) );
+            this._destinationPosition = Math.Min( this._destinationPosition, newdestinationPosition );
+            this._destinationSpeed = Math.Min( this._destinationSpeed, speed );
         }
     }
 }

@@ -15,14 +15,20 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
 
         public IEnumerable<IConductor> Convert( IEnumerable<RouteElement> route )
         {
-            return route.Select( t => t == null ? ( IConductor ) null : Convert( ( RouteElement ) t ) );
+            var routes = route.ToArray();
+            for ( var i = 0; i < routes.Length; i++ )
+            {
+                var previous = i - 1 >= 0 ? routes[ i - 1 ] : RouteElement.Empty;
+                var next = i + 1 < routes.Length ? routes[ i + 1 ] : RouteElement.Empty;
+
+                yield return this.Convert( routes[ i ], previous, next );
+            }
         }
 
-        public IConductor Convert( RouteElement routeElement )
+        private IConductor Convert( RouteElement routeElement, RouteElement previous, RouteElement next )
         {
             var condcutor = this._conductorResolver.Resolve( routeElement.RoadElement.GetType(), routeElement.PriorityType ); // TODO Remove reflection
-            condcutor.SetRouteElement( routeElement.RoadElement ); // TODO This is awful
-            condcutor.SetCanStopOnIt( routeElement.CanStopOnIt ); // TODO This is awful
+            condcutor.Setup( routeElement, routeElement.CanStopOnIt, previous.RoadElement, next.RoadElement );// TODO This is awful
             return condcutor;
         }
     }

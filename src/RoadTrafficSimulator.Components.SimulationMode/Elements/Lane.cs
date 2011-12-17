@@ -12,7 +12,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         public Lane( RoadLaneBlock lane, Func<Lane, IRoadInformation> conductorFactory )
             : base( lane )
         {
-            Contract.Requires( lane != null ); Contract.Requires( conductorFactory != null ); Contract.Ensures( this.RoadInformation != null );
+            Contract.Requires( lane != null ); Contract.Requires( conductorFactory != null ); Contract.Ensures( this.Information != null );
             this.RoadLaneBlock = lane;
             this._roadInformation = conductorFactory( this );
         }
@@ -24,6 +24,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         public Lane Top { get; set; }
         public Lane Bottom { get; set; }
 
-        public override IRoadInformation RoadInformation { get { return this._roadInformation; } }
+        public override IRoadInformation Information { get { return this._roadInformation; } }
     }
 }

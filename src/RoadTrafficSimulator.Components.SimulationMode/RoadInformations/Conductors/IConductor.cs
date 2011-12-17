@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
 
@@ -6,9 +8,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
     public interface IConductor
     {
         RoadInformation Process( Car car, IRouteMark<IConductor> route );
-        void SetRouteElement( IRoadElement element );
-        void SetCanStopOnIt( bool canStopOnIt );
         IRoadInformation Information { get; }
-        IRoadElement RoadElement { get; }
+        RouteElement RouteElement { get; }
+        void Setup( RouteElement roadElement, bool canStopOnIt, IRoadElement previous, IRoadElement next );
+        Vector2 GetCarDirection( Car car );
+        float GetCarDistanceToEnd( Car car );
     }
 }

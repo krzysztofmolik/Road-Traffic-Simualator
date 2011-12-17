@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 
@@ -13,8 +11,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
     {
         private readonly LaneJunction _laneJunction;
         private readonly CarsQueue _cars = new CarsQueue();
-        private readonly List<IRoadElement> _connections = new List<IRoadElement>();
-        private readonly List<IRoadElement> _reversConnections = new List<IRoadElement>();
 
         public RoadLaneJuctionRoadInformation( LaneJunction laneJunction )
         {
@@ -41,8 +37,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
 
         public bool ShouldChange( Car car )
         {
-            var next = car.Conductors.GetNext().RoadElement;
-            var distance = next.BuildControl.Location - car.Location;
+            var next = car.Conductors.GetNext().RouteElement;
+            var distance = next.RoadElement.BuildControl.Location - car.Location;
             if ( distance.Length() <= 0.001f ) { return true; }
 
             return Math.Sign( distance.X ) != Math.Sign( car.Direction.X ) && Math.Sign( distance.Y ) != Math.Sign( car.Direction.Y );
@@ -80,32 +76,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
 
         public FirstCarToOutInformation GetFirstCarToOutInformation()
         {
-            throw new NotImplementedException();
+            return FirstCarToOutInformation.Empty;
         }
 
-        public Vector2 GetCarDirection( Car car, IRoadElement nextPoint )
+        public bool ContainsCar( Car car )
         {
-            return nextPoint.BuildControl.Location - car.Location;
-        }
-
-        public float GetCarDistanceTo( Car car, IRoadElement nextPoint )
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetConnection( IRoadElement roadElement )
-        {
-            this._connections.Add( roadElement );
-        }
-
-        public void SetReversConnection( IRoadElement roadElement )
-        {
-            this._reversConnections.Add( roadElement );
-        }
-
-        public float GetDistanceToStopLine()
-        {
-            return float.MaxValue;
+            return this._cars.Contains( car );
         }
     }
 }

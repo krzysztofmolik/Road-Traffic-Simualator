@@ -12,9 +12,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
         }
 
         public IEnumerable<RouteElement> Elements { get { return this._elements; } }
-
         public float Probability { get; set; }
-
         public string Name { get; set; }
+        public IRoadElement Owner { get; set; }
     }
 }

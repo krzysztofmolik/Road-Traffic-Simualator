@@ -14,17 +14,17 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
             this.AddStartFromHandler<RoadConnection>( edge =>
                                                                {
                                                                    this.CommonConnectEndWith( edge.Edge );
-                                                                   this._endRoadLaneEdge.Routes.AddRoute( new RouteElement( edge, PriorityType.None ) );
+//                                                                   this._endRoadLaneEdge.Routes.AddRoute( new RouteElement( edge, PriorityType.None ) );
                                                                } );
             this.AddStartFromHandler<JunctionEdge>( roadJunctionEdge =>
                                                                  {
                                                                      this.CommonConnectEndWith( roadJunctionEdge.InvertedEdge );
-                                                                     this._endRoadLaneEdge.Routes.AddRoute( new RouteElement( roadJunctionEdge, PriorityType.None ) );
+//                                                                     this._endRoadLaneEdge.Routes.AddRoute( new RouteElement( roadJunctionEdge, PriorityType.None ) );
                                                                  } );
             this.AddStartFromHandler<CarsRemover>( carsRemover =>
                                                             {
                                                                 this.CommonConnectEndWith( carsRemover.Edge );
-                                                                this._endRoadLaneEdge.Routes.AddRoute( new RouteElement( carsRemover, PriorityType.None ) );
+//                                                                this._endRoadLaneEdge.Routes.AddRoute( new RouteElement( carsRemover, PriorityType.None ) );
                                                             } );
 
             this.AddEndOnHandler<CarsInserter>( carInserter => this.CommonEndOnHandler( carInserter.RightEdge ) );

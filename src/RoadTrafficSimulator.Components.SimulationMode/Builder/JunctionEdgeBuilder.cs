@@ -16,6 +16,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             yield return new BuilderAction( Order.High, context => builder.Build( context, control ) );
             yield return new BuilderAction( Order.Normal, builder.Connect );
             yield return new BuilderAction( Order.Low, builder.SetUp );
+            yield return new BuilderAction( Order.VeryLow, builder.SetConnection );
         }
 
         public bool CanCreate( IControl control )
@@ -39,17 +40,20 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
                 this._junctionEdge.Junction = builderContext.GetObject<LaneJunction>( this._junctionEdge.EdgeBuilder.Connector.JunctionEdge.Parent );
                 if ( this._junctionEdge.EdgeBuilder.Connector.Edge != null )
                 {
-                    this._junctionEdge.Next =
-                        builderContext.GetObject<IRoadElement>( this._junctionEdge.EdgeBuilder.Connector.Edge.Parent );
+                    this._junctionEdge.Next = builderContext.GetObject<IRoadElement>( this._junctionEdge.EdgeBuilder.Connector.Edge.Parent );
                 }
             }
 
             public void SetUp( BuilderContext obj )
             {
                 var routes = this._junctionEdge.EdgeBuilder.Routes;
-                var convertedRoutes = this.ConvertRoutes( routes, obj ).ToArray();
-                this.SetConnections( convertedRoutes, this._junctionEdge );
+                var convertedRoutes = this.ConvertRoutes( routes, obj, this._junctionEdge ).ToArray();
                 this._junctionEdge.Routes = new StandardRoutes( convertedRoutes );
+            }
+
+            public void SetConnection( BuilderContext context )
+            {
+                this.SetConnections( this._junctionEdge.Routes.AvailableRoutes );
             }
         }
     }

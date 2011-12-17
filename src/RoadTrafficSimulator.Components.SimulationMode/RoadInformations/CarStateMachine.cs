@@ -16,6 +16,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             Contract.Requires( car != null );
             this._engine = new Engine();
             this._car = car;
+            this._car.Conductors.MoveNext();
             this._driverBrain = new DriverBrain( this._car, this._engine );
         }
 
@@ -37,8 +38,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 
             if ( this._car.Conductors.GetNext() == null ) { return; }
 
-            var direction = this._car.Conductors.Current.Information.GetCarDirection( this._car, this._car.Conductors.GetNext().RoadElement );
-            Console.WriteLine( "{0} direction {1}", this._car.Conductors.Current.RoadElement.GetType().Name, direction );
+            var direction = this._car.Conductors.Current.GetCarDirection( this._car );
+            Console.WriteLine( "{0} direction {1}", this._car.Conductors.Current.RouteElement.GetType().Name, direction );
             if ( direction == Vector2.Zero )
             {
                 this._car.Direction = direction;

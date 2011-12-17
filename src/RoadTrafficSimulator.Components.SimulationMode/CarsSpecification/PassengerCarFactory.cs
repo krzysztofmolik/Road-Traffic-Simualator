@@ -4,7 +4,6 @@ using System.Linq;
 using Common;
 using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
-using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors.Infrastructure;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
@@ -32,7 +31,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.CarsSpecification
                           {
                               Width = UnitConverter.FromMeter( Widht ),
                               Lenght = UnitConverter.FromMeter( Length ),
-                              BreakingForce = UnitConverter.FromKmPerHour( 5.0f ) / UnitConverter.FromSecond( 1.0f ),
+                              BreakingForce = UnitConverter.FromKmPerHour( 10.0f ) / UnitConverter.FromSecond( 1.0f ),
                               AccelerateForce = UnitConverter.FromKmPerHour( 10.0f ) / UnitConverter.FromSecond( 1.0f ),
                               MaxSpeed = this.ToVirtualUnitSpeed( 60.0f ),
                               Velocity = this.ToVirtualUnitSpeed( 40.0f ),
@@ -42,7 +41,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.CarsSpecification
 
         private IEnumerable<RouteElement> GetRandomRoute( IRoadElement startElement )
         {
-            // TODO Something is wrong here 
             var result = new List<RouteElement>
                              {
                                  new RouteElement
@@ -53,12 +51,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.CarsSpecification
                                      }
                              };
 
-            // TODO ;( this is so bad, inconsistent
-            result.AddRange( startElement.Routes.GetRandomRoute( this._rng, null ) );
+            result.AddRange( startElement.Routes.GetRandomRoute( this._rng ) );
 
             while ( true )
             {
-                var nextRoute = result.Last().RoadElement.Routes.GetRandomRoute( this._rng, result.OneBeforeLast() ).ToArray();
+                var nextRoute = result.Last().RoadElement.Routes.GetRandomRoute( this._rng ).ToArray();
                 if ( nextRoute.Length == 0 ) { break; }
 
                 result.AddRange( nextRoute );

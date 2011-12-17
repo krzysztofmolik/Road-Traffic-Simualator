@@ -104,7 +104,7 @@ namespace RoadTrafficSimulator
 
         public void Handle( ChangedToBuildMode message )
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

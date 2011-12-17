@@ -1,8 +1,12 @@
 using System;
+using System.Diagnostics;
+using Microsoft.Xna.Framework;
+using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors.Infrastructure;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
+using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors
@@ -24,6 +28,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
                        {
                            CarAhead = carAheadInformation.CarAhead,
                            CarAheadDistance = carAheadInformation.CarDistance,
+                           PrivilagesCarInformation = null,
                        };
         }
 
@@ -34,17 +39,25 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
             this._junctionEdge = junctionEdge;
         }
 
-        public void SetCanStopOnIt( bool canStopOnIt )
+        public IRoadInformation Information { get { return this._junctionEdge.Information; } }
+        public RouteElement RouteElement { get; private set; }
+
+        public void Setup( RouteElement roadElement, bool canStopOnIt, IRoadElement previous, IRoadElement next )
         {
+            this.SetRouteElement( roadElement.RoadElement );
             this._canStopOnIt = canStopOnIt;
+            this.RouteElement = roadElement;
         }
 
-        public IRoadInformation Information
+        public Vector2 GetCarDirection( Car car )
         {
-            get
-            {
-                return this._junctionEdge.RoadInformation;
-            }
+            return car.Direction;
+        }
+
+        public float GetCarDistanceToEnd( Car car )
+        {
+            Debug.Assert( this.Information.ContainsCar( car ) );
+            return Constans.PointSize;
         }
 
         public IRoadElement RoadElement

@@ -16,8 +16,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Cars
 
         public Car( IEnumerable<IConductor> route )
         {
-            this._stateMachine = new CarStateMachine( this );
             this._conductors = new RouteMark<IConductor>( new Route<IConductor>( route ) );
+            this._stateMachine = new CarStateMachine( this );
         }
 
         public int CarId { get; set; }

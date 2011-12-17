@@ -8,7 +8,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
         private int _mark;
 
         public RouteMark( Route<T> route )
-            : this( route, 0 ) { }
+            : this( route, -1 ) { }
 
         public RouteMark( Route<T> route, int mark )
         {
@@ -46,8 +46,15 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
 
         public bool MoveNext()
         {
+            if ( this._route.IsValidIndex( this._mark + 1 ) == false ) { return false; }
             ++this._mark;
-            if ( this._route.IsValidIndex( this._mark ) == false ) { return false; }
+            return true;
+        }
+
+        public bool MoveBack()
+        {
+            if ( this._route.IsValidIndex( this._mark - 1 ) == false ) { return false; }
+            --this._mark;
             return true;
         }
 

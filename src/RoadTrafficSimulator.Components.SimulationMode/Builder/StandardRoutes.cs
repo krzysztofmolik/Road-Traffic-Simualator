@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Common;
+using RoadTrafficSimulator.Components.SimulationMode.Route;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 {
@@ -15,13 +16,15 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
         }
 
         private readonly List<BuildRoute> _routes;
+        private readonly List<BelongToRouteItem> _routesThatBelong;
 
         public StandardRoutes( IEnumerable<BuildRoute> routes )
         {
             this._routes = new List<BuildRoute>( routes );
+            this._routesThatBelong = new List<BelongToRouteItem>();
         }
 
-        public IEnumerable<RouteElement> GetRandomRoute( Random rng, RouteElement @from )
+        public IEnumerable<RouteElement> GetRandomRoute( Random rng )
         {
             if ( this._routes.IsEmpty() ) { return Enumerable.Empty<RouteElement>(); }
             var maxValue = this._routes.Max( s => s.Probability );
@@ -51,9 +54,33 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             this._routes.Where( s => s.Probability == 0 ).ForEach( s => s.Probability = perItem );
         }
 
+        public IEnumerable<BuildRoute> AvailableRoutes { get { return this._routes; } }
+
         public void Add( BuildRoute route )
         {
             this._routes.Add( route );
         }
+
+        public void AddRoadThatBelongToIt( BuildRoute convertedRoutes, IRouteMark<RouteElement> routeMark )
+        {
+            this._routesThatBelong.Add( new BelongToRouteItem( convertedRoutes, routeMark ) );
+        }
+
+        public IEnumerable<BelongToRouteItem> BelongToRoutes
+        {
+            get { return this._routesThatBelong; }
+        }
+    }
+
+    public class BelongToRouteItem
+    {
+        public BelongToRouteItem( BuildRoute route, IRouteMark<RouteElement> position )
+        {
+            this.Route = route;
+            this.Position = position;
+        }
+
+        public BuildRoute Route { get; private set; }
+        public IRouteMark<RouteElement> Position { get; private set; }
     }
 }

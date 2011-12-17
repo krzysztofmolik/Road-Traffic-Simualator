@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Infrastructure;
@@ -16,6 +15,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         {
             Contract.Requires( laneCorner != null );
             this._laneCorner = laneCorner;
+        }
+
+        protected override Vector2 GetEndLocation()
+        {
+            return this._laneCorner.LaneCornerBuild.Location;
         }
 
         protected override Vector2 GetBeginLocation()
@@ -36,19 +40,5 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return Math.Sign( distance.X ) != Math.Sign( car.Direction.X ) && Math.Sign( distance.Y ) != Math.Sign( car.Direction.Y );
         }
 
-        public FirstCarToOutInformation GetFirstCarToOutInformation()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Vector2 GetCarDirection( Car car, IRoadElement nextPoint )
-        {
-            return _laneCorner.Next.RoadInformation.GetCarDirection( car, nextPoint );
-        }
-
-        public float GetCarDistanceTo( Car car, IRoadElement nextPoint )
-        {
-            throw new NotImplementedException();
-        }
     }
 }

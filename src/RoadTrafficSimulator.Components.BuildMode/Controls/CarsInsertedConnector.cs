@@ -30,7 +30,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.OpositeEdge = roadLaneEdge.LeftEdge.GetOppositeEdge();
             this.OpositeEdge.Translated.Subscribe( x => this._owner.RecalculatePosition() );
             this._owner.RecalculatePosition();
-            this._owner.Routes.AddRoute( new RouteElement( roadLaneEdge, PriorityType.None ) );
+//            this._owner.Routes.AddRoute( new RouteElement( roadLaneEdge, PriorityType.None ) );
         }
 
         public void ConnectBeginBottomWith( CarsInserter roadConnection )

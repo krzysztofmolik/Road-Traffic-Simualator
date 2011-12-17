@@ -1,5 +1,7 @@
 using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
+using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors.Infrastructure;
@@ -15,6 +17,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
     {
         private bool _canStopOnIt;
         private CarsInserter _carInserter;
+        private RouteElement _routeElement;
+        private IRoadElement _next;
 
         public RoadInformation Process( Car car, IRouteMark<IConductor> route )
         {
@@ -23,29 +27,44 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
                        {
                            CarAhead = carAheadInformation.CarAhead,
                            CarAheadDistance = carAheadInformation.CarDistance,
+                           PrivilagesCarInformation = null,
                        };
         }
 
-        public void SetRouteElement( IRoadElement element )
+        private void SetRouteElement( IRoadElement element )
         {
             var carInserter = element as CarsInserter;
             if ( carInserter == null ) { throw new ArgumentException( "Wrong road element" ); }
             this._carInserter = carInserter;
         }
 
-        public void SetCanStopOnIt( bool canStopOnIt )
-        {
-            this._canStopOnIt = canStopOnIt;
-        }
-
         public IRoadInformation Information
         {
-            get { return this._carInserter.RoadInformation; }
+            get { return this._carInserter.Information; }
         }
 
-        public IRoadElement RoadElement
+        public RouteElement RouteElement
         {
-            get { return this._carInserter; }
+            get { return this._routeElement; }
+        }
+
+        public void Setup( RouteElement roadElement, bool canStopOnIt, IRoadElement previous, IRoadElement next )
+        {
+            this.SetRouteElement( roadElement.RoadElement );
+            this._canStopOnIt = canStopOnIt;
+            this._routeElement = roadElement;
+            this._next = next;
+        }
+
+        public Vector2 GetCarDirection( Car car )
+        {
+            return this._next.BuildControl.Location - car.Location;
+        }
+
+        public float GetCarDistanceToEnd( Car car )
+        {
+            Debug.Assert( this.Information.ContainsCar( car ) );
+            return Constans.PointSize;
         }
     }
 }

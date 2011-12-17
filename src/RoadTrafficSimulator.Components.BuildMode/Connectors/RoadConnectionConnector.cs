@@ -44,7 +44,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
 
             this.OpositeToNextEdge.Translated.Subscribe( x => this._owner.RecalculatePosition() );
             this._owner.RecalculatePosition();
-            this._owner.Routes.AddRoute( new RouteElement( roadLaneEdge.RoadLaneBlockParent, PriorityType.None ) );
+//            this._owner.Routes.AddRoute( new RouteElement( roadLaneEdge.RoadLaneBlockParent, PriorityType.None ) );
         }
 
         private EndRoadLaneEdge GetLaneEdgeOpositeTo( EndRoadLaneEdge roadLaneEdge )

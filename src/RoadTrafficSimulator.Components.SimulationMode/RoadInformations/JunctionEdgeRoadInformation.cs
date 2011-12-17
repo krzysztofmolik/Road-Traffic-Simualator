@@ -1,8 +1,6 @@
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Common;
 using Microsoft.Xna.Framework;
-using RoadTrafficSimulator.Components.SimulationMode.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Infrastructure;
 using JunctionEdge = RoadTrafficSimulator.Components.SimulationMode.Elements.JunctionEdge;
@@ -25,6 +23,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return this._juctionEdge.EdgeBuilder.Location;
         }
 
+        protected override Vector2 GetEndLocation()
+        {
+            return this._juctionEdge.EdgeBuilder.Location;
+        }
+
         public float Lenght( IRoadElement previous, IRoadElement next )
         {
             return Constans.PointSize;
@@ -39,11 +42,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         {
             // TODO BUG?
             return true;
-        }
-
-        public FirstCarToOutInformation GetFirstCarToOutInformation()
-        {
-            Debug.Assert( false );
         }
 
         public Vector2 GetCarDirection( Car car, IRoadElement nextPoint )

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Route
 {
@@ -39,6 +40,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
 
         public T GetAt( int index )
         {
+            Contract.Requires( index >= 0 );
             if ( this.IsValidIndex( index ) == false ) { throw new ArgumentException( "Index is not valid", "index" ); }
             return this._route[ index ];
         }
@@ -66,6 +68,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Route
         public bool MoveNext()
         {
             return this._routeMark.MoveNext();
+        }
+
+        public bool MoveBack()
+        {
+            return this._routeMark.MoveBack();
         }
 
         public IRouteMark<T> Clone()

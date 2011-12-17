@@ -16,10 +16,7 @@ namespace RoadTrafficConstructor.Converters
             throw new ArgumentException();
         }
 
-        protected virtual TDestination Convert( TSource value )
-        {
-            throw new NotImplementedException();
-        }
+        protected abstract TDestination Convert( TSource value );
 
         public object ConvertBack( object value, Type targetType, object parameter, CultureInfo culture )
         {
@@ -33,7 +30,7 @@ namespace RoadTrafficConstructor.Converters
 
         protected virtual TSource ConvertBack( TDestination destination )
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

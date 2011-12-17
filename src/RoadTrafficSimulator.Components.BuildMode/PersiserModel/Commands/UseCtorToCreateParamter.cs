@@ -46,7 +46,6 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
         public T Default
         {
             get { return default( T ); }
-            set { throw new NotImplementedException(); }
         }
     }
 }

@@ -22,7 +22,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
             this._drawer = new LaneJunctionDrawer( this );
         }
 
-        public override IRoadInformation RoadInformation { get { return this._roadInformation; } }
         public Light.Light Lights { get { return this._lights; } }
         public RoadJunctionBlock JunctionBuilder { get; private set; }
 
@@ -34,6 +33,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         public override IDrawer Drawer
         {
             get { return this._drawer; }
+        }
+
+        public override IRoadInformation Information
+        {
+            get { return this._roadInformation; }
         }
 
         public void AddLight( Light.Light light )

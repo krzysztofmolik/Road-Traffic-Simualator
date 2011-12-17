@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Infrastructure;
@@ -58,6 +59,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             public void SetUp( BuilderContext obj )
             {
                 this._junction.BuildControl.VertexContainer.ReloadTextures();
+                this._junction.Routes = new StandardRoutes( Enumerable.Empty<BuildRoute>() );
             }
         }
     }

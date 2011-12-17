@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors.Infrastructure;
@@ -14,42 +13,74 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
     [PriorityConductorInformation( PriorityType.FromRight )]
     public class FromRightJunctionConductor : JunctionConductorBase
     {
-        private readonly LaneJunction _laneJunction;
-
-        public FromRightJunctionConductor( LaneJunction laneJunction )
-        {
-            this._laneJunction = laneJunction;
-        }
-
         // BUG This can be calculated once on every 200 ms
         protected override PriorityInformation[] GetPriorityCarInfromation( Car car, IRouteMark<IConductor> route )
         {
-            var resversIterator = new ReversRouteIterator( route.Current.RoadElement.RoadInformation,
-                                                           UnitConverter.FromMeter( 50 ) );
+            var onTheRight = this.GetJunctionEdgeOnTheRigh( route );
+            // NOTE I can do this, because I'am sure that this Junction edge and it has to be connected with junction!!
+            var resversIterator = new RouteJunctionReversIterator( onTheRight, UnitConverter.FromMeter( 50 ) );
+
+            var tes = resversIterator.ToArray();
 
             return resversIterator.Select( r =>
                                                {
-                                                   var firstCarToOut = r.RoadInformation.GetFirstCarToOutInformation();
+                                                   var firstCarToOut = r.RoadElement.Information.GetFirstCarToOutInformation();
                                                    return new
                                                               {
-                                                                  FirtCarToOut = firstCarToOut.Car,
-                                                                  CarDistanceToJunction = firstCarToOut.CarDistance,
-                                                                  Distance = r.Distance
+                                                                  firstCarToOut.Car,
+                                                                  firstCarToOut.CarDistance,
+                                                                  r.Distance
                                                               };
                                                } )
 
 
 
-                .Where( c => c.FirtCarToOut != null )
-                .Where( c => this.DriverThruJunction( c.FirtCarToOut ) )
-                .Select( c => new PriorityInformation( c.FirtCarToOut, c.CarDistanceToJunction, c.Distance ) )
+                .Where( c => c.Car != null )
+                .Where( c => this.DriverThruJunction( c.Car ) )
+                .Select( c => new PriorityInformation( c.Car, c.CarDistance, c.Distance ) )
                 .ToArray();
+        }
+
+        private JunctionEdge GetJunctionEdgeOnTheRigh( IRouteMark<IConductor> route )
+        {
+            var previous = route.GetPrevious();
+            if ( this.Junction.JunctionBuilder.Connector.LeftEdge == previous.RouteElement.RoadElement.BuildControl )
+            {
+                return this.Junction.Bottom;
+            }
+            if ( this.Junction.JunctionBuilder.Connector.TopEdge == previous.RouteElement.RoadElement.BuildControl )
+            {
+                return this.Junction.Left;
+            }
+            if ( this.Junction.JunctionBuilder.Connector.RightEdge == previous.RouteElement.RoadElement.BuildControl )
+            {
+                return this.Junction.Top;
+            }
+            if ( this.Junction.JunctionBuilder.Connector.BottomEdge == previous.RouteElement.RoadElement.BuildControl )
+            {
+                return this.Junction.Right;
+            }
+
+            throw new ArgumentException();
+        }
+
+        private bool DriverThruJunction( Car firtCarToOut )
+        {
+            var condcutors = firtCarToOut.Conductors.Clone();
+            while ( condcutors.MoveNext() )
+            {
+                if ( condcutors.Current.RouteElement.RoadElement == this.Junction )
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
-    public struct RoadElementWithDistance
+    public struct RouteElementWithDistance
     {
-        public RoadElementWithDistance( IRoadElement roadElement, float distance )
+        public RouteElementWithDistance( IRoadElement roadElement, float distance )
             : this()
         {
             this.RoadElement = roadElement;
@@ -59,40 +90,4 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
         public IRoadElement RoadElement { get; private set; }
         public float Distance { get; private set; }
     }
-
-    public class ReversRouteIterator : IEnumerable<RoadElementWithDistance>
-    {
-        private readonly IRoadInformation _orginal;
-        private readonly float _maxDistance;
-        private readonly List<IRoadElement> _visited = new List<IRoadElement>();
-
-        public ReversRouteIterator( IRoadInformation orginal, float maxDistance )
-        {
-            this._orginal = orginal;
-            this._maxDistance = maxDistance;
-        }
-
-        // TODO Przekazywac dlugosc
-        public IEnumerator<RoadElementWithDistance> GetEnumerator()
-        {
-            return this._orginal.ReversConnection.SelectMany( e => this.GetElemnts( e, 0.0f ) ).GetEnumerator();
-        }
-
-        private IEnumerable<RoadElementWithDistance> GetElemnts( IRoadElement roadElement, float distance )
-        {
-            if ( this._visited.Contains( roadElement ) ) { return Enumerable.Empty<RoadElementWithDistance>(); }
-
-            this._visited.Add( roadElement );
-
-    var newDistance = distance + roadElement.RoadInformation.Lenght(  )
-            return new[] { new RoadElementWithDistance( roadElement, distance ) }.Concat( roadElement.RoadInformation.ReversConnection.SelectMany( this.GetElemnts() ) );
-
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-    }
-
 }

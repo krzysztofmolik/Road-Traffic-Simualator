@@ -58,11 +58,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             return Vector2.Distance( car.Location, nextPoint.BuildControl.Location );
         }
 
-        public IEnumerable<IRoadElement> ReversConnection
-        {
-            get { throw new NotImplementedException(); }
-        }
-
         protected override Vector2 GetEndLocation()
         {
             return this._lane.RoadLaneBlock.RightEdge.Location;
