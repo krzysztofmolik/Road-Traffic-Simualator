@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Infrastructure.Draw;
 using RoadTrafficSimulator.Infrastructure.Mouse;
@@ -19,13 +20,14 @@ namespace RoadTrafficSimulator.Infrastructure.Controls
         void Invalidate();
     }
 
+    [Flags]
     public enum PriorityType
     {
-        None,
-        Light,
-        FromLeft,
-        FromFront,
-        FromRight,
+        None = 0,
+        Light = 1,
+        FromLeft = 2,
+        FromFront = 4,
+        FromRight = 8,
     }
 
     public interface IControl : ILogicControl
@@ -40,6 +42,7 @@ namespace RoadTrafficSimulator.Infrastructure.Controls
         bool IsHitted( Vector2 location );
         ILogicControl GetHittedControl( Vector2 point );
         Guid Id { get; set; }
+        IEnumerable<IControl> GetPathTo( IControl control );
     }
 
     public interface ISingleControl : IControl

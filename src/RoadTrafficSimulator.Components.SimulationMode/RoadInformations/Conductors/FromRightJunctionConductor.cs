@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors.Infrastructure;
@@ -13,14 +14,23 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
     [PriorityConductorInformation( PriorityType.FromRight )]
     public class FromRightJunctionConductor : JunctionConductorBase
     {
-        // BUG This can be calculated once on every 200 ms
-        protected override PriorityInformation[] GetPriorityCarInfromation( Car car, IRouteMark<IConductor> route )
+        private enum SideMove
         {
-            var onTheRight = this.GetJunctionEdgeOnTheRigh( route );
-            // NOTE I can do this, because I'am sure that this Junction edge and it has to be connected with junction!!
-            var resversIterator = new RouteJunctionReversIterator( onTheRight, UnitConverter.FromMeter( 50 ) );
+            OnTheRight = 1,
+            OnFront = 2,
+            OnTheLeft = 3,
+        }
 
+        // BUG This can be calculated once on every 200 ms
+        private IEnumerable<PriorityInformation> GetPriorityCarInfromation( IRouteMark<IConductor> route, SideMove sideMove )
+        {
+            var onTheRight = this.GetJunctionEdgeOnTheRigh( route, sideMove );
+            // NOTE I can do this, because I'am sure that this Junction edge and it has to be connected with junction!!
+            var resversIterator = new RouteJunctionReversIterator( this.Junction, onTheRight.Routes.BelongToRoutes, UnitConverter.FromMeter( 50 ) );
+
+#if DEBUG
             var tes = resversIterator.ToArray();
+#endif
 
             return resversIterator.Select( r =>
                                                {
@@ -37,28 +47,31 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
 
                 .Where( c => c.Car != null )
                 .Where( c => this.DriverThruJunction( c.Car ) )
-                .Select( c => new PriorityInformation( c.Car, c.CarDistance, c.Distance ) )
-                .ToArray();
+                .Select( c => new PriorityInformation( c.Car, c.CarDistance, c.Distance ) );
         }
 
-        private JunctionEdge GetJunctionEdgeOnTheRigh( IRouteMark<IConductor> route )
+        private JunctionEdge GetJunctionEdgeOnTheRigh( IRouteMark<IConductor> route, SideMove sideMOve )
         {
             var previous = route.GetPrevious();
-            if ( this.Junction.JunctionBuilder.Connector.LeftEdge == previous.RouteElement.RoadElement.BuildControl )
+            var ed = this.Junction.JunctionBuilder.Connector.Edges.Select( ( e, i ) => new
+                                                                                  {
+                                                                                      Index = i,
+                                                                                      Element = e
+                                                                                  } )
+                .First( e => e.Element == previous.RouteElement.RoadElement.BuildControl );
+
+            var resultIndex = ( int ) ( ed.Index + sideMOve ) % 4;
+
+            switch ( resultIndex )
             {
-                return this.Junction.Bottom;
-            }
-            if ( this.Junction.JunctionBuilder.Connector.TopEdge == previous.RouteElement.RoadElement.BuildControl )
-            {
-                return this.Junction.Left;
-            }
-            if ( this.Junction.JunctionBuilder.Connector.RightEdge == previous.RouteElement.RoadElement.BuildControl )
-            {
-                return this.Junction.Top;
-            }
-            if ( this.Junction.JunctionBuilder.Connector.BottomEdge == previous.RouteElement.RoadElement.BuildControl )
-            {
-                return this.Junction.Right;
+                case EdgeType.Bottom:
+                    return this.Junction.Bottom;
+                case EdgeType.Top:
+                    return this.Junction.Top;
+                case EdgeType.Left:
+                    return this.Junction.Left;
+                case EdgeType.Right:
+                    return this.Junction.Right;
             }
 
             throw new ArgumentException();
@@ -75,6 +88,26 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
                 }
             }
             return false;
+        }
+
+        protected override PriorityInformation[] GetPriorityCarInfromation( Car car, IRouteMark<IConductor> route )
+        {
+            return this.PriorityTypes.Select( this.GetMoveSide ).SelectMany( p => this.GetPriorityCarInfromation( route, p ) ).ToArray();
+        }
+
+        private SideMove GetMoveSide( PriorityType priorityType )
+        {
+            switch ( priorityType )
+            {
+                case PriorityType.FromFront:
+                    return SideMove.OnFront;
+                case PriorityType.FromRight:
+                    return SideMove.OnTheRight;
+                case PriorityType.FromLeft:
+                    return SideMove.OnTheLeft;
+            }
+
+            throw new ArgumentException();
         }
     }
 

@@ -156,7 +156,6 @@
     <Compile Include="RoadInformations\Conductors\Infrastructure\PriorityConductorInformationAttribute.cs" />
     <Compile Include="RoadInformations\Conductors\Infrastructure\RouteToConductorConverter.cs" />
     <Compile Include="RoadInformations\Conductors\IConductor.cs" />
-    <Compile Include="RoadInformations\Conductors\NonPriorityJunctionCondcutor.cs" />
     <Compile Include="RoadInformations\Conductors\PriorityInformation.cs" />
     <Compile Include="RoadInformations\Conductors\RouteJunctionReversIterator.cs" />
     <Compile Include="RoadInformations\Conductors\SimpleCarInserterCondcutor.cs" />

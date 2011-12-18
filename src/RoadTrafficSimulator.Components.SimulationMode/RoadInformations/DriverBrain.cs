@@ -73,7 +73,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         {
             if ( privilagesCarInformation.Length != 0 )
             {
-                this.SetDestinationPositionAndSpeed( distance, 0.0f );
+                this.SetDestinationPositionAndSpeed( distance - this._car.Lenght/2 - UnitConverter.FromMeter( 1 ), 0.0f );
                 this._canDriver = false;
             }
         }

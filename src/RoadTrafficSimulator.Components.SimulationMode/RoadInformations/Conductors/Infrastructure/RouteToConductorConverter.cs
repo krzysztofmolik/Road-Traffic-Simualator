@@ -27,8 +27,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
 
         private IConductor Convert( RouteElement routeElement, RouteElement previous, RouteElement next )
         {
-            var condcutor = this._conductorResolver.Resolve( routeElement.RoadElement.GetType(), routeElement.PriorityType ); // TODO Remove reflection
-            condcutor.Setup( routeElement, routeElement.CanStopOnIt, previous.RoadElement, next.RoadElement );// TODO This is awful
+            var condcutor = this._conductorResolver.Resolve( routeElement.RoadElement.GetType() ); // TODO Remove reflection
+            condcutor.Setup( routeElement, routeElement.CanStopOnIt, previous.RoadElement, next.RoadElement, routeElement.PriorityType );// TODO This is awful
             return condcutor;
         }
     }

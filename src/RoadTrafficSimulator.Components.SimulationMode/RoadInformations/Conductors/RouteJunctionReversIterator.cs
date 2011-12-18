@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
+using Castle.Core.Internal;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors
 {
@@ -11,34 +12,36 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
     public class RouteJunctionReversIterator : IEnumerable<RouteElementWithDistance>
     {
         private readonly IRoadElement _current;
-        private readonly List<IRoadElement> _roadTakenFrom = new List<IRoadElement>();
+        private readonly IEnumerable<BelongToRouteItem> _routesToCheck;
+        private readonly List<IRoadElement> _visitedRoads = new List<IRoadElement>();
         private readonly float _maxDistance;
 
-        public RouteJunctionReversIterator( IRoadElement current, float fromMeter )
+        public RouteJunctionReversIterator( IRoadElement owner, IEnumerable<BelongToRouteItem> routesToCheck, float fromMeter )
         {
-            this._current = current;
+            this._current = owner;
+            this._routesToCheck = routesToCheck.ToArray();
             this._maxDistance = fromMeter;
         }
 
         public IEnumerator<RouteElementWithDistance> GetEnumerator()
         {
-            this._roadTakenFrom.Clear();
-            var currentRoutes = this._current.Routes.BelongToRoutes;
-            this._roadTakenFrom.Add( this._current );
-            return currentRoutes.SelectMany( r => this.GetElements( r.Position.Clone(), r.Route, 0.0f ) ).GetEnumerator();
+            this._visitedRoads.Clear();
+            this._routesToCheck.ForEach( r => this._visitedRoads.Add( r.Route.Owner ) );
+            return this._routesToCheck.SelectMany( r => this.GetElements( r.Position.Clone(), r.Route, 0.0f ) ).GetEnumerator();
         }
 
         private IEnumerable<RouteElementWithDistance> GetElements( IRouteMark<RouteElement> current, BuildRoute owner, float distance )
         {
+            if ( current.Current.RoadElement == this._current ) { return Enumerable.Empty<RouteElementWithDistance>(); }
             if ( !current.MoveBack() )
             {
-                if ( distance >= this._maxDistance || this._roadTakenFrom.Contains( owner.Owner ) )
+                if ( distance >= this._maxDistance || this._visitedRoads.Contains( owner.Owner ) )
                 {
                     // Bug, but now I will leave it as it is
                     return new[] { new RouteElementWithDistance( owner.Owner, distance ), };
                 }
 
-                this._roadTakenFrom.Add( owner.Owner );
+                this._visitedRoads.Add( owner.Owner );
                 var element = this.GetElementFromThatLeadsTo( owner.Owner, current.Current.RoadElement );
                 if ( element == null ) { throw new InvalidOperationException(); }
                 distance += element.Length;

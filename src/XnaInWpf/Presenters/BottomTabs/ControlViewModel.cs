@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using Common;
 using Common.Wpf;
+using Microsoft.Win32;
 using RoadTrafficSimulator.Components.BuildMode.Messages;
 using RoadTrafficSimulator.Infrastructure.Messages;
 
@@ -46,17 +47,22 @@ namespace RoadTrafficConstructor.Presenters.BottomTabs
 
         public void Save()
         {
-            var fileName = Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ) + @"\1.traffic";
-            if ( File.Exists( fileName ) ) { File.Delete( fileName ); }
-            var stream = File.Open( fileName, FileMode.OpenOrCreate, FileAccess.Write );
+            var openFileDialog = new SaveFileDialog();
+            var result = openFileDialog.ShowDialog();
+            if ( !result.Value ) { return; }
+            var stream = File.Open( openFileDialog.FileName, FileMode.OpenOrCreate, FileAccess.Write );
             this._eventAggregator.Publish( new SaveMap( stream ) );
         }
 
         public void Load()
         {
-            var fileName = Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ) + @"\1.traffic";
-            if ( !File.Exists( fileName ) ) { throw new ArgumentException( "fileName" ); }
-            var stream = File.Open( fileName, FileMode.Open );
+            var openFileDialog = new OpenFileDialog
+                                     {
+                                         Multiselect = false
+                                     };
+            var result = openFileDialog.ShowDialog();
+            if ( !result.Value ) { return; }
+            var stream = File.Open( openFileDialog.FileName, FileMode.Open );
             this._eventAggregator.Publish( new LoadMap( stream ) );
         }
 

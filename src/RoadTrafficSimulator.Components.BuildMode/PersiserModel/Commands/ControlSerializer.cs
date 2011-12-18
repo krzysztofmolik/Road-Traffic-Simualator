@@ -15,7 +15,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
         private readonly Dictionary<Type, IControlConverter> _converters;
         private readonly Func<DeserializationContext> _deserializationContextFactory;
 
-        public ControlSerializer( IEnumerable<IControlConverter> converters, Func<DeserializationContext> deserializationContextFactory)
+        public ControlSerializer( IEnumerable<IControlConverter> converters, Func<DeserializationContext> deserializationContextFactory )
         {
             this._converters = converters.ToDictionary( s => s.Type, s => s );
             this._deserializationContextFactory = deserializationContextFactory;
@@ -49,6 +49,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
             {
                 action.Execute( context );
             }
+
+            // TODO Remove it, temporary solution
+            context.CreateControls.ForEach( c => c.Invalidate() );
             return context.CreateControls;
         }
     }

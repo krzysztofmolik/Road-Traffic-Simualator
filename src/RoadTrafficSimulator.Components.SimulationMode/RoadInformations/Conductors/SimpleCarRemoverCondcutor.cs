@@ -46,7 +46,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
             get { return this._routeElement; }
         }
 
-        public void Setup( RouteElement roadElement, bool canStopOnIt, IRoadElement previous, IRoadElement next )
+        public void Setup( RouteElement roadElement, bool canStopOnIt, IRoadElement previous, IRoadElement next, PriorityType priorityType )
         {
             this.SetRouteElement( roadElement.RoadElement );
             this._canStopOnIt = canStopOnIt;

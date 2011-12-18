@@ -22,14 +22,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
             var conductorBaseType = typeof( IConductor );
             _items = conductorBaseType.Assembly.GetTypes().Where( t => t.Namespace == conductorBaseType.Namespace )
                 .Where( t => t.HasAttribute<ConductorSupportedRoadElementTypeAttribute>() )
-                .Where( t => t.HasAttribute<PriorityConductorInformationAttribute>() )
                 .Where( t => t.IsImplementingInterface<IConductor>() )
                 .Select( t => new ResolverItem()
                                   {
                                       CondcutorType = t,
-                                      PriorityType =
-                                          t.GetAttributes<PriorityConductorInformationAttribute>().Select(
-                                              p => p.Priority ).ToArray(),
                                       RouteElementType =
                                           t.GetAttribute<ConductorSupportedRoadElementTypeAttribute>().RouteElementType
                                   } )
@@ -43,18 +39,18 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
             this._condcutorFactory = condcutorFactory;
         }
 
-        public IConductor Resolve( Type routeElementType, PriorityType priorityType )
+        public IConductor Resolve( Type routeElementType )
         {
-            var condcutorType = GetCondcutorType( routeElementType, priorityType );
+            var condcutorType = GetCondcutorType( routeElementType );
             return this._condcutorFactory( condcutorType );
         }
 
-        private static Type GetCondcutorType( Type routeElementType, PriorityType priorityType )
+        private static Type GetCondcutorType( Type routeElementType )
         {
-            var item = _items[ routeElementType ].FirstOrDefault( t => t.PriorityType.Any( p => p == priorityType ) );
+            var item = _items[ routeElementType ].FirstOrDefault();
             if ( item == null )
             {
-                throw new ArgumentException( string.Format( "Not supported route type {0} or priority {1}", routeElementType.Name, priorityType ) );
+                throw new ArgumentException( string.Format( "Not supported route type {0}", routeElementType.Name ) );
             }
 
             return item.CondcutorType;

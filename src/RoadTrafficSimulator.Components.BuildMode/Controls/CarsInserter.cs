@@ -21,6 +21,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.Edge = new NormalEdge( factories, this, location );
             this.RightEdge = new InvertPointEdgeAdapter( this, this.Edge, this );
             this.Edge.Translated.Subscribe( _ => this.Invalidate() );
+            this.Edge.VertexContainer.Color = Color.Green;
         }
 
         public InvertPointEdgeAdapter RightEdge { get; private set; }

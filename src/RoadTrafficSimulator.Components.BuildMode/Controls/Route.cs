@@ -72,6 +72,15 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         public void Add( RouteElement routeElement )
         {
+            var last = this._route.LastOrDefault();
+            if ( last == null )
+            {
+                this._route.Add( routeElement );
+                return;
+            }
+
+            var path = last.Control.GetPathTo( routeElement.Control );
+            this._route.AddRange( path.Select( c => new RouteElement( c, PriorityType.None ) ) );
             this._route.Add( routeElement );
         }
 

@@ -42,7 +42,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
         public IRoadInformation Information { get { return this._junctionEdge.Information; } }
         public RouteElement RouteElement { get; private set; }
 
-        public void Setup( RouteElement roadElement, bool canStopOnIt, IRoadElement previous, IRoadElement next )
+        public void Setup( RouteElement roadElement, bool canStopOnIt, IRoadElement previous, IRoadElement next, PriorityType priorityType )
         {
             this.SetRouteElement( roadElement.RoadElement );
             this._canStopOnIt = canStopOnIt;

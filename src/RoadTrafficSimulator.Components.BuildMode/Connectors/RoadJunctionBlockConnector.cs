@@ -20,6 +20,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
         public JunctionEdge TopEdge { get { return this._edges[ EdgeType.Top ]; } }
         public JunctionEdge BottomEdge { get { return this._edges[ EdgeType.Bottom ]; } }
 
+        public JunctionEdge[] Edges { get { return this._edges; } }
+
         public void ConnectStartOn( JunctionEdge junctionEdge, int side )
         {
             this._edges[ side ] = junctionEdge;

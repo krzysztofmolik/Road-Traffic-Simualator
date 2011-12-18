@@ -20,6 +20,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this._connector = new CarsRemoverConnector( this );
             this._edge = new NormalEdge( factories, this, location );
             this._edge.Translated.Subscribe( _ => this.Invalidate() );
+            this.Edge.VertexContainer.Color = Color.Red;
         }
 
         public NormalEdge Edge { get { return this._edge; }}

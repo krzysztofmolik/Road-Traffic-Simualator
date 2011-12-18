@@ -8,6 +8,7 @@ using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors
 using RoadTrafficSimulator.Components.SimulationMode.Route;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
+using System.Linq;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors
 {
@@ -43,12 +44,13 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
 
         public RouteElement RouteElement { get; private set; }
 
-        public void Setup( RouteElement roadElement, bool canStopOnIt, IRoadElement previous, IRoadElement next )
+        public void Setup( RouteElement roadElement, bool canStopOnIt, IRoadElement previous, IRoadElement next, PriorityType priorityType )
         {
             this.SetRouteElement( roadElement.RoadElement );
             this._canStopOnIt = canStopOnIt;
             this.RouteElement = roadElement;
         }
+
 
         public Vector2 GetCarDirection( Car car )
         {

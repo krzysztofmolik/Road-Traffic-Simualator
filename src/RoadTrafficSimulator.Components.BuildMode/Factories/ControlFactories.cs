@@ -46,6 +46,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.Factories
             this._eventAggregator.Publish( new NewControlCreated( rightEdge ) );
             this._eventAggregator.Publish( new NewControlCreated( bottomEdge ) );
             this._eventAggregator.Publish( new NewControlCreated( topEdge ) );
+
+            junction.Invalidate();
+            leftEdge.Invalidate();
+            rightEdge.Invalidate();
+            bottomEdge.Invalidate();
+            topEdge.Invalidate();
         }
     }
 }

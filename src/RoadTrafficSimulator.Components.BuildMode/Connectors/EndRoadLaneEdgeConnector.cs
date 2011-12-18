@@ -62,6 +62,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
             edge.Translated.Subscribe( s => this._endRoadLaneEdge.Invalidate() );
             this.UpdateEndPointLocation( edge.StartPoint );
             this.UpdateStartPointLocation( edge.EndPoint );
+            this._endRoadLaneEdge.Invalidate();
         }
 
         private void CommonConnectEndWith( IEdge edge )
@@ -77,6 +78,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
             edge.Translated.Subscribe( s => this._endRoadLaneEdge.Invalidate() );
             this.UpdateStartPointLocation( edge.EndPoint );
             this.UpdateEndPointLocation( edge.StartPoint );
+            this._endRoadLaneEdge.Invalidate();
         }
     }
 }

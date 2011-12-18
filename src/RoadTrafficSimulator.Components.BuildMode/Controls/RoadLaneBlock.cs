@@ -11,7 +11,7 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class RoadLaneBlock : CompositControl<VertexPositionColor>, ICompositeControl
+    public class RoadLaneBlock : CompositControl<VertexPositionColor>, ICompositeControl, IRoadElement
     {
         private readonly IList<IControl> _roadBlocks;
         private readonly RoadLaneBlockVertexContainer _roadLaneBlockVertexContainer;
@@ -21,9 +21,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private MovablePoint _rightTop;
         private MovablePoint _leftBottom;
         private MovablePoint _rightBottom;
+        private readonly Routes _routes;
 
         public RoadLaneBlock( Factories.Factories factories )
         {
+            this._routes = new Routes();
             this._roadLaneBlockVertexContainer = new RoadLaneBlockVertexContainer( this );
             this._mouseHandler = factories.MouseHandlerFactory.Create( this );
             this._roadBlocks = new List<IControl>();
@@ -243,6 +245,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public EndRoadLaneEdge OpositeEdge( EndRoadLaneEdge edge )
         {
             return this.LeftEdge == edge ? this.RightEdge : this.LeftEdge;
+        }
+
+        public Routes Routes
+        {
+            get { return this._routes; }
         }
     }
 }

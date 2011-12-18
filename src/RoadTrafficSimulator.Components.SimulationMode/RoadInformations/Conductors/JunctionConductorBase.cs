@@ -4,6 +4,8 @@ using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
+using RoadTrafficSimulator.Infrastructure.Controls;
+using System.Linq;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors
 {
@@ -12,7 +14,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
         private bool _canStopOnIt;
         private RouteElement _routeElement;
         private IRoadElement _previous;
-        private IRoadElement _next ;
+        private IRoadElement _next;
 
         public RoadInformation Process( Car car, IRouteMark<IConductor> route )
         {
@@ -36,7 +38,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
 
         public IRoadInformation Information
         {
-// TODO Information
+            // TODO Information
             get { return this.Junction.Information; }
         }
 
@@ -45,7 +47,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
             get { return this._routeElement; }
         }
 
-        public void Setup( RouteElement roadElement, bool canStopOnIt, IRoadElement previous, IRoadElement next )
+        public void Setup( RouteElement roadElement, bool canStopOnIt, IRoadElement previous, IRoadElement next, PriorityType priorityType )
         {
             this.Junction = roadElement.RoadElement as LaneJunction;
             if ( this.Junction == null ) { throw new ArgumentException( "Wrong road element" ); }
@@ -53,7 +55,12 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
             this._canStopOnIt = canStopOnIt;
             this._previous = previous;
             this._next = next;
+
+            var values = Enum.GetValues( typeof( PriorityType ) );
+            this.PriorityTypes = values.Cast<PriorityType>().Where( e => priorityType.HasFlag( e ) ).Where( e => e != PriorityType.None ).ToArray();
         }
+
+        protected PriorityType[] PriorityTypes { get; private set; }
 
         public Vector2 GetCarDirection( Car car )
         {
