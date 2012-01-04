@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Common.Xna;
 using Microsoft.FSharp.Core;
 using Microsoft.Xna.Framework;
@@ -10,10 +12,11 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class CarsInserter : CompositControl<VertexPositionColor>, IRoadElement, IEdgeLine
+    public class CarsInserter : CompositControl<VertexPositionColor>, IRouteOwner, IEdgeLine, IRouteElement
     {
         private readonly CarsInsertedConnector _connector;
         private readonly Routes _routes = new Routes();
+        private uint _carInsertInterval;
 
         public CarsInserter( Factories.Factories factories, Vector2 location )
         {
@@ -22,6 +25,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.RightEdge = new InvertPointEdgeAdapter( this, this.Edge, this );
             this.Edge.Translated.Subscribe( _ => this.Invalidate() );
             this.Edge.VertexContainer.Color = Color.Green;
+            this._carInsertInterval = 2000;
         }
 
         public InvertPointEdgeAdapter RightEdge { get; private set; }
@@ -60,6 +64,16 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
                 this.Edge.Location = value;
                 this.Invalidate();
             }
+        }
+
+        public void SetCarInsertInterval( uint value )
+        {
+            this._carInsertInterval = value;
+        }
+
+        public uint GetCarInsertInterval()
+        {
+            return this._carInsertInterval;
         }
 
         protected override void OnInvalidate()
@@ -106,6 +120,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             var line = calculator.Calculate( FSharpOption<Vector2>.None, this.Location, nextLocation );
             this.Edge.StartPoint.SetLocation( line.Start );
             this.Edge.EndPoint.SetLocation( line.End );
+        }
+
+        public IEnumerable<IRouteElement> GetConnectedControls()
+        {
+            return new[] { this.Connector.ConnectedEdge.Parent };
         }
     }
 }

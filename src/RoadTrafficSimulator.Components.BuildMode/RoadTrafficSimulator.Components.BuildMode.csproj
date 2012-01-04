@@ -121,6 +121,7 @@
     <Compile Include="Commands\GuiCommdnEdit.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\InsertRoadJunctionCommand.cs" />
+    <Compile Include="Commands\InsertRoadJunction_FourBlocksCommand.cs" />
     <Compile Include="Commands\InsertRoadLaneCommand.cs" />
     <Compile Include="Commands\LightInsertCommand.cs" />
     <Compile Include="Commands\NotifiyAboutClickedControls.cs" />
@@ -131,7 +132,7 @@
     <Compile Include="Connectors\RoadJunctionBlockConnector.cs" />
     <Compile Include="Connectors\JunctionEdgeConnector.cs" />
     <Compile Include="Controls\InternalRoadJunctionEdge.cs" />
-    <Compile Include="Controls\IRoadElement.cs" />
+    <Compile Include="Controls\IRouteOwner.cs" />
     <Compile Include="Controls\LightBlock.cs" />
     <Compile Include="Controls\LightConnector.cs" />
     <Compile Include="Controls\LightVeretexContainer.cs" />

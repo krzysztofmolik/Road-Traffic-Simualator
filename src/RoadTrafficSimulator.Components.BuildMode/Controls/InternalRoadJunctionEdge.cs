@@ -24,11 +24,6 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         public int EdgeIndex { get; private set; }
 
-        public IControl Parent
-        {
-            get { return this._parent; }
-        }
-
         public override bool IsHitted( Microsoft.Xna.Framework.Vector2 location )
         {
             return false;

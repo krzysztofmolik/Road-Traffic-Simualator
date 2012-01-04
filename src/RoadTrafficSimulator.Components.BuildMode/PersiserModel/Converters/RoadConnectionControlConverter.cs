@@ -31,7 +31,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
                 control.Id,
                 () => control.Connector.ConnectEndWith( Find.In( control.Connector.NextConnectedEdge.Parent ).Property( control.Connector.NextConnectedEdge ) ) );
 
-            yield return base.BuildRoutes( control );
+//            yield return base.BuildRoutes( control );
         }
 
         private static UseCtorToCreateControl<RoadConnection> CreateNewCommand( RoadConnection control )

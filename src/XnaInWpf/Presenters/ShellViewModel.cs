@@ -4,10 +4,11 @@ using RoadTrafficConstructor.Presenters.BottomTabs;
 using RoadTrafficConstructor.Presenters.BuildMode;
 using RoadTrafficConstructor.Presenters.SimulationMode;
 using RoadTrafficSimulator.Infrastructure.Messages;
+using IEventAggregator = Common.IEventAggregator;
 
 namespace RoadTrafficConstructor.Presenters
 {
-    public sealed class ShellViewModel : Conductor<object>, IShellViewModel, Common.IHandle<ChangedToBuildMode>
+    public sealed class ShellViewModel : Conductor<object>, IShellViewModel, Common.IHandle<ChangedToBuildMode>, Common.IHandle<ChangedToSimulationMode>
     {
         private readonly ILifetimeScope _container;
 
@@ -32,7 +33,8 @@ namespace RoadTrafficConstructor.Presenters
 
         public void Handle( ChangedToSimulationMode message )
         {
-            this.ActivateItem( this._container.Resolve<SimulationViewModel>() );
+            var control = this._container.Resolve<SimulationViewModel>();
+            this.ActivateItem( control );
         }
     }
 }

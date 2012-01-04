@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Common.Xna;
 using Microsoft.FSharp.Core;
 using Microsoft.Xna.Framework;
@@ -10,10 +12,9 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class RoadConnection : CompositControl<VertexPositionColor>, IEdgeLine, IRoadElement
+    public class RoadConnection : CompositControl<VertexPositionColor>, IEdgeLine, IRouteElement
     {
         private readonly RoadConnectionConnector _connector;
-        private readonly Routes _routes = new Routes();
 
         public RoadConnection( Factories.Factories factories, Vector2 location )
         {
@@ -30,7 +31,6 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             get { return this._connector; }
         }
 
-        public Routes Routes { get { return this._routes; } }
         public NormalEdge Edge { get; private set; }
 
         public InvertPointEdgeAdapter RightEdge { get; private set; }
@@ -54,6 +54,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public override void TranslateWithoutNotification( Matrix translationMatrix )
         {
             this.Edge.TranslateWithoutNotification( translationMatrix );
+        }
+
+        public IEnumerable<IRouteElement> GetConnectedControls()
+        {
+            return new[] { this.Connector.NextConnectedEdge.Parent, this.Connector.PreviousConnectedEdge.Parent };
         }
 
         public override Vector2 Location

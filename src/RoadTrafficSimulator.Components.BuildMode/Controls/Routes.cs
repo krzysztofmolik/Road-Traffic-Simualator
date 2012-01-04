@@ -14,12 +14,6 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         public IEnumerable<Route> AvailableRoutes { get { return this._routes; } }
 
-        public void AddRoute( params RouteElement[] controls )
-        {
-            var route = new Route( controls, 100 );
-            this._routes.Add( route );
-        }
-
         public void AddRoute( Route route )
         {
             if (route == null) throw new ArgumentNullException("route");

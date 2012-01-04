@@ -8,8 +8,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
         ConnectObject,
         InserterLights,
         InserRoadLane,
-        InsertRoadJunction,
+        InsertRoadJunction_OneBlock,
         SelectToEdit,
-        NotifyAboutClickedControls
+        NotifyAboutClickedControls,
+        InsertRoadJunction_FourBlocks,
+        InsertRoadJunction_TwoBlocksVerticaly,
+        InsertRoadJunction_TwoBlocksHorizotaly
     }
 }

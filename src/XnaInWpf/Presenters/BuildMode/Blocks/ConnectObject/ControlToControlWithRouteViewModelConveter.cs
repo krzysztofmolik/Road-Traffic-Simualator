@@ -1,4 +1,9 @@
-﻿using RoadTrafficSimulator.Infrastructure.Controls;
+﻿using System.Collections.Generic;
+using RoadTrafficConstructor.Presenters.BuildMode.Blocks.Editors;
+using RoadTrafficSimulator.Components.BuildMode.Controls;
+using RoadTrafficSimulator.Infrastructure.Controls;
+using Common;
+using System.Linq;
 
 namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
 {
@@ -11,9 +16,18 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
             this._routeConveter = new RouteConveter( new ControlToControlViewModelConveter() );
         }
 
-        public ControlWithRoutelViewModel Convert( IControl control )
+        public IControlWithRoutelViewModel Convert( IControl control )
         {
-            return new ControlWithRoutelViewModel( control, this._routeConveter.Conveter( control ) );
+            if ( control is RoadTrafficSimulator.Components.BuildMode.Controls.CarsInserter )
+            {
+                return new CarInserterEditorViewModel( ( RoadTrafficSimulator.Components.BuildMode.Controls.CarsInserter ) control, this._routeConveter.Conveter( control ) );
+            }
+            return new DefaultControlEditorViewModel( control, this._routeConveter.Conveter( control ) );
+        }
+
+        public IEnumerable<IControlWithRoutelViewModel> Convert( IEnumerable<IControl> controls )
+        {
+            return controls.Select( this.Convert );
         }
     }
 }

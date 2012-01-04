@@ -29,6 +29,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
                             () => control.Connector.ConnectStartFrom( ( RoadLaneBlock ) Is.Control( control.Connector.ConnectedEdge.Parent ) ) );
             }
 
+            yield return Actions.Call<CarsInserter>( control.Id, () => control.SetCarInsertInterval( Is.Const( control.GetCarInsertInterval() ) ) ) ;
+
             yield return this.BuildRoutes( control );
         }
 

@@ -10,10 +10,15 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
     {
         private float _stopPointDistance = float.MaxValue;
         private float _requiredSpeed = float.MaxValue;
+        private float _brekingForce;
 
-        public void SetStopPoint( float distance, float requriredSpeed )
+        public void SetStopPoint( float distance, float requriredSpeed, Car car )
         {
-            if ( this._stopPointDistance < distance ) { return; }
+            requriredSpeed = Math.Min( requriredSpeed, car.MaxSpeed );
+            var speedDelta = Math.Max( 0, car.Velocity - requriredSpeed );
+            var breakingForce = speedDelta / ( distance + 10 );
+            if ( this._brekingForce > breakingForce ) { return; }
+            this._brekingForce = breakingForce;
             this._stopPointDistance = distance;
             this._requiredSpeed = requriredSpeed;
         }
@@ -31,6 +36,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         {
             this._stopPointDistance = float.MaxValue;
             this._requiredSpeed = float.MaxValue;
+            this._brekingForce = float.MinValue;
         }
 
         private float GetVelocity( Car car, int elapsedMs )
@@ -58,23 +64,29 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         private float Accelerate( Car car, int elapsedMs )
         {
             var accelerated = car.AccelerateForce * elapsedMs;
-            car.Velocity = car.Velocity + accelerated;
+            car.Velocity = Math.Min( car.MaxSpeed, car.Velocity + accelerated );
             return Math.Min( car.Velocity * elapsedMs, this._stopPointDistance );
         }
 
         private float Break( Car car, int elapsedMs )
         {
-            var speedDifferenc = car.Velocity - this._requiredSpeed;
-            var breakingDistance = Math.Pow( speedDifferenc, 2 ) / ( 2 * car.BreakingForce );
+            var breakingDistance = GetBreakingDistance( car );
             if ( breakingDistance < this._stopPointDistance - UnitConverter.FromMeter( 1.0f ) )
             {
-                var accelerated = car.AccelerateForce * elapsedMs;
-                car.Velocity = car.Velocity + accelerated;
-                return Math.Min( car.Velocity * elapsedMs, this._stopPointDistance );
+                this.Accelerate( car, elapsedMs );
             }
 
-            car.Velocity -= car.BreakingForce * elapsedMs;
+            var breakingForce = Math.Pow( car.Velocity - this._requiredSpeed, 2 ) / ( 2 * this._stopPointDistance );
+
+            car.Velocity -= ( float ) breakingForce * elapsedMs;
             return Math.Min( car.Velocity * elapsedMs, this._stopPointDistance );
+        }
+
+        private double GetBreakingDistance( Car car )
+        {
+            var speedDifferenc = car.Velocity - this._requiredSpeed;
+            var breakingDistance = Math.Pow( speedDifferenc, 2 ) / ( 2 * car.BreakingForce );
+            return breakingDistance;
         }
     }
 }

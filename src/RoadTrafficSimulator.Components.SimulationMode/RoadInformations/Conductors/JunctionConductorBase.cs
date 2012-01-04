@@ -29,6 +29,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
                            CarAhead = carAheadInformation.CarAhead,
                            CarAheadDistance = carAheadInformation.CarDistance,
                            PrivilagesCarInformation = this.GetPriorityCarInfromation( car, route ),
+                           CanStop = this._canStopOnIt,
                        };
         }
 

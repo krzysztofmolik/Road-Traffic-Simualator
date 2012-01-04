@@ -43,7 +43,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 
             public void SetUp(BuilderContext obj)
             {
-                var routes = this._lane.RoadLaneBlock.RightEdge.Routes;
+                var routes = this._lane.RoadLaneBlock.Routes;
                 var convertedRoutes = this.ConvertRoutes( routes, obj, this._lane ).ToArray();
                 this._lane.Routes = new StandardRoutes( convertedRoutes );
             }

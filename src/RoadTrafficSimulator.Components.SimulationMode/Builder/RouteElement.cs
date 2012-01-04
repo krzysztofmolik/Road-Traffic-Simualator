@@ -3,7 +3,7 @@ using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 {
-    [DebuggerDisplay("DebugerInfo()")]
+    [DebuggerDisplay("{DebugerInfo}")]
     public class RouteElement
     {
         private static RouteElement _empty = new RouteElement();

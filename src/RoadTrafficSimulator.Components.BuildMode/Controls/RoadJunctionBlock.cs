@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +12,7 @@ using NLog;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class RoadJunctionBlock : CompositControl<VertexPositionColor>
+    public class RoadJunctionBlock : CompositControl<VertexPositionColor>, IRouteElement
     {
         private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly InternalRoadJunctionEdge[] _junctionEdges;
@@ -174,6 +175,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.RightTop.TranslateWithoutEvent( translationMatrix );
             this.RightBottom.TranslateWithoutEvent( translationMatrix );
             this.LeftBottom.TranslateWithoutEvent( translationMatrix );
+        }
+
+        public IEnumerable<IRouteElement> GetConnectedControls()
+        {
+            return this.Connector.Edges.Where( e => e != null ).Select( e => e.Edge.Parent );
         }
 
         protected override void OnInvalidate()

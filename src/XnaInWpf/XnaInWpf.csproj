@@ -166,12 +166,17 @@
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ControlToControlViewModelConveter.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ControlToControlWithRouteViewModelConveter.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ControlViewModel.cs" />
-    <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ControlWithRoutelView.xaml.cs">
-      <DependentUpon>ControlWithRoutelView.xaml</DependentUpon>
+    <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\BasiInformationAboutControlView.xaml.cs">
+      <DependentUpon>BasiInformationAboutControlView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ControlWithRoutelViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\BasiInformationAboutControlViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\EditSelectedViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\IControlWithRoutelViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\RouteConveter.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\RouteEditorView.xaml.cs">
+      <DependentUpon>RouteEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\RouteEditorViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\RouteItemViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\RouteView.xaml.cs">
       <DependentUpon>RouteView.xaml</DependentUpon>
@@ -180,12 +185,20 @@
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\EditSelectedView.xaml.cs">
       <DependentUpon>EditSelectedView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presenters\BuildMode\Blocks\Editors\CarInserterEditorViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\Editors\CarInserterEditorView.xaml.cs">
+      <DependentUpon>CarInserterEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presenters\BuildMode\Blocks\Editors\DefaultControlEditorViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\Junctions\RoadJunctionBlockView.xaml.cs">
+      <DependentUpon>RoadJunctionBlockView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presenters\BuildMode\Blocks\MainBlockViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\Common\NameWithIconView.xaml.cs">
       <DependentUpon>NameWithIconView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presenters\BuildMode\Blocks\RoadLane\OneRoadLaneViewModel.cs" />
-    <Compile Include="Presenters\BuildMode\Blocks\Junctions\RoadJunctionBlockViewModelModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\Junctions\RoadJunctionBlockViewModel.cs" />
     <Compile Include="Presenters\BuildMode\BuildJunctionViewModel.cs" />
     <Compile Include="Presenters\BuildMode\BuildJunctionView.xaml.cs">
       <DependentUpon>BuildJunctionView.xaml</DependentUpon>
@@ -231,7 +244,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Presenters\BuildMode\Blocks\ConnectObject\ControlWithRoutelView.xaml">
+    <Page Include="Presenters\BuildMode\Blocks\ConnectObject\BasiInformationAboutControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -239,7 +252,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Presenters\BuildMode\Blocks\ConnectObject\RouteEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Presenters\BuildMode\Blocks\ConnectObject\RouteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presenters\BuildMode\Blocks\Editors\CarInserterEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presenters\BuildMode\Blocks\Junctions\RoadJunctionBlockView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -262,6 +287,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Presenters\SimulationMode\SimulationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ExpressionDark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

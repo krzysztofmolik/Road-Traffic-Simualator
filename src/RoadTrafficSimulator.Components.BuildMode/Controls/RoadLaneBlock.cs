@@ -11,7 +11,7 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class RoadLaneBlock : CompositControl<VertexPositionColor>, ICompositeControl, IRoadElement
+    public class RoadLaneBlock : CompositControl<VertexPositionColor>, IRouteOwner, IRouteElement
     {
         private readonly IList<IControl> _roadBlocks;
         private readonly RoadLaneBlockVertexContainer _roadLaneBlockVertexContainer;
@@ -223,6 +223,22 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.RightBottomPoint.TranslateWithoutEvent( translationMatrix );
             this.LeftBottomPoint.TranslateWithoutEvent( translationMatrix );
             this.RoadBlocks.ForEach( b => b.TranslateWithoutNotification( translationMatrix ) );
+        }
+
+        public IEnumerable<IRouteElement> GetConnectedControls()
+        {
+            var result = new List<IRouteElement>();
+            if ( this.RightEdge.Connector.NextEdge != null )
+            {
+                result.Add( this.RightEdge.Connector.NextEdge.Parent );
+            }
+
+            if ( this.LeftEdge.Connector.PreviousEdge != null )
+            {
+                result.Add( this.LeftEdge.Connector.PreviousEdge.Parent );
+            }
+
+            return result;
         }
 
         private void AddToChildCollection()

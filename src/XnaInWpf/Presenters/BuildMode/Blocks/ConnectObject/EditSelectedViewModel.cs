@@ -28,8 +28,8 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private ControlWithRoutelViewModel _controlWithRoute;
-        public ControlWithRoutelViewModel ControlWithRoute
+        private IControlWithRoutelViewModel _controlWithRoute;
+        public IControlWithRoutelViewModel ControlWithRoute
         {
             get { return this._controlWithRoute; }
             set

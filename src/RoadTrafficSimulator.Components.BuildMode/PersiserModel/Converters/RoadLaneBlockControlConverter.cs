@@ -41,8 +41,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
                     control.RightEdge.Connector.ConnectStartFrom( Is.Control( control.RightEdge.Connector.NextEdge.Parent ) ) );
             }
 
-            base.BuildRoutes( control.LeftEdge );
-            base.BuildRoutes( control.RightEdge );
+            base.BuildRoutes( control );
+//            base.BuildRoutes( control.LeftEdge );
+//            base.BuildRoutes( control.RightEdge );
         }
 
         private static UseCtorToCreateControl<RoadLaneBlock> CreateNewCommand( RoadLaneBlock control )

@@ -64,7 +64,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             while ( this._actions.Count > 0 )
             {
                 var action = this._actions.Dequeue();
-                action();
+                if ( action != null )
+                {
+                    action();
+                }
             }
         }
 

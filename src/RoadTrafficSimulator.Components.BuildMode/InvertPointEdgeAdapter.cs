@@ -8,16 +8,16 @@ namespace RoadTrafficSimulator.Components.BuildMode
     {
         private readonly IEdgeLine _edgeLine;
         private readonly IEdge _edge;
-        private readonly IControl _parent;
+        private readonly IRouteElement _parent;
 
-        public InvertPointEdgeAdapter( IEdgeLine edgeLine, IEdge edge, IControl parent )
+        public InvertPointEdgeAdapter( IEdgeLine edgeLine, IEdge edge, IRouteElement parent )
         {
             this._edgeLine = edgeLine;
             this._edge = edge;
             this._parent = parent;
         }
 
-        public IControl Parent { get { return this._parent; } }
+        public IRouteElement Parent { get { return this._parent; } }
 
         public MovablePoint StartPoint
         {

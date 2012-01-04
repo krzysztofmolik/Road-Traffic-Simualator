@@ -6,9 +6,14 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Infrastructure.Controls
 {
+    public interface IRouteElement  : IControl
+    {
+        IEnumerable<IRouteElement> GetConnectedControls();
+    }
+
     public interface IComponent
     {
-        IControl Parent { get; }
+        IRouteElement Parent { get; }
     }
 
     public interface ILogicControl
@@ -42,7 +47,6 @@ namespace RoadTrafficSimulator.Infrastructure.Controls
         bool IsHitted( Vector2 location );
         ILogicControl GetHittedControl( Vector2 point );
         Guid Id { get; set; }
-        IEnumerable<IControl> GetPathTo( IControl control );
     }
 
     public interface ISingleControl : IControl

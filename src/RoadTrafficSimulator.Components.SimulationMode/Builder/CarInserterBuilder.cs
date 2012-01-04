@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
@@ -46,6 +47,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
                 var routes = this._carsInserter.CarsInserterBuilder.Routes;
                 var convertedRoutes = this.ConvertRoutes( routes, obj, this._carsInserter ).ToArray();
                 this._carsInserter.Routes = new StandardRoutes( convertedRoutes );
+
+                var carInsertInterval = this._carsInserter.CarsInserterBuilder.GetCarInsertInterval();
+                this._carsInserter.CarsInsertionInterval = carInsertInterval > 0 ? TimeSpan.FromMilliseconds( carInsertInterval ) : TimeSpan.Zero;
             }
 
             public void SetConnection( BuilderContext context )

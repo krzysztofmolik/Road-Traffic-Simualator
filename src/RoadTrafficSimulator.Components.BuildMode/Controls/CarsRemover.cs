@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Common.Xna;
 using Microsoft.FSharp.Core;
 using Microsoft.Xna.Framework;
@@ -10,7 +12,7 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class CarsRemover : CompositControl<VertexPositionColor>, IEdgeLine
+    public class CarsRemover : CompositControl<VertexPositionColor>, IEdgeLine, IRouteElement
     {
         private readonly CarsRemoverConnector _connector;
         private readonly NormalEdge _edge;
@@ -23,7 +25,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.Edge.VertexContainer.Color = Color.Red;
         }
 
-        public NormalEdge Edge { get { return this._edge; }}
+        public NormalEdge Edge { get { return this._edge; } }
 
 
         public CarsRemoverConnector Connector { get { return this._connector; } }
@@ -47,6 +49,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public override void TranslateWithoutNotification( Matrix translationMatrix )
         {
             this._edge.TranslateWithoutNotification( translationMatrix );
+        }
+
+        public IEnumerable<IRouteElement> GetConnectedControls()
+        {
+            return Enumerable.Empty<IRouteElement>();
         }
 
         public override Vector2 Location

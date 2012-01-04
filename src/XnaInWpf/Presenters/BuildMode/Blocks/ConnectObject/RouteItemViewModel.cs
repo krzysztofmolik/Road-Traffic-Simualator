@@ -21,6 +21,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
             this._priorityTypes = new ObservableCollection<PriorityType>( priorityTypes );
             this._control = control;
             this._orginalRouteElement = orginalRouteElement;
+            this.CanStopOnIt = orginalRouteElement.CanStop;
         }
 
         public ObservableCollection<PriorityType> PriorityTypes
@@ -37,6 +38,18 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
                 this._priority = value;
                 this._orginalRouteElement.PriorityType = value;
                 this.PropertyChanged.Raise( this, () => this.Priority );
+            }
+        }
+
+        private bool _canStopOnIt;
+        public bool CanStopOnIt
+        {
+            get { return this._canStopOnIt; }
+            set
+            {
+                this._canStopOnIt = value;
+                this._orginalRouteElement.CanStop = value;
+                this.PropertyChanged.Raise( this, () => this.CanStopOnIt );
             }
         }
 

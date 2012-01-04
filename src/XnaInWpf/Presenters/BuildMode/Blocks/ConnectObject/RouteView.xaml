@@ -193,25 +193,32 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0"
-                        Orientation="Horizontal">
-                <Label Content="Route name" />
-                <TextBox MinWidth="50"
-                         Text="{Binding Name, Mode=TwoWay}"
-                         Width="224.85"
-                         HorizontalContentAlignment="Center"
-                         VerticalContentAlignment="Center" />
-            </StackPanel>
-            <StackPanel Grid.Row="1"
-                        Orientation="Horizontal">
-                <Label Content="Probability" />
-                <TextBox MinWidth="50"
-                         Text="{Binding Path=Probability, Mode=TwoWay}"
-                         Width="224.85"
-                         HorizontalContentAlignment="Center"
-                         VerticalContentAlignment="Center" />
-            </StackPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0"
+                   Grid.Column="0"
+                   Content="Route name" />
+            <TextBox Grid.Row="0"
+                     Grid.Column="1"
+                     MinWidth="50"
+                     Text="{Binding Name, Mode=TwoWay}"
+                     Width="224.85"
+                     HorizontalContentAlignment="Stretch"
+                     VerticalContentAlignment="Stretch" />
+            <Label Grid.Row="1"
+                   Grid.Column="0"
+                   Content="Probability" />
+            <TextBox Grid.Row="1"
+                     Grid.Column="1"
+                     MinWidth="50"
+                     Text="{Binding Path=Probability, Mode=TwoWay}"
+                     Width="224.85"
+                     HorizontalContentAlignment="Center"
+                     VerticalContentAlignment="Center" />
             <ListView Grid.Row="2"
+                      Grid.ColumnSpan="2"
                       ItemsSource="{Binding Items}"
                       Height="Auto"
                       Width="Auto"
@@ -245,6 +252,15 @@
                         <GridViewColumn Width="25">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=CanStopOnIt}"
+                                              IsThreeState="False" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Width="25">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
                                     <Button Content="X"
                                             Micro:Message.Attach="[Event Click] = [Action Remove($source)]" />
                                 </DataTemplate>
@@ -254,8 +270,8 @@
                 </ListView.View>
             </ListView>
             <CheckBox Grid.Row="3"
-                      Content="CheckBox"
-                      Style="{DynamicResource CheckBoxStyle1}"
+                      Grid.ColumnSpan="3"
+                      Content="Add mode"
                       IsChecked="{Binding Path=IsAddMode}"
                       Visibility="{Binding Path=IsSelected, Converter={StaticResource ResourceKey=FalseToCollapse}}" />
         </Grid>

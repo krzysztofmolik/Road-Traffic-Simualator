@@ -10,22 +10,14 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
+    // TODO REmove it ??
     public class MovableRectangle : CompositControl<VertexPositionColor>, IComponent
     {
         private readonly MovablePoint[] _points;
         private readonly IVertexContainer<VertexPositionColor> _concretVertexContainer;
         private readonly IMouseHandler _mouseHandler;
 
-        public MovableRectangle( Factories.Factories factories, Vector2 leftTop, float width, float height, MovablePoint parent )
-            : this( factories, parent )
-        {
-            this.LeftTop = new MovablePoint( factories, leftTop, this );
-            this.RightTop = new MovablePoint( factories, leftTop + new Vector2( width, 0 ), this );
-            this.RightBottom = new MovablePoint( factories, this.RightTop.Location + new Vector2( 0, height ), this );
-            this.LeftBottom = new MovablePoint( factories, this.RightBottom.Location + new Vector2( -width, 0 ), this );
-        }
-
-        public MovableRectangle( Factories.Factories factories, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom, IControl parent )
+        public MovableRectangle( Factories.Factories factories, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom, IRouteElement parent )
             : this( factories, parent )
         {
             this.LeftTop = new MovablePoint( factories, leftTop, this );
@@ -34,7 +26,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.LeftBottom = new MovablePoint( factories, leftBottom, this );
         }
 
-        public MovableRectangle( Factories.Factories factories, MovablePoint leftTop, MovablePoint rightTop, MovablePoint rightBottom, MovablePoint leftBottom, IControl parent )
+        public MovableRectangle( Factories.Factories factories, MovablePoint leftTop, MovablePoint rightTop, MovablePoint rightBottom, MovablePoint leftBottom, IRouteElement parent )
             : this( factories, parent )
         {
             this.LeftTop = leftTop;
@@ -43,7 +35,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.LeftBottom = leftBottom;
         }
 
-        private MovableRectangle( Factories.Factories factories, IControl parent )
+        private MovableRectangle( Factories.Factories factories, IRouteElement parent )
         {
             this.Parent = parent;
             this._mouseHandler = factories.MouseHandlerFactory.Create(this);
@@ -137,7 +129,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             }
         }
 
-        public IControl Parent { get; set; }
+        public IRouteElement Parent { get; set; }
 
         public override void Translate( Matrix matrixTranslation )
         {

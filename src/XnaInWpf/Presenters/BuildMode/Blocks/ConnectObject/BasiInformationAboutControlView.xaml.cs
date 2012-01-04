@@ -2,9 +2,9 @@
 
 namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
 {
-    public partial class ControlWithRoutelView : UserControl
+    public partial class BasiInformationAboutControlView : UserControl
     {
-        public ControlWithRoutelView()
+        public BasiInformationAboutControlView()
         {
             InitializeComponent();
         }

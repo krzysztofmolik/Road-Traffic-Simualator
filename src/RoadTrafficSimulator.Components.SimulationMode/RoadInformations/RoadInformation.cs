@@ -11,14 +11,14 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
                                                         CarAhead = null,
                                                         CarAheadDistance = float.MaxValue,
                                                         PrivilagesCarInformation = new PriorityInformation[ 0 ],
-                                                        StopPoint = float.MaxValue
+                                                        CanStop = true,
                                                     };
-        public static RoadInformation Empty { get { return _empty; } }
 
+        public static RoadInformation Empty { get { return _empty; } }
         public Car CarAhead { get; set; }
         public float CarAheadDistance { get; set; }
         public bool CanDriver { get; set; }
-        public float StopPoint { get; set; }
+        public bool CanStop { get; set; }
 
         public PriorityInformation[] PrivilagesCarInformation { get; set; }
     }

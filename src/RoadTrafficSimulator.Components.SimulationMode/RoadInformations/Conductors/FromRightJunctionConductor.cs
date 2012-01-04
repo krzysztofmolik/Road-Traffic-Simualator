@@ -16,9 +16,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
     {
         private enum SideMove
         {
-            OnTheRight = 1,
+            OnTheLeft = 1,
             OnFront = 2,
-            OnTheLeft = 3,
+            OnTheRight = 3,
         }
 
         // BUG This can be calculated once on every 200 ms

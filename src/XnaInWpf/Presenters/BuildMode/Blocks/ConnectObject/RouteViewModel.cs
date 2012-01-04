@@ -13,6 +13,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
 {
     public class RouteViewModel : INotifyPropertyChanged
     {
+        private readonly RouteConveter _converter = new RouteConveter();
         private readonly ObservableCollection<RouteItemViewModel> _items;
         private readonly Route _orignalRoute;
         private bool _isAddMode;
@@ -59,7 +60,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
             {
                 return;
             }
-            var routeItem = ( RouteItemViewModel )element.DataContext;
+            var routeItem = ( RouteItemViewModel ) element.DataContext;
             this._items.Remove( routeItem );
 
             this._orignalRoute.Remove( routeItem.Control.Control );
@@ -115,10 +116,9 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
             var canAdd = this._orignalRoute.CanAdd( controlViewModel.Control );
             if ( !canAdd ) { return; }
 
-            var routeElement = new RouteElement( controlViewModel.Control, PriorityType.None );
-            this._orignalRoute.Add( routeElement );
-            var priorities = this._orignalRoute.GetPrioritiesFor( controlViewModel.Control );
-            Execute.OnUIThread( () => this.Items.Add( new RouteItemViewModel( controlViewModel, priorities, routeElement ) ) );
+            var path = this._orignalRoute.Add(  (IRouteElement) controlViewModel.Control );
+            var conv = path.Select( p => this._converter.Convert( p ) ).ToArray();
+            Execute.OnUIThread( () => conv.ForEach( this.Items.Add ) );
         }
 
         private void SelectControl( ControlViewModel controlViewModel )

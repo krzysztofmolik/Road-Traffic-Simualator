@@ -1,11 +1,10 @@
 using System;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
-using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
 using RoadTrafficSimulator.Infrastructure;
+using System.Linq;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 {
@@ -16,6 +15,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         private float _destinationSpeed;
         private float _destinationPosition;
         private bool _canDriver;
+        private double _brekingForce;
+        private bool _canEntry;
+        private float _finalPosition;
+        private float _finalSpeed;
+        private bool _freeWay;
 
         public DriverBrain( Car car, IEngine engine )
         {
@@ -26,8 +30,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         public void Process( TimeSpan timeFrame )
         {
             this._destinationPosition = float.MaxValue;
+            this._brekingForce = 0.0f;
             this._destinationSpeed = this._car.MaxSpeed;
+            this._finalPosition = 0.0f;
             this._canDriver = true;
+            this._freeWay = true;
 
             this._canDriver = true;
             var road = this._car.Conductors.Clone();
@@ -36,18 +43,49 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             var distance = 0.0f;
             this.ProcessAnser( end, distance );
 
-
             distance += this._car.Conductors.Current.GetCarDistanceToEnd( this._car );
+
+            this._finalPosition = Math.Min( this._destinationPosition, distance - this._car.Lenght / 2 );
+            this._finalSpeed = this._destinationSpeed;
+
 
             while ( this._canDriver && road.MoveNext() )
             {
+                this._canEntry = true;
                 var processInformation = road.Current.Process( this._car, road );
+
                 this.ProcessAnser( processInformation, distance );
+
+                if ( !this._canDriver )
+                {
+                    if ( !this._canEntry || !processInformation.CanStop )
+                    {
+                        this._finalSpeed = 0.0f;
+                    }
+                    else
+                    {
+                        this._finalPosition = this._destinationPosition;
+                        this._finalSpeed = this._destinationSpeed;
+                    }
+                }
+                else if ( processInformation.CanStop )
+                {
+                    this._finalPosition = distance - this._car.Lenght;
+                    this._finalSpeed = this._car.MaxSpeed;
+                }
 
                 distance += this.GetLenght( road );
             }
 
-            this._engine.SetStopPoint( this._destinationPosition, this._destinationSpeed );
+
+            if ( this._freeWay )
+            {
+                this._engine.SetStopPoint( float.MaxValue, float.MaxValue, this._car );
+            }
+            else
+            {
+                this._engine.SetStopPoint( this._finalPosition, this._finalSpeed, this._car );
+            }
             this._engine.MoveCar( this._car, timeFrame.Milliseconds );
         }
 
@@ -73,26 +111,65 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         {
             if ( privilagesCarInformation.Length != 0 )
             {
-                this.SetDestinationPositionAndSpeed( distance - this._car.Lenght/2 - UnitConverter.FromMeter( 1 ), 0.0f );
-                this._canDriver = false;
+                var car =
+                    privilagesCarInformation.Min( p => this.GetTimeToDriveThrough( p.CarDistanceToJunction, p.CarWihtPriority.Velocity,
+                                                  p.CarWihtPriority.MaxSpeed, p.CarWihtPriority.AccelerateForce ) );
+
+                var myTime = this.GetTimeToDriveThrough( distance, this._car.Velocity, this._car.MaxSpeed, this._car.AccelerateForce );
+
+                if ( myTime + UnitConverter.FromSecond( 2 ) > car )
+                {
+                    this.SetDestinationPositionAndSpeed( distance - this._car.Lenght / 2 - UnitConverter.FromMeter( 1 ), 0.0f );
+                    this._canDriver = false;
+                    this._freeWay = false;
+                }
+            }
+        }
+
+        // TODO Change name
+        private float GetTimeToDriveThrough( float s, float v, float vMax, float a )
+        {
+            float t1, s1, t, x1, x2;
+            t1 = ( vMax - v ) / a;
+            s1 = v * t1 + ( a * t1 * t1 ) / 2;
+            if ( s1 > s )
+            {
+                var del = Math.Max( 0, 2 * a * s - v );
+                x1 = ( float ) ( -( v + Math.Sqrt( del ) ) / a );
+                x2 = ( float ) ( -( v - Math.Sqrt( del ) / a ) );
+                if ( x1 > x2 )
+                    return x1;
+                else
+                    return x2;
+
+            }
+            else
+            {
+                t = t1 + ( s - s1 ) / vMax;
+                return t;
             }
         }
 
         private void ProcessCarAheadInformation( Car carAhead, float carAheadDistance, float distance )
         {
-            if ( distance + carAheadDistance - carAhead.Lenght < UnitConverter.FromMeter( .9f ) )
-            {
-//                Debugger.Break();
-            }
-            this.SetDestinationPositionAndSpeed( distance + carAheadDistance - carAhead.Lenght, carAhead.Velocity );
             this._canDriver = false;
+                this._freeWay = false;
+            this.SetDestinationPositionAndSpeed( distance + carAheadDistance - carAhead.Lenght, carAhead.Velocity );
+
+            if ( carAheadDistance < carAhead.Lenght + UnitConverter.FromMeter( 0.5f ) && carAhead.Velocity < UnitConverter.FromKmPerHour( 5.0f ) )
+            {
+                this._canEntry = false;
+            }
         }
 
         private void SetDestinationPositionAndSpeed( float distance, float speed )
         {
-            var newdestinationPosition = Math.Max( 0, distance - UnitConverter.FromMeter( 1 ) );
-            this._destinationPosition = Math.Min( this._destinationPosition, newdestinationPosition );
-            this._destinationSpeed = Math.Min( this._destinationSpeed, speed );
+            var speedDelta = Math.Max( 0, this._car.Velocity - speed );
+            var breakingForce = speedDelta / ( distance + 1 );
+            if ( this._brekingForce > breakingForce ) { return; }
+
+            this._destinationPosition = Math.Max( 0, distance - UnitConverter.FromMeter( 1 ) );
+            this._destinationSpeed = speed;
         }
     }
 }

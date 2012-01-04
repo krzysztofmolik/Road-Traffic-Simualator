@@ -31,13 +31,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.VertexContainers
             this.Object.EndPoint.VertexContainer.Draw( graphic );
         }
 
-        protected override VertexPositionColor[] UpdateShapeAndCreateVertex()
+        protected override sealed VertexPositionColor[] UpdateShapeAndCreateVertex()
         {
             this._quadrangle = this.CreateQuatrangle();
             var vertex = this.Shape.DrawableShape;
 
-            return vertex.Select( v => new VertexPositionColor( v.ToVector3(), this.Color ) )
-                .ToArray();
+            return vertex.Select( v => new VertexPositionColor( v.ToVector3(), this.Color ) ).ToArray();
         }
 
         private Quadrangle CreateQuatrangle()

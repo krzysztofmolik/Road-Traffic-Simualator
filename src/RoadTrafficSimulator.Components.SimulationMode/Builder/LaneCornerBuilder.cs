@@ -44,9 +44,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
             public void SetUp(BuilderContext obj)
             {
 //                this._lane.LaneCornerBuild.Routes.CalculateProbabilities();
-                var routes = this._lane.LaneCornerBuild.Routes;
-                var convertedRoutes = this.ConvertRoutes( routes, obj, this._lane ).ToArray();
-                this._lane.Routes = new StandardRoutes( convertedRoutes );
+//                var routes = this._lane.LaneCornerBuild.Routes;
+//                var convertedRoutes = this.ConvertRoutes( routes, obj, this._lane ).ToArray();
+                // TODO Remove Routes from this element
+                this._lane.Routes = new StandardRoutes( Enumerable.Empty<BuildRoute>() );
             }
 
             public void SetConnection( BuilderContext context )

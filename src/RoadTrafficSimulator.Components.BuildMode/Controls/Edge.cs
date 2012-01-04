@@ -9,13 +9,13 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
     public abstract class Edge : CompositControl<VertexPositionColor>, IEdge, IComponent
     {
-        private readonly IControl _parent;
+        private readonly IRouteElement _parent;
         private readonly EdgeVertexContainer _concretVertexContainer;
         private readonly IMouseHandler _mouseHandler;
         private MovablePoint _startPoint;
         private MovablePoint _endPoint;
 
-        protected Edge( Factories.Factories factories, Style style, IControl parent )
+        protected Edge( Factories.Factories factories, Style style, IRouteElement parent )
         {
             this._parent = parent;
             this.Factories = factories;
@@ -29,7 +29,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         public Factories.Factories Factories { get; private set; }
 
-        protected Edge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, Style style, IControl parent )
+        protected Edge( Factories.Factories factories, MovablePoint startPoint, MovablePoint endPoint, Style style, IRouteElement parent )
             : this( factories, style, parent )
         {
             this.StartPoint = startPoint;
@@ -120,7 +120,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             }
         }
 
-        public IControl Parent
+        public IRouteElement Parent
         {
             get { return this._parent; }
         }

@@ -12,10 +12,10 @@ namespace RoadTrafficSimulator.Infrastructure.Draw
 
         protected VertexContainerBase( T @object, Color orignalColor )
         {
-            this.Object = @object.NotNull();
-            this.Object.Redrawed.Subscribe( s => this.Vertex = this.UpdateShapeAndCreateVertex() );
             this._orignalColor = orignalColor;
             this._color = _orignalColor;
+            this.Object = @object.NotNull();
+            this.Object.Redrawed.Subscribe( s => this.Vertex = this.UpdateShapeAndCreateVertex() );
         }
 
         public T Object { get; private set; }
@@ -33,7 +33,11 @@ namespace RoadTrafficSimulator.Infrastructure.Draw
         public virtual Color Color
         {
             get { return _color; }
-            set { _color = value; }
+            set
+            {
+                this._color = value;
+                this.Vertex = this.UpdateShapeAndCreateVertex();
+            }
         }
 
         public virtual void ClearColor()

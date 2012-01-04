@@ -16,17 +16,17 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Column="0">
-            <Button x:Name="SwitchToBuildMode" Content="Build" Height="25" Width="100" IsEnabled="{Binding Path=IsBuildMode, Converter={StaticResource BoolNegation}}"/>
-            <Button x:Name="SwtichToSimulationMode" Content="Simulate" Height="25" Width="100" IsEnabled="{Binding Path=IsBuildMode}"/>
+            <Button x:Name="SwitchToBuildMode" Content="Build" Height="25" Width="50" IsEnabled="{Binding Path=IsBuildMode, Converter={StaticResource BoolNegation}}"/>
+            <Button x:Name="SwtichToSimulationMode" Content="Simulate" Height="25" Width="50" IsEnabled="{Binding Path=IsBuildMode}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Column="1">
-            <Button x:Name="Save" Content="Save" Height="25" Width="100"/>
-            <Button x:Name="Load" Content="Load" Height="25" Width="100"/>
+            <Button x:Name="Save" Content="Save" Height="25" Width="50"/>
+            <Button x:Name="Load" Content="Load" Height="25" Width="50"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Column="2">
-            <Button Width="50" Height="50" Name="DecreaseZoom" Content="-"/>
+            <Button Width="25" Height="25" Name="DecreaseZoom" Content="-"/>
             <ProgressBar Minimum="0" Maximum="100" Width="200" Value="{Binding Path=ZoomValue}"/>
-            <Button Width="50" Height="50" Name="IncreaseZoom" Content="+"/>
+            <Button Width="25" Height="25" Name="IncreaseZoom" Content="+"/>
         </StackPanel>
     </Grid>
 </UserControl>

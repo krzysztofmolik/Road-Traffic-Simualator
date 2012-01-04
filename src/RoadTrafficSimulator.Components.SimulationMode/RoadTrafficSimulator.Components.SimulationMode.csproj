@@ -181,7 +181,6 @@
     <Compile Include="RoadInformations\IRoadInformation.cs" />
     <Compile Include="RoadInformations\JunctionEdgeRoadInformation.cs" />
     <Compile Include="RoadInformations\LaneCornerRoadInformation.cs" />
-    <Compile Include="RoadInformations\LaneJunctionConductor\LaneJucntionConductorRightHandJunctionInformation.cs" />
     <Compile Include="RoadInformations\LaneJunctionConductor\LaneJunctionConductorCarsInformation.cs" />
     <Compile Include="RoadInformations\LaneJunctionConductor\LaneJunctionConductorMoveInfomation.cs" />
     <Compile Include="RoadInformations\LaneJunctionConductor\RoadLaneJuctionRoadInformation.cs" />

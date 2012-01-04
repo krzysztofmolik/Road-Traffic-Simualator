@@ -41,6 +41,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
                                                               PriorityType = current.PriorityType,
                                                               RoadElement = this.GetRoadElement( context, current.Control ),
                                                               Length = this.GetLength( prevElement, current, nextElement ),
+                                                              CanStopOnIt = current.CanStop,
                                                           };
                                            } );
         }

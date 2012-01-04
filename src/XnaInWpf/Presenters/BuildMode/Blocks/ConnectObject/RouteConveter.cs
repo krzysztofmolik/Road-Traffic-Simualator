@@ -9,6 +9,11 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
         private readonly PriorityTypeFactory _priorityFactory;
         private readonly ControlToControlViewModelConveter _controlToControlViewModelConveter;
 
+
+        public RouteConveter()
+            : this( new ControlToControlViewModelConveter())
+        { }
+
         public RouteConveter( ControlToControlViewModelConveter controlToControlViewModelConveter )
         {
             this._priorityFactory = new PriorityTypeFactory();
@@ -17,7 +22,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
 
         public IEnumerable<RouteViewModel> Conveter( IControl control )
         {
-            var roadElement = control as IRoadElement;
+            var roadElement = control as IRouteOwner;
             if ( roadElement == null ) { yield break; }
 
             foreach ( var route in roadElement.Routes.AvailableRoutes )
@@ -26,14 +31,23 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
             }
         }
 
+        public RouteItemViewModel Convert( RouteElement routeElement )
+        {
+            return new RouteItemViewModel( this._controlToControlViewModelConveter.Convert( routeElement.Control ),
+                                           this._priorityFactory.PossiblePriorityTypes( null, null ), routeElement )
+                       {
+                           CanStopOnIt = routeElement.CanStop,
+                           Priority = routeElement.PriorityType,
+                       };
+        }
+
         private RouteViewModel Conveter( IControl control, Route route )
         {
             var resutl = new RouteViewModel( route );
             var previousControl = this._controlToControlViewModelConveter.Convert( control );
             foreach ( var routeElement in route.Items )
             {
-                var currentControl = this._controlToControlViewModelConveter.Convert( routeElement.Control );
-                var item = new RouteItemViewModel( currentControl, this._priorityFactory.PossiblePriorityTypes( previousControl.Control, routeElement.Control ), routeElement );
+                var item = this.Convert( routeElement );
                 resutl.Add( item );
             }
             return resutl;

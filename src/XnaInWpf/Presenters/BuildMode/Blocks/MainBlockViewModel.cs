@@ -19,7 +19,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks
             this._eventAggreator = eventAggreator;
             this._blocks = new ObservableCollection<IBlockViewModel>
                 ( new IBlockViewModel[]  {
-                                             new RoadJunctionBlockViewModelModel( this, this._eventAggreator ),
+                                             new RoadJunctionBlockViewModel( this, this._eventAggreator ),
                                              new OneRoadLaneViewModel( this, this._eventAggreator ),
                                              new CarsInserterViewModel( this, this._eventAggreator ),
                                              new CarsRemoverViewModel( this, this._eventAggreator ),

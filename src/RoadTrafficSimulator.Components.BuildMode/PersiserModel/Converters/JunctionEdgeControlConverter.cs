@@ -43,8 +43,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
                         () => control.Connector.ConnectBeginFrom( ( JunctionEdge ) Is.Control( control.Connector.Edge.Parent ) ) );
                 }
             }
-
-            yield return base.BuildRoutes( control );
+//            yield return base.BuildRoutes( control );
         }
 
         private static UseCtorToCreateControl<JunctionEdge> CreateNewCommand( JunctionEdge control )

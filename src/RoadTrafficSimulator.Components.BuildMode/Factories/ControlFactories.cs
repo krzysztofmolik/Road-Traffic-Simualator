@@ -19,7 +19,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Factories
             this._junctionFactroy = junctionFactroy;
         }
 
-        public void CreateRoadJunctioBlockWithEdges( Vector2 location )
+        public RoadJunctionBlock CreateRoadJunctioBlockWithEdges( Vector2 location )
         {
             var leftEdge = _edgeFactory( location );
             var rightEdge = _edgeFactory( location );
@@ -52,6 +52,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Factories
             rightEdge.Invalidate();
             bottomEdge.Invalidate();
             topEdge.Invalidate();
+
+            return junction;
         }
     }
 }

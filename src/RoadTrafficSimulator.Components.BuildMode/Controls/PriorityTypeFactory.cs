@@ -9,6 +9,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         {
             return new []
                        {
+                           PriorityType.None,
                            PriorityType.Light,
                            PriorityType.FromRight,
                            PriorityType.FromLeft,

@@ -10,7 +10,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
 {
     public abstract class ControlConverterBase : IControlConverter
     {
-        protected virtual IAction BuildRoutes<TControl>( TControl control ) where TControl : IRoadElement, IControl
+        protected virtual IAction BuildRoutes<TControl>( TControl control ) where TControl : IRouteOwner, IControl
         {
             var routesAddActions = control.Routes.AvailableRoutes
                 .Select( route =>
@@ -24,10 +24,13 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
 
         protected virtual IAction BuildSingleRoute( Route route )
         {
-            var createRouteAction = Actions.Ctor( () => new Route( Is.Const( route.Name ), Is.Const( route.Probability ) ) );
+            var createRouteAction = Actions.Ctor( () => new Route( Is.Const( route.Name ), Is.Const( route.Probability ), Is.Control( route.Owner ) ) );
             var addElementActions = route.Items.Select( routeElement =>
-                                                        Actions.Call( () => createRouteAction.Default.Add( Is.Control( routeElement.Control ), Is.Const( routeElement.PriorityType ) ) ) )
-                .ToArray();
+                                                        Actions.Call( () => createRouteAction.Default.Add( 
+                                                            Is.Control( routeElement.Control ),
+                                                            Is.Const( routeElement.PriorityType ),
+                                                            Is.Const( routeElement.CanStop ) ) ) )
+                                                .ToArray();
 
             return new ActionCollection( Order.Low ).Add( createRouteAction ).AddRange( addElementActions ).Return( createRouteAction );
         }

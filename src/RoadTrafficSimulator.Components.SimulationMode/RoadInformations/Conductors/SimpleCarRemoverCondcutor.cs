@@ -26,6 +26,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
                            CarAhead = carAheadInformation.CarAhead,
                            CarAheadDistance = carAheadInformation.CarDistance,
                            PrivilagesCarInformation = null,
+                           CanStop = true,
                        };
         }
 
@@ -60,7 +61,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
 
         public float GetCarDistanceToEnd( Car car )
         {
-            return Constans.PointSize;
+            return float.MaxValue;
         }
 
         public IRoadElement RoadElement

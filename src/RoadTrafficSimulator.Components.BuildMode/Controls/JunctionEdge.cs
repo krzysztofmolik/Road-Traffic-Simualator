@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.BuildMode.Connectors;
 using RoadTrafficSimulator.Infrastructure.Controls;
@@ -7,7 +9,7 @@ using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class JunctionEdge : CompositControl<VertexPositionColor>, IRoadElement
+    public class JunctionEdge : CompositControl<VertexPositionColor>, IRouteElement
     {
         private readonly NormalEdge _edge;
         private readonly JunctionEdgeConnector _connector;
@@ -15,14 +17,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         public JunctionEdge( Factories.Factories factories, Vector2 location )
         {
-            this.Routes = new Routes();
             this._edge = new NormalEdge( factories, this, location );
             this._connector = new JunctionEdgeConnector( this );
             this._invertedEdge = new InvertedEdgeAdapter( this._edge, this );
         }
 
         public NormalEdge Edge { get { return this._edge; } }
-        public Routes Routes { get; set; }
 
         public JunctionEdgeConnector Connector { get { return this._connector; } }
 
@@ -45,6 +45,16 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public override void TranslateWithoutNotification( Matrix translationMatrix )
         {
             this.Edge.TranslateWithoutNotification( translationMatrix );
+        }
+
+        public IEnumerable<IRouteElement> GetConnectedControls()
+        {
+            if ( this.Connector.Edge != null )
+            {
+                return new[] { this.Connector.JunctionEdge.Parent, this.Connector.Edge.Parent };
+            }
+
+            return new[] { this.Connector.JunctionEdge.Parent };
         }
 
         public override Vector2 Location

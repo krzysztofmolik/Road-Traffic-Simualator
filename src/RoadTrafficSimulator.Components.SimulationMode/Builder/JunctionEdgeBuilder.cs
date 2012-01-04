@@ -46,9 +46,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 
             public void SetUp( BuilderContext obj )
             {
-                var routes = this._junctionEdge.EdgeBuilder.Routes;
-                var convertedRoutes = this.ConvertRoutes( routes, obj, this._junctionEdge ).ToArray();
-                this._junctionEdge.Routes = new StandardRoutes( convertedRoutes );
+//                var routes = this._junctionEdge.EdgeBuilder.Routes;
+//                var convertedRoutes = this.ConvertRoutes( routes, obj, this._junctionEdge ).ToArray();
+                // TODO Remove Routes from this element
+                this._junctionEdge.Routes = new StandardRoutes( Enumerable.Empty<BuildRoute>());
             }
 
             public void SetConnection( BuilderContext context )

@@ -24,6 +24,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
 
         private void InserteCar( CarsInserter carsInserter, DateTime now )
         {
+            if ( carsInserter.CarsInsertionInterval == TimeSpan.Zero ) { return; }
             var nextInsertCarTime = carsInserter.LastTimeCarWasInseter + carsInserter.CarsInsertionInterval;
             if ( nextInsertCarTime < DateTime.Now )
             {

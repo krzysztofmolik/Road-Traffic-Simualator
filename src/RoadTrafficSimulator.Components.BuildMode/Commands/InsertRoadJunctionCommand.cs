@@ -28,7 +28,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
 
         public CommandType CommandType
         {
-            get { return CommandType.InsertRoadJunction; }
+            get { return CommandType.InsertRoadJunction_OneBlock; }
         }
 
         public void Start()

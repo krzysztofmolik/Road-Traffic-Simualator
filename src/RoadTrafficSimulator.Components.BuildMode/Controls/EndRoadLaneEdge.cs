@@ -1,15 +1,12 @@
-﻿using System;
-using RoadTrafficSimulator.Components.BuildMode.Connectors;
-using RoadTrafficSimulator.Infrastructure.Controls;
+﻿using RoadTrafficSimulator.Components.BuildMode.Connectors;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Controls
 {
-    public class EndRoadLaneEdge : Edge, IRoadElement, IComponent
+    public class EndRoadLaneEdge : Edge
     {
-        private RoadLaneBlock _parrent;
+        private readonly RoadLaneBlock _parrent;
         private readonly IMouseHandler _notMovableMouseHandler;
-        private readonly Routes _routes = new Routes();
 
         public EndRoadLaneEdge( Factories.Factories factories, RoadLaneBlock parent )
             : base( factories, Styles.NormalStyle, parent )
@@ -27,21 +24,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this.Connector = new EndRoadLaneEdgeConnector( this );
         }
 
-        public Routes Routes { get { return this._routes; } }
-
         public RoadLaneBlock RoadLaneBlockParent
         {
             get { return this._parrent; }
-        }
-
-        public IControl Parent
-        {
-            get { return this._parrent; }
-            set
-            {
-                if ( ( value is RoadLaneBlock ) == false ) { throw new ArgumentException( "Only RoadLaneBlock is valid" ); }
-                this._parrent = ( RoadLaneBlock ) value;
-            }
         }
 
         public EndRoadLaneEdgeConnector Connector
