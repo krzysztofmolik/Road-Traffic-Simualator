@@ -34,5 +34,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         {
             get { return this._roadInformation; }
         }
+        public Light.Light Light { get; set; }
     }
 }

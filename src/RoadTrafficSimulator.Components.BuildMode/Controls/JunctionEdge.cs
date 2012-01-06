@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Components.BuildMode.Connectors;
+using RoadTrafficSimulator.Components.BuildMode.VertexContainers;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using RoadTrafficSimulator.Infrastructure.Draw;
 using RoadTrafficSimulator.Infrastructure.Mouse;
@@ -28,7 +29,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
 
         public override IVertexContainer VertexContainer
         {
-            get { return this.Edge.VertexContainer; }
+            get { return this._edge.VertexContainer; }
         }
 
         public override IMouseHandler MouseHandler

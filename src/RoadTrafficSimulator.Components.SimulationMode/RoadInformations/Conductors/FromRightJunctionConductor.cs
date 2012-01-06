@@ -25,7 +25,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
         private IEnumerable<PriorityInformation> GetPriorityCarInfromation( IRouteMark<IConductor> route, SideMove sideMove )
         {
             var onTheRight = this.GetJunctionEdgeOnTheRigh( route, sideMove );
-            // NOTE I can do this, because I'am sure that this Junction edge and it has to be connected with junction!!
+            // NOTE I can do this, because I am sure that this Junction edge and it has to be connected with junction!!
             var resversIterator = new RouteJunctionReversIterator( this.Junction, onTheRight.Routes.BelongToRoutes, UnitConverter.FromMeter( 50 ) );
 
 #if DEBUG
@@ -92,7 +92,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
 
         protected override PriorityInformation[] GetPriorityCarInfromation( Car car, IRouteMark<IConductor> route )
         {
-            return this.PriorityTypes.Select( this.GetMoveSide ).SelectMany( p => this.GetPriorityCarInfromation( route, p ) ).ToArray();
+            if ( this.PriorityTypes == PriorityType.None || this.PriorityTypes == PriorityType.Light ) { return new PriorityInformation[ 0 ]; }
+            return this.GetPriorityCarInfromation( route, this.GetMoveSide( this.PriorityTypes ) ).ToArray();
         }
 
         private SideMove GetMoveSide( PriorityType priorityType )

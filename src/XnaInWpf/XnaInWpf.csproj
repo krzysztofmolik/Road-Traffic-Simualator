@@ -159,6 +159,10 @@
     <Compile Include="Presenters\BuildMode\Blocks\CarsRemover\CarsRemoverViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\ChangeBlock.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\Common\NameWithIconViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ChoseControlView.xaml.cs">
+      <DependentUpon>ChoseControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ChoseControlViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\ConnectObject\ConnectObjectView.xaml.cs">
       <DependentUpon>ConnectObjectView.xaml</DependentUpon>
     </Compile>
@@ -190,6 +194,10 @@
       <DependentUpon>CarInserterEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presenters\BuildMode\Blocks\Editors\DefaultControlEditorViewModel.cs" />
+    <Compile Include="Presenters\BuildMode\Blocks\Editors\LightEditorView.xaml.cs">
+      <DependentUpon>LightEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presenters\BuildMode\Blocks\Editors\LightEditorViewModel.cs" />
     <Compile Include="Presenters\BuildMode\Blocks\Junctions\RoadJunctionBlockView.xaml.cs">
       <DependentUpon>RoadJunctionBlockView.xaml</DependentUpon>
     </Compile>
@@ -236,6 +244,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Presenters\BuildMode\Blocks\ConnectObject\ChoseControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Presenters\BuildMode\Blocks\ConnectObject\ConnectObjectView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -261,6 +273,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Presenters\BuildMode\Blocks\Editors\CarInserterEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presenters\BuildMode\Blocks\Editors\LightEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

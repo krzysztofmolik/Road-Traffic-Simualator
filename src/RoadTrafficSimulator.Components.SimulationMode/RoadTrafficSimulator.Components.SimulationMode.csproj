@@ -206,7 +206,6 @@
     <Compile Include="Elements\LaneJunction.cs" />
     <Compile Include="Elements\Light\Light.cs" />
     <Compile Include="Elements\Light\LightDrawer.cs" />
-    <Compile Include="Elements\Light\LightState.cs" />
     <Compile Include="Elements\Light\LightStateMachine.cs" />
     <Compile Include="GenericFactory.cs" />
     <Compile Include="IDrawer.cs" />

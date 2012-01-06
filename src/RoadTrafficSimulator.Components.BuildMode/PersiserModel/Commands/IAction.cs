@@ -5,6 +5,7 @@ using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Infrastructure;
 using System.Linq;
 using RoadTrafficSimulator.Infrastructure.Controls;
+using RoadTrafficSimulator.Infrastructure.Textures;
 
 namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
 {
@@ -116,6 +117,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
     public static class Is
     {
         public static readonly List<IAction> Context = new List<IAction>();
+
+        public static CachedTexture IsTexture( string textureName )
+        {
+            Context.Add( new TextureParamter(textureName) );
+            return default( CachedTexture );
+        }
 
         public static T Ioc<T>()
         {

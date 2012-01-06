@@ -18,10 +18,17 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
 
         public IControlWithRoutelViewModel Convert( IControl control )
         {
+            // TODO Create some kind of handlers insted of if's
             if ( control is RoadTrafficSimulator.Components.BuildMode.Controls.CarsInserter )
             {
                 return new CarInserterEditorViewModel( ( RoadTrafficSimulator.Components.BuildMode.Controls.CarsInserter ) control, this._routeConveter.Conveter( control ) );
             }
+
+            if ( control is LightBlock )
+            {
+                return new LightEditorViewModel( ( LightBlock ) control );
+            }
+
             return new DefaultControlEditorViewModel( control, this._routeConveter.Conveter( control ) );
         }
 

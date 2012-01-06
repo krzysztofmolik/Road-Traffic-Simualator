@@ -129,6 +129,7 @@
     <Compile Include="Extension\Vector3ExtensionMethod.cs" />
     <Compile Include="GameComponent.cs" />
     <Compile Include="InfrastructureModule.cs" />
+    <Compile Include="LightState.cs" />
     <Compile Include="MetaBase.cs" />
     <Compile Include="NumberMeta.cs" />
     <Compile Include="KeyboardInputNotify.cs" />

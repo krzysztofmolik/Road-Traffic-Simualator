@@ -135,6 +135,7 @@
     <Compile Include="Controls\IRouteOwner.cs" />
     <Compile Include="Controls\LightBlock.cs" />
     <Compile Include="Controls\LightConnector.cs" />
+    <Compile Include="Controls\LightTimes.cs" />
     <Compile Include="Controls\LightVeretexContainer.cs" />
     <Compile Include="Controls\NewControlCreated.cs" />
     <Compile Include="Controls\PriorityTypeFactory.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="PersiserModel\Commands\ControlProperties.cs" />
     <Compile Include="PersiserModel\Commands\ControlSerializer.cs" />
     <Compile Include="PersiserModel\Commands\CreateControlCommand.cs" />
+    <Compile Include="PersiserModel\Commands\CreatedObjects.cs" />
     <Compile Include="PersiserModel\Commands\DeserializationContext.cs" />
     <Compile Include="PersiserModel\Commands\IAction.cs" />
     <Compile Include="PersiserModel\Commands\IocParameter.cs" />
@@ -168,6 +170,8 @@
     <Compile Include="PersiserModel\Commands\Parameter.cs" />
     <Compile Include="PersiserModel\Commands\ResolveBaseOnId.cs" />
     <Compile Include="PersiserModel\Commands\SetProperties.cs" />
+    <Compile Include="PersiserModel\Commands\StorePropertyValue.cs" />
+    <Compile Include="PersiserModel\Commands\TextureParamter.cs" />
     <Compile Include="PersiserModel\Commands\UseCtorToCreateControl.cs" />
     <Compile Include="PersiserModel\Commands\UseCtorToCreateParamter.cs" />
     <Compile Include="PersiserModel\Converters\CarInserterControlConverter.cs" />
@@ -220,6 +224,7 @@
     <Compile Include="RoadLayerMouseHandler.cs" />
     <Compile Include="VertexContainers\EdgeVertexContainer.cs" />
     <Compile Include="VertexContainers\InternalRoadJunctionEdgeVertexContainer.cs" />
+    <Compile Include="VertexContainers\JunctionEdgeVertexContainer.cs" />
     <Compile Include="VertexContainers\MovablePointVertexContainer.cs" />
     <Compile Include="VertexContainers\MovableRectlangeVertexContainer.cs" />
     <Compile Include="VertexContainers\RoadJunctionBlockVertexContainer.cs" />

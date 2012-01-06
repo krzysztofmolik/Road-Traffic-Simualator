@@ -13,8 +13,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
         }
 
         public IEdge Edge { get; private set; }
-
         public InternalRoadJunctionEdge JunctionEdge { get; private set; }
+        public LightBlock Light { get; private set; }
 
         public void ConnectEndsOn( RoadLaneBlock roadLaneEdge )
         {
@@ -51,12 +51,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
 
         public bool CanPutLights()
         {
-            // BUG
-            return false;
+            return this.Edge is EndRoadLaneEdge;
         }
 
         public void ConnectWithLight( LightBlock light )
         {
+            this.Light = light;
         }
     }
 }

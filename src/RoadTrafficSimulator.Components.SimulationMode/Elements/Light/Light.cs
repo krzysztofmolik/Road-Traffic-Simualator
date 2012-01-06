@@ -2,6 +2,7 @@ using System;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations;
+using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Light
@@ -15,7 +16,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Light
         public Light( LightBlock lightBlock, Func<Light, IRoadInformation> conductorFactory )
         {
             this._lightBlock = lightBlock;
-            this._stateMachine = new LightStateMachine( this );
+            this._stateMachine = new LightStateMachine( this, lightBlock.Times );
             this._drawer = new LightDrawer( this );
             conductorFactory( this );
         }

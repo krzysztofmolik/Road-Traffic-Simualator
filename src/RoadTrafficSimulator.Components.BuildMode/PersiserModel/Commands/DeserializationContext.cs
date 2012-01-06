@@ -3,35 +3,22 @@ using System.Collections.Generic;
 using Autofac;
 using RoadTrafficSimulator.Infrastructure.Controls;
 using System.Linq;
+using RoadTrafficSimulator.Infrastructure.DependencyInjection;
 
 namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
 {
-    public class CreatedObjects
-    {
-        private readonly IDictionary<Guid, object> _createdObjects = new Dictionary<Guid, object>();
-
-        public void Add( Guid id, object value )
-        {
-            this._createdObjects.Add( id, value );
-        }
-
-        public object Get( Guid id )
-        {
-            return this._createdObjects[ id ];
-        }
-
-    }
-
     public class DeserializationContext
     {
         private readonly List<IControl> _createdControls = new List<IControl>();
         private readonly CreatedObjects _createdObjects = new CreatedObjects();
 
-        private ILifetimeScope _ioc;
+        private readonly ILifetimeScope _ioc;
+        private readonly IContentManagerAdapter _contentManager;
 
-        public DeserializationContext( ILifetimeScope ioc )
+        public DeserializationContext( ILifetimeScope ioc, IContentManagerAdapter contentManager )
         {
             this._ioc = ioc;
+            this._contentManager = contentManager;
         }
 
         public List<IControl> CreateControls { get { return this._createdControls; } }
@@ -41,11 +28,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
             return this.CreateControls.FirstOrDefault( c => c.Id == controlId );
         }
 
-        public ILifetimeScope IoC
-        {
-            get { return this._ioc; }
-        }
-
+        public ILifetimeScope IoC { get { return this._ioc; } }
+        public IContentManagerAdapter ContentManager { get { return this._contentManager; } }
         public CreatedObjects CreatedObjects { get { return this._createdObjects; } }
+
     }
 }

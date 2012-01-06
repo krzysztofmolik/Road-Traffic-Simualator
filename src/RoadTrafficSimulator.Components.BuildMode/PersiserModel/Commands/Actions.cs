@@ -54,6 +54,36 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
             return result;
         }
 
+        public static IAction Property<T, TResult>( T owner, Expression<Func<T, TResult>> action ) where T : IControl
+        {
+            var value = action.Compile().Invoke( owner );
+            var path = GetPath<T>( action.Body );
+
+            var result = new StorePropertyValue( typeof( T ), owner.Id, path, value );
+            return result;
+        }
+
+        private static MemberInfo[] GetPath<T>( Expression expression )
+        {
+            var path = new List<MemberInfo>();
+
+            var member = expression as MemberExpression;
+            if ( member == null ) { throw new ArgumentException(); }
+
+            while ( member.Type != typeof( T ) )
+            {
+                path.Add( member.Member );
+                if ( !( member.Expression is MemberExpression ) )
+                {
+                    // Bug 
+                    break;
+                }
+                member = ( MemberExpression ) member.Expression;
+            }
+
+            return path.ToArray();
+        }
+
         private static MemberInfo[] GetPath<TOwner>( MethodCallExpression expression )
         {
             var path = new List<MemberInfo>();
@@ -85,5 +115,6 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
 
             return paramters;
         }
+
     }
 }

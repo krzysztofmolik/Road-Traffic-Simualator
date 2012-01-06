@@ -27,6 +27,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
                            CarAheadDistance = carAheadInformation.CarDistance,
                            PrivilagesCarInformation = null,
                            CanStop = true,
+                           CanDriver = true,
                        };
         }
 

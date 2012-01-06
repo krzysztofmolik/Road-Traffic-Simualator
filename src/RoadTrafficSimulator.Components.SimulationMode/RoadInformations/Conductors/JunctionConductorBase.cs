@@ -30,6 +30,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
                            CarAheadDistance = carAheadInformation.CarDistance,
                            PrivilagesCarInformation = this.GetPriorityCarInfromation( car, route ),
                            CanStop = this._canStopOnIt,
+                           CanDriver = true,
                        };
         }
 
@@ -57,11 +58,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
             this._previous = previous;
             this._next = next;
 
-            var values = Enum.GetValues( typeof( PriorityType ) );
-            this.PriorityTypes = values.Cast<PriorityType>().Where( e => priorityType.HasFlag( e ) ).Where( e => e != PriorityType.None ).ToArray();
+            this.PriorityTypes = priorityType;
         }
 
-        protected PriorityType[] PriorityTypes { get; private set; }
+        protected PriorityType PriorityTypes { get; private set; }
 
         public Vector2 GetCarDirection( Car car )
         {

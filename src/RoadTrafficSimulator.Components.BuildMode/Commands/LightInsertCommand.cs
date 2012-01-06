@@ -46,7 +46,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
             if ( hittedControl == null ) { return; }
             if ( hittedControl.Connector.CanPutLights() )
             {
-                var light = new LightBlock( mouseState.Location, this._contentManager.Load( "lights" ) );
+                var light = new LightBlock( mouseState.Location, this._contentManager.Load( "Light" ) );
                 light.Connector.ConnectWith( hittedControl );
                 hittedControl.Connector.ConnectWithLight( light );
                 // TODO this smells

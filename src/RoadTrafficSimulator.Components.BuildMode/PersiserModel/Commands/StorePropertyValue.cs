@@ -1,48 +1,48 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using RoadTrafficSimulator.Infrastructure;
-using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
 {
     [Serializable]
-    public class ControlProperties : IAction
+    public class StorePropertyValue : IAction
     {
         private readonly Type _type;
         private readonly Guid _ownerId;
         private readonly MemberInfo[] _path;
+        private readonly object _value;
         private readonly Guid _commandId = Guid.NewGuid();
 
-        public static ControlProperties Create<TOwner, TProperty>( TOwner owner, TProperty propertyValue ) where TOwner : IControl
-        {
-            var property = owner.GetType().GetProperties().Where( s => s.PropertyType.IsInstanceOfType( propertyValue ) ).FirstOrDefault( s => s.GetValue( owner, null ) == ( object ) propertyValue );
-            return new ControlProperties( typeof( TProperty ), owner.Id, new MemberInfo[] { property } );
-        }
-
-        public static ControlProperties Create<T>( Guid ownerId, Expression<Func<T>> expression )
-        {
-            var memeberExpression = expression.Body as MemberExpression;
-            if ( memeberExpression == null ) { throw new ArgumentException(); }
-            return new ControlProperties( typeof( T ), ownerId, new[] { memeberExpression.Member } );
-        }
-
-        public ControlProperties( Type type, Guid ownerId, MemberInfo[] path )
+        public StorePropertyValue( Type type, Guid ownerId, MemberInfo[] path, object value )
         {
             Contract.Requires( type != null );
             Contract.Requires( path != null );
             this._type = type;
             this._ownerId = ownerId;
             this._path = path;
+            this._value = value;
         }
 
         public object Execute( DeserializationContext context )
         {
             object result = context.GetById( this._ownerId );
 
-            return this._path.Aggregate( result, ( current, memberInfo ) => this.GetValue( memberInfo, current ) );
+            var reversePath = this._path.Reverse().ToArray();
+            result = reversePath.Take( this._path.Length - 1 ).Aggregate( result, ( current, memberInfo ) => this.GetValue( memberInfo, current ) );
+            this.SetValue( reversePath.Last(), result, this._value );
+            return null;
+        }
+
+        private void SetValue( MemberInfo memberInfo, object owner, object value )
+        {
+            if ( memberInfo is PropertyInfo )
+            {
+                ( ( PropertyInfo ) memberInfo ).SetValue( owner, value, null );
+                return;
+            }
+            ( ( FieldInfo ) memberInfo ).SetValue( owner, value );
         }
 
         private object GetValue( MemberInfo memberInfo, object owner )

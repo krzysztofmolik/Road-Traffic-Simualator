@@ -35,9 +35,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.Commands
             }
         }
 
-        private IControl FindControlAtPoint( Vector2 location )
+        private IControl[] FindControlAtPoint( Vector2 location )
         {
-            return this._allControl.FirstOrDefault( c => c.IsHitted( location ) );
+            return this._allControl.Where( c => c.IsHitted( location ) ).ToArray();
         }
 
         public CommandType CommandType

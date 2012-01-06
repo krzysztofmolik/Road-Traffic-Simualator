@@ -10,7 +10,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Light
     public class LightDrawer : IDrawer
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private Light _light;
+        private readonly Light _light;
         private LightState _lightState;
         private ColorableShape _lightShape;
 
@@ -18,7 +18,6 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Light
         {
             this._light = light;
             this.CreateLightShape( light.BuildControl.Location );
-            this.UpdateLightState();
         }
 
         private void CreateLightShape( Vector2 location )
@@ -26,18 +25,25 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Light
             var width = Constans.ToVirtualUnit( 0.5f );
             var height = Constans.ToVirtualUnit( 0.5f );
             this._lightShape = new ColorableShape( Quadrangle.Create( location, width, height ), Color.Black );
+            this.SetLightColor();
         }
 
         private void UpdateLightState()
         {
             if( this._lightState == this._light.LightState ) { return;   }
             this._lightState = this._light.LightState;
-            switch ( this._lightState )
+            this.SetLightColor();
+        }
+
+        private void SetLightColor()
+        {
+            switch( this._lightState )
             {
                 case LightState.Red:
                     this._lightShape.SetColor( Color.Red );
                     break;
-                case LightState.Yiellow:
+                case LightState.YiellowFromGreen:
+                case LightState.YiellowFromRed:
                     this._lightShape.SetColor( Color.Yellow );
                     break;
                 case LightState.Green:

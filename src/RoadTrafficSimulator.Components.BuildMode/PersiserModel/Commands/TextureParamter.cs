@@ -1,18 +1,18 @@
 using System;
-using Autofac;
 using RoadTrafficSimulator.Infrastructure;
+using RoadTrafficSimulator.Infrastructure.Textures;
 
 namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
 {
     [Serializable]
-    public class IocParameter<T> : IAction
+    public class TextureParamter : IAction
     {
-        private readonly Type _type;
         private readonly Guid _id = Guid.NewGuid();
+        private readonly string _textureName;
 
-        public IocParameter()
+        public TextureParamter( string textureName)
         {
-            this._type = typeof( T );
+            this._textureName = textureName;
         }
 
         public Order Priority
@@ -22,12 +22,12 @@ namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands
 
         public object Execute( DeserializationContext context )
         {
-            return context.IoC.Resolve( this._type );
+            return context.ContentManager.Load( this._textureName);
         }
 
         public Type Type
         {
-            get { return _type; }
+            get { return typeof( CachedTexture ); }
         }
 
         public Guid CommandId

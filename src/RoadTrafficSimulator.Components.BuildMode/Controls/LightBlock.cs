@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RoadTrafficSimulator.Infrastructure.Controls;
@@ -14,6 +15,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         private readonly NotMovableMouseHandler _mouseHandler;
         private readonly LightConnector _connector;
         private readonly CachedTexture _texture;
+        private LightTimes _ligthTimes;
 
         public LightBlock( Vector2 location, CachedTexture texture )
         {
@@ -23,6 +25,7 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             this._vertexContainer = new LightVeretexContainer( this, this._texture );
             this._mouseHandler = new NotMovableMouseHandler();
             this._connector = new LightConnector( this );
+            this._ligthTimes = new LightTimes( TimeSpan.Zero, TimeSpan.FromSeconds( 20 ), TimeSpan.FromSeconds( 3 ), TimeSpan.FromSeconds( 20 ) );
         }
 
         public override Vector2 Location
@@ -33,6 +36,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
                 this._location = value;
                 this.Invalidate();
             }
+        }
+
+        public string TextureName
+        {
+            get { return this._texture.AssetName; }
         }
 
         public override IVertexContainer VertexContainer
@@ -51,6 +59,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             {
                 return this._connector;
             }
+        }
+
+        public LightTimes Times
+        {
+            get { return this._ligthTimes; }
         }
 
         public override void Translate( Matrix matrixTranslation )

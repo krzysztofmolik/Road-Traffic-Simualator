@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 {
+    // TODO Rewrite this
     public class DriverBrain
     {
         private readonly Car _car;
@@ -70,7 +71,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
                 }
                 else if ( processInformation.CanStop )
                 {
-                    this._finalPosition = distance - this._car.Lenght;
+                    this._finalPosition = distance - this._car.Lenght/2;
                     this._finalSpeed = this._car.MaxSpeed;
                 }
 
@@ -96,6 +97,13 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 
         private void ProcessAnser( RoadInformation end, float distance )
         {
+            if ( !end.CanDriver )
+            {
+                this._freeWay = false;
+                this._canDriver = false;
+                this.SetDestinationPositionAndSpeed( distance - this._car.Lenght / 2, 0.0f );
+            }
+
             if ( end.CarAhead != null )
             {
                 this.ProcessCarAheadInformation( end.CarAhead, end.CarAheadDistance, distance );
@@ -153,7 +161,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         private void ProcessCarAheadInformation( Car carAhead, float carAheadDistance, float distance )
         {
             this._canDriver = false;
-                this._freeWay = false;
+            this._freeWay = false;
             this.SetDestinationPositionAndSpeed( distance + carAheadDistance - carAhead.Lenght, carAhead.Velocity );
 
             if ( carAheadDistance < carAhead.Lenght + UnitConverter.FromMeter( 0.5f ) && carAhead.Velocity < UnitConverter.FromKmPerHour( 5.0f ) )

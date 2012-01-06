@@ -34,7 +34,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
         private IEnumerable<BuilderAction> GetAction( IControl control )
         {
             var builder = this._builders.FirstOrDefault( b => b.CanCreate( control ) );
-            if ( builder == null ) throw new ArgumentException( "Control not supported: " + control.GetType().Name );
+            if ( builder == null ) throw new ArgumentException( "Controls not supported: " + control.GetType().Name );
             return builder.Create( control );
         }
     }

@@ -27,21 +27,14 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
 
         public void Draw( GameTime gameTime )
         {
-            this._lights.ForEach( light => this.Update( light, gameTime ) );
-            this._graphic.VertexPositionalColorDrawer.Flush();
+//            this._lights.ForEach( light => light.StateMachine.Update( gameTime ) );
+//            this._graphic.VertexPositionalColorDrawer.Flush();
         }
 
-        private void Update( Light light, GameTime gameTime )
+        public void Update( GameTime gameTime )
         {
-            light.StateMachine.Update( gameTime );
+            this._lights.ForEach( light => light.StateMachine.Update( gameTime ) );
         }
-
-        private void Draw( Light light, GameTime time )
-        {
-            light.Drawer.Draw( this._graphic, time );
-        }
-
-        public void Update( GameTime gameTime ) { }
 
         public int Order
         {

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Builder;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
+using RoadTrafficSimulator.Components.SimulationMode.Elements.Light;
 using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors.Infrastructure;
 using RoadTrafficSimulator.Components.SimulationMode.Route;
 using RoadTrafficSimulator.Infrastructure;
@@ -30,7 +31,26 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
                            CarAheadDistance = carAheadInformation.CarDistance,
                            PrivilagesCarInformation = null,
                            CanStop = this._canStopOnIt,
+                           CanDriver = this.CheckLights( car ),
                        };
+        }
+
+        private bool CheckLights( Car car )
+        {
+            if ( this._junctionEdge.Light != null )
+            {
+                // TODO Use switch
+                if ( this._junctionEdge.Light.LightState == LightState.Green ) { return true; }
+                if ( this._junctionEdge.Light.LightState == LightState.Red ) { return false; }
+                if ( this._junctionEdge.Light.LightState == LightState.YiellowFromRed ) { return false; }
+                if ( this._junctionEdge.Light.LightState == LightState.YiellowFromGreen )
+                {
+                    var carDistance = Vector2.Distance( car.Location, this._junctionEdge.EdgeBuilder.Location );
+                    return carDistance < UnitConverter.FromMeter( 5 ) && car.Velocity > UnitConverter.FromKmPerHour( 30 );
+                }
+                throw new ArgumentException( "Not supported ligth state" );
+            }
+            return true;
         }
 
         public void SetRouteElement( IRoadElement element )

@@ -1,14 +1,15 @@
-﻿using RoadTrafficSimulator.Infrastructure.Controls;
+﻿using System.Collections.Generic;
+using RoadTrafficSimulator.Infrastructure.Controls;
 
 namespace RoadTrafficSimulator.Components.BuildMode.Commands
 {
     public class GuiCommdnEdit
     {
-        public GuiCommdnEdit(IControl control)
+        public GuiCommdnEdit(IEnumerable<IControl> control)
         {
-            this.Control = control;
+            this.Controls = control;
         }
 
-        public IControl Control { get; private set; }
+        public IEnumerable<IControl> Controls { get; private set; }
     }
 }

@@ -19,7 +19,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
         public void ConnectWith( JunctionEdge edge )
         {
             this.Owner = edge;
-            edge.Translated.Subscribe( e => this._owner.SetLocation( e.Control.Location ) );
+            edge.Edge.StartPoint.Translated.Subscribe( e => this._owner.SetLocation( edge.Location ) );
+            edge.Edge.EndPoint.Translated.Subscribe( e => this._owner.SetLocation( edge.Location ) );
         }
     }
 }

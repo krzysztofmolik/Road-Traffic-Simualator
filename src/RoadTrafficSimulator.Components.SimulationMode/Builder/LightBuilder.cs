@@ -5,6 +5,7 @@ using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Light;
 using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Controls;
+using JunctionEdge = RoadTrafficSimulator.Components.SimulationMode.Elements.JunctionEdge;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 {
@@ -35,9 +36,9 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Builder
 
             public void Connect( BuilderContext builderContext )
             {
-                var owner = builderContext.GetObject<LaneJunction>( this._light.LightBlock.Connector.Owner);
+                var owner = builderContext.GetObject<JunctionEdge>( this._light.LightBlock.Connector.Owner);
                 this._light.Owner = owner;
-                owner.AddLight( this._light );
+                owner.Light = this._light;
             }
         }
     }
