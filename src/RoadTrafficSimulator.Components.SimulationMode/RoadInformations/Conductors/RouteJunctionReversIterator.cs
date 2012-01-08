@@ -30,7 +30,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
             return this._routesToCheck.SelectMany( r => this.GetElements( r.Position.Clone(), r.Route, 0.0f ) ).GetEnumerator();
         }
 
-        private IEnumerable<RouteElementWithDistance> GetElements( IRouteMark<RouteElement> current, BuildRoute owner, float distance )
+        public IEnumerable<RouteElementWithDistance> GetElements( IRouteMark<RouteElement> current, BuildRoute owner, float distance )
         {
             if ( current.Current.RoadElement == this._current ) { return Enumerable.Empty<RouteElementWithDistance>(); }
             if ( !current.MoveBack() )

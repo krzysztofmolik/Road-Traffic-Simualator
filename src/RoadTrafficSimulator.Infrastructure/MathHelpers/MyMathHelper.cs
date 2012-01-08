@@ -8,6 +8,29 @@ namespace RoadTrafficSimulator.Infrastructure.MathHelpers
 {
     public static class MyMathHelper
     {
+        public static float GetTimeToDriveThrough( float s, float v, float vMax, float a )
+        {
+            float t1, s1, t, x1, x2;
+            t1 = ( vMax - v ) / a;
+            s1 = v * t1 + ( a * t1 * t1 ) / 2;
+            if ( s1 > s )
+            {
+                var del = Math.Pow( v, 2 ) + 4*a*s;
+                var sqrtDel = Math.Sqrt( del );
+                x1 = (float) ( ( -v - sqrtDel )/a );
+                x2 = (float) ( ( -v + sqrtDel )/a );
+                if ( x1 > x2 )
+                    return x1;
+                // else
+                    return x2;
+
+            }
+            else
+            {
+                t = t1 + ( s - s1 ) / vMax;
+                return t;
+            }
+        }
         public static float AngelBetwenVectors( Vector2 first, Vector2 second )
         {
             var fistNormalized = Vector2.Normalize( first );

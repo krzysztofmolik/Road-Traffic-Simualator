@@ -7,6 +7,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
     public sealed class CarsInserter : LaneConnector
     {
         private readonly IRoadInformation _roadInformation;
+        private readonly Random _rng = new Random();
 
         public CarsInserter( BuildMode.Controls.CarsInserter control, Func<CarsInserter, IRoadInformation> conductorFactory )
             : base( control )
@@ -19,7 +20,18 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements
         }
 
         public Lane Lane { get; set; }
-        public TimeSpan CarsInsertionInterval { get; set; }
+        private TimeSpan _carsInsertionInterval;
+        public TimeSpan CarsInsertionInterval
+        {
+            get { return this._carsInsertionInterval; }
+            set 
+            {
+                this._carsInsertionInterval = value;
+                var randomDelay = this._rng.Next( 0, (int) value.TotalMilliseconds );
+                this.LastTimeCarWasInseter = DateTime.Now + TimeSpan.FromMilliseconds( randomDelay );
+            }
+        }
+
         public DateTime LastTimeCarWasInseter { get; set; }
         public BuildMode.Controls.CarsInserter CarsInserterBuilder { get; set; }
 

@@ -2,7 +2,7 @@
 	<s:Boolean x:Key="/Default/Environment/SearchAndNavigation/MergeOccurences/@EntryValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=2A316111E629A74FBE2C419B95F74F76/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=2A316111E629A74FBE2C419B95F74F76/Name/@EntryValue">Session</s:String>
-	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=2A316111E629A74FBE2C419B95F74F76/XmlSerializedElements/@EntryValue">&lt;Session&gt;&lt;Elements /&gt;&lt;/Session&gt;</s:String>
+	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=2A316111E629A74FBE2C419B95F74F76/XmlSerializedElements/@EntryValue">&lt;Session&gt;&lt;Elements&gt;&lt;UnitTestElement Provider="nUnit" Id="RoadTrafficSimulator.Infrastructure.Tests.MathHelpers.MyMathHelperTests" type="NUnitTestFixtureElement" Project="636A550D-1E20-456B-882C-A214A1BD08C9" /&gt;&lt;UnitTestElement Provider="nUnit" Id="RoadTrafficSimulator.Infrastructure.Tests.MathHelpers.MyMathHelperTests.GetTimeToDriveThrough_distance" ParentId="RoadTrafficSimulator.Infrastructure.Tests.MathHelpers.MyMathHelperTests" type="NUnitTestElement" TypeName="RoadTrafficSimulator.Infrastructure.Tests.MathHelpers.MyMathHelperTests" MethodName="GetTimeToDriveThrough_distance" Project="636A550D-1E20-456B-882C-A214A1BD08C9" /&gt;&lt;/Elements&gt;&lt;/Session&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/NUnitProvider/UseAddins/@EntryValue">Never</s:String>
 	<s:Boolean x:Key="/Default/Housekeeping/SolutionSettingsUpgraded/IsUpgraded/@EntryValue">True</s:Boolean>
 	

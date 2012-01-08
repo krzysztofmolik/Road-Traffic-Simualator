@@ -5,6 +5,7 @@ using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors
 using RoadTrafficSimulator.Components.SimulationMode.Route;
 using RoadTrafficSimulator.Infrastructure;
 using System.Linq;
+using RoadTrafficSimulator.Infrastructure.MathHelpers;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 {
@@ -71,7 +72,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
                 }
                 else if ( processInformation.CanStop )
                 {
-                    this._finalPosition = distance - this._car.Lenght/2;
+                    this._finalPosition = distance - this._car.Lenght / 2;
                     this._finalSpeed = this._car.MaxSpeed;
                 }
 
@@ -117,52 +118,57 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 
         private void ProcesPrivilagesCarInformation( PriorityInformation[] privilagesCarInformation, float distance )
         {
+            if ( privilagesCarInformation.Length > 1 )
+            {
+                //                Debugger.Break();
+            }
             if ( privilagesCarInformation.Length != 0 )
             {
-                var car =
-                    privilagesCarInformation.Min( p => this.GetTimeToDriveThrough( p.CarDistanceToJunction, p.CarWihtPriority.Velocity,
-                                                  p.CarWihtPriority.MaxSpeed, p.CarWihtPriority.AccelerateForce ) );
+                var privilagesCar = this.sdf( privilagesCarInformation );
+                var myTime = MyMathHelper.GetTimeToDriveThrough( distance, this._car.Velocity, this._car.MaxSpeed, this._car.AccelerateForce );
 
-                var myTime = this.GetTimeToDriveThrough( distance, this._car.Velocity, this._car.MaxSpeed, this._car.AccelerateForce );
-
-                if ( myTime + UnitConverter.FromSecond( 2 ) > car )
+                if ( myTime + UnitConverter.FromSecond( 5 ) > privilagesCar.Item2 )
                 {
-                    this.SetDestinationPositionAndSpeed( distance - this._car.Lenght / 2 - UnitConverter.FromMeter( 1 ), 0.0f );
+                    if ( privilagesCar.Item1.CarWihtPriority.Velocity < UnitConverter.FromKmPerHour( 15 ) )
+                    {
+                        return;
+                    }
+                    this.SetDestinationPositionAndSpeed( distance - this._car.Lenght / 2, 0.0f );
                     this._canDriver = false;
                     this._freeWay = false;
                 }
             }
         }
 
-        // TODO Change name
-        private float GetTimeToDriveThrough( float s, float v, float vMax, float a )
+        private Tuple<PriorityInformation, float> sdf( PriorityInformation[] privilagesCar )
         {
-            float t1, s1, t, x1, x2;
-            t1 = ( vMax - v ) / a;
-            s1 = v * t1 + ( a * t1 * t1 ) / 2;
-            if ( s1 > s )
-            {
-                var del = Math.Max( 0, 2 * a * s - v );
-                x1 = ( float ) ( -( v + Math.Sqrt( del ) ) / a );
-                x2 = ( float ) ( -( v - Math.Sqrt( del ) / a ) );
-                if ( x1 > x2 )
-                    return x1;
-                else
-                    return x2;
+            var min = privilagesCar[ 0 ];
+            var minTime = MyMathHelper.GetTimeToDriveThrough( min.CarDistanceToJunction,
+                                                      min.CarWihtPriority.Velocity,
+                                                      min.CarWihtPriority.MaxSpeed,
+                                                      min.CarWihtPriority.AccelerateForce );
 
-            }
-            else
+            foreach ( var info in privilagesCar.Skip( 1 ) )
             {
-                t = t1 + ( s - s1 ) / vMax;
-                return t;
+                var time = MyMathHelper.GetTimeToDriveThrough( info.CarDistanceToJunction,
+                                                       info.CarWihtPriority.Velocity,
+                                                       info.CarWihtPriority.MaxSpeed,
+                                                       info.CarWihtPriority.AccelerateForce );
+                if ( time < minTime )
+                {
+                    min = info;
+                }
             }
+
+            return Tuple.Create( min, minTime );
         }
 
         private void ProcessCarAheadInformation( Car carAhead, float carAheadDistance, float distance )
         {
             this._canDriver = false;
             this._freeWay = false;
-            this.SetDestinationPositionAndSpeed( distance + carAheadDistance - carAhead.Lenght, carAhead.Velocity );
+            var saveArea = UnitConverter.ToKmPerHour( this._car.Velocity ) * UnitConverter.FromMeter( 0.1f );
+            this.SetDestinationPositionAndSpeed( distance + carAheadDistance - saveArea - carAhead.Lenght, carAhead.Velocity );
 
             if ( carAheadDistance < carAhead.Lenght + UnitConverter.FromMeter( 0.5f ) && carAhead.Velocity < UnitConverter.FromKmPerHour( 5.0f ) )
             {

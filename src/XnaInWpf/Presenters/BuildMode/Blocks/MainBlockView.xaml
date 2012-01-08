@@ -7,19 +7,20 @@
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300">
-    <ListBox Background="Transparent"
-             ItemsSource="{Binding Path=Blocks}">
-        <ListBox.ItemsPanel>
-            <ItemsPanelTemplate>
-                <StackPanel HorizontalAlignment="Center" />
-            </ItemsPanelTemplate>
-        </ListBox.ItemsPanel>
-        <ListBox.ItemTemplate>
-            <DataTemplate>
-                <ContentControl cal:View.Model="{Binding Preview}"
-                                cal:Message.Attach="[Event MouseDoubleClick] = [Action Execute($dataContext)]"
-                                Foreground="White" />
-            </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
+    <Grid>
+        <ListBox Background="Transparent"
+                 ItemsSource="{Binding Path=Blocks}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel HorizontalAlignment="Center" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <ContentControl cal:View.Model="{Binding Preview}"
+                                    cal:Message.Attach="[Event MouseDoubleClick] = [Action Execute($dataContext)]" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
 </UserControl>

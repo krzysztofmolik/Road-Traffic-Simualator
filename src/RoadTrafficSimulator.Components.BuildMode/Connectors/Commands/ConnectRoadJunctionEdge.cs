@@ -19,6 +19,11 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors.Commands
                 return false;
             }
 
+            if( firstEdge.Connector.JunctionEdge == secondEdge.Connector.JunctionEdge)
+            {
+                return false;
+            }
+
             firstEdge.Connector.ConnectBeginFrom( secondEdge );
             secondEdge.Connector.ConnectEndsOn( firstEdge );
 

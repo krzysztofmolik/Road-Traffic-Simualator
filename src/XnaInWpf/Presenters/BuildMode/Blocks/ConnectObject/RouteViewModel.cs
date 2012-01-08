@@ -94,6 +94,17 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
             }
         }
 
+        private RouteItemViewModel _selectedItem;
+        public RouteItemViewModel SelectedItem
+        {
+            get { return this._selectedItem; }
+            set
+            {
+                this._selectedItem = value;
+                this.PropertyChanged.Raise( this, () => this.SelectedItem );
+            }
+        }
+
         public Route OrginalRoute
         {
             get { return this._orignalRoute; }
@@ -116,19 +127,16 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject
             var canAdd = this._orignalRoute.CanAdd( controlViewModel.Control );
             if ( !canAdd ) { return; }
 
-            var path = this._orignalRoute.Add(  (IRouteElement) controlViewModel.Control );
+            var path = this._orignalRoute.Add( ( IRouteElement ) controlViewModel.Control );
             var conv = path.Select( p => this._converter.Convert( p ) ).ToArray();
             Execute.OnUIThread( () => conv.ForEach( this.Items.Add ) );
         }
 
         private void SelectControl( ControlViewModel controlViewModel )
         {
-            this.Items.ForEach( f => f.IsSelectedOnSimulator = false );
             var controlToSelect = this.Items.FirstOrDefault( f => f.Control.Control.Id == controlViewModel.Control.Id );
+            this.SelectedItem = controlToSelect;
             if ( controlToSelect == null ) { return; }
-
-            controlToSelect.Control.Control.VertexContainer.Color = Color.Azure;
-            controlToSelect.IsSelectedOnSimulator = true;
         }
     }
 }

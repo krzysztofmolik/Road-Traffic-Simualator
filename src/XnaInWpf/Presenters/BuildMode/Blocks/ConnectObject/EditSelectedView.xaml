@@ -8,5 +8,10 @@
              d:DesignHeight="300"
              d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=Editors:CarInserterEditorViewModel}">
-    <ContentControl x:Name="ActiveControl" />
+    <Grid>
+        <Border BorderBrush="DimGray"
+                Background="DarkGray">
+            <ContentControl x:Name="ActiveControl" />
+        </Border>
+    </Grid>
 </UserControl>

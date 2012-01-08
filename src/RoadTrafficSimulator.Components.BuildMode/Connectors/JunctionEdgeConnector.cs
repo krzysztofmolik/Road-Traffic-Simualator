@@ -31,6 +31,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
             this.Edge = roadLaneEdge.Edge;
             this.Edge.StartPoint.Translated.Subscribe( s => this._owner.Edge.EndPoint.SetLocation( s.Control.Location ) );
             this.Edge.EndPoint.Translated.Subscribe( s => this._owner.Edge.StartPoint.SetLocation( s.Control.Location ) );
+
+//            this._owner.Edge.EndPoint.SetLocation( this.Edge.StartPoint.Location );
+//            this._owner.Edge.StartPoint.SetLocation( this.Edge.EndPoint.Location );
         }
 
         public void ConnectEndsOn( JunctionEdge roadLaneEdge )
@@ -38,6 +41,8 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
             this.Edge = roadLaneEdge.Edge;
             this.Edge.StartPoint.Translated.Subscribe( s => this._owner.Edge.EndPoint.SetLocation( s.Control.Location ) );
             this.Edge.EndPoint.Translated.Subscribe( s => this._owner.Edge.StartPoint.SetLocation( s.Control.Location ) );
+            this._owner.Edge.EndPoint.SetLocation( this.Edge.StartPoint.Location );
+            this._owner.Edge.StartPoint.SetLocation( this.Edge.EndPoint.Location );
         }
 
         public void ConnectWithJunction( RoadJunctionBlock junction, int edge )

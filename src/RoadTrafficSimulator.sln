@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arcane.Xna.Presentation", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caliburn.Micro.WPF", "..\libs_src\Caliburn_Micro\src\Caliburn.Micro.WPF\Caliburn.Micro.WPF.csproj", "{B633FE8C-B40E-4122-A763-F94C8B1A70F8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FDC70465-8C00-43B1-B457-9F82590241B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoadTrafficSimulator.Infrastructure.Tests", "..\tst\RoadTrafficSimulator.Infrastructure.Tests\RoadTrafficSimulator.Infrastructure.Tests.csproj", "{636A550D-1E20-456B-882C-A214A1BD08C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +71,7 @@ Global
 		{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}.Release|x86.ActiveCfg = Release|Any CPU
+		{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}.Release|x86.Build.0 = Release|Any CPU
 		{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}.Release|Xbox 360.ActiveCfg = Release|Any CPU
 		{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}.Release|Zune.ActiveCfg = Release|Any CPU
 		{85098EFA-6AB7-40F4-A77C-201AD3C440A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -81,6 +86,7 @@ Global
 		{85098EFA-6AB7-40F4-A77C-201AD3C440A6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{85098EFA-6AB7-40F4-A77C-201AD3C440A6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{85098EFA-6AB7-40F4-A77C-201AD3C440A6}.Release|x86.ActiveCfg = Release|Any CPU
+		{85098EFA-6AB7-40F4-A77C-201AD3C440A6}.Release|x86.Build.0 = Release|Any CPU
 		{85098EFA-6AB7-40F4-A77C-201AD3C440A6}.Release|Xbox 360.ActiveCfg = Release|Any CPU
 		{85098EFA-6AB7-40F4-A77C-201AD3C440A6}.Release|Zune.ActiveCfg = Release|Any CPU
 		{59FF8BF8-1029-48F3-9F84-5C9933B0D1EC}.Debug|Any CPU.ActiveCfg = Debug|x86
@@ -203,10 +209,29 @@ Global
 		{B633FE8C-B40E-4122-A763-F94C8B1A70F8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B633FE8C-B40E-4122-A763-F94C8B1A70F8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B633FE8C-B40E-4122-A763-F94C8B1A70F8}.Release|x86.ActiveCfg = Release|Any CPU
+		{B633FE8C-B40E-4122-A763-F94C8B1A70F8}.Release|x86.Build.0 = Release|Any CPU
 		{B633FE8C-B40E-4122-A763-F94C8B1A70F8}.Release|Xbox 360.ActiveCfg = Release|Any CPU
 		{B633FE8C-B40E-4122-A763-F94C8B1A70F8}.Release|Zune.ActiveCfg = Release|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Debug|x86.Build.0 = Debug|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Debug|Xbox 360.ActiveCfg = Debug|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Debug|Zune.ActiveCfg = Debug|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Release|x86.ActiveCfg = Release|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Release|Xbox 360.ActiveCfg = Release|Any CPU
+		{636A550D-1E20-456B-882C-A214A1BD08C9}.Release|Zune.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{636A550D-1E20-456B-882C-A214A1BD08C9} = {FDC70465-8C00-43B1-B457-9F82590241B3}
 	EndGlobalSection
 EndGlobal

@@ -31,23 +31,40 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
 #if DEBUG
             var tes = resversIterator.ToArray();
 #endif
+            foreach ( var r in onTheRight.Routes.BelongToRoutes )
+            {
+                var privilageCar = resversIterator.GetElements( r.Position.Clone(), r.Route, 0.0f )
+                                            .Select( x => new
+                                                {
+                                                    FirstCar = x.RoadElement.Information.GetFirstCarToOutInformation(),
+                                                    x.Distance
+                                                } )
+                                            .Where( c => c.FirstCar.Car != null )
+                                            .Where( c => this.DriverThruJunction( c.FirstCar.Car ) )
+                                            .Select( c => new PriorityInformation( c.FirstCar.Car, c.FirstCar.CarDistance, c.Distance ) )
+                                            .FirstOrDefault();
 
-            return resversIterator.Select( r =>
-                                               {
-                                                   var firstCarToOut = r.RoadElement.Information.GetFirstCarToOutInformation();
-                                                   return new
-                                                              {
-                                                                  firstCarToOut.Car,
-                                                                  firstCarToOut.CarDistance,
-                                                                  r.Distance
-                                                              };
-                                               } )
+                if( privilageCar == null ) { continue; }
 
+                yield return privilageCar;
+            }
 
-
-                .Where( c => c.Car != null )
-                .Where( c => this.DriverThruJunction( c.Car ) )
-                .Select( c => new PriorityInformation( c.Car, c.CarDistance, c.Distance ) );
+            //            return resversIterator.Select( r =>
+            //                                               {
+            //                                                   var firstCarToOut = r.RoadElement.Information.GetFirstCarToOutInformation();
+            //                                                   return new
+            //                                                              {
+            //                                                                  firstCarToOut.Car,
+            //                                                                  firstCarToOut.CarDistance,
+            //                                                                  r.Distance
+            //                                                              };
+            //                                               } )
+            //
+            //
+            //
+            //                .Where( c => c.Car != null )
+            //                .Where( c => this.DriverThruJunction( c.Car ) )
+            //                .Select( c => new PriorityInformation( c.Car, c.CarDistance, c.Distance ) );
         }
 
         private JunctionEdge GetJunctionEdgeOnTheRigh( IRouteMark<IConductor> route, SideMove sideMOve )

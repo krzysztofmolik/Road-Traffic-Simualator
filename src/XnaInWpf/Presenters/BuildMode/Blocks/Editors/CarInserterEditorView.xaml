@@ -5,15 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:Editors="clr-namespace:RoadTrafficConstructor.Presenters.BuildMode.Blocks.Editors"
              xmlns:cal="http://www.caliburnproject.org"
-             mc:Ignorable="d"
-             d:DesignHeight="300"
-             d:DesignWidth="300">
+             mc:Ignorable="d">
     <Grid d:DataContext="{d:DesignInstance Type=Editors:CarInserterEditorViewModel}">
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition  Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <ContentControl Grid.Row="0"
                         cal:View.Model="{Binding Path=BasicInformation}" />
@@ -21,9 +18,9 @@
                     Orientation="Horizontal">
             <Label Content="Car insert interval:" />
             <TextBox Text="{Binding Path=CarInsertInterval}"
-                       HorizontalAlignment="Stretch"
-                       VerticalAlignment="Center"
-                       TextAlignment="Center" />
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Center"
+                     TextAlignment="Center" />
         </StackPanel>
         <ContentControl Grid.Row="2"
                         cal:View.Model="{Binding Path=RouteEditor}" />

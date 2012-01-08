@@ -14,17 +14,18 @@
             <ColumnDefinition Width="300" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Border BorderThickness="1"
-                BorderBrush="DimGray"
-                Background="DarkGray"
-                Grid.Column="0">
-            <StackPanel Orientation="Vertical">
-                <Button Content="Back"
-                        cal:Message.Attach="GoBack" />
-                <ContentControl cal:View.Model="{Binding Path=SelectedItem}" />
-            </StackPanel>
-        </Border>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0"
+                Content="Back"
+                cal:Message.Attach="GoBack" />
+        <ContentControl Grid.Row="1"
+                        cal:View.Model="{Binding Path=SelectedItem}"
+                        VerticalAlignment="Stretch" />
         <ContentPresenter Grid.Column="1"
+                          Grid.RowSpan="2"
                           Content="{Wpf:Resolve Type={x:Type RoadTrafficSimulator:XnaWindow}}" />
     </Grid>
 </UserControl>

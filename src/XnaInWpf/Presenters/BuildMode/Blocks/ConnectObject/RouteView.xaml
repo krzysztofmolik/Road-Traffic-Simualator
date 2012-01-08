@@ -5,188 +5,15 @@
              xmlns:ConnectObject="clr-namespace:RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject"
              xmlns:Converters="clr-namespace:RoadTrafficConstructor.Converters"
              xmlns:Micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
-             xmlns:DataStore="clr-namespace:Expression.Blend.DataStore.DataStore"
-             xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
-             xmlns:RoadTrafficConstructor="clr-namespace:RoadTrafficConstructor"
              x:Class="RoadTrafficConstructor.Presenters.BuildMode.Blocks.ConnectObject.RouteView"
              mc:Ignorable="d"
-             d:DesignHeight="566"
-             d:DesignWidth="299"
-             VerticalAlignment="Stretch"
-             HorizontalAlignment="Stretch"
-             d:DataContext="{d:DesignInstance Type={x:Type ConnectObject:RouteViewModel}}"
-             Style="{DynamicResource UserControlStyle1}">
+             d:DataContext="{d:DesignInstance Type={x:Type ConnectObject:RouteViewModel}}" >
     <UserControl.Resources>
-        <DataStore:DataStore x:Key="DataStore"
-                             d:IsDataSource="True" />
-        <Converters:BooleanToColorConverter x:Key="BoolToColor" />
-        <SolidColorBrush x:Key="CheckBoxFillNormal"
-                         Color="#F4F4F4" />
-        <SolidColorBrush x:Key="CheckBoxStroke"
-                         Color="#8E8F8F" />
-        <Style x:Key="EmptyCheckBoxFocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="1"
-                                   SnapsToDevicePixels="true"
-                                   Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-                                   StrokeThickness="1"
-                                   StrokeDashArray="1 2" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="CheckRadioFocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="14,0,0,0"
-                                   SnapsToDevicePixels="true"
-                                   Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-                                   StrokeThickness="1"
-                                   StrokeDashArray="1 2" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="CheckBoxStyle1"
-               TargetType="{x:Type CheckBox}">
-            <Setter Property="Foreground"
-                    Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-            <Setter Property="Background"
-                    Value="{StaticResource CheckBoxFillNormal}" />
-            <Setter Property="BorderBrush"
-                    Value="{StaticResource CheckBoxStroke}" />
-            <Setter Property="BorderThickness"
-                    Value="1" />
-            <Setter Property="FocusVisualStyle"
-                    Value="{StaticResource EmptyCheckBoxFocusVisual}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type CheckBox}">
-                        <Border x:Name="border"
-                                BorderBrush="Black"
-                                BorderThickness="1"
-                                HorizontalAlignment="Stretch"
-                                Height="18"
-                                Width="Auto"
-                                Margin="6,0,5,0">
-                            <Border.Background>
-                                <LinearGradientBrush EndPoint="0.5,1"
-                                                     StartPoint="0.5,0">
-                                    <GradientStop Color="#FF626161"
-                                                  Offset="0" />
-                                    <GradientStop Color="#FF9D9999"
-                                                  Offset="0.789" />
-                                    <GradientStop Color="#FFB8B8B8"
-                                                  Offset="0.259" />
-                                    <GradientStop Color="#FF525050"
-                                                  Offset="0.978" />
-                                    <GradientStop Color="#FFD4D4D4"
-                                                  Offset="0.517" />
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <ContentPresenter x:Name="contentPresenter"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              Content="Presss to switch to add mode" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked"
-                                     Value="False">
-                                <Setter Property="Content"
-                                        Value="Add new elements" />
-                                <Setter Property="Content"
-                                        TargetName="contentPresenter"
-                                        Value="Press to switch to add mode" />
-                                <Setter Property="Background"
-                                        TargetName="border">
-                                    <Setter.Value>
-                                        <LinearGradientBrush EndPoint="0.5,1"
-                                                             StartPoint="0.5,0">
-                                            <GradientStop Color="#FFA5A5A5"
-                                                          Offset="0" />
-                                            <GradientStop Color="#FFD4CBCB"
-                                                          Offset="0.789" />
-                                            <GradientStop Color="#FFE0DCDC"
-                                                          Offset="0.259" />
-                                            <GradientStop Color="#FFB6ACAC"
-                                                          Offset="0.978" />
-                                            <GradientStop Color="#FFF3F1F1"
-                                                          Offset="0.517" />
-                                        </LinearGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="Width"
-                                        Value="280" />
-                            </Trigger>
-                            <Trigger Property="IsChecked"
-                                     Value="True">
-                                <Setter Property="Content"
-                                        TargetName="contentPresenter"
-                                        Value="Press to return to explore mode" />
-                                <Setter Property="Background"
-                                        TargetName="border">
-                                    <Setter.Value>
-                                        <LinearGradientBrush EndPoint="0.5,1"
-                                                             StartPoint="0.5,0">
-                                            <GradientStop Color="#FF7E7C7C"
-                                                          Offset="0.272" />
-                                            <GradientStop Color="#FFBCB9B9"
-                                                          Offset="1" />
-                                            <GradientStop Color="#FFDADADA"
-                                                          Offset="0" />
-                                            <GradientStop Color="#FF6E6E6E"
-                                                          Offset="0.81" />
-                                            <GradientStop Color="#FF7E7A7A"
-                                                          Offset="0.543" />
-                                        </LinearGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                            <Trigger Property="HasContent"
-                                     Value="true">
-                                <Setter Property="FocusVisualStyle"
-                                        Value="{StaticResource CheckRadioFocusVisual}" />
-                                <Setter Property="Padding"
-                                        Value="4,0,0,0" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled"
-                                     Value="false">
-                                <Setter Property="Foreground"
-                                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="UserControlStyle1"
-               TargetType="{x:Type UserControl}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type UserControl}">
-                        <Border BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}"
-                                Padding="{TemplateBinding Padding}"
-                                SnapsToDevicePixels="true">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         <Converters:TrueToCollapseConverter x:Key="FalseToCollapse" />
     </UserControl.Resources>
     <Border BorderBrush="DarkBlue"
-            Background="DarkGray"
-            HorizontalAlignment="Stretch"
-            d:DataContext="{d:DesignData /SampleData/RouteViewMod.xaml}">
-        <Grid DataContext="{Binding Mode=OneWay}">
+            Background="DarkGray" >
+        <Grid DataContext="{Binding Mode=OneWay}" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -219,9 +46,9 @@
                      VerticalContentAlignment="Center" />
             <ListView Grid.Row="2"
                       Grid.ColumnSpan="2"
+                      MaxHeight="600"
                       ItemsSource="{Binding Items}"
-                      Height="Auto"
-                      Width="Auto"
+                      SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}"
                       Visibility="{Binding Path=IsSelected, Converter={StaticResource ResourceKey=FalseToCollapse}}">
                 <ListView.Resources>
                     <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -231,7 +58,7 @@
                 </ListView.Resources>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="160">
+                        <GridViewColumn Width="140">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Control.ControlType}" />

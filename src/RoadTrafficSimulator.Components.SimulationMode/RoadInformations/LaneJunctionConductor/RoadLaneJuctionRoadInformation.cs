@@ -4,6 +4,8 @@ using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Elements.Cars;
+using RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conductors;
+using RoadTrafficSimulator.Components.SimulationMode.Route;
 
 namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJunctionConductor
 {
@@ -72,6 +74,17 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
             }
 
             return CarAhedInformation.Empty;
+        }
+
+        private IConductor GetNextPoint( IRouteMark<IConductor> conductors )
+        {
+            var clone = conductors.Clone();
+            while ( clone.Current.RouteElement.RoadElement != this._laneJunction )
+            {
+                clone.MoveNext();
+            }
+
+            return clone.GetNext();
         }
 
         public FirstCarToOutInformation GetFirstCarToOutInformation()

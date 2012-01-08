@@ -6,6 +6,7 @@ using Common;
 using RoadTrafficSimulator.Components.SimulationMode.CarsSpecification;
 using RoadTrafficSimulator.Components.SimulationMode.Elements;
 using RoadTrafficSimulator.Components.SimulationMode.Messages;
+using RoadTrafficSimulator.Infrastructure;
 
 namespace RoadTrafficSimulator.Components.SimulationMode
 {
@@ -30,13 +31,19 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         public void CreateCar( CarsInserter startElement )
         {
-            if ( this._carId > 30 )
-            {
-                return;
-            }
+//            if ( this._carId > 30 )
+//            {
+//                return;
+//            }
 
             this._carId++;
             if ( startElement == null ) throw new ArgumentNullException( "startElement" );
+
+            var carAhead = startElement.Lane.Information.GetCarAheadDistance( null );
+            if( carAhead.CarDistance < UnitConverter.FromMeter( 1 ))
+            {
+                return;
+            }
 
             var car = this.GetRandomCarSpecifcation().Create( startElement );
             car.Location = startElement.CarsInserterBuilder.Location;
