@@ -24,8 +24,8 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.Junctions
                                  {
                                      new JunctionTypeViewModel {CommandType = CommandType.InsertRoadJunction_OneBlock, Name = "One block"},
                                      new JunctionTypeViewModel {CommandType = CommandType.InsertRoadJunction_FourBlocks, Name = "Four blocks"},
-                                     new JunctionTypeViewModel { CommandType = CommandType.InsertRoadJunction_TwoBlocksVerticaly, Name = "Two blocs verticaly" },
-                                     new JunctionTypeViewModel { CommandType = CommandType.InsertRoadJunction_TwoBlocksHorizotaly, Name = "Two blocs horizontaly" },
+                                     new JunctionTypeViewModel { CommandType = CommandType.InsertRoadJunction_TwoBlocksVerticaly, Name = "Two blocks vertically" },
+                                     new JunctionTypeViewModel { CommandType = CommandType.InsertRoadJunction_TwoBlocksHorizotaly, Name = "Two blocks horizontally" },
                                  };
         }
 

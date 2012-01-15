@@ -30,7 +30,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
                 return CarAhedInformation.Empty;
             }
 
-            var firstCar = this.Cars.GetFirstCar();
+            var firstCar = this.Cars.GetLastCar();
             if ( firstCar != null )
             {
                 return new CarAhedInformation

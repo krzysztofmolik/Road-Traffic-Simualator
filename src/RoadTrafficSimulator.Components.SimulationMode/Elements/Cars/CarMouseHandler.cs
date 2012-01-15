@@ -1,7 +1,7 @@
 ﻿using RoadTrafficSimulator.Infrastructure;
 using RoadTrafficSimulator.Infrastructure.Mouse;
 
-namespace RoadTrafficSimulator.Components.SimulationMode.Controls.Cars
+namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Cars
 {
     public class CarMouseHandler : IMouseHandler
     {

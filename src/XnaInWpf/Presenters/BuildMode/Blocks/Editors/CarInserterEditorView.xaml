@@ -12,17 +12,24 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         <ContentControl Grid.Row="0"
+                        Grid.ColumnSpan="2"
                         cal:View.Model="{Binding Path=BasicInformation}" />
-        <StackPanel Grid.Row="1"
-                    Orientation="Horizontal">
-            <Label Content="Car insert interval:" />
-            <TextBox Text="{Binding Path=CarInsertInterval}"
-                     HorizontalAlignment="Stretch"
-                     VerticalAlignment="Center"
-                     TextAlignment="Center" />
-        </StackPanel>
+        <Label Grid.Row="1"
+               Grid.Column="0"
+               Content="Car insert interval:" />
+        <TextBox Grid.Row="1"
+                 Grid.Column="1"
+                 Text="{Binding Path=CarInsertInterval}"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Center"
+                 TextAlignment="Center" />
         <ContentControl Grid.Row="2"
+                        Grid.ColumnSpan="2"
                         cal:View.Model="{Binding Path=RouteEditor}" />
     </Grid>
 </UserControl>

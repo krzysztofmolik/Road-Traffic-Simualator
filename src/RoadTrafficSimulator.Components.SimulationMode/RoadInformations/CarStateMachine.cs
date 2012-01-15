@@ -49,5 +49,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
                 this._car.Direction = Vector2.Normalize( direction );
             }
         }
+
+        public float DestinationSpeed { get { return this._engine.DestinationSpeed; } }
+        public float DestinationDistance { get { return this._engine.DestinationDistance; } }
     }
 }

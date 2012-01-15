@@ -63,7 +63,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.LaneJu
                 return CarAhedInformation.Empty;
             }
 
-            var firstCar = this._cars.GetFirstCar();
+            var firstCar = this._cars.GetLastCar();
             if ( firstCar != null )
             {
                 return new CarAhedInformation

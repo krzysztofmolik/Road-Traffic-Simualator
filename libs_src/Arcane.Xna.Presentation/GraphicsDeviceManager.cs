@@ -105,6 +105,7 @@ namespace Arcane.Xna.Presentation
                 {
                     GraphicsDeviceInformation baseDeviceInfo = new GraphicsDeviceInformation();
                     baseDeviceInfo.Adapter = adapter;
+                    baseDeviceInfo.PresentationParameters.MultiSampleCount = 4;
                     baseDeviceInfo.GraphicsProfile = GraphicsProfile.HiDef;
                     //                    baseDeviceInfo.DeviceType = type;
                     baseDeviceInfo.PresentationParameters.BackBufferFormat = SurfaceFormat.Color;
@@ -291,7 +292,7 @@ namespace Arcane.Xna.Presentation
                 {
                     if ( this.game.Services.GetService( typeof( IGraphicsDeviceService ) ) == this )
                     {
-//                        this.game.Services.RemoveService( typeof( IGraphicsDeviceService ) );
+                        //                        this.game.Services.RemoveService( typeof( IGraphicsDeviceService ) );
                     }
                     this.game.Window.SizeChanged -= this.GameWindowClientSizeChanged;
                     // this.game.Window.ScreenDeviceNameChanged -= new EventHandler(this.GameWindowScreenDeviceNameChanged);

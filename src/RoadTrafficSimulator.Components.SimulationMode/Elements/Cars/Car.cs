@@ -27,7 +27,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Cars
             get { return _velocity; }
             set
             {
-                if ( this._velocity - value > UnitConverter.FromKmPerHour( 15 ) )
+                if ( this._velocity - value > UnitConverter.FromKmPerHour( 5 ) )
                 {
                     Console.WriteLine( "Error" );
                 }
@@ -35,6 +35,8 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Elements.Cars
             }
         }
 
+        // TODO Only for tests
+        public int Id { get; set; }
         public float MaxSpeed { get; set; }
         public Vector2 Location { get; set; }
         public Vector2 Direction { get; set; }

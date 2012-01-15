@@ -133,6 +133,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
             lock ( this._contentLock )
             {
                 if ( this._carTexture != null ) { return; }
+//                this._carTexture = this._contentManager.Load<Texture2D>( "car" );
                 this._carTexture = this._contentManager.Load<Texture2D>( "PassengerCar" );
             }
         }

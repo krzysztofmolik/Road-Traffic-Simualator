@@ -80,5 +80,11 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.Editors
         {
             get { return this._basicInformation; }
         }
+
+        public void Remove()
+        {
+            this._light.Remove();
+
+        }
     }
 }

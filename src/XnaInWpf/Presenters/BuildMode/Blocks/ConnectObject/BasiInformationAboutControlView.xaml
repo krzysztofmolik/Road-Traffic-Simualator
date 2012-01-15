@@ -12,13 +12,27 @@
     <UserControl.Resources>
         <Converters:VectorToStringConveter x:Key="VectorToString" />
     </UserControl.Resources>
-    <StackPanel>
-        <Label FontSize="14"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0"
+               Grid.ColumnSpan="2"
+               FontSize="14"
                Content="{Binding Path=ControlType}"
                HorizontalAlignment="Center" />
-        <StackPanel Orientation="Horizontal">
-            <Label Content="Location" />
-            <Label Content="{Binding Path=Location, Converter={StaticResource ResourceKey=VectorToString}}" />
-        </StackPanel>
-    </StackPanel>
+        <Label Grid.Row="1"
+               Grid.Column="0"
+               Content="Location:" />
+        <TextBox Grid.Row="1"
+                 Grid.Column="1"
+                 IsReadOnly="True"
+                 Text="{Binding Path=Location, Converter={StaticResource ResourceKey=VectorToString}, Mode=OneWay}" />
+    </Grid>
 </UserControl>

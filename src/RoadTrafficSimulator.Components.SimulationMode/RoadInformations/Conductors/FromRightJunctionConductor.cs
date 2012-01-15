@@ -44,7 +44,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
                                             .Select( c => new PriorityInformation( c.FirstCar.Car, c.FirstCar.CarDistance, c.Distance ) )
                                             .FirstOrDefault();
 
-                if( privilageCar == null ) { continue; }
+                if ( privilageCar == null ) { continue; }
 
                 yield return privilageCar;
             }
@@ -109,6 +109,11 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations.Conduc
 
         protected override PriorityInformation[] GetPriorityCarInfromation( Car car, IRouteMark<IConductor> route )
         {
+            if ( this.Information.ContainsCar( car ) )
+            {
+                return new PriorityInformation[ 0 ];
+            }
+
             if ( this.PriorityTypes == PriorityType.None || this.PriorityTypes == PriorityType.Light ) { return new PriorityInformation[ 0 ]; }
             return this.GetPriorityCarInfromation( route, this.GetMoveSide( this.PriorityTypes ) ).ToArray();
         }

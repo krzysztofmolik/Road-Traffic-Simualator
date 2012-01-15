@@ -6,5 +6,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
     {
         void SetStopPoint( float distance, float requriredSpeed, Car car );
         void MoveCar( Car car, int elapsedMs );
+        float DestinationDistance { get; }
+        float DestinationSpeed { get; }
     }
 }

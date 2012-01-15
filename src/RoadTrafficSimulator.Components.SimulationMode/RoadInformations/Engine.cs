@@ -29,8 +29,15 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             var nextPoint = car.Direction * ( distance );
             car.Location += nextPoint;
 
+            this.DestinationDistance = this._stopPointDistance;
+            this.DestinationSpeed = this._requiredSpeed;
+
             this.Clear();
         }
+
+        public float DestinationDistance { get; private set; }
+
+        public float DestinationSpeed { get; private set; }
 
         private void Clear()
         {
@@ -43,8 +50,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         {
             if ( this._stopPointDistance <= 0 )
             {
-                car.Velocity = 0.0f;
-                return 0.0f;
+                return this._requiredSpeed;
             }
 
             if ( this._requiredSpeed > car.Velocity )

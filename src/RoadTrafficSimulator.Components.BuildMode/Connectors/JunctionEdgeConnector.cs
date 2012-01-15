@@ -63,5 +63,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.Connectors
         {
             this.Light = light;
         }
+
+        public void RemoveLight()
+        {
+            this.Light = null;
+        }
     }
 }

@@ -4,7 +4,6 @@ using System.Diagnostics;
 using RoadTrafficSimulator.Components.BuildMode.Controls;
 using RoadTrafficSimulator.Components.BuildMode.PersiserModel.Commands;
 using RoadTrafficSimulator.Infrastructure.Controls;
-using RoadTrafficSimulator.Infrastructure.Textures;
 
 namespace RoadTrafficSimulator.Components.BuildMode.PersiserModel.Converters
 {

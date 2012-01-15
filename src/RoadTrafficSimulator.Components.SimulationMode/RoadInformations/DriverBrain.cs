@@ -122,14 +122,15 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             {
                 //                Debugger.Break();
             }
+
             if ( privilagesCarInformation.Length != 0 )
             {
-                var privilagesCar = this.sdf( privilagesCarInformation );
+                var privilagesCar = this.CanDrive( privilagesCarInformation );
                 var myTime = MyMathHelper.GetTimeToDriveThrough( distance, this._car.Velocity, this._car.MaxSpeed, this._car.AccelerateForce );
 
                 if ( myTime + UnitConverter.FromSecond( 5 ) > privilagesCar.Item2 )
                 {
-                    if ( privilagesCar.Item1.CarWihtPriority.Velocity < UnitConverter.FromKmPerHour( 15 ) )
+                    if ( privilagesCar.Item1.CarDistanceToJunction > privilagesCar.Item1.CarWihtPriority.StateMachine.DestinationDistance && privilagesCar.Item1.CarWihtPriority.StateMachine.DestinationSpeed < UnitConverter.FromKmPerHour( 1 ) )
                     {
                         return;
                     }
@@ -140,7 +141,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
             }
         }
 
-        private Tuple<PriorityInformation, float> sdf( PriorityInformation[] privilagesCar )
+        private Tuple<PriorityInformation, float> CanDrive( PriorityInformation[] privilagesCar )
         {
             var min = privilagesCar[ 0 ];
             var minTime = MyMathHelper.GetTimeToDriveThrough( min.CarDistanceToJunction,
@@ -167,10 +168,10 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
         {
             this._canDriver = false;
             this._freeWay = false;
-            var saveArea = UnitConverter.ToKmPerHour( this._car.Velocity ) * UnitConverter.FromMeter( 0.1f );
+            var saveArea = UnitConverter.ToKmPerHour( this._car.Velocity ) * UnitConverter.FromMeter( 0.18f );
             this.SetDestinationPositionAndSpeed( distance + carAheadDistance - saveArea - carAhead.Lenght, carAhead.Velocity );
 
-            if ( carAheadDistance < carAhead.Lenght + UnitConverter.FromMeter( 0.5f ) && carAhead.Velocity < UnitConverter.FromKmPerHour( 5.0f ) )
+            if ( carAheadDistance + carAhead.StateMachine.DestinationDistance < carAhead.Lenght + UnitConverter.FromMeter( 0.5f ) && carAhead.StateMachine.DestinationSpeed < UnitConverter.FromKmPerHour( 2 ) )
             {
                 this._canEntry = false;
             }

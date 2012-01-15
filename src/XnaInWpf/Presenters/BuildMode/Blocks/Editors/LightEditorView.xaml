@@ -15,6 +15,7 @@
             <RowDefinition  Height="Auto" />
             <RowDefinition  Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -65,5 +66,11 @@
         <Label Grid.Row="4"
                Grid.Column="2"
                Content="[s]" />
+
+        <Button Grid.Row="5"
+               Grid.ColumnSpan="3"
+               HorizontalAlignment="Center"
+               x:Name="Remove"
+               Content="Remove" />
     </Grid>
 </UserControl>

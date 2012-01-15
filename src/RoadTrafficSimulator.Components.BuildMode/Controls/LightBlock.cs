@@ -81,5 +81,10 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             var location = this._location;
             this._location = Vector2.Transform( location, translationMatrix );
         }
+
+        public void Remove()
+        {
+            this._connector.Owner.Connector.RemoveLight();
+        }
     }
 }

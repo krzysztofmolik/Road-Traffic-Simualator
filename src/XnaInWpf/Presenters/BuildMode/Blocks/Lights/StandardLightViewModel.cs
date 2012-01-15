@@ -24,7 +24,7 @@ namespace RoadTrafficConstructor.Presenters.BuildMode.Blocks.Lights
             get { return this._preview; }
         }
 
-        public string Name { get { return "Standard light"; } }
+        public string Name { get { return "Light"; } }
 
         public void GoBack()
         {

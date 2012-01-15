@@ -56,6 +56,7 @@ Global
 		{6DC5BCBA-E764-4E20-A898-5FFBB8631704}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6DC5BCBA-E764-4E20-A898-5FFBB8631704}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6DC5BCBA-E764-4E20-A898-5FFBB8631704}.Release|x86.ActiveCfg = Release|Any CPU
+		{6DC5BCBA-E764-4E20-A898-5FFBB8631704}.Release|x86.Build.0 = Release|Any CPU
 		{6DC5BCBA-E764-4E20-A898-5FFBB8631704}.Release|Xbox 360.ActiveCfg = Release|Any CPU
 		{6DC5BCBA-E764-4E20-A898-5FFBB8631704}.Release|Zune.ActiveCfg = Release|Any CPU
 		{8327B090-868B-4E9C-9AFA-EC5D3FA9804E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

@@ -12,6 +12,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.CarsSpecification
 {
     public class PassengerCarFactory : ICarSpecifiaction
     {
+        private static int _carId = 0;
         private readonly Random _rng = new Random();
         private readonly RouteToConductorConverter _routeToConductorConverter;
 
@@ -35,6 +36,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.CarsSpecification
                               AccelerateForce = UnitConverter.FromKmPerHour( 10.0f ) / UnitConverter.FromSecond( 1.0f ),
                               MaxSpeed = this.ToVirtualUnitSpeed( 60.0f ),
                               Velocity = this.ToVirtualUnitSpeed( 10.0f ),
+                              CarId = ++_carId,
                           };
             return car;
         }

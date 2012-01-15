@@ -31,7 +31,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         public void CreateCar( CarsInserter startElement )
         {
-//            if ( this._carId > 30 )
+//            if ( this._carId > 2 )
 //            {
 //                return;
 //            }
