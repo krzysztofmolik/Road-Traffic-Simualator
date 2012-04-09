@@ -23,6 +23,7 @@ namespace RoadTrafficConstructor
 
         private IContainer BuildContainer()
         {
+            Application.DispatcherUnhandledException += ( s, a ) => Logger.FatalException( a.Exception.ToString(), a.Exception );
             var autofacBuilder = new ContainerBuilder();
             autofacBuilder.Register( c => this._container ).As<IContainer>().SingleInstance();
             autofacBuilder.RegisterType<ServiceProviderAdapter>().As<IServiceProvider>().SingleInstance();

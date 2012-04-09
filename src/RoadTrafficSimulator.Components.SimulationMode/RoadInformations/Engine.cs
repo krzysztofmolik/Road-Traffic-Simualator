@@ -25,7 +25,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.RoadInformations
 
         public void MoveCar( Car car, int elapsedMs )
         {
-            var distance = this.GetVelocity( car, elapsedMs );
+            var distance = Math.Min( UnitConverter.FromMeter( 0.1f ), this.GetVelocity( car, elapsedMs ) );
             var nextPoint = car.Direction * ( distance );
             car.Location += nextPoint;
 

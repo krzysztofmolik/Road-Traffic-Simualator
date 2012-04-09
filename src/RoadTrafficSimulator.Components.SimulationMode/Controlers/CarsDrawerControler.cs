@@ -20,7 +20,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
         private Car _car;
         private Vector3[] _orginalCarBounds;
         private readonly Vector2[] _texturePosition;
-        private readonly int[] _indexes;
+        private readonly short[] _indexes;
         private Vector3[] _currentCarBound;
 
         public CarsDrawerControlerItem( Car car )
@@ -40,7 +40,7 @@ namespace RoadTrafficSimulator.Components.SimulationMode.Controlers
             this._texturePosition[ 2 ] = new Vector2( 1f, 1f );
             this._texturePosition[ 3 ] = new Vector2( 0f, 1f );
 
-            this._indexes = new[] { 0, 3, 1, 1, 3, 2 };
+            this._indexes = new short[] { 0, 3, 1, 1, 3, 2 };
         }
 
         public Car Car { get { return this._car; } }

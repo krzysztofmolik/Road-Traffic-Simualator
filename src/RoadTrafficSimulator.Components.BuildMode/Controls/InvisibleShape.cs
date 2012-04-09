@@ -15,9 +15,9 @@ namespace RoadTrafficSimulator.Components.BuildMode.Controls
             get { return new Vector2[ 0 ]; }
         }
 
-        public int[] Indexes
+        public short[] Indexes
         {
-            get { return new int[ 0 ]; }
+            get { return new short[ 0 ]; }
         }
     }
 }

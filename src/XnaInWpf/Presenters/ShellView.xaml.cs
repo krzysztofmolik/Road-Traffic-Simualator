@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using NLog;
 
 namespace RoadTrafficConstructor.Presenters
 {

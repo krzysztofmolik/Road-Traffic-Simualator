@@ -14,7 +14,7 @@
     </TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <XnaProfile>HiDef</XnaProfile>
+    <XnaProfile>Reach</XnaProfile>
     <XnaCrossPlatformGroupID>4273bf23-cecb-4446-b68f-d447dcbfdcfe</XnaCrossPlatformGroupID>
     <XnaOutputType>Library</XnaOutputType>
     <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>

@@ -37,6 +37,7 @@ namespace RoadTrafficSimulator.Infrastructure.Draw
                                         World = this._camera.World,
                                         View = this._camera.View,
                                         TextureEnabled = true,
+                                        
                                     };
         }
 
@@ -70,7 +71,7 @@ namespace RoadTrafficSimulator.Infrastructure.Draw
                                            } );
         }
 
-        public void DrawIndexedTraingeList( Texture2D texture, VertexPositionTexture[] block, int[] indexes )
+        public void DrawIndexedTraingeList( Texture2D texture, VertexPositionTexture[] block, short[] indexes )
         {
             this._actionBuffer.Enqueue( () =>
                                            {

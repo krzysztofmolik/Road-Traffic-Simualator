@@ -31,16 +31,16 @@ namespace RoadTrafficSimulator.Components.SimulationMode
 
         public void CreateCar( CarsInserter startElement )
         {
-//            if ( this._carId > 2 )
-//            {
-//                return;
-//            }
+            //            if ( this._carId > 2 )
+            //            {
+            //                return;
+            //            }
 
             this._carId++;
             if ( startElement == null ) throw new ArgumentNullException( "startElement" );
 
             var carAhead = startElement.Lane.Information.GetCarAheadDistance( null );
-            if( carAhead.CarDistance < UnitConverter.FromMeter( 1 ))
+            if ( carAhead.CarAhead != null && carAhead.CarDistance < carAhead.CarAhead.Lenght )
             {
                 return;
             }

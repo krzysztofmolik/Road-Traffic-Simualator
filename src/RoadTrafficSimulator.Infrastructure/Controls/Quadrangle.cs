@@ -42,12 +42,12 @@ namespace RoadTrafficSimulator.Infrastructure.Controls
         }
 
         public VertexPositionColor[] Vertex { get { return this._vertex; } }
-        public int[] Indexes { get { return this._shape.Indexes; } }
+        public short[] Indexes { get { return this._shape.Indexes; } }
     }
 
     public class Quadrangle : IShape
     {
-        private static readonly int[] QuadrangleIndexes = new[] { 0, 3, 1, 2, 1, 3 };
+        private static readonly short[] QuadrangleIndexes = new short[] { 0, 3, 1, 2, 1, 3 };
 
         public static Quadrangle Create( Vector2 location, float width, float height )
         {
@@ -104,7 +104,7 @@ namespace RoadTrafficSimulator.Infrastructure.Controls
             get { return this.ToTriangleList(); }
         }
 
-        public int[] Indexes
+        public short[] Indexes
         {
             get { return QuadrangleIndexes; }
         }

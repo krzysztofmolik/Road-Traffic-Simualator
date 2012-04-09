@@ -63,7 +63,7 @@ namespace RoadTrafficSimulator.Infrastructure.Textures
             get { return this._blockses; }
         }
 
-        public int[] Indexes
+        public short[] Indexes
         {
             get { return this._quadrangle.Indexes; }
         }
